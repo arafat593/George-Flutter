@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
-class RecoveryVerificationOtpController extends GetxController {
-  //TODO: Implement RecoveryVerificationOtpController
+class RecoveryOtpController extends GetxController {
+  //TODO: Implement RecoveryOtpController
 
   final count = 0.obs;
   @override
