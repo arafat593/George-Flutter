@@ -1,23 +1,27 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LogInController extends GetxController {
-  //TODO: Implement LogInController
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
+  final isPasswordVisible = false.obs;
+  final isRememberMe = false.obs;
 
   @override
   void onClose() {
     super.onClose();
   }
 
-  void increment() => count.value++;
+  void login() {
+    if (formKey.currentState?.validate() ?? false) {
+      Get.offAllNamed('/custom-bottom-nav');
+    }
+  }
+
+  void togglePasswordVisibility() =>
+      isPasswordVisible.value = !isPasswordVisible.value;
+  void toggleRememberMe() => isRememberMe.value = !isRememberMe.value;
 }

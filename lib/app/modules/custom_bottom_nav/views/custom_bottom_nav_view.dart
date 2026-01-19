@@ -1,24 +1,151 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
+import '../../../data/app_colors.dart';
+import '../../../data/app_text_styles.dart';
+import '../../../data/image_path.dart';
+import '../../courses/views/courses_view.dart';
+import '../../home/views/home_view.dart';
+import '../../profile/views/profile_view.dart';
 import '../controllers/custom_bottom_nav_controller.dart';
+import '../../wallet/views/wallet_view.dart';
+import '../../store/views/store_view.dart';
 
 class CustomBottomNavView extends GetView<CustomBottomNavController> {
   const CustomBottomNavView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('CustomBottomNavView'),
-        centerTitle: true,
-      ),
-      body: const Center(
-        child: Text(
-          'CustomBottomNavView is working',
-          style: TextStyle(fontSize: 20),
+      backgroundColor: AppColors.backgroundColor,
+      extendBody: true,
+      // Floating Action Button
+      floatingActionButton: SizedBox(
+        height: 60.h,
+        width: 60.w,
+        child: FloatingActionButton(
+          heroTag: 'home_fab',
+          onPressed: () => controller.changeIndex(4), // index 4 is Home
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(100),
+          ),
+          backgroundColor: AppColors.primaryColor,
+          elevation: 4,
+          child: Padding(
+            padding: EdgeInsets.all(8.r),
+            child: Image.asset(ImagePath.home),
+          ),
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 8.r,
+        color: AppColors.primaryColor,
+        elevation: 0,
+        padding: EdgeInsets.zero,
+        child: SizedBox(
+          height: 80.h,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _bottomNavItem(
+                  index: 0,
+                  iconPath: ImagePath.courses,
+                  label: 'Courses',
+                ),
+                _bottomNavItem(
+                  index: 1,
+                  iconPath: ImagePath.wallet,
+                  label: 'Wallet',
+                ),
+                const SizedBox(width: 40), // Space for FAB
+                _bottomNavItem(
+                  index: 2,
+                  iconPath: ImagePath.store,
+                  label: 'Store',
+                ),
+                _bottomNavItem(
+                  index: 3,
+                  iconPath: ImagePath.profile,
+                  label: 'Profile',
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      body: Obx(() {
+        switch (controller.currentIndex.value) {
+          case 0:
+            return const CoursesView();
+          case 1:
+            return const WalletView();
+          case 2:
+            return const StoreView();
+          case 3:
+            return const ProfileView();
+          case 4:
+            return const HomeView();
+          default:
+            return const HomeView();
+        }
+      }),
     );
+  }
+
+  // Custom Bottom Item
+  Widget _bottomNavItem({
+    required int index,
+    required String iconPath,
+    required String label,
+  }) {
+    return Obx(() {
+      bool isSelected = controller.currentIndex.value == index;
+      return InkWell(
+        onTap: () => controller.changeIndex(index),
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Top indicator
+            Container(
+              width: 40.w,
+              height: 4.h,
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                ),
+              ),
+            ),
+            SizedBox(height: 10.h),
+            // Icon
+            Image.asset(
+              iconPath,
+              height: 24.h,
+              color: isSelected
+                  ? AppColors.whiteColor
+                  : AppColors.bottomNevUnselectedItemColor,
+            ),
+            SizedBox(height: 4.h),
+            // Label
+            Text(
+              label,
+              style: AppTextStyles.regular(10).copyWith(
+                color: isSelected
+                    ? AppColors.whiteColor
+                    : AppColors.bottomNevUnselectedItemColor,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
+      );
+    });
   }
 }

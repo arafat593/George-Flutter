@@ -5,16 +5,104 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'app_colors.dart';
 
 abstract class AppTextStyles {
-  static TextStyle _style(double size, FontWeight weight,Color color) =>
-      TextStyle(fontSize: size.sp, fontWeight: weight,color: AppColors.whiteColor);
+  static TextStyle _style(
+    double size,
+    FontWeight weight,
+    Color color, {
+    String? fontFamily,
+    double? letterSpacing,
+  }) => TextStyle(
+    fontSize: size.sp,
+    fontWeight: weight,
+    color: color,
+    fontFamily: fontFamily,
+    letterSpacing: letterSpacing,
+  );
 
-  static TextStyle light(double s) => _style(s, FontWeight.w300, AppColors.whiteColor);
-  static TextStyle regular(double s) => _style(s, FontWeight.w400, AppColors.whiteColor);
-  static TextStyle medium(double s) => _style(s, FontWeight.w500, AppColors.whiteColor);
-  static TextStyle semiBold(double s) => _style(s, FontWeight.w600, AppColors.whiteColor);
-  static TextStyle bold(double s) => _style(s, FontWeight.w700, AppColors.whiteColor);
-  static TextStyle extraBold(double s) => _style(s, FontWeight.w800, AppColors.whiteColor);
-  static TextStyle black(double s) => _style(s, FontWeight.w900, AppColors.whiteColor);
+  static TextStyle light(
+    double s, {
+    Color? color,
+    String? fontFamily,
+    double? letterSpacing,
+  }) => _style(
+    s,
+    FontWeight.w300,
+    color ?? AppColors.bodyTextColor,
+    fontFamily: fontFamily,
+    letterSpacing: letterSpacing,
+  );
+  static TextStyle regular(
+    double s, {
+    Color? color,
+    String? fontFamily,
+    double? letterSpacing,
+  }) => _style(
+    s,
+    FontWeight.w400,
+    color ?? AppColors.bodyTextColor,
+    fontFamily: fontFamily,
+    letterSpacing: letterSpacing,
+  );
+  static TextStyle medium(
+    double s, {
+    Color? color,
+    String? fontFamily,
+    double? letterSpacing,
+  }) => _style(
+    s,
+    FontWeight.w500,
+    color ?? AppColors.bodyTextColor,
+    fontFamily: fontFamily,
+    letterSpacing: letterSpacing,
+  );
+  static TextStyle semiBold(
+    double s, {
+    Color? color,
+    String? fontFamily,
+    double? letterSpacing,
+  }) => _style(
+    s,
+    FontWeight.w600,
+    color ?? AppColors.bodyTextColor,
+    fontFamily: fontFamily,
+    letterSpacing: letterSpacing,
+  );
+  static TextStyle bold(
+    double s, {
+    Color? color,
+    String? fontFamily,
+    double? letterSpacing,
+  }) => _style(
+    s,
+    FontWeight.w700,
+    color ?? AppColors.bodyTextColor,
+    fontFamily: fontFamily,
+    letterSpacing: letterSpacing,
+  );
+  static TextStyle extraBold(
+    double s, {
+    Color? color,
+    String? fontFamily,
+    double? letterSpacing,
+  }) => _style(
+    s,
+    FontWeight.w800,
+    color ?? AppColors.bodyTextColor,
+    fontFamily: fontFamily,
+    letterSpacing: letterSpacing,
+  );
+  static TextStyle black(
+    double s, {
+    Color? color,
+    String? fontFamily,
+    double? letterSpacing,
+  }) => _style(
+    s,
+    FontWeight.w900,
+    color ?? AppColors.bodyTextColor,
+    fontFamily: fontFamily,
+    letterSpacing: letterSpacing,
+  );
 
   static TextStyle get light8 => light(8);
   static TextStyle get regular8 => regular(8);

@@ -1,23 +1,23 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CreateNewPasswordController extends GetxController {
-  //TODO: Implement CreateNewPasswordController
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
+  final isPasswordVisible = false.obs;
+  final isConfirmPasswordVisible = false.obs;
 
   @override
   void onClose() {
     super.onClose();
   }
 
-  void increment() => count.value++;
+  void togglePasswordVisibility() =>
+      isPasswordVisible.value = !isPasswordVisible.value;
+  void toggleConfirmPasswordVisibility() =>
+      isConfirmPasswordVisible.value = !isConfirmPasswordVisible.value;
 }

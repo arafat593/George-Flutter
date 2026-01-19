@@ -1,12 +1,15 @@
 import 'package:get/get.dart';
 
-class SplashScreenController extends GetxController {
-  //TODO: Implement SplashScreenController
+import '../../../../routes/app_pages.dart';
 
+class SplashScreenController extends GetxController {
   final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
+    Future.delayed(const Duration(seconds: 3), () {
+      Get.offNamed(Routes.ONBOARDING);
+    });
   }
 
   @override

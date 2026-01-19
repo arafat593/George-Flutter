@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../data/app_colors.dart';
+import '../../../data/app_text_styles.dart';
+import '../../../data/image_path.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -9,15 +12,516 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('HomeView'),
-        centerTitle: true,
-      ),
-      body: const Center(
-        child: Text(
-          'HomeView is working',
-          style: TextStyle(fontSize: 20),
+      backgroundColor: Colors.transparent,
+      body: SafeArea(
+        bottom: false,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildAppBar(),
+              SizedBox(height: 20.h),
+              _buildDateSelector(),
+              SizedBox(height: 24.h),
+              _buildQuickActions(),
+              SizedBox(height: 32.h),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Upcoming Classes',
+                      style: AppTextStyles.bold(
+                        24,
+                        color: AppColors.headlineColor,
+                      ),
+                    ),
+                    Text(
+                      'Tuesday 9 Nov 25',
+                      style: AppTextStyles.regular(14, color: Colors.grey),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 16.h),
+              _buildClassList(),
+              SizedBox(height: 100.h), // Space for bottom nav
+            ],
+          ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildAppBar() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GestureDetector(
+            onTap: () => Get.toNamed('/my-bookings'),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.menu_book,
+                  color: AppColors.headlineColor,
+                  size: 24.r,
+                ),
+                SizedBox(width: 8.w),
+                Text(
+                  'Bookings',
+                  style: AppTextStyles.medium(
+                    14,
+                    color: AppColors.headlineColor,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Image.asset(ImagePath.splashImage, height: 60.h, fit: BoxFit.contain),
+          Row(
+            children: [
+              Container(
+                padding: EdgeInsets.all(8.r),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                child: Image.asset(
+                  ImagePath.funnelIcon,
+                  height: 20.r,
+                  width: 20.r,
+                ),
+              ),
+              SizedBox(width: 12.w),
+              GestureDetector(
+                onTap: () => Get.toNamed('/notifications'),
+                child: Container(
+                  padding: EdgeInsets.all(8.r),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Image.asset(
+                    ImagePath.notification,
+                    height: 20.r,
+                    width: 20.r,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDateSelector() {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24.w),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
+                decoration: BoxDecoration(
+                  color: AppColors.buttonSecondaryColor,
+                  borderRadius: BorderRadius.circular(20.r),
+                ),
+                child: InkWell(
+                  onTap: () =>
+                      controller.currentMonth.value = DateTime(2025, 11),
+                  child: Text(
+                    'Today',
+                    style: AppTextStyles.medium(
+                      14,
+                      color: AppColors.headlineColor,
+                    ),
+                  ),
+                ),
+              ),
+              Obx(
+                () => Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () => controller.previousMonth(),
+                      behavior: HitTestBehavior.opaque,
+                      child: Padding(
+                        padding: EdgeInsets.all(8.r),
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          size: 14.r,
+                          color: AppColors.headlineColor,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 4.w),
+                    Text(
+                      '${controller.currentMonthName} ${controller.currentYear}',
+                      style: AppTextStyles.medium(
+                        14,
+                        color: AppColors.headlineColor,
+                      ),
+                    ),
+                    SizedBox(width: 4.w),
+                    GestureDetector(
+                      onTap: () => controller.nextMonth(),
+                      behavior: HitTestBehavior.opaque,
+                      child: Padding(
+                        padding: EdgeInsets.all(8.r),
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 14.r,
+                          color: AppColors.headlineColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: 16.h),
+        SizedBox(
+          height: 80.h,
+          child: Obx(
+            () => ListView.builder(
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              itemCount: controller.dates.length,
+              itemBuilder: (context, index) {
+                return Obx(() {
+                  bool isSelected = controller.selectedDateIndex.value == index;
+                  var dateItem = controller.dates[index];
+                  return GestureDetector(
+                    onTap: () => controller.setSelectedDate(index),
+                    child: Container(
+                      width: 60.w,
+                      margin: EdgeInsets.symmetric(horizontal: 4.w),
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? AppColors.buttonPrimaryColor
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(12.r),
+                        border: Border.all(
+                          color: isSelected
+                              ? Colors.transparent
+                              : Colors.grey.shade400,
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            dateItem['day'] ?? '',
+                            style: AppTextStyles.regular(
+                              12,
+                              color: isSelected
+                                  ? Colors.white
+                                  : Colors.grey.shade600,
+                            ),
+                          ),
+                          SizedBox(height: 4.h),
+                          Text(
+                            dateItem['date'] ?? '',
+                            style: AppTextStyles.bold(
+                              16,
+                              color: isSelected
+                                  ? Colors.white
+                                  : AppColors.headlineColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                });
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildQuickActions() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 24.w),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _quickActionItem(ImagePath.phone, 'Call Us'),
+          _quickActionItem(ImagePath.whatsapp, 'WhatsApp'),
+          _quickActionItem(ImagePath.location, 'Find Us'),
+          GestureDetector(
+            onTap: () => Get.toNamed('/news'),
+            child: _quickActionItem(ImagePath.news, 'Our News'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _quickActionItem(String iconPath, String label) {
+    return Column(
+      children: [
+        Container(
+          height: 50.h,
+          width: 50.w,
+          padding: EdgeInsets.all(12.r),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12.r),
+          ),
+          child: Image.asset(iconPath, fit: BoxFit.contain),
+        ),
+        SizedBox(height: 8.h),
+        Text(
+          label,
+          style: AppTextStyles.regular(12, color: AppColors.headlineColor),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildClassList() {
+    return Obx(
+      () => Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24.w),
+        child: Column(
+          children: [
+            _classCard(
+              badge: 'Beginner',
+              title: 'Morning Vinyasa Flow',
+              price: controller.isMembershipPaid.value ? 'QAR 0' : 'QAR 200',
+              time: '8:00 AM - 8:30 AM',
+              instructor: 'Sarah Jenkins',
+              status: 'available',
+              spots: 2,
+              isMembershipPaid: controller.isMembershipPaid.value,
+            ),
+            SizedBox(height: 16.h),
+            _classCard(
+              badge: 'Beginner',
+              title: 'Morning Vinyasa Flow',
+              price: 'QAR 200',
+              time: '8:00 AM - 8:30 AM',
+              instructor: 'Sarah Jenkins',
+              status: 'fully_booked',
+            ),
+            SizedBox(height: 16.h),
+            _classCard(
+              badge: 'Beginner',
+              title: 'Morning Vinyasa Flow',
+              price: 'QAR 200',
+              time: '8:00 AM - 8:30 AM',
+              instructor: 'Sarah Jenkins',
+              status: 'cancelled',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _classCard({
+    required String badge,
+    required String title,
+    required String price,
+    required String time,
+    required String instructor,
+    required String status,
+    int? spots,
+    bool isMembershipPaid = false,
+  }) {
+    return Container(
+      padding: EdgeInsets.all(16.r),
+      decoration: BoxDecoration(
+        color: AppColors.cardBackgroundColor,
+        borderRadius: BorderRadius.circular(20.r),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12.w,
+                      vertical: 4.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withAlpha(200),
+                    ),
+                    child: Text(
+                      badge,
+                      style: AppTextStyles.medium(12, color: Colors.grey),
+                    ),
+                  ),
+                  if (isMembershipPaid) ...[
+                    SizedBox(width: 8.w),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 12.w,
+                        vertical: 4.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withAlpha(200),
+                      ),
+                      child: Text(
+                        'Membership',
+                        style: AppTextStyles.medium(12, color: Colors.grey),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+              Text(
+                price,
+                style: AppTextStyles.bold(20, color: AppColors.headlineColor),
+              ),
+            ],
+          ),
+          SizedBox(height: 12.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: AppTextStyles.medium(18, color: AppColors.headlineColor),
+              ),
+              Row(
+                children: [
+                  Icon(Icons.male, size: 20.r, color: AppColors.headlineColor),
+                  Icon(
+                    Icons.female,
+                    size: 20.r,
+                    color: AppColors.headlineColor,
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: 12.h),
+          Row(
+            children: [
+              CircleAvatar(
+                radius: 15.r,
+                backgroundImage: const NetworkImage(
+                  'https://i.pravatar.cc/150?img=32',
+                ),
+              ),
+              SizedBox(width: 8.w),
+              Text(
+                instructor,
+                style: AppTextStyles.regular(
+                  14,
+                  color: AppColors.headlineColor,
+                ),
+              ),
+              const Spacer(),
+              if (status == 'available')
+                GestureDetector(
+                  onTap: () =>
+                      Get.toNamed('/course-details', preventDuplicates: true),
+                  child: Icon(
+                    Icons.arrow_forward,
+                    color: AppColors.headlineColor,
+                    size: 24.r,
+                  ),
+                ),
+              if (status == 'fully_booked')
+                Icon(
+                  Icons.notification_add_outlined,
+                  color: AppColors.headlineColor,
+                  size: 24.r,
+                ),
+            ],
+          ),
+          SizedBox(height: 16.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.access_time, size: 16.r, color: Colors.grey),
+                  SizedBox(width: 4.w),
+                  Text(
+                    time,
+                    style: AppTextStyles.regular(14, color: Colors.grey),
+                  ),
+                ],
+              ),
+              if (status == 'available') ...[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Available spots $spots',
+                      style: AppTextStyles.regular(10, color: Colors.grey),
+                    ),
+                    SizedBox(height: 4.h),
+                    Container(
+                      width: 100.w,
+                      height: 8.h,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(4.r),
+                      ),
+                      child: Stack(
+                        children: [
+                          Container(
+                            width: 80.w,
+                            decoration: BoxDecoration(
+                              color: AppColors.buttonPrimaryColor,
+                              borderRadius: BorderRadius.circular(4.r),
+                            ),
+                          ),
+                          Positioned(
+                            left: 75.w,
+                            top: 0,
+                            bottom: 0,
+                            child: Container(
+                              width: 8.r,
+                              decoration: const BoxDecoration(
+                                color: Colors.black,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+              if (status == 'fully_booked')
+                Row(
+                  children: [
+                    Icon(Icons.group_outlined, size: 18.r, color: Colors.red),
+                    SizedBox(width: 4.w),
+                    Text(
+                      'Fully Booked',
+                      style: AppTextStyles.medium(14, color: Colors.red),
+                    ),
+                  ],
+                ),
+              if (status == 'cancelled')
+                Text(
+                  'Cancelled',
+                  style: AppTextStyles.medium(14, color: Colors.red),
+                ),
+            ],
+          ),
+        ],
       ),
     );
   }
