@@ -17,31 +17,37 @@ class SplashScreenView extends GetView<SplashScreenController> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Logo Image
-            Image.asset(
-              ImagePath.splashImage,
-              height: 300.h,
-              width: 300.w,
-              fit: BoxFit.contain,
-              errorBuilder: (context, error, stackTrace) {
-                // Return a placeholder if image is missing
-                return Container(
-                  height: 150.h,
-                  width: 150.w,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: AppColors.buttonPrimaryColor,
-                      width: 2,
-                    ),
-                  ),
-                  child: Icon(
-                    Icons.self_improvement,
-                    size: 80.sp,
-                    color: AppColors.buttonPrimaryColor,
-                  ),
-                );
-              },
+            // Beautifully Animated Logo
+            ScaleTransition(
+              scale: controller.scaleAnimation,
+              child: FadeTransition(
+                opacity: controller.fadeAnimation,
+                child: Image.asset(
+                  ImagePath.splashImage,
+                  height: 300.h,
+                  width: 300.w,
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) {
+                    // Return a placeholder if image is missing
+                    return Container(
+                      height: 150.h,
+                      width: 150.w,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: AppColors.buttonPrimaryColor,
+                          width: 2,
+                        ),
+                      ),
+                      child: Icon(
+                        Icons.self_improvement,
+                        size: 80.sp,
+                        color: AppColors.buttonPrimaryColor,
+                      ),
+                    );
+                  },
+                ),
+              ),
             ),
             SizedBox(height: 30.h),
           ],

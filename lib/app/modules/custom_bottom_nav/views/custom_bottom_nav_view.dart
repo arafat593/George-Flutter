@@ -31,8 +31,8 @@ class CustomBottomNavView extends GetView<CustomBottomNavController> {
           backgroundColor: AppColors.primaryColor,
           elevation: 4,
           child: Padding(
-            padding: EdgeInsets.all(8.r),
-            child: Image.asset(ImagePath.home),
+            padding: EdgeInsets.all(10.r),
+            child: Image.asset(ImagePath.home, color: AppColors.whiteColor),
           ),
         ),
       ),
@@ -40,16 +40,17 @@ class CustomBottomNavView extends GetView<CustomBottomNavController> {
 
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
-        notchMargin: 8.r,
+        notchMargin: 12.0,
         color: AppColors.primaryColor,
         elevation: 0,
         padding: EdgeInsets.zero,
         child: SizedBox(
-          height: 80.h,
+          height: 70.h,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15.w),
+            padding: EdgeInsets.symmetric(horizontal: 10.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _bottomNavItem(
                   index: 0,
@@ -116,7 +117,7 @@ class CustomBottomNavView extends GetView<CustomBottomNavController> {
               width: 40.w,
               height: 4.h,
               decoration: BoxDecoration(
-                color: Colors.transparent,
+                color: isSelected ? AppColors.whiteColor : Colors.transparent,
                 borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
