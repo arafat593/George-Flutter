@@ -179,9 +179,9 @@ class ProfileView extends GetView<ProfileController> {
         ),
         _buildDivider(),
         _buildMenuItem(
-          icon: Icons.shield_outlined, 
+          icon: Icons.shield_outlined,
           title: "Order history",
-          onTap: () {},
+          onTap: () => Get.toNamed(Routes.ORDER_HISTORY),
         ),
         _buildDivider(),
         _buildMenuItem(

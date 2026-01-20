@@ -61,6 +61,8 @@ import '../modules/terms_conditions/views/terms_conditions_view.dart';
 
 import '../modules/wallet/bindings/wallet_binding.dart';
 import '../modules/wallet/views/wallet_view.dart';
+import '../modules/order_history/bindings/order_history_binding.dart';
+import '../modules/order_history/views/order_history_view.dart';
 
 part 'app_routes.dart';
 
@@ -210,6 +212,11 @@ class AppPages {
       name: _Paths.WALLET,
       page: () => const WalletView(),
       binding: WalletBinding(),
+    ),
+    GetPage(
+      name: _Paths.ORDER_HISTORY,
+      page: () => const OrderHistoryView(),
+      binding: OrderHistoryBinding(),
     ),
   ];
 }

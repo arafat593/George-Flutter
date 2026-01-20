@@ -32,6 +32,7 @@ abstract class Routes {
   static const MEMBERSHIP_DETAILS = _Paths.MEMBERSHIP_DETAILS;
   static const TERMS_CONDITIONS = _Paths.TERMS_CONDITIONS;
   static const WALLET = _Paths.WALLET;
+  static const ORDER_HISTORY = _Paths.ORDER_HISTORY;
 }
 
 abstract class _Paths {
@@ -65,4 +66,5 @@ abstract class _Paths {
   static const MEMBERSHIP_DETAILS = '/membership-details';
   static const TERMS_CONDITIONS = '/terms-conditions';
   static const WALLET = '/wallet';
+  static const ORDER_HISTORY = '/order-history';
 }
