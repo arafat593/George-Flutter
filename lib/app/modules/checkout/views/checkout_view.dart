@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../data/app_colors.dart';
 import '../../../routes/app_pages.dart';
-import '../../../widgets/custom_text_field.dart';
 import '../controllers/checkout_controller.dart';
 
 class CheckoutView extends GetView<CheckoutController> {
@@ -17,8 +16,8 @@ class CheckoutView extends GetView<CheckoutController> {
           'Checkout',
           style: TextStyle(
             color: AppColors.headlineColor,
-            fontSize: 22,
-            fontWeight: FontWeight.w600,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
@@ -31,7 +30,7 @@ class CheckoutView extends GetView<CheckoutController> {
               SizedBox(width: 16),
               Icon(
                 Icons.arrow_back_ios,
-                size: 18,
+                size: 20,
                 color: AppColors.headlineColor,
               ),
               Text(
@@ -39,13 +38,13 @@ class CheckoutView extends GetView<CheckoutController> {
                 style: TextStyle(
                   color: AppColors.headlineColor,
                   fontSize: 16,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],
           ),
         ),
-        leadingWidth: 80,
+        leadingWidth: 90,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -132,14 +131,17 @@ class CheckoutView extends GetView<CheckoutController> {
               height: 55,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.buttonPrimaryColor, // Brown
+                  backgroundColor: AppColors.buttonPrimaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                   elevation: 2,
                 ),
                 onPressed: () {
-                  Get.toNamed(Routes.BOOKING_CONFIRMED);
+                  Get.toNamed(
+                    Routes.BOOKING_CONFIRMED,
+                    arguments: {'message': 'Payment Confirmed!'},
+                  );
                 },
                 child: const Text(
                   "Pay Now",
@@ -290,21 +292,21 @@ class CheckoutView extends GetView<CheckoutController> {
         children: [
           // "Credit/Debit" Label
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             decoration: BoxDecoration(
-              color: const Color(0xFF6D4C41), // Dark brown
+              color: const Color(0xFF5D4037), // Dark brown matches design
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: const [
-                Icon(Icons.credit_card, color: Colors.white, size: 20),
+                Icon(Icons.credit_card, color: Colors.white, size: 22),
                 SizedBox(width: 8),
                 Text(
                   "Credit/Debit",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 16,
+                    fontSize: 18,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -341,9 +343,29 @@ class CheckoutView extends GetView<CheckoutController> {
   }
 
   Widget _buildTextField(String hint, TextEditingController controller) {
-    return SizedBox(
-      height: 50,
-      child: CustomTextField(controller: controller, hintText: hint),
+    return Container(
+      height: 55,
+      decoration: BoxDecoration(
+        color: const Color(0xFFBCAAA4).withOpacity(0.6),
+      ),
+      child: TextFormField(
+        controller: controller,
+        decoration: InputDecoration(
+          hintText: hint,
+          hintStyle: TextStyle(
+            color: const Color(0xFF5D4037).withOpacity(0.5),
+            fontSize: 15,
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 12,
+          ),
+          border: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
+        ),
+        style: const TextStyle(color: Color(0xFF5D4037), fontSize: 16),
+      ),
     );
   }
 
@@ -420,7 +442,9 @@ class CheckoutView extends GetView<CheckoutController> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(Routes.MEMBERSHIPS);
+                      },
                       child: const Text(
                         "Buy",
                         style: TextStyle(fontSize: 12, color: Colors.white),

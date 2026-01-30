@@ -195,9 +195,19 @@ class InstructorDetailsView extends GetView<InstructorDetailsController> {
             ],
           ),
           SizedBox(height: 8.h),
-          Text(
-            'Morning Vinyasa Flow',
-            style: AppTextStyles.medium(18, color: const Color(0xFF6B5345)),
+          GestureDetector(
+            onTap: () => Get.toNamed(
+              Routes.COURSE_DETAILS,
+              arguments: {
+                'title': 'Morning Vinyasa Flow',
+                'price': 'QAR 200',
+                'instructorName': 'Sarah Jenkins',
+              },
+            ),
+            child: Text(
+              'Morning Vinyasa Flow',
+              style: AppTextStyles.medium(18, color: const Color(0xFF6B5345)),
+            ),
           ),
           SizedBox(height: 12.h),
           Row(

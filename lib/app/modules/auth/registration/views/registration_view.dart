@@ -115,37 +115,54 @@ class RegistrationView extends GetView<RegistrationController> {
                 // Gender
                 _buildLabel('Gender'),
                 Obx(
-                  () => Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.buttonSecondaryColor.withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(12.r),
-                      border: Border.all(color: AppColors.borderColor),
+                  () => DropdownButtonFormField<String>(
+                    value: controller.selectedGender.value,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AppColors.buttonSecondaryColor.withOpacity(
+                        0.3,
+                      ),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 16.w,
+                        vertical: 12.h,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.r),
+                        borderSide: const BorderSide(
+                          color: AppColors.borderColor,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.r),
+                        borderSide: const BorderSide(
+                          color: AppColors.borderColor,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.r),
+                        borderSide: const BorderSide(
+                          color: AppColors.borderColor,
+                        ),
+                      ),
                     ),
-                    child: DropdownButtonFormField<String>(
-                      value: controller.selectedGender.value,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
-                        border: InputBorder.none,
-                      ),
-                      dropdownColor: AppColors.backgroundColor,
-                      icon: Icon(
-                        Icons.keyboard_arrow_down,
-                        color: AppColors.headlineColor,
-                      ),
-                      items: ['Male', 'Female', 'Other'].map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value,
-                            style: AppTextStyles.regular(
-                              14,
-                              color: AppColors.headlineColor,
-                            ),
+                    dropdownColor: AppColors.backgroundColor,
+                    icon: Icon(
+                      Icons.keyboard_arrow_down,
+                      color: AppColors.headlineColor,
+                    ),
+                    items: ['Male', 'Female'].map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: AppTextStyles.regular(
+                            14,
+                            color: AppColors.headlineColor,
                           ),
-                        );
-                      }).toList(),
-                      onChanged: controller.setGender,
-                    ),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: controller.setGender,
                   ),
                 ),
                 SizedBox(height: 20.h),
@@ -195,29 +212,63 @@ class RegistrationView extends GetView<RegistrationController> {
                 ),
                 SizedBox(height: 30.h),
 
-                // Register Button
-                SizedBox(
-                  width: double.infinity,
-                  height: 50.h,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (controller.formKey.currentState?.validate() ??
-                          false) {
-                        Get.toNamed(Routes.REGISTRATION_OTP);
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.buttonPrimaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.r),
+                // Terms and Conditions Checkbox
+                Obx(
+                  () => Row(
+                    children: [
+                      Checkbox(
+                        value: controller.isTermsAccepted.value,
+                        onChanged: (v) =>
+                            controller.isTermsAccepted.value = v ?? false,
+                        activeColor: AppColors.buttonPrimaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4.r),
+                        ),
                       ),
-                      elevation: 0,
-                    ),
-                    child: Text(
-                      'Register',
-                      style: AppTextStyles.medium(
-                        16,
-                        color: AppColors.whiteColor,
+                      GestureDetector(
+                        onTap: () => Get.toNamed(Routes.TERMS_CONDITIONS),
+                        child: Text(
+                          'I agree to the Terms & Conditions',
+                          style: AppTextStyles.regular(
+                            14,
+                            color: AppColors.headlineColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20.h),
+
+                // Register Button
+                Obx(
+                  () => SizedBox(
+                    width: double.infinity,
+                    height: 50.h,
+                    child: ElevatedButton(
+                      onPressed: controller.isTermsAccepted.value
+                          ? () {
+                              if (controller.formKey.currentState?.validate() ??
+                                  false) {
+                                Get.toNamed(Routes.REGISTRATION_OTP);
+                              }
+                            }
+                          : null,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: controller.isTermsAccepted.value
+                            ? AppColors.buttonPrimaryColor
+                            : Colors.grey,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                        elevation: 0,
+                      ),
+                      child: Text(
+                        'Register',
+                        style: AppTextStyles.medium(
+                          16,
+                          color: AppColors.whiteColor,
+                        ),
                       ),
                     ),
                   ),

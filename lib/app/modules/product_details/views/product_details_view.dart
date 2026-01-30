@@ -118,51 +118,90 @@ class ProductDetailsView extends StatelessWidget {
                               "Pickup Note:",
                               "Available at the studio.",
                             ),
+
+                            // Out of Stock Badge (if applicable)
+                            if (controller.productArgs['isOutOfStock'] ==
+                                true) ...[
+                              SizedBox(height: 20.h),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 16.w,
+                                  vertical: 12.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.red.shade50,
+                                  borderRadius: BorderRadius.circular(8.r),
+                                  border: Border.all(
+                                    color: Colors.red.shade200,
+                                    width: 1,
+                                  ),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.info_outline,
+                                      color: Colors.red.shade700,
+                                      size: 20.r,
+                                    ),
+                                    SizedBox(width: 8.w),
+                                    Text(
+                                      "Out of stock",
+                                      style: AppTextStyles.bold(
+                                        14,
+                                      ).copyWith(color: Colors.red.shade700),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                             SizedBox(height: 30.h),
                           ],
                         ),
                       ),
                     ),
 
-                    // Bottom Action Bar (Quantity + Buy Now)
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 30.h, top: 10.h),
-                      child: Row(
-                        children: [
-                          // Quantity Selector
-                          _buildQuantitySelector(controller),
-                          SizedBox(width: 20.w),
+                    // Bottom Action Bar (Quantity + Buy Now) - Only show if in stock
+                    if (controller.productArgs['isOutOfStock'] != true)
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 30.h, top: 10.h),
+                        child: Row(
+                          children: [
+                            // Quantity Selector
+                            _buildQuantitySelector(controller),
+                            SizedBox(width: 20.w),
 
-                          // Buy Now Button
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () => Get.toNamed(
-                                Routes.CHECKOUT,
-                                arguments: {
-                                  'name': productName,
-                                  'price': productPrice,
-                                  'isFromShop': true,
-                                },
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF6D4C41),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
+                            // Buy Now Button
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () => Get.toNamed(
+                                  Routes.CHECKOUT,
+                                  arguments: {
+                                    'name': productName,
+                                    'price': productPrice,
+                                    'isFromShop': true,
+                                  },
                                 ),
-                                padding: EdgeInsets.symmetric(vertical: 16.h),
-                                elevation: 0,
-                              ),
-                              child: Text(
-                                "Buy Now",
-                                style: AppTextStyles.bold(
-                                  16,
-                                ).copyWith(color: Colors.white),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF6D4C41),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                  ),
+                                  padding: EdgeInsets.symmetric(vertical: 16.h),
+                                  elevation: 0,
+                                ),
+                                child: Text(
+                                  "Buy Now",
+                                  style: AppTextStyles.bold(
+                                    16,
+                                  ).copyWith(color: Colors.white),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
+                          ],
+                        ),
+                      )
+                    else
+                      SizedBox(height: 30.h),
                   ],
                 ),
               ),

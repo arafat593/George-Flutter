@@ -20,9 +20,9 @@ class BookingConfirmedView extends GetView<BookingConfirmedController> {
               _buildAnimatedSuccessUI(),
               const SizedBox(height: 30),
 
-              const Text(
-                "Booking Confirmed!",
-                style: TextStyle(
+              Text(
+                Get.arguments?['message'] ?? "Payment Confirmed!",
+                style: const TextStyle(
                   color: Color(0xFF5D4037),
                   fontSize: 24,
                   fontWeight: FontWeight.bold,

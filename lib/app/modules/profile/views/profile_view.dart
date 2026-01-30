@@ -187,7 +187,8 @@ class ProfileView extends GetView<ProfileController> {
         _buildMenuItem(
           icon: Icons.account_balance_wallet_outlined,
           title: "Wallet",
-          onTap: () => Get.toNamed(Routes.WALLET),
+          onTap: () =>
+              Get.toNamed(Routes.WALLET, arguments: {'fromProfile': true}),
         ),
         _buildDivider(),
         _buildMenuItem(
@@ -205,7 +206,87 @@ class ProfileView extends GetView<ProfileController> {
         _buildMenuItem(
           icon: Icons.logout,
           title: "Log Out",
-          onTap: () {}, // Implement logout logic
+          onTap: () {
+            Get.dialog(
+              Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.r),
+                ),
+                child: Container(
+                  padding: EdgeInsets.all(20.r),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20.r),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Log Out',
+                        style: AppTextStyles.bold(
+                          20,
+                          color: const Color(0xFF6B5345),
+                        ),
+                      ),
+                      SizedBox(height: 12.h),
+                      Text(
+                        'Are you sure you want to log out?',
+                        textAlign: TextAlign.center,
+                        style: AppTextStyles.regular(
+                          14,
+                          color: Colors.grey.shade600,
+                        ),
+                      ),
+                      SizedBox(height: 24.h),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () => Get.back(),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFFDCC8B8),
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                ),
+                              ),
+                              child: Text(
+                                'No',
+                                style: AppTextStyles.bold(
+                                  16,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 12.w),
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () => controller.logout(),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF6B5345),
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                ),
+                              ),
+                              child: Text(
+                                'Yes',
+                                style: AppTextStyles.bold(
+                                  16,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
           showArrow: false,
         ),
         _buildDivider(),
@@ -251,7 +332,7 @@ class ProfileView extends GetView<ProfileController> {
                 color: const Color(0xFF6D4C41),
               )
             else if (!showArrow && onTap != null && icon == Icons.logout)
-              Container(), // No trailing, just the row tap
+              Container(),
           ],
         ),
       ),
@@ -295,13 +376,10 @@ class ProfileView extends GetView<ProfileController> {
                       Container(
                         width: 50.w,
                         decoration: BoxDecoration(
-                          color: const Color(
-                            0xFFEBE3D9,
-                          ), // Lighter background for empty part
+                          color: const Color(0xFFEBE3D9),
                           borderRadius: BorderRadius.circular(8.r),
                         ),
                       ),
-                      // Foreground Bar (Attended)
                       FractionallySizedBox(
                         heightFactor: percentage.clamp(0.0, 1.0),
                         child: Container(

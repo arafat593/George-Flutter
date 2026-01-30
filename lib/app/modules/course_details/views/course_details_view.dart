@@ -234,26 +234,35 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
     return Obx(
       () => Row(
         children: [
-          CircleAvatar(
-            radius: 26.r,
-            backgroundImage: NetworkImage(controller.instructorImage.value),
-          ),
-          SizedBox(width: 12.w),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Instructors',
-                style: AppTextStyles.regular(
-                  10,
-                  color: brownColor.withOpacity(0.6),
+          GestureDetector(
+            onTap: () => Get.toNamed('/instructor-details'),
+            child: Row(
+              children: [
+                CircleAvatar(
+                  radius: 26.r,
+                  backgroundImage: NetworkImage(
+                    controller.instructorImage.value,
+                  ),
                 ),
-              ),
-              Text(
-                controller.instructorName.value,
-                style: AppTextStyles.medium(18, color: brownColor),
-              ),
-            ],
+                SizedBox(width: 12.w),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Instructors',
+                      style: AppTextStyles.regular(
+                        10,
+                        color: brownColor.withOpacity(0.6),
+                      ),
+                    ),
+                    Text(
+                      controller.instructorName.value,
+                      style: AppTextStyles.medium(18, color: brownColor),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
           const Spacer(),
           ElevatedButton(
@@ -278,27 +287,39 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
 
   Widget _buildAboutSection() {
     const Color brownColor = Color(0xFF6B5345);
+    const String fullText =
+        'A dynamic flow class to wake up your body and mind.\nSynchronize breath with movement in this energizing session suited for those with some yoga experience.\nThis class focuses on improving flexibility, strength, and mindfulness through a series of progressive poses and breathing techniques.';
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('About Class', style: AppTextStyles.bold(18, color: brownColor)),
         SizedBox(height: 12.h),
-        RichText(
-          text: TextSpan(
-            style: AppTextStyles.regular(
-              14,
-              color: brownColor.withOpacity(0.8),
+        Obx(
+          () => GestureDetector(
+            onTap: () => controller.isAboutExpanded.value =
+                !controller.isAboutExpanded.value,
+            child: RichText(
+              text: TextSpan(
+                style: AppTextStyles.regular(
+                  14,
+                  color: brownColor.withOpacity(0.8),
+                ),
+                children: [
+                  TextSpan(
+                    text: controller.isAboutExpanded.value
+                        ? fullText
+                        : '${fullText.substring(0, 150)}... ',
+                  ),
+                  TextSpan(
+                    text: controller.isAboutExpanded.value
+                        ? 'See less'
+                        : 'See more',
+                    style: AppTextStyles.bold(14, color: brownColor),
+                  ),
+                ],
+              ),
             ),
-            children: [
-              const TextSpan(
-                text:
-                    'A dynamic flow class to wake up your body and mind.\nSynchronize breath with movement in this energizing session suited for those with some yoga experience.\n',
-              ),
-              TextSpan(
-                text: 'See more',
-                style: AppTextStyles.bold(14, color: brownColor),
-              ),
-            ],
           ),
         ),
       ],

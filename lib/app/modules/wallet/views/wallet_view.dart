@@ -13,14 +13,39 @@ class WalletView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(WalletController());
+    final bool showBackButton =
+        Get.arguments != null && Get.arguments['fromProfile'] == true;
+
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: showBackButton
+            ? GestureDetector(
+                onTap: () => Get.back(),
+                child: Row(
+                  children: [
+                    SizedBox(width: 16.w),
+                    Icon(
+                      Icons.arrow_back_ios,
+                      size: 18.r,
+                      color: AppColors.headlineColor,
+                    ),
+                    Text(
+                      'Back',
+                      style: AppTextStyles.medium(
+                        14,
+                        color: AppColors.headlineColor,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : null,
+        leadingWidth: showBackButton ? 80.w : 0,
         title: Text(
-          '',
-          style: AppTextStyles.bold(
-            20,
-          ).copyWith(color: AppColors.headlineColor),
+          'Wallet',
+          style: AppTextStyles.bold(24, color: AppColors.headlineColor),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -131,9 +156,29 @@ class WalletView extends StatelessWidget {
   }
 
   Widget _buildTextField(String hint, TextEditingController controller) {
-    return SizedBox(
-      height: 50,
-      child: CustomTextField(controller: controller, hintText: hint),
+    return Container(
+      height: 55,
+      decoration: BoxDecoration(
+        color: const Color(0xFFBCAAA4).withOpacity(0.6),
+      ),
+      child: TextFormField(
+        controller: controller,
+        decoration: InputDecoration(
+          hintText: hint,
+          hintStyle: TextStyle(
+            color: const Color(0xFF5D4037).withOpacity(0.5),
+            fontSize: 15,
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 12,
+          ),
+          border: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
+        ),
+        style: const TextStyle(color: Color(0xFF5D4037), fontSize: 16),
+      ),
     );
   }
 

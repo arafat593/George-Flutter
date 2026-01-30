@@ -1,8 +1,7 @@
 import 'package:get/get.dart';
-
 import '../modules/courses/bindings/courses_binding.dart';
 import '../modules/courses/views/courses_view.dart';
-
+import '../modules/courses/views/filter_view.dart';
 import '../modules/auth/create_new_password/bindings/create_new_password_binding.dart';
 import '../modules/auth/create_new_password/views/create_new_password_view.dart';
 import '../modules/auth/log_in/bindings/log_in_binding.dart';
@@ -218,5 +217,6 @@ class AppPages {
       page: () => const OrderHistoryView(),
       binding: OrderHistoryBinding(),
     ),
+    GetPage(name: _Paths.FILTER, page: () => const FilterView()),
   ];
 }

@@ -439,12 +439,77 @@ class MyBookingsView extends GetView<MyBookingsController> {
   }
 
   void _showClassCancelledDialog(BuildContext context) {
-    _showCustomDialog(
-      context,
-      title: 'Class Cancelled',
-      subtitle:
-          'Your class has been cancelled successfully. If you need any help, feel free to contact us.',
-      onYes: () => Get.back(),
+    Get.dialog(
+      Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
+        child: Container(
+          padding: EdgeInsets.all(20.r),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20.r),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: GestureDetector(
+                  onTap: () => Get.back(),
+                  child: Icon(Icons.close, size: 24.r, color: Colors.grey),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(12.r),
+                decoration: BoxDecoration(
+                  color: Colors.green.shade50,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.check_circle_outline,
+                  color: Colors.green,
+                  size: 40.r,
+                ),
+              ),
+              SizedBox(height: 16.h),
+              Text(
+                'Class Cancelled',
+                textAlign: TextAlign.center,
+                style: AppTextStyles.bold(20, color: const Color(0xFF6B5345)),
+              ),
+              SizedBox(height: 12.h),
+              Text(
+                'Your class has been cancelled successfully. If you need any help, feel free to contact us.',
+                textAlign: TextAlign.center,
+                style: AppTextStyles.regular(14, color: Colors.grey.shade600),
+              ),
+              SizedBox(height: 24.h),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Get.back(); // Close dialog
+                    Get.back(); // Go back to previous screen
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF6B5345),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 14.h),
+                  ),
+                  child: Text(
+                    'Go Home',
+                    style: AppTextStyles.bold(16, color: Colors.white),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 

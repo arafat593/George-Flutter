@@ -15,14 +15,24 @@ class TermsConditionsView extends GetView<TermsConditionsController> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: AppColors.bodyTextColor,
-            size: 20.r,
+        leading: GestureDetector(
+          onTap: () => Get.back(),
+          child: Row(
+            children: [
+              SizedBox(width: 16.w),
+              Icon(
+                Icons.arrow_back_ios,
+                size: 18.r,
+                color: AppColors.bodyTextColor,
+              ),
+              Text(
+                'Back',
+                style: AppTextStyles.medium(14, color: AppColors.bodyTextColor),
+              ),
+            ],
           ),
-          onPressed: () => Get.back(),
         ),
+        leadingWidth: 80.w,
         title: Text("Terms & Conditions", style: AppTextStyles.medium(18)),
         centerTitle: true,
       ),

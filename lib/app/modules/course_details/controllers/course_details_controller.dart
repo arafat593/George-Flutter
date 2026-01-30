@@ -15,6 +15,7 @@ class CourseDetailsController extends GetxController {
   final RxString price = 'QAR 200'.obs;
   final RxString instructorName = 'Sarah Jenkins'.obs;
   final RxBool fromHistory = false.obs;
+  final RxBool isAboutExpanded = false.obs;
 
   @override
   void onInit() {

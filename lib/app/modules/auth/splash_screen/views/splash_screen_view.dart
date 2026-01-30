@@ -12,23 +12,21 @@ class SplashScreenView extends GetView<SplashScreenController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor, // Cream/Beige background
+      backgroundColor: AppColors.backgroundColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Beautifully Animated Logo
             ScaleTransition(
               scale: controller.scaleAnimation,
               child: FadeTransition(
                 opacity: controller.fadeAnimation,
                 child: Image.asset(
                   ImagePath.splashImage,
-                  height: 300.h,
-                  width: 300.w,
+                  height: 439.h,
+                  width: 361.w,
                   fit: BoxFit.contain,
                   errorBuilder: (context, error, stackTrace) {
-                    // Return a placeholder if image is missing
                     return Container(
                       height: 150.h,
                       width: 150.w,

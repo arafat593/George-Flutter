@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
 import '../../../data/image_path.dart';
+import '../../../widgets/app_refresh_indicator.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -15,39 +16,47 @@ class HomeView extends GetView<HomeController> {
       backgroundColor: Colors.transparent,
       body: SafeArea(
         bottom: false,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildAppBar(),
-              SizedBox(height: 20.h),
-              _buildDateSelector(),
-              SizedBox(height: 24.h),
-              _buildQuickActions(),
-              SizedBox(height: 32.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Upcoming Classes',
-                      style: AppTextStyles.bold(
-                        24,
-                        color: AppColors.headlineColor,
+        child: AppRefreshIndicator(
+          onRefresh: () async {
+            // Simulated refresh delay
+            await Future.delayed(const Duration(seconds: 2));
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildAppBar(),
+                SizedBox(height: 20.h),
+                _buildDateSelector(),
+                SizedBox(height: 24.h),
+                _buildQuickActions(),
+                SizedBox(height: 32.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Upcoming Classes',
+                        style: AppTextStyles.bold(
+                          24,
+                          color: AppColors.headlineColor,
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Tuesday 9 Nov 25',
-                      style: AppTextStyles.regular(14, color: Colors.grey),
-                    ),
-                  ],
+                      Obx(
+                        () => Text(
+                          controller.selectedDateString,
+                          style: AppTextStyles.regular(14, color: Colors.grey),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(height: 16.h),
-              _buildClassList(),
-              SizedBox(height: 100.h), // Space for bottom nav
-            ],
+                SizedBox(height: 16.h),
+                _buildClassList(),
+                SizedBox(height: 100.h), // Space for bottom nav
+              ],
+            ),
           ),
         ),
       ),
@@ -80,19 +89,27 @@ class HomeView extends GetView<HomeController> {
               ],
             ),
           ),
-          Image.asset(ImagePath.splashImage, height: 60.h, fit: BoxFit.contain),
+          Image.asset(
+            ImagePath.splashImage,
+            height: 80.h,
+            width: 80.w,
+            fit: BoxFit.contain,
+          ),
           Row(
             children: [
-              Container(
-                padding: EdgeInsets.all(8.r),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                ),
-                child: Image.asset(
-                  ImagePath.funnelIcon,
-                  height: 20.r,
-                  width: 20.r,
+              GestureDetector(
+                onTap: () => Get.toNamed('/filter'),
+                child: Container(
+                  padding: EdgeInsets.all(8.r),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Image.asset(
+                    ImagePath.funnelIcon,
+                    height: 20.r,
+                    width: 20.r,
+                  ),
                 ),
               ),
               SizedBox(width: 12.w),
@@ -106,7 +123,7 @@ class HomeView extends GetView<HomeController> {
                   ),
                   child: Image.asset(
                     ImagePath.notification,
-                    height: 20.r,
+                    height: 30.r,
                     width: 20.r,
                   ),
                 ),
@@ -133,13 +150,14 @@ class HomeView extends GetView<HomeController> {
                   borderRadius: BorderRadius.circular(20.r),
                 ),
                 child: InkWell(
-                  onTap: () =>
-                      controller.currentMonth.value = DateTime(2025, 11),
-                  child: Text(
-                    'Today',
-                    style: AppTextStyles.medium(
-                      14,
-                      color: AppColors.headlineColor,
+                  onTap: () => controller.handleTodayButtonClick(),
+                  child: Obx(
+                    () => Text(
+                      controller.todayButtonText,
+                      style: AppTextStyles.medium(
+                        14,
+                        color: AppColors.headlineColor,
+                      ),
                     ),
                   ),
                 ),
@@ -191,6 +209,7 @@ class HomeView extends GetView<HomeController> {
           height: 80.h,
           child: Obx(
             () => ListView.builder(
+              controller: controller.scrollController,
               scrollDirection: Axis.horizontal,
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               itemCount: controller.dates.length,
@@ -257,7 +276,10 @@ class HomeView extends GetView<HomeController> {
         children: [
           _quickActionItem(ImagePath.phone, 'Call Us'),
           _quickActionItem(ImagePath.whatsapp, 'WhatsApp'),
-          _quickActionItem(ImagePath.location, 'Find Us'),
+          GestureDetector(
+            onTap: controller.launchMaps,
+            child: _quickActionItem(ImagePath.location, 'Find Us'),
+          ),
           GestureDetector(
             onTap: () => Get.toNamed('/news'),
             child: _quickActionItem(ImagePath.news, 'Our News'),
@@ -394,9 +416,25 @@ class HomeView extends GetView<HomeController> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                title,
-                style: AppTextStyles.medium(18, color: AppColors.headlineColor),
+              GestureDetector(
+                onTap: () {
+                  Get.toNamed(
+                    '/course-details',
+                    preventDuplicates: true,
+                    arguments: {
+                      'title': title,
+                      'price': price,
+                      'fromHistory': status != 'available',
+                    },
+                  );
+                },
+                child: Text(
+                  title,
+                  style: AppTextStyles.medium(
+                    18,
+                    color: AppColors.headlineColor,
+                  ),
+                ),
               ),
               Row(
                 children: [
@@ -413,25 +451,39 @@ class HomeView extends GetView<HomeController> {
           SizedBox(height: 12.h),
           Row(
             children: [
-              CircleAvatar(
-                radius: 15.r,
-                backgroundImage: const NetworkImage(
-                  'https://i.pravatar.cc/150?img=32',
-                ),
-              ),
-              SizedBox(width: 8.w),
-              Text(
-                instructor,
-                style: AppTextStyles.regular(
-                  14,
-                  color: AppColors.headlineColor,
+              GestureDetector(
+                onTap: () => Get.toNamed('/instructor-details'),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 15.r,
+                      backgroundImage: const NetworkImage(
+                        'https://i.pravatar.cc/150?img=32',
+                      ),
+                    ),
+                    SizedBox(width: 8.w),
+                    Text(
+                      instructor,
+                      style: AppTextStyles.regular(
+                        14,
+                        color: AppColors.headlineColor,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const Spacer(),
               if (status == 'available')
                 GestureDetector(
-                  onTap: () =>
-                      Get.toNamed('/course-details', preventDuplicates: true),
+                  onTap: () => Get.toNamed(
+                    '/course-details',
+                    preventDuplicates: true,
+                    arguments: {
+                      'title': title,
+                      'price': price,
+                      'fromHistory': status != 'available',
+                    },
+                  ),
                   child: Icon(
                     Icons.arrow_forward,
                     color: AppColors.headlineColor,

@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RecoveryOtpController extends GetxController {
-  //TODO: Implement RecoveryOtpController
-
   final RxInt seconds = 59.obs;
   Timer? _timer;
   final TextEditingController otpController = TextEditingController();

@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
+import '../../../data/image_path.dart';
+import '../../../widgets/app_refresh_indicator.dart';
 import '../controllers/courses_controller.dart';
 
 class CoursesView extends GetView<CoursesController> {
@@ -18,12 +20,21 @@ class CoursesView extends GetView<CoursesController> {
           children: [
             _buildAppBar(),
             Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
-                itemCount: 3, // Dummy count
-                itemBuilder: (context, index) {
-                  return _buildCourseCard();
+              child: AppRefreshIndicator(
+                onRefresh: () async {
+                  // Simulated refresh delay
+                  await Future.delayed(const Duration(seconds: 2));
                 },
+                child: ListView.builder(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 24.w,
+                    vertical: 16.h,
+                  ),
+                  itemCount: 3, // Dummy count
+                  itemBuilder: (context, index) {
+                    return _buildCourseCard();
+                  },
+                ),
               ),
             ),
           ],
@@ -35,11 +46,30 @@ class CoursesView extends GetView<CoursesController> {
   Widget _buildAppBar() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
-      child: Center(
-        child: Text(
-          'Courses',
-          style: AppTextStyles.bold(24, color: AppColors.headlineColor),
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(width: 32.w), // Placeholder to balance the filter icon
+          Text(
+            'Courses',
+            style: AppTextStyles.bold(24, color: AppColors.headlineColor),
+          ),
+          GestureDetector(
+            onTap: () => Get.toNamed('/filter'),
+            child: Container(
+              padding: EdgeInsets.all(8.r),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+              child: Image.asset(
+                ImagePath.funnelIcon,
+                height: 20.r,
+                width: 20.r,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -54,18 +84,22 @@ class CoursesView extends GetView<CoursesController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
-            child: Image.network(
-              'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1000',
-              height: 180.h,
-              width: double.infinity,
-              fit: BoxFit.cover,
-              cacheHeight: 300,
-              errorBuilder: (context, error, stackTrace) => Container(
+          GestureDetector(
+            onTap: () =>
+                Get.toNamed('/course-details', preventDuplicates: true),
+            child: ClipRRect(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+              child: Image.network(
+                'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1000',
                 height: 180.h,
-                color: Colors.grey.shade200,
-                child: const Icon(Icons.broken_image, color: Colors.grey),
+                width: double.infinity,
+                fit: BoxFit.cover,
+                cacheHeight: 300,
+                errorBuilder: (context, error, stackTrace) => Container(
+                  height: 180.h,
+                  color: Colors.grey.shade200,
+                  child: const Icon(Icons.broken_image, color: Colors.grey),
+                ),
               ),
             ),
           ),
@@ -101,49 +135,73 @@ class CoursesView extends GetView<CoursesController> {
                   ],
                 ),
                 SizedBox(height: 8.h),
-                Text(
-                  'Morning Vinyasa Flow',
-                  style: AppTextStyles.medium(
-                    20,
-                    color: AppColors.headlineColor,
+                GestureDetector(
+                  onTap: () => Get.toNamed(
+                    '/course-details',
+                    preventDuplicates: true,
+                    arguments: {
+                      'title': 'Morning Vinyasa Flow',
+                      'price': 'QAR 200',
+                    },
+                  ),
+                  child: Text(
+                    'Morning Vinyasa Flow',
+                    style: AppTextStyles.medium(
+                      20,
+                      color: AppColors.headlineColor,
+                    ),
                   ),
                 ),
                 SizedBox(height: 12.h),
                 Row(
                   children: [
-                    CircleAvatar(
-                      radius: 20.r,
-                      backgroundColor: Colors.grey.shade200,
-                      child: ClipOval(
-                        child: Image.network(
-                          'https://i.pravatar.cc/150?img=32',
-                          fit: BoxFit.cover,
-                          cacheHeight: 100,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 12.w),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Instructors',
-                          style: AppTextStyles.regular(10, color: Colors.grey),
-                        ),
-                        Text(
-                          'Sarah Jenkins',
-                          style: AppTextStyles.medium(
-                            14,
-                            color: AppColors.headlineColor,
+                    GestureDetector(
+                      onTap: () => Get.toNamed('/instructor-details'),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 20.r,
+                            backgroundColor: Colors.grey.shade200,
+                            child: ClipOval(
+                              child: Image.network(
+                                'https://i.pravatar.cc/150?img=32',
+                                fit: BoxFit.cover,
+                                cacheHeight: 100,
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
+                          SizedBox(width: 12.w),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Instructors',
+                                style: AppTextStyles.regular(
+                                  10,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              Text(
+                                'Sarah Jenkins',
+                                style: AppTextStyles.medium(
+                                  14,
+                                  color: AppColors.headlineColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                     const Spacer(),
                     GestureDetector(
                       onTap: () => Get.toNamed(
                         '/course-details',
                         preventDuplicates: true,
+                        arguments: {
+                          'title': 'Morning Vinyasa Flow',
+                          'price': 'QAR 200',
+                        },
                       ),
                       child: Padding(
                         padding: EdgeInsets.all(8.r),
@@ -157,7 +215,6 @@ class CoursesView extends GetView<CoursesController> {
                   ],
                 ),
                 SizedBox(height: 16.h),
-                // Replaced DottedLinePainter with a safe Row of dots
                 Row(
                   children: List.generate(
                     20,

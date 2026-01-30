@@ -86,4 +86,8 @@ class ProfileController extends GetxController {
   void toggleAppNotifications(bool value) => appNotifications.value = value;
   void toggleWhatsappNotifications(bool value) =>
       whatsappNotifications.value = value;
+
+  void logout() {
+    Get.offAllNamed('/log-in');
+  }
 }

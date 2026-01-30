@@ -82,6 +82,7 @@ class CustomBottomNavView extends GetView<CustomBottomNavController> {
         switch (controller.currentIndex.value) {
           case 0:
             return const CoursesView();
+
           case 1:
             return const WalletView();
           case 2:

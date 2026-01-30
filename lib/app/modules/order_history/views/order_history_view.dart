@@ -15,10 +15,24 @@ class OrderHistoryView extends GetView<OrderHistoryController> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Color(0xFF6D4C41)),
-          onPressed: () => Get.back(),
+        leading: GestureDetector(
+          onTap: () => Get.back(),
+          child: Row(
+            children: [
+              SizedBox(width: 16.w),
+              Icon(
+                Icons.arrow_back_ios,
+                size: 18.r,
+                color: const Color(0xFF6D4C41),
+              ),
+              Text(
+                'Back',
+                style: AppTextStyles.medium(14, color: const Color(0xFF6D4C41)),
+              ),
+            ],
+          ),
         ),
+        leadingWidth: 80.w,
         title: Text(
           "Order History",
           style: AppTextStyles.bold(

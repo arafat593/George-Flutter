@@ -14,6 +14,7 @@ class RegistrationController extends GetxController {
   final selectedGender = 'Male'.obs;
   final isPasswordVisible = false.obs;
   final isConfirmPasswordVisible = false.obs;
+  final isTermsAccepted = false.obs;
 
   @override
   void onClose() {
