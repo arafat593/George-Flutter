@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
 import '../../../data/image_path.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/news_details_controller.dart';
 
 class NewsDetailsView extends GetView<NewsDetailsController> {
@@ -285,7 +286,7 @@ class NewsDetailsView extends GetView<NewsDetailsController> {
         ),
         const Spacer(),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () => Get.toNamed(Routes.INSTRUCTOR_DETAILS),
           style: ElevatedButton.styleFrom(
             backgroundColor: brownColor,
             shape: RoundedRectangleBorder(

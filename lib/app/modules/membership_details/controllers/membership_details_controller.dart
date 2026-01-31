@@ -4,8 +4,7 @@ class MembershipDetailsController extends GetxController {
   final RxString type = "Membership".obs;
 
   final RxString title = "1 month Membership".obs;
-  final RxString subtitle =
-      "Access to regular classes for 30 days".obs;
+  final RxString subtitle = "Access to regular classes for 30 days".obs;
   final RxString validity = "Valid for 1 month".obs;
 
   final RxString startDate = "2023-12-31".obs;
@@ -13,6 +12,7 @@ class MembershipDetailsController extends GetxController {
 
   final RxString price = "QAR 100".obs;
   final RxString walletBalance = "QAR 200".obs;
+  final RxBool isFromSuggestions = false.obs;
 
   @override
   void onInit() {
@@ -31,15 +31,11 @@ class MembershipDetailsController extends GetxController {
     price.value = _getValue(args, 'price', price.value);
     startDate.value = _getValue(args, 'startDate', startDate.value);
     endDate.value = _getValue(args, 'endDate', endDate.value);
-    walletBalance.value =
-        _getValue(args, 'walletBalance', walletBalance.value);
+    walletBalance.value = _getValue(args, 'walletBalance', walletBalance.value);
+    isFromSuggestions.value = args['isFromSuggestions'] ?? false;
   }
 
-  String _getValue(
-    Map<String, dynamic> args,
-    String key,
-    String defaultValue,
-  ) {
+  String _getValue(Map<String, dynamic> args, String key, String defaultValue) {
     final value = args[key];
     if (value != null && value.toString().isNotEmpty) {
       return value.toString();
@@ -53,6 +49,7 @@ class MembershipDetailsController extends GetxController {
       arguments: {
         "title": title.value,
         "price": price.value,
+        "isFromSuggestions": isFromSuggestions.value,
       },
     );
   }

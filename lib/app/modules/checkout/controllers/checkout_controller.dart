@@ -7,6 +7,7 @@ class CheckoutController extends GetxController {
   final cartTotal = "".obs;
   final itemName = "".obs;
   final isFromShop = false.obs;
+  final shouldHideSuggestions = false.obs;
 
   @override
   void onInit() {
@@ -15,6 +16,9 @@ class CheckoutController extends GetxController {
       itemName.value = Get.arguments['title'] ?? Get.arguments['name'] ?? "";
       cartTotal.value = Get.arguments['price'] ?? "QAR 0";
       isFromShop.value = Get.arguments['isFromShop'] ?? false;
+
+      // Hide suggestions ONLY if coming from a previous checkout's suggested list
+      shouldHideSuggestions.value = Get.arguments['isFromSuggestions'] ?? false;
     } else {
       cartTotal.value = "QAR 970";
     }

@@ -7,6 +7,8 @@ import '../../../data/app_text_styles.dart';
 import '../../../data/image_path.dart';
 import '../../../widgets/app_refresh_indicator.dart';
 import '../controllers/home_controller.dart';
+import '../../../routes/app_pages.dart';
+import '../../courses/controllers/filter_controller.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
@@ -22,6 +24,7 @@ class HomeView extends GetView<HomeController> {
             await Future.delayed(const Duration(seconds: 2));
           },
           child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -36,11 +39,15 @@ class HomeView extends GetView<HomeController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Upcoming Classes',
-                        style: AppTextStyles.bold(
-                          24,
-                          color: AppColors.headlineColor,
+                      Obx(
+                        () => Text(
+                          controller.selectedDateLabel == 'Upcoming Classes'
+                              ? 'Upcoming Classes'
+                              : "${controller.selectedDateLabel}'s Classes",
+                          style: AppTextStyles.bold(
+                            24,
+                            color: AppColors.headlineColor,
+                          ),
                         ),
                       ),
                       Obx(
@@ -91,27 +98,45 @@ class HomeView extends GetView<HomeController> {
           ),
           Image.asset(
             ImagePath.splashImage,
-            height: 80.h,
-            width: 80.w,
+            height: 100.h,
+            width: 100.w,
             fit: BoxFit.contain,
           ),
           Row(
             children: [
-              GestureDetector(
-                onTap: () => Get.toNamed('/filter'),
-                child: Container(
-                  padding: EdgeInsets.all(8.r),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
+              Obx(() {
+                final filterController = Get.find<FilterController>();
+                final isFilterActive = filterController.isFilterApplied.value;
+                return GestureDetector(
+                  onTap: () {
+                    filterController.resetTemp();
+                    Get.toNamed('/filter');
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(8.r),
+                    decoration: BoxDecoration(
+                      color: isFilterActive
+                          ? AppColors.buttonPrimaryColor
+                          : Colors.white,
+                      shape: BoxShape.circle,
+                      border: isFilterActive
+                          ? Border.all(
+                              color: AppColors.headlineColor,
+                              width: 2.r,
+                            )
+                          : null,
+                    ),
+                    child: Image.asset(
+                      ImagePath.funnelIcon,
+                      height: 20.r,
+                      width: 20.r,
+                      color: isFilterActive
+                          ? Colors.white
+                          : AppColors.headlineColor,
+                    ),
                   ),
-                  child: Image.asset(
-                    ImagePath.funnelIcon,
-                    height: 20.r,
-                    width: 20.r,
-                  ),
-                ),
-              ),
+                );
+              }),
               SizedBox(width: 12.w),
               GestureDetector(
                 onTap: () => Get.toNamed('/notifications'),
@@ -312,43 +337,58 @@ class HomeView extends GetView<HomeController> {
   }
 
   Widget _buildClassList() {
-    return Obx(
-      () => Padding(
+    return Obx(() {
+      final isPaid = controller.isMembershipPaid.value;
+      return Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.w),
         child: Column(
           children: [
             _classCard(
               badge: 'Beginner',
               title: 'Morning Vinyasa Flow',
-              price: controller.isMembershipPaid.value ? 'QAR 0' : 'QAR 200',
+              price: isPaid ? 'QAR 0' : 'QAR 200',
               time: '8:00 AM - 8:30 AM',
               instructor: 'Sarah Jenkins',
               status: 'available',
               spots: 2,
-              isMembershipPaid: controller.isMembershipPaid.value,
+              isMembershipPaid: isPaid,
             ),
             SizedBox(height: 16.h),
             _classCard(
               badge: 'Beginner',
               title: 'Morning Vinyasa Flow',
-              price: 'QAR 200',
+              price: isPaid ? 'QAR 0' : 'QAR 200',
               time: '8:00 AM - 8:30 AM',
               instructor: 'Sarah Jenkins',
               status: 'fully_booked',
+              isMembershipPaid: isPaid,
             ),
             SizedBox(height: 16.h),
             _classCard(
               badge: 'Beginner',
               title: 'Morning Vinyasa Flow',
-              price: 'QAR 200',
+              price: isPaid ? 'QAR 0' : 'QAR 200',
               time: '8:00 AM - 8:30 AM',
               instructor: 'Sarah Jenkins',
               status: 'cancelled',
+              isMembershipPaid: isPaid,
+            ),
+            SizedBox(height: 16.h),
+            _classCard(
+              badge: 'Advanced',
+              title: 'Power Yoga Workshop',
+              price: 'QAR 350',
+              time: '10:00 AM - 12:30 PM',
+              instructor: 'Michael Chen',
+              status: 'available',
+              spots: 5,
+              isMembershipPaid:
+                  false, // This card won't have the Membership badge
             ),
           ],
         ),
-      ),
-    );
+      );
+    });
   }
 
   Widget _classCard({
@@ -451,32 +491,29 @@ class HomeView extends GetView<HomeController> {
           SizedBox(height: 12.h),
           Row(
             children: [
-              GestureDetector(
-                onTap: () => Get.toNamed('/instructor-details'),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 15.r,
-                      backgroundImage: const NetworkImage(
-                        'https://i.pravatar.cc/150?img=32',
-                      ),
+              Row(
+                children: [
+                  CircleAvatar(
+                    radius: 15.r,
+                    backgroundImage: const NetworkImage(
+                      'https://i.pravatar.cc/150?img=32',
                     ),
-                    SizedBox(width: 8.w),
-                    Text(
-                      instructor,
-                      style: AppTextStyles.regular(
-                        14,
-                        color: AppColors.headlineColor,
-                      ),
+                  ),
+                  SizedBox(width: 8.w),
+                  Text(
+                    instructor,
+                    style: AppTextStyles.regular(
+                      14,
+                      color: AppColors.headlineColor,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               const Spacer(),
               if (status == 'available')
                 GestureDetector(
                   onTap: () => Get.toNamed(
-                    '/course-details',
+                    Routes.COURSE_DETAILS,
                     preventDuplicates: true,
                     arguments: {
                       'title': title,

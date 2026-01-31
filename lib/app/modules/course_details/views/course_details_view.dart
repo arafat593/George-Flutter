@@ -4,7 +4,6 @@ import 'package:george/app/data/image_path.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_text_styles.dart';
-import '../../../routes/app_pages.dart';
 import '../controllers/course_details_controller.dart';
 
 class CourseDetailsView extends GetView<CourseDetailsController> {
@@ -168,16 +167,42 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
     const Color brownColor = Color(0xFF6B5345);
     return Align(
       alignment: Alignment.centerLeft,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
-        decoration: BoxDecoration(
-          color: const Color(0xFFE5D6C9),
-          borderRadius: BorderRadius.circular(8.r),
-        ),
-        child: Text(
-          'Intermediate',
-          style: AppTextStyles.medium(12, color: brownColor),
-        ),
+      child: Row(
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
+            decoration: BoxDecoration(
+              color: const Color(0xFFE5D6C9),
+              borderRadius: BorderRadius.circular(8.r),
+            ),
+            child: Text(
+              'Intermediate',
+              style: AppTextStyles.medium(12, color: brownColor),
+            ),
+          ),
+          Obx(() {
+            if (controller.price.value == 'QAR 0') {
+              return Padding(
+                padding: EdgeInsets.only(left: 10.w),
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 14.w,
+                    vertical: 6.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFE5D6C9),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Text(
+                    'Membership',
+                    style: AppTextStyles.medium(12, color: brownColor),
+                  ),
+                ),
+              );
+            }
+            return const SizedBox.shrink();
+          }),
+        ],
       ),
     );
   }
@@ -450,13 +475,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
       width: double.infinity,
       height: 55.h,
       child: ElevatedButton(
-        onPressed: () => Get.toNamed(
-          Routes.CHECKOUT,
-          arguments: {
-            'title': controller.title.value,
-            'price': controller.price.value,
-          },
-        ),
+        onPressed: () => controller.bookNow(),
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF6B5345),
           shape: RoundedRectangleBorder(

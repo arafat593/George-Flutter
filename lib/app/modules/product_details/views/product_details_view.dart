@@ -251,18 +251,23 @@ class ProductDetailsView extends StatelessWidget {
   Widget _buildQuantitySelector(ProductDetailsController controller) {
     return Row(
       children: [
-        GestureDetector(
-          onTap: controller.decrement,
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.w),
-            child: Text(
-              "-",
-              style: AppTextStyles.medium(
-                24,
-              ).copyWith(color: const Color(0xFF6D4C41)),
+        Obx(() {
+          final isAtMin = controller.count.value <= 1;
+          return GestureDetector(
+            onTap: controller.decrement,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 12.w),
+              child: Text(
+                "-",
+                style: AppTextStyles.medium(24).copyWith(
+                  color: isAtMin
+                      ? const Color(0xFF6D4C41).withOpacity(0.3)
+                      : const Color(0xFF6D4C41),
+                ),
+              ),
             ),
-          ),
-        ),
+          );
+        }),
         SizedBox(width: 10.w),
         Obx(
           () => Text(
@@ -273,18 +278,23 @@ class ProductDetailsView extends StatelessWidget {
           ),
         ),
         SizedBox(width: 10.w),
-        GestureDetector(
-          onTap: controller.increment,
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.w),
-            child: Text(
-              "+",
-              style: AppTextStyles.medium(
-                24,
-              ).copyWith(color: const Color(0xFF6D4C41)),
+        Obx(() {
+          final isAtMax = controller.count.value >= controller.availableCount;
+          return GestureDetector(
+            onTap: controller.increment,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 12.w),
+              child: Text(
+                "+",
+                style: AppTextStyles.medium(24).copyWith(
+                  color: isAtMax
+                      ? const Color(0xFF6D4C41).withOpacity(0.3)
+                      : const Color(0xFF6D4C41),
+                ),
+              ),
             ),
-          ),
-        ),
+          );
+        }),
       ],
     );
   }

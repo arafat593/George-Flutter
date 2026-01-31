@@ -157,27 +157,31 @@ class CheckoutView extends GetView<CheckoutController> {
             const SizedBox(height: 30),
 
             // Suggested Section
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Suggested For you",
-                    style: TextStyle(
-                      color: Color(0xFF5D4037),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+            Obx(
+              () => controller.shouldHideSuggestions.value
+                  ? const SizedBox()
+                  : Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Suggested For you",
+                            style: TextStyle(
+                              color: Color(0xFF5D4037),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 15),
+                          _buildSuggestedList(),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 15),
-                  _buildSuggestedList(),
-                ],
-              ),
             ),
             const SizedBox(height: 30),
           ],
@@ -443,7 +447,10 @@ class CheckoutView extends GetView<CheckoutController> {
                         ),
                       ),
                       onPressed: () {
-                        Get.toNamed(Routes.MEMBERSHIPS);
+                        Get.toNamed(
+                          Routes.MEMBERSHIPS,
+                          arguments: {'isFromSuggestions': true},
+                        );
                       },
                       child: const Text(
                         "Buy",

@@ -136,24 +136,69 @@ class MembershipsView extends GetView<MembershipsController> {
   Widget _buildMembershipsContent() {
     return Column(
       children: [
-        _buildActiveMembershipCard(),
+        GestureDetector(
+          onTap: () => Get.toNamed(
+            Routes.MEMBERSHIP_DETAILS,
+            arguments: {
+              'type': 'Membership',
+              'title': '1 month Membership',
+              'validity': 'Valid until 2023-12-31',
+              'subtitle': 'Current Active Membership',
+              'price': 'QAR 970',
+              'isFromSuggestions': Get.arguments != null
+                  ? Get.arguments['isFromSuggestions']
+                  : false,
+            },
+          ),
+          child: _buildActiveMembershipCard(),
+        ),
         SizedBox(height: 20.h),
-        _buildMembershipOptionCard(
-          type: "Membership",
-          title: "1 month Membership",
-          price: "QAR 970",
-          subtitle: "Access to regular classes for 30 days",
-          validity: "Valid for 1 months",
-          isAutoRenew: controller.autoRenew1Month,
+        GestureDetector(
+          onTap: () => Get.toNamed(
+            Routes.MEMBERSHIP_DETAILS,
+            arguments: {
+              'type': 'Membership',
+              'title': '1 month Membership',
+              'price': 'QAR 970',
+              'validity': 'Valid for 1 months',
+              'subtitle': 'Access to regular classes for 30 days',
+              'isFromSuggestions': Get.arguments != null
+                  ? Get.arguments['isFromSuggestions']
+                  : false,
+            },
+          ),
+          child: _buildMembershipOptionCard(
+            type: "Membership",
+            title: "1 month Membership",
+            price: "QAR 970",
+            subtitle: "Access to regular classes for 30 days",
+            validity: "Valid for 1 months",
+            isAutoRenew: controller.autoRenew1Month,
+          ),
         ),
         SizedBox(height: 16.h),
-        _buildMembershipOptionCard(
-          type: "Membership",
-          title: "3 month Membership",
-          price: "QAR 2750",
-          subtitle: null,
-          validity: "Valid for 3 months",
-          isAutoRenew: controller.autoRenew3Month,
+        GestureDetector(
+          onTap: () => Get.toNamed(
+            Routes.MEMBERSHIP_DETAILS,
+            arguments: {
+              'type': 'Membership',
+              'title': '3 month Membership',
+              'price': 'QAR 2750',
+              'validity': 'Valid for 3 months',
+              'subtitle': 'Access to classes for 90 days',
+              'isFromSuggestions': Get.arguments != null
+                  ? Get.arguments['isFromSuggestions']
+                  : false,
+            },
+          ),
+          child: _buildMembershipOptionCard(
+            type: "Membership",
+            title: "3 month Membership",
+            price: "QAR 2750",
+            subtitle: null,
+            validity: "Valid for 3 months",
+            isAutoRenew: controller.autoRenew3Month,
+          ),
         ),
       ],
     );
@@ -162,15 +207,45 @@ class MembershipsView extends GetView<MembershipsController> {
   Widget _buildPackagesContent() {
     return Column(
       children: [
-        _buildActivePackCard(),
+        GestureDetector(
+          onTap: () => Get.toNamed(
+            Routes.MEMBERSHIP_DETAILS,
+            arguments: {
+              'type': 'Package',
+              'title': '10 Class Pack',
+              'validity': '5 Sessions Left',
+              'subtitle': 'Current Active Package',
+              'price': 'QAR 750',
+              'isFromSuggestions': Get.arguments != null
+                  ? Get.arguments['isFromSuggestions']
+                  : false,
+            },
+          ),
+          child: _buildActivePackCard(),
+        ),
         SizedBox(height: 20.h),
-        _buildMembershipOptionCard(
-          type: "Package",
-          title: "10 Class Pack",
-          price: "QAR 750",
-          subtitle: "Attend 10 classes",
-          validity: "Valid for 2 months",
-          isAutoRenew: controller.autoRenew1Month,
+        GestureDetector(
+          onTap: () => Get.toNamed(
+            Routes.MEMBERSHIP_DETAILS,
+            arguments: {
+              'type': 'Package',
+              'title': '10 Class Pack',
+              'price': 'QAR 750',
+              'validity': 'Valid for 2 months',
+              'subtitle': 'Attend 10 classes',
+              'isFromSuggestions': Get.arguments != null
+                  ? Get.arguments['isFromSuggestions']
+                  : false,
+            },
+          ),
+          child: _buildMembershipOptionCard(
+            type: "Package",
+            title: "10 Class Pack",
+            price: "QAR 750",
+            subtitle: "Attend 10 classes",
+            validity: "Valid for 2 months",
+            isAutoRenew: controller.autoRenew1Month,
+          ),
         ),
       ],
     );
@@ -384,8 +459,17 @@ class MembershipsView extends GetView<MembershipsController> {
 
               ElevatedButton(
                 onPressed: () => Get.toNamed(
-                  Routes.CHECKOUT,
-                  arguments: {'title': title, 'price': price},
+                  Routes.MEMBERSHIP_DETAILS,
+                  arguments: {
+                    'type': type,
+                    'title': title,
+                    'price': price,
+                    'validity': validity,
+                    'subtitle': subtitle,
+                    'isFromSuggestions': Get.arguments != null
+                        ? Get.arguments['isFromSuggestions']
+                        : false,
+                  },
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF6D4C41),

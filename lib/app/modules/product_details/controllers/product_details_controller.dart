@@ -4,7 +4,9 @@ class ProductDetailsController extends GetxController {
   final count = 1.obs;
 
   // Mock data that would typically come from arguments or API
-  final productArgs = Get.arguments ?? {};
+  final productArgs = (Get.arguments as Map<String, dynamic>?) ?? {};
+
+  int get availableCount => productArgs['available'] ?? 100;
 
   // Mock images for the carousel/thumbnails
   final images = [
@@ -14,7 +16,9 @@ class ProductDetailsController extends GetxController {
   ];
 
   void increment() {
-    count.value++;
+    if (count.value < availableCount) {
+      count.value++;
+    }
   }
 
   void decrement() {

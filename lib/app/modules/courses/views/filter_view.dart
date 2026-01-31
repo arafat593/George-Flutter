@@ -4,252 +4,239 @@ import 'package:get/get.dart';
 
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
-import '../../../widgets/app_refresh_indicator.dart';
+import '../controllers/filter_controller.dart';
 
-class FilterView extends StatefulWidget {
+class FilterView extends GetView<FilterController> {
   const FilterView({super.key});
 
   @override
-  State<FilterView> createState() => _FilterViewState();
-}
-
-class _FilterViewState extends State<FilterView> {
-  // Mock Data for "Instructor"
-  final List<Map<String, dynamic>> instructors = [
-    {'name': 'Jane Cooper', 'selected': true},
-    {'name': 'Leslie Alexander', 'selected': false},
-    {'name': 'Theresa Webb', 'selected': false},
-    {'name': 'Jenny Wilson', 'selected': false},
-  ];
-  bool isInstructorExpanded = false;
-  String instructorSearch = '';
-  final TextEditingController instructorController = TextEditingController();
-
-  // Mock Data for "Class Name"
-  final List<Map<String, dynamic>> classes = [
-    {'name': 'Inner Peace Yoga', 'selected': true},
-    {'name': 'Serene Soul Yoga', 'selected': false},
-    {'name': 'Harmony Yoga Studio', 'selected': false},
-    {'name': 'Pure Breath Yoga', 'selected': false},
-  ];
-  bool isClassExpanded = false;
-  String classSearch = '';
-  final TextEditingController classController = TextEditingController();
-
-  // Mock Data for Difficulty
-  final List<String> difficulties = ['Beginner', 'Intermediate', 'Advanced'];
-  String selectedDifficulty = 'Beginner';
-
-  // Mock Data for Gender
-  final List<String> genders = ['Male', 'Female'];
-  String selectedGender = 'Male';
-
-  @override
   Widget build(BuildContext context) {
+    // Variable to track expansion locally if needed, but we can also put it in controller
+    final RxBool isInstructorExpanded = false.obs;
+    final RxBool isClassExpanded = false.obs;
+
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: GestureDetector(
-          onTap: () => Get.back(),
+        automaticallyImplyLeading: false,
+        title: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.w),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(width: 16.w),
-              Icon(
-                Icons.arrow_back_ios,
-                size: 18.sp,
-                color: AppColors.headlineColor,
+              GestureDetector(
+                onTap: () => Get.back(),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.arrow_back_ios,
+                      size: 18.sp,
+                      color: AppColors.headlineColor,
+                    ),
+                    Text(
+                      "Back",
+                      style: AppTextStyles.medium(
+                        16,
+                        color: AppColors.headlineColor,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Text(
-                "Back",
-                style: AppTextStyles.medium(16, color: AppColors.headlineColor),
+                'Filter',
+                style: AppTextStyles.bold(24, color: AppColors.headlineColor),
+              ),
+              GestureDetector(
+                onTap: () => controller.clearFilter(),
+                child: Text(
+                  "Clear",
+                  style: AppTextStyles.medium(
+                    16,
+                    color: AppColors.headlineColor,
+                  ),
+                ),
               ),
             ],
           ),
         ),
-        leadingWidth: 100.w,
-        centerTitle: true,
-        title: Text(
-          'Filter',
-          style: AppTextStyles.bold(24, color: AppColors.headlineColor),
-        ),
       ),
       body: SafeArea(
-        child: AppRefreshIndicator(
-          onRefresh: () async {
-            // Simulated refresh delay
-            await Future.delayed(const Duration(seconds: 2));
-          },
-          child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // --- Instructor Section ---
-                Text(
-                  'Search by instructor name',
-                  style: AppTextStyles.regular(
-                    14,
-                    color: AppColors.headlineColor,
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                _buildAccordion(
-                  title: instructors.any((e) => e['selected'])
-                      ? instructors.firstWhere((e) => e['selected'])['name']
-                      : 'Select a instructor',
-                  isExpanded: isInstructorExpanded,
-                  onTap: () {
-                    setState(() {
-                      isInstructorExpanded = !isInstructorExpanded;
-                    });
-                  },
-                  content: _buildSearchableList(
-                    hintText: 'Search by Instructor name',
-                    controller: instructorController,
-                    items: instructors
-                        .where(
-                          (element) => element['name'].toLowerCase().contains(
-                            instructorSearch.toLowerCase(),
-                          ),
-                        )
-                        .toList(),
-                    onSearchChanged: (val) {
-                      setState(() {
-                        instructorSearch = val;
-                      });
-                    },
-                    onChanged: (index, val) {
-                      setState(() {
-                        final filteredList = instructors
-                            .where(
-                              (element) => element['name']
-                                  .toLowerCase()
-                                  .contains(instructorSearch.toLowerCase()),
-                            )
-                            .toList();
-                        final actualName = filteredList[index]['name'];
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // --- Instructor Section ---
+                    Text(
+                      'Search by instructor name',
+                      style: AppTextStyles.regular(
+                        14,
+                        color: AppColors.headlineColor,
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    Obx(
+                      () => _buildAccordion(
+                        title:
+                            controller.tempInstructors.any((e) => e['selected'])
+                            ? controller.tempInstructors
+                                  .firstWhere((e) => e['selected'])['name']
+                                  .toString()
+                            : 'Select an instructor',
+                        isExpanded: isInstructorExpanded.value,
+                        onTap: () => isInstructorExpanded.toggle(),
+                        content: _buildSearchableList(
+                          hintText: 'Search by Instructor name',
+                          items: controller.tempInstructors
+                              .where(
+                                (e) => e['name'].toLowerCase().contains(
+                                  controller.instructorSearch.value
+                                      .toLowerCase(),
+                                ),
+                              )
+                              .toList(),
+                          onSearchChanged: (val) =>
+                              controller.instructorSearch.value = val,
+                          onChanged: (name) {
+                            for (
+                              var i = 0;
+                              i < controller.tempInstructors.length;
+                              i++
+                            ) {
+                              controller.tempInstructors[i]['selected'] =
+                                  (controller.tempInstructors[i]['name'] ==
+                                  name);
+                            }
+                            controller.tempInstructors.refresh();
+                            isInstructorExpanded.value = false;
+                          },
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 24.h),
+                    Text(
+                      'Class name',
+                      style: AppTextStyles.regular(
+                        14,
+                        color: AppColors.headlineColor,
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    Obx(
+                      () => _buildAccordion(
+                        title: controller.tempClasses.any((e) => e['selected'])
+                            ? controller.tempClasses
+                                  .firstWhere((e) => e['selected'])['name']
+                                  .toString()
+                            : 'Select a class name',
+                        isExpanded: isClassExpanded.value,
+                        onTap: () => isClassExpanded.toggle(),
+                        content: _buildSearchableList(
+                          hintText: 'Search by Class Name',
+                          items: controller.tempClasses
+                              .where(
+                                (e) => e['name'].toLowerCase().contains(
+                                  controller.classSearch.value.toLowerCase(),
+                                ),
+                              )
+                              .toList(),
+                          onSearchChanged: (val) =>
+                              controller.classSearch.value = val,
+                          onChanged: (name) {
+                            for (
+                              var i = 0;
+                              i < controller.tempClasses.length;
+                              i++
+                            ) {
+                              controller.tempClasses[i]['selected'] =
+                                  (controller.tempClasses[i]['name'] == name);
+                            }
+                            controller.tempClasses.refresh();
+                            isClassExpanded.value = false;
+                          },
+                        ),
+                      ),
+                    ),
 
-                        for (var i = 0; i < instructors.length; i++) {
-                          instructors[i]['selected'] =
-                              (instructors[i]['name'] == actualName);
-                        }
-                        isInstructorExpanded = false; // Auto close
-                      });
-                    },
-                  ),
-                ),
+                    SizedBox(height: 24.h),
+                    Text(
+                      'Difficulty Level',
+                      style: AppTextStyles.regular(
+                        14,
+                        color: AppColors.headlineColor,
+                      ),
+                    ),
+                    SizedBox(height: 12.h),
+                    Obx(
+                      () => Wrap(
+                        spacing: 12.w,
+                        runSpacing: 12.h,
+                        children: controller.difficulties.map((level) {
+                          final isSelected =
+                              level == controller.tempDifficulty.value;
+                          return GestureDetector(
+                            onTap: () => controller.tempDifficulty.value =
+                                isSelected ? '' : level,
+                            child: _buildChip(level, isSelected),
+                          );
+                        }).toList(),
+                      ),
+                    ),
 
-                SizedBox(height: 24.h),
-
-                // --- Class Name Section ---
-                Text(
-                  'Class name',
-                  style: AppTextStyles.regular(
-                    14,
-                    color: AppColors.headlineColor,
-                  ),
+                    SizedBox(height: 24.h),
+                    Text(
+                      'Gender',
+                      style: AppTextStyles.regular(
+                        14,
+                        color: AppColors.headlineColor,
+                      ),
+                    ),
+                    SizedBox(height: 12.h),
+                    Obx(
+                      () => Wrap(
+                        spacing: 12.w,
+                        runSpacing: 12.h,
+                        children: controller.genders.map((gender) {
+                          final isSelected =
+                              gender == controller.tempGender.value;
+                          return GestureDetector(
+                            onTap: () => controller.tempGender.value =
+                                isSelected ? '' : gender,
+                            child: _buildChip(gender, isSelected),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    SizedBox(height: 40.h),
+                  ],
                 ),
-                SizedBox(height: 8.h),
-                _buildAccordion(
-                  title: classes.any((e) => e['selected'])
-                      ? classes.firstWhere((e) => e['selected'])['name']
-                      : 'Select a class name',
-                  isExpanded: isClassExpanded,
-                  onTap: () {
-                    setState(() {
-                      isClassExpanded = !isClassExpanded;
-                    });
-                  },
-                  content: _buildSearchableList(
-                    hintText: 'Search by Class Name',
-                    controller: classController,
-                    items: classes
-                        .where(
-                          (element) => element['name'].toLowerCase().contains(
-                            classSearch.toLowerCase(),
-                          ),
-                        )
-                        .toList(),
-                    onSearchChanged: (val) {
-                      setState(() {
-                        classSearch = val;
-                      });
-                    },
-                    onChanged: (index, val) {
-                      setState(() {
-                        final filteredList = classes
-                            .where(
-                              (element) => element['name']
-                                  .toLowerCase()
-                                  .contains(classSearch.toLowerCase()),
-                            )
-                            .toList();
-                        final actualName = filteredList[index]['name'];
-
-                        for (var i = 0; i < classes.length; i++) {
-                          classes[i]['selected'] =
-                              (classes[i]['name'] == actualName);
-                        }
-                        isClassExpanded = false; // Auto close
-                      });
-                    },
-                  ),
-                ),
-
-                SizedBox(height: 24.h),
-                Text(
-                  'Difficulty Level',
-                  style: AppTextStyles.regular(
-                    14,
-                    color: AppColors.headlineColor,
-                  ),
-                ),
-                SizedBox(height: 12.h),
-                Wrap(
-                  spacing: 12.w,
-                  children: difficulties.map((level) {
-                    final isSelected = level == selectedDifficulty;
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedDifficulty = level;
-                        });
-                      },
-                      child: _buildChip(level, isSelected),
-                    );
-                  }).toList(),
-                ),
-
-                SizedBox(height: 24.h),
-                Text(
-                  'Gender',
-                  style: AppTextStyles.regular(
-                    14,
-                    color: AppColors.headlineColor,
-                  ),
-                ),
-                SizedBox(height: 12.h),
-                Wrap(
-                  spacing: 12.w,
-                  children: genders.map((gender) {
-                    final isSelected = gender == selectedGender;
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedGender = gender;
-                        });
-                      },
-                      child: _buildChip(gender, isSelected),
-                    );
-                  }).toList(),
-                ),
-
-                SizedBox(height: 24.h),
-              ],
+              ),
             ),
-          ),
+            Padding(
+              padding: EdgeInsets.all(24.w),
+              child: ElevatedButton(
+                onPressed: () => controller.applyFilter(),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.buttonPrimaryColor,
+                  minimumSize: Size(double.infinity, 56.h),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.r),
+                  ),
+                  elevation: 0,
+                ),
+                child: Text(
+                  'Apply Filter',
+                  style: AppTextStyles.bold(18, color: Colors.white),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -276,20 +263,30 @@ class _FilterViewState extends State<FilterView> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  title,
-                  style: AppTextStyles.regular(
-                    14,
-                    color: AppColors.headlineColor.withOpacity(0.6),
+                Expanded(
+                  child: Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTextStyles.regular(
+                      14,
+                      color: AppColors.headlineColor.withOpacity(0.6),
+                    ),
                   ),
                 ),
-                Icon(Icons.keyboard_arrow_down, color: AppColors.headlineColor),
+                Icon(
+                  isExpanded
+                      ? Icons.keyboard_arrow_up
+                      : Icons.keyboard_arrow_down,
+                  color: AppColors.headlineColor,
+                ),
               ],
             ),
           ),
         ),
         if (isExpanded)
           Container(
+            width: double.infinity,
             decoration: BoxDecoration(
               color: AppColors.whiteColor,
               borderRadius: BorderRadius.vertical(
@@ -306,13 +303,11 @@ class _FilterViewState extends State<FilterView> {
   Widget _buildSearchableList({
     required String hintText,
     required List<Map<String, dynamic>> items,
-    required TextEditingController controller,
     required Function(String) onSearchChanged,
-    required Function(int, bool?) onChanged,
+    required Function(String) onChanged,
   }) {
     return Column(
       children: [
-        // Search Box
         Container(
           padding: EdgeInsets.symmetric(horizontal: 12.w),
           decoration: BoxDecoration(
@@ -320,18 +315,21 @@ class _FilterViewState extends State<FilterView> {
             borderRadius: BorderRadius.circular(8.r),
           ),
           child: TextField(
-            controller: controller,
             onChanged: onSearchChanged,
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.search, color: Colors.grey, size: 20.sp),
               hintText: hintText,
               hintStyle: AppTextStyles.regular(14, color: Colors.grey),
+
               border: InputBorder.none,
               enabledBorder: InputBorder.none,
               focusedBorder: InputBorder.none,
+              disabledBorder: InputBorder.none,
+              errorBorder: InputBorder.none,
             ),
           ),
         ),
+
         SizedBox(height: 12.h),
         ListView.builder(
           shrinkWrap: true,
@@ -343,7 +341,7 @@ class _FilterViewState extends State<FilterView> {
             return Padding(
               padding: EdgeInsets.only(bottom: 10.h),
               child: GestureDetector(
-                onTap: () => onChanged(index, !item['selected']),
+                onTap: () => onChanged(item['name']),
                 behavior: HitTestBehavior.opaque,
                 child: Row(
                   children: [
@@ -352,7 +350,7 @@ class _FilterViewState extends State<FilterView> {
                       height: 24.w,
                       child: Checkbox(
                         value: item['selected'],
-                        onChanged: (val) => onChanged(index, val),
+                        onChanged: (_) => onChanged(item['name']),
                         activeColor: AppColors.buttonPrimaryColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(4.r),
@@ -385,12 +383,17 @@ class _FilterViewState extends State<FilterView> {
 
   Widget _buildChip(String label, bool isSelected) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
       decoration: BoxDecoration(
         color: isSelected
             ? AppColors.buttonPrimaryColor
-            : const Color(0xFFB7B0A8),
+            : const Color(0xFFB7B0A8).withOpacity(0.3),
         borderRadius: BorderRadius.circular(100.r),
+        border: Border.all(
+          color: isSelected
+              ? Colors.transparent
+              : AppColors.headlineColor.withOpacity(0.1),
+        ),
       ),
       child: Text(
         label,

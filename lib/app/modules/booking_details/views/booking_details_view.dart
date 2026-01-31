@@ -4,6 +4,7 @@ import 'package:george/app/data/image_path.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_text_styles.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/booking_details_controller.dart';
 
 class BookingDetailsView extends GetView<BookingDetailsController> {
@@ -253,7 +254,7 @@ class BookingDetailsView extends GetView<BookingDetailsController> {
           ),
           const Spacer(),
           ElevatedButton(
-            onPressed: () => Get.toNamed('/instructor-details'),
+            onPressed: () => Get.toNamed(Routes.INSTRUCTOR_DETAILS),
             style: ElevatedButton.styleFrom(
               backgroundColor: brownColor,
               shape: RoundedRectangleBorder(

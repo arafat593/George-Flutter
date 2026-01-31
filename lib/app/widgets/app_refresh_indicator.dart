@@ -65,12 +65,7 @@ class AppRefreshIndicator extends StatelessWidget {
               },
             );
           },
-      child: ListView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        padding: EdgeInsets.zero,
-        shrinkWrap: true,
-        children: [child],
-      ),
+      child: child,
     );
   }
 }
