@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import '../../../routes/app_pages.dart';
 
 class MembershipDetailsController extends GetxController {
   final RxString type = "Membership".obs;
@@ -45,11 +46,11 @@ class MembershipDetailsController extends GetxController {
 
   void proceedToPayment() {
     Get.toNamed(
-      '/checkout',
+      Routes.CHECKOUT,
       arguments: {
-        "title": title.value,
-        "price": price.value,
-        "isFromSuggestions": isFromSuggestions.value,
+        'itemName': title.value,
+        'itemPrice': price.value,
+        'fromMembership': true,
       },
     );
   }

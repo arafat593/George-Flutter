@@ -26,7 +26,7 @@ class FilterController extends GetxController {
   final RxString selectedDifficulty = ''.obs;
 
   // --- Gender ---
-  final List<String> genders = ['Male', 'Female'];
+  final List<String> genders = ['Male', 'Female', 'Mixed'];
   final RxString selectedGender = ''.obs;
 
   // Track if filter is applied

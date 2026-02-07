@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../data/app_colors.dart';
+import '../../../data/app_text_styles.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/checkout_controller.dart';
 
@@ -12,13 +13,9 @@ class CheckoutView extends GetView<CheckoutController> {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Checkout',
-          style: TextStyle(
-            color: AppColors.headlineColor,
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
+          style: AppTextStyles.bold(28, color: AppColors.headlineColor),
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -26,8 +23,9 @@ class CheckoutView extends GetView<CheckoutController> {
         leading: GestureDetector(
           onTap: () => Get.back(),
           child: Row(
-            children: const [
-              SizedBox(width: 16),
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(width: 16),
               Icon(
                 Icons.arrow_back_ios,
                 size: 20,
@@ -35,16 +33,15 @@ class CheckoutView extends GetView<CheckoutController> {
               ),
               Text(
                 "Back",
-                style: TextStyle(
+                style: AppTextStyles.semiBold(
+                  20,
                   color: AppColors.headlineColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],
           ),
         ),
-        leadingWidth: 90,
+        leadingWidth: 100,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -138,10 +135,29 @@ class CheckoutView extends GetView<CheckoutController> {
                   elevation: 2,
                 ),
                 onPressed: () {
-                  Get.toNamed(
-                    Routes.BOOKING_CONFIRMED,
-                    arguments: {'message': 'Payment Confirmed!'},
+                  // Show loading dialog to simulate "process to payment"
+                  Get.dialog(
+                    const Center(
+                      child: CircularProgressIndicator(
+                        color: Color(0xff5D4037),
+                      ),
+                    ),
+                    barrierDismissible: false,
                   );
+
+                  Future.delayed(const Duration(seconds: 2), () {
+                    Get.back(); // close dialog
+                    Get.toNamed(
+                      Routes.BOOKING_CONFIRMED,
+                      arguments: {
+                        'message': controller.fromMembership.value
+                            ? '${controller.itemName.value} Confirmed!'
+                            : controller.isFromShop.value
+                            ? 'Order Confirmed!'
+                            : 'Payment Confirmed!',
+                      },
+                    );
+                  });
                 },
                 child: const Text(
                   "Pay Now",
@@ -169,12 +185,11 @@ class CheckoutView extends GetView<CheckoutController> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             "Suggested For you",
-                            style: TextStyle(
-                              color: Color(0xFF5D4037),
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                            style: AppTextStyles.bold(
+                              24,
+                              color: const Color(0xFF5D4037),
                             ),
                           ),
                           const SizedBox(height: 15),

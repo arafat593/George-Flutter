@@ -49,13 +49,13 @@ class NotificationsView extends GetView<NotificationsController> {
               children: [
                 Icon(
                   Icons.arrow_back_ios,
-                  size: 18.r,
+                  size: 20.r,
                   color: AppColors.headlineColor,
                 ),
                 Text(
                   'Back',
-                  style: AppTextStyles.medium(
-                    16,
+                  style: AppTextStyles.semiBold(
+                    20,
                     color: AppColors.headlineColor,
                   ),
                 ),
@@ -65,10 +65,10 @@ class NotificationsView extends GetView<NotificationsController> {
           const Spacer(),
           Text(
             'Notifications',
-            style: AppTextStyles.bold(24, color: AppColors.headlineColor),
+            style: AppTextStyles.bold(28, color: AppColors.headlineColor),
           ),
           const Spacer(),
-          SizedBox(width: 60.w),
+          SizedBox(width: 80.w),
         ],
       ),
     );

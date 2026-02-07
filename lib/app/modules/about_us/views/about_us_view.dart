@@ -93,14 +93,15 @@ class AboutUsView extends GetView<AboutUsController> {
                     children: [
                       Icon(
                         Icons.arrow_back_ios,
-                        size: 18.sp,
+                        size: 20.sp,
                         color: const Color(0xFF6D4C41),
                       ),
                       Text(
                         "Back",
-                        style: AppTextStyles.medium(
-                          16,
-                        ).copyWith(color: const Color(0xFF6D4C41)),
+                        style: AppTextStyles.semiBold(
+                          20,
+                          color: const Color(0xFF6D4C41),
+                        ),
                       ),
                     ],
                   ),
@@ -110,12 +111,13 @@ class AboutUsView extends GetView<AboutUsController> {
                     child: Text(
                       "About Us",
                       style: AppTextStyles.bold(
-                        20,
-                      ).copyWith(color: const Color(0xFF6D4C41)),
+                        28,
+                        color: const Color(0xFF6D4C41),
+                      ),
                     ),
                   ),
                 ),
-                SizedBox(width: 60.w), // Balance back button
+                SizedBox(width: 80.w), // Balance back button
               ],
             ),
           ),

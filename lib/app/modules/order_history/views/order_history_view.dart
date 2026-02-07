@@ -22,21 +22,24 @@ class OrderHistoryView extends GetView<OrderHistoryController> {
               SizedBox(width: 16.w),
               Icon(
                 Icons.arrow_back_ios,
-                size: 18.r,
+                size: 20.r,
                 color: const Color(0xFF6D4C41),
               ),
               Text(
                 'Back',
-                style: AppTextStyles.medium(14, color: const Color(0xFF6D4C41)),
+                style: AppTextStyles.semiBold(
+                  20,
+                  color: const Color(0xFF6D4C41),
+                ),
               ),
             ],
           ),
         ),
-        leadingWidth: 80.w,
+        leadingWidth: 100.w,
         title: Text(
           "Order History",
           style: AppTextStyles.bold(
-            20,
+            28,
           ).copyWith(color: const Color(0xFF6D4C41)),
         ),
         centerTitle: true,

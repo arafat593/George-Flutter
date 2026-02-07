@@ -22,18 +22,21 @@ class TermsConditionsView extends GetView<TermsConditionsController> {
               SizedBox(width: 16.w),
               Icon(
                 Icons.arrow_back_ios,
-                size: 18.r,
+                size: 20.r,
                 color: AppColors.bodyTextColor,
               ),
               Text(
                 'Back',
-                style: AppTextStyles.medium(14, color: AppColors.bodyTextColor),
+                style: AppTextStyles.semiBold(
+                  20,
+                  color: AppColors.bodyTextColor,
+                ),
               ),
             ],
           ),
         ),
-        leadingWidth: 80.w,
-        title: Text("Terms & Conditions", style: AppTextStyles.medium(18)),
+        leadingWidth: 100.w,
+        title: Text("Terms & Conditions", style: AppTextStyles.bold(28)),
         centerTitle: true,
       ),
       body: SingleChildScrollView(

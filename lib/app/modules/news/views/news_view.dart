@@ -44,13 +44,13 @@ class NewsView extends GetView<NewsController> {
               children: [
                 Icon(
                   Icons.arrow_back_ios,
-                  size: 18.r,
+                  size: 20.r,
                   color: AppColors.headlineColor,
                 ),
                 Text(
                   'Back',
-                  style: AppTextStyles.medium(
-                    16,
+                  style: AppTextStyles.semiBold(
+                    20,
                     color: AppColors.headlineColor,
                   ),
                 ),
@@ -60,11 +60,11 @@ class NewsView extends GetView<NewsController> {
           const Spacer(),
           Text(
             'News',
-            style: AppTextStyles.bold(24, color: AppColors.headlineColor),
+            style: AppTextStyles.bold(28, color: AppColors.headlineColor),
           ),
           const Spacer(),
           // Invisible box to balance the back button for centering
-          SizedBox(width: 60.w),
+          SizedBox(width: 80.w),
         ],
       ),
     );

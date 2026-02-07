@@ -53,8 +53,8 @@ class MembershipDetailsView extends StatelessWidget {
                             "Back",
                             style: TextStyle(
                               color: Color(0xff5D4037),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ],
@@ -65,8 +65,8 @@ class MembershipDetailsView extends StatelessWidget {
                         controller.type.value,
                         style: const TextStyle(
                           color: Color(0xff5D4037),
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),

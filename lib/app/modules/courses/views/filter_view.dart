@@ -21,46 +21,43 @@ class FilterView extends GetView<FilterController> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         automaticallyImplyLeading: false,
-        title: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.w),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                onTap: () => Get.back(),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.arrow_back_ios,
-                      size: 18.sp,
-                      color: AppColors.headlineColor,
-                    ),
-                    Text(
-                      "Back",
-                      style: AppTextStyles.medium(
-                        16,
-                        color: AppColors.headlineColor,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Text(
-                'Filter',
-                style: AppTextStyles.bold(24, color: AppColors.headlineColor),
-              ),
-              GestureDetector(
-                onTap: () => controller.clearFilter(),
-                child: Text(
-                  "Clear",
-                  style: AppTextStyles.medium(
-                    16,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            GestureDetector(
+              onTap: () => Get.back(),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.arrow_back_ios,
+                    size: 20.sp,
                     color: AppColors.headlineColor,
                   ),
+                  Text(
+                    "Back",
+                    style: AppTextStyles.semiBold(
+                      20,
+                      color: AppColors.headlineColor,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Text(
+              'Filter',
+              style: AppTextStyles.bold(28, color: AppColors.headlineColor),
+            ),
+            GestureDetector(
+              onTap: () => controller.clearFilter(),
+              child: Text(
+                "Clear",
+                style: AppTextStyles.semiBold(
+                  20,
+                  color: AppColors.headlineColor,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       body: SafeArea(

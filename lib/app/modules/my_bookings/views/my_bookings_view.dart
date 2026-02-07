@@ -45,13 +45,13 @@ class MyBookingsView extends GetView<MyBookingsController> {
               children: [
                 Icon(
                   Icons.arrow_back_ios,
-                  size: 18.r,
+                  size: 20.r,
                   color: const Color(0xFF6B5345),
                 ),
                 Text(
                   'Back',
-                  style: AppTextStyles.medium(
-                    16,
+                  style: AppTextStyles.semiBold(
+                    20,
                     color: const Color(0xFF6B5345),
                   ),
                 ),
@@ -61,10 +61,10 @@ class MyBookingsView extends GetView<MyBookingsController> {
           const Spacer(),
           Text(
             'My Bookings',
-            style: AppTextStyles.bold(24, color: const Color(0xFF6B5345)),
+            style: AppTextStyles.bold(28, color: const Color(0xFF6B5345)),
           ),
           const Spacer(),
-          SizedBox(width: 60.w),
+          SizedBox(width: 80.w),
         ],
       ),
     );
