@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:george/app/utils/app_size.dart';
 import 'package:get/get.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
@@ -90,7 +90,7 @@ class TermsConditionsView extends GetView<TermsConditionsController> {
           Text(
             content,
             style: AppTextStyles.regular(14).copyWith(
-              color: AppColors.bodyTextColor.withOpacity(0.8),
+              color: AppColors.bodyTextColor.withValues(alpha: 0.8),
               height: 1.5,
             ),
           ),

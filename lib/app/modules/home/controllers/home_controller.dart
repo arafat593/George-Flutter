@@ -100,7 +100,7 @@ class HomeController extends GetxController {
       return 'Yesterday';
     }
 
-    return 'Upcoming Classes';
+    return 'Previous';
   }
 
   String get todayButtonText {

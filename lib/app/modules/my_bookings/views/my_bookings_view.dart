@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:george/app/utils/app_size.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_colors.dart';
@@ -61,7 +61,7 @@ class MyBookingsView extends GetView<MyBookingsController> {
           const Spacer(),
           Text(
             'My Bookings',
-            style: AppTextStyles.bold(28, color: const Color(0xFF6B5345)),
+            style: AppTextStyles.bold(20, color: AppColors.bodyTextColor),
           ),
           const Spacer(),
           SizedBox(width: 80.w),
@@ -197,14 +197,14 @@ class MyBookingsView extends GetView<MyBookingsController> {
                     vertical: 6.h,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.5),
+                    color: Colors.white.withValues(alpha: 0.5),
                     borderRadius: BorderRadius.circular(20.r),
                   ),
                   child: Text(
                     'Dec 10, 2025 at 07:00-08:30 AM',
                     style: AppTextStyles.medium(
                       10,
-                      color: brownColor.withOpacity(0.8),
+                      color: brownColor.withValues(alpha: 0.8),
                     ),
                   ),
                 ),
@@ -214,14 +214,14 @@ class MyBookingsView extends GetView<MyBookingsController> {
                     vertical: 6.h,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.5),
+                    color: Colors.white.withValues(alpha: 0.5),
                     borderRadius: BorderRadius.circular(20.r),
                   ),
                   child: Text(
                     'Completed',
                     style: AppTextStyles.medium(
                       10,
-                      color: brownColor.withOpacity(0.8),
+                      color: brownColor.withValues(alpha: 0.8),
                     ),
                   ),
                 ),
@@ -249,7 +249,7 @@ class MyBookingsView extends GetView<MyBookingsController> {
                       'Instructors',
                       style: AppTextStyles.regular(
                         10,
-                        color: brownColor.withOpacity(0.6),
+                        color: brownColor.withValues(alpha: 0.6),
                       ),
                     ),
                     Text(
@@ -266,14 +266,14 @@ class MyBookingsView extends GetView<MyBookingsController> {
                 Icon(
                   Icons.location_on_outlined,
                   size: 16.r,
-                  color: brownColor.withOpacity(0.6),
+                  color: brownColor.withValues(alpha: 0.6),
                 ),
                 SizedBox(width: 8.w),
                 Text(
                   'Studio A - Sun Room',
                   style: AppTextStyles.medium(
                     12,
-                    color: brownColor.withOpacity(0.6),
+                    color: brownColor.withValues(alpha: 0.6),
                   ),
                 ),
               ],

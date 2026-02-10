@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:george/app/utils/app_size.dart';
 import 'package:get/get.dart';
 
 import '../../../../data/app_colors.dart';
@@ -42,7 +42,7 @@ class CreateNewPasswordView extends GetView<CreateNewPasswordController> {
                     textAlign: TextAlign.center,
                     style: AppTextStyles.regular(
                       14,
-                      color: AppColors.headlineColor.withOpacity(0.8),
+                      color: AppColors.headlineColor.withValues(alpha: 0.8),
                     ),
                   ),
                 ),
@@ -163,7 +163,7 @@ class CreateNewPasswordView extends GetView<CreateNewPasswordController> {
                               Get.snackbar(
                                 'Success',
                                 'Password updated successfully',
-                                backgroundColor: Colors.green.withOpacity(0.7),
+                                backgroundColor: Colors.green.withValues(alpha: 0.7),
                                 colorText: Colors.white,
                               );
                             }

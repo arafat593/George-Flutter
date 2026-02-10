@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:george/app/utils/app_size.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_colors.dart';
@@ -16,24 +16,29 @@ class InstructorDetailsView extends GetView<InstructorDetailsController> {
       backgroundColor: AppColors.backgroundColor,
       body: Stack(
         children: [
-          // Background Image
           Positioned(
             top: 0,
             left: 0,
             right: 0,
             height: 450.h,
-            child: Image.network(
-              'https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&q=80&w=1000',
-              fit: BoxFit.cover,
-              cacheHeight: 600,
-              errorBuilder: (context, error, stackTrace) => Container(
-                color: Colors.grey.shade300,
-                child: const Icon(Icons.broken_image, color: Colors.grey),
+            child: Container(
+              height: 300.h,
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(
+                    "https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&q=80&w=1000",
+                  ),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Container(
+                height: 300.h,
+                width: double.infinity,
+                color: Colors.black.withValues(alpha: 0.4),
               ),
             ),
           ),
-
-          // Content
           CustomScrollView(
             slivers: [
               SliverToBoxAdapter(child: SizedBox(height: 400.h)),
@@ -118,8 +123,6 @@ class InstructorDetailsView extends GetView<InstructorDetailsController> {
               ),
             ],
           ),
-
-          // Back Button
           Positioned(
             top: 50.h,
             left: 20.w,
@@ -127,10 +130,17 @@ class InstructorDetailsView extends GetView<InstructorDetailsController> {
               onTap: () => Get.back(),
               child: Row(
                 children: [
-                  Icon(Icons.arrow_back_ios, color: Colors.white, size: 18.r),
+                  Icon(
+                    Icons.arrow_back_ios,
+                    color: AppColors.bodyTextColor,
+                    size: 18.r,
+                  ),
                   Text(
                     'Back',
-                    style: AppTextStyles.bold(16, color: Colors.white),
+                    style: AppTextStyles.bold(
+                      16,
+                      color: AppColors.bodyTextColor,
+                    ),
                   ),
                 ],
               ),

@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:george/app/utils/app_size.dart';
 import 'package:get/get.dart';
-
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
-import '../../../data/image_path.dart';
 import '../../../routes/app_pages.dart';
 import '../../../widgets/app_refresh_indicator.dart';
 import '../../home/controllers/home_controller.dart';
 import '../controllers/courses_controller.dart';
-import '../controllers/filter_controller.dart';
+
 
 class CoursesView extends GetView<CoursesController> {
   const CoursesView({super.key});
@@ -26,7 +24,6 @@ class CoursesView extends GetView<CoursesController> {
             Expanded(
               child: AppRefreshIndicator(
                 onRefresh: () async {
-                  // Simulated refresh delay
                   await Future.delayed(const Duration(seconds: 2));
                 },
                 child: ListView.builder(
@@ -35,9 +32,8 @@ class CoursesView extends GetView<CoursesController> {
                     horizontal: 24.w,
                     vertical: 16.h,
                   ),
-                  itemCount: 3, // Dummy count
+                  itemCount: 3,
                   itemBuilder: (context, index) {
-                    // Make the second item (index 1) a non-membership card for variety
                     final bool showBadge = index != 1;
                     return _buildCourseCard(
                       homeController,
@@ -47,6 +43,7 @@ class CoursesView extends GetView<CoursesController> {
                 ),
               ),
             ),
+            SizedBox(height: 120.h),
           ],
         ),
       ),
@@ -54,44 +51,14 @@ class CoursesView extends GetView<CoursesController> {
   }
 
   Widget _buildAppBar() {
-    final filterController = Get.find<FilterController>();
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(width: 38.w), // Balance spacing
           Text(
             'Courses',
             style: AppTextStyles.bold(24, color: AppColors.headlineColor),
-          ),
-          Obx(
-            () => GestureDetector(
-              onTap: () {
-                filterController.resetTemp();
-                Get.toNamed(Routes.FILTER);
-              },
-              child: Container(
-                padding: EdgeInsets.all(8.r),
-                decoration: BoxDecoration(
-                  color: filterController.isFilterApplied.value
-                      ? AppColors.buttonPrimaryColor
-                      : Colors.white,
-                  shape: BoxShape.circle,
-                  border: filterController.isFilterApplied.value
-                      ? Border.all(color: AppColors.headlineColor, width: 2.r)
-                      : null,
-                ),
-                child: Image.asset(
-                  ImagePath.funnelIcon,
-                  height: 22.r,
-                  width: 22.r,
-                  color: filterController.isFilterApplied.value
-                      ? Colors.white
-                      : AppColors.headlineColor,
-                ),
-              ),
-            ),
           ),
         ],
       ),

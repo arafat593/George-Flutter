@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:george/app/data/app_colors.dart';
 import 'package:george/app/data/image_path.dart';
+import 'package:george/app/utils/app_size.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_text_styles.dart';
@@ -39,8 +40,15 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
         onTap: () => Get.back(),
         child: Row(
           children: [
-            Icon(Icons.arrow_back_ios, color: Colors.white, size: 20.r),
-            Text('Back', style: AppTextStyles.bold(16, color: Colors.white)),
+            Icon(
+              Icons.arrow_back_ios,
+              color: AppColors.bodyTextColor,
+              size: 20.r,
+            ),
+            Text(
+              'Back',
+              style: AppTextStyles.bold(16, color: AppColors.bodyTextColor),
+            ),
           ],
         ),
       ),
@@ -53,12 +61,21 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
       left: 0,
       right: 0,
       height: 450.h,
-      child: Obx(
-        () => Image.network(
-          controller.imageUrl.value,
-          fit: BoxFit.cover,
-          cacheHeight: 800,
-          errorBuilder: (_, __, ___) => Container(color: Colors.grey.shade300),
+      child: Container(
+        height: 300.h,
+        width: double.infinity,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(
+              "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1000",
+            ),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Container(
+          height: 300.h,
+          width: double.infinity,
+          color: Colors.black.withValues(alpha: 0.3),
         ),
       ),
     );
@@ -80,7 +97,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
             borderRadius: BorderRadius.vertical(top: Radius.circular(35.r)),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withValues(alpha: 0.05),
                 blurRadius: 10,
                 offset: const Offset(0, -5),
               ),
@@ -123,7 +140,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
         height: 4.h,
         margin: EdgeInsets.only(bottom: 24.h),
         decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(0.3),
+          color: Colors.grey.withValues(alpha: 0.3),
           borderRadius: BorderRadius.circular(10.r),
         ),
       ),
@@ -214,7 +231,10 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
       children: [
         Text(
           'Available spots 2',
-          style: AppTextStyles.regular(12, color: brownColor.withOpacity(0.6)),
+          style: AppTextStyles.regular(
+            12,
+            color: brownColor.withValues(alpha: 0.6),
+          ),
         ),
         SizedBox(height: 8.h),
         Container(
@@ -277,7 +297,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
                       'Instructors',
                       style: AppTextStyles.regular(
                         10,
-                        color: brownColor.withOpacity(0.6),
+                        color: brownColor.withValues(alpha: 0.6),
                       ),
                     ),
                     Text(
@@ -328,7 +348,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
               text: TextSpan(
                 style: AppTextStyles.regular(
                   14,
-                  color: brownColor.withOpacity(0.8),
+                  color: brownColor.withValues(alpha: 0.8),
                 ),
                 children: [
                   TextSpan(
@@ -355,12 +375,19 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
     const Color brownColor = Color(0xFF6B5345);
     return Row(
       children: [
-        Icon(Icons.access_time, size: 20.r, color: brownColor.withOpacity(0.6)),
+        Icon(
+          Icons.access_time,
+          size: 20.r,
+          color: brownColor.withValues(alpha: 0.6),
+        ),
         SizedBox(width: 8.w),
         Flexible(
           child: Text(
             '08:00 AM to 08:30 AM',
-            style: AppTextStyles.medium(14, color: brownColor.withOpacity(0.6)),
+            style: AppTextStyles.medium(
+              14,
+              color: brownColor.withValues(alpha: 0.6),
+            ),
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -368,13 +395,16 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
         Icon(
           Icons.calendar_today_outlined,
           size: 20.r,
-          color: brownColor.withOpacity(0.6),
+          color: brownColor.withValues(alpha: 0.6),
         ),
         SizedBox(width: 8.w),
         Flexible(
           child: Text(
             'October 20, 2025',
-            style: AppTextStyles.medium(14, color: brownColor.withOpacity(0.6)),
+            style: AppTextStyles.medium(
+              14,
+              color: brownColor.withValues(alpha: 0.6),
+            ),
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -424,7 +454,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
             decoration: BoxDecoration(
               color: const Color(0xFFDCC8B8),
               borderRadius: BorderRadius.circular(12.r),
-              border: Border.all(color: brownColor.withOpacity(0.1)),
+              border: Border.all(color: brownColor.withValues(alpha: 0.1)),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

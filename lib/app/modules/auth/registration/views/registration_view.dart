@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:george/app/utils/app_size.dart';
 import 'package:get/get.dart';
 
 import '../../../../data/app_colors.dart';
@@ -119,9 +119,7 @@ class RegistrationView extends GetView<RegistrationController> {
                     value: controller.selectedGender.value,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: AppColors.buttonSecondaryColor.withOpacity(
-                        0.3,
-                      ),
+                      fillColor: AppColors.buttonSecondaryColor.withValues(alpha: 0.3),
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 16.w,
                         vertical: 12.h,

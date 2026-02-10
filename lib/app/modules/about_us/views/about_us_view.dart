@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:george/app/utils/app_size.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_colors.dart';
@@ -73,13 +73,9 @@ class AboutUsView extends GetView<AboutUsController> {
             ),
           ),
           child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Colors.white.withOpacity(0.3), Colors.transparent],
-              ),
-            ),
+            height: 300.h,
+            width: double.infinity,
+            color: Colors.black.withValues(alpha: 0.4),
           ),
         ),
         SafeArea(

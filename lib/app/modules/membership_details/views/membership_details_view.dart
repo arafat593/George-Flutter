@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/modules/membership_details/controllers/membership_details_controller.dart';
+import 'package:george/app/utils/app_size.dart';
 import 'package:get/get.dart';
 
 class MembershipDetailsView extends StatelessWidget {
@@ -10,23 +11,33 @@ class MembershipDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF3EFE9), // Light beige background
+      backgroundColor: const Color(0xffF3EFE9),
       body: Stack(
         children: [
-          // 1. Background Image
           Positioned(
             top: 0,
             left: 0,
             right: 0,
-            height:
-                MediaQuery.of(context).size.height * 0.6, // Takes up top 60%
-            child: Image.network(
-              "https://images.unsplash.com/photo-1545205597-3d9d02c29597?q=80&w=2070&auto=format&fit=crop", // Yoga/Peaceful image
-              fit: BoxFit.cover,
+            height: MediaQuery.of(context).size.height * 0.6,
+            child: Container(
+              height: 300.h,
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(
+                    "https://images.unsplash.com/photo-1545205597-3d9d02c29597?q=80&w=2070&auto=format&fit=crop",
+                  ),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Container(
+                height: 300.h,
+                width: double.infinity,
+                color: Colors.black.withValues(alpha: 0.4),
+              ),
             ),
           ),
 
-          // 2. Header (Back Button & Title)
           Positioned(
             top: 0,
             left: 0,
@@ -53,8 +64,8 @@ class MembershipDetailsView extends StatelessWidget {
                             "Back",
                             style: TextStyle(
                               color: Color(0xff5D4037),
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
+                              fontSize: 25,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                         ],
@@ -70,16 +81,15 @@ class MembershipDetailsView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 50), // Balance the title centering
+                    const SizedBox(width: 50),
                   ],
                 ),
               ),
             ),
           ),
 
-          // 3. Content Card (Overlapping)
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.5, // Start at 50%
+            top: MediaQuery.of(context).size.height * 0.5,
             bottom: 0,
             left: 0,
             right: 0,
@@ -112,7 +122,7 @@ class MembershipDetailsView extends StatelessWidget {
                       controller.subtitle.value,
                       style: const TextStyle(
                         fontSize: 16,
-                        color: Color(0xff8D6E63), // Lighter brown/grey
+                        color: Color(0xff8D6E63),
                         height: 1.5,
                       ),
                     ),
@@ -127,8 +137,6 @@ class MembershipDetailsView extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 24),
-
-                  // Validity
                   Row(
                     children: [
                       const Icon(
@@ -150,8 +158,6 @@ class MembershipDetailsView extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 24),
-
-                  // Dates Section
                   Obx(
                     () => controller.type.value == 'Membership'
                         ? Padding(
@@ -195,13 +201,12 @@ class MembershipDetailsView extends StatelessWidget {
 
                   const Spacer(),
 
-                  // Proceed to Payment Button
                   GestureDetector(
                     onTap: controller.proceedToPayment,
                     child: Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: const Color(0xff5D4037), // Dark brown button
+                        color: const Color(0xff5D4037),
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Column(
@@ -217,7 +222,7 @@ class MembershipDetailsView extends StatelessWidget {
                               ),
                             ),
                           ),
-                          // Dashed Divider
+
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Row(

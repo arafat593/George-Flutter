@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:george/app/utils/app_size.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_colors.dart';
@@ -20,7 +20,6 @@ class HomeView extends GetView<HomeController> {
         bottom: false,
         child: AppRefreshIndicator(
           onRefresh: () async {
-            // Simulated refresh delay
             await Future.delayed(const Duration(seconds: 2));
           },
           child: SingleChildScrollView(
@@ -61,7 +60,7 @@ class HomeView extends GetView<HomeController> {
                 ),
                 SizedBox(height: 16.h),
                 _buildClassList(),
-                SizedBox(height: 100.h), // Space for bottom nav
+                SizedBox(height: 125.h),
               ],
             ),
           ),
@@ -297,40 +296,116 @@ class HomeView extends GetView<HomeController> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _quickActionItem(ImagePath.phone, 'Call Us'),
-          _quickActionItem(ImagePath.whatsapp, 'WhatsApp'),
-          GestureDetector(
-            onTap: controller.launchMaps,
-            child: _quickActionItem(ImagePath.location, 'Find Us'),
+          _quickActionItem(
+            ImagePath.phone,
+            'Call Us',
+            onTap: _showComingSoonDialog,
           ),
-          GestureDetector(
+          _quickActionItem(
+            ImagePath.whatsapp,
+            'WhatsApp',
+            onTap: _showComingSoonDialog,
+          ),
+          _quickActionItem(
+            ImagePath.location,
+            'Find Us',
+            onTap: _showComingSoonDialog,
+          ),
+          _quickActionItem(
+            ImagePath.news,
+            'Our News',
             onTap: () => Get.toNamed('/news'),
-            child: _quickActionItem(ImagePath.news, 'Our News'),
           ),
         ],
       ),
     );
   }
 
-  Widget _quickActionItem(String iconPath, String label) {
-    return Column(
-      children: [
-        Container(
-          height: 50.h,
-          width: 50.w,
-          padding: EdgeInsets.all(12.r),
+  void _showComingSoonDialog() {
+    Get.dialog(
+      Dialog(
+        backgroundColor: Colors.transparent,
+        child: Container(
+          padding: EdgeInsets.all(24.r),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(12.r),
+            borderRadius: BorderRadius.circular(20.r),
           ),
-          child: Image.asset(iconPath, fit: BoxFit.contain),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: EdgeInsets.all(16.r),
+                decoration: BoxDecoration(
+                  color: AppColors.buttonSecondaryColor.withValues(alpha: 0.2),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.hourglass_empty_rounded,
+                  color: AppColors.headlineColor,
+                  size: 32.r,
+                ),
+              ),
+              SizedBox(height: 20.h),
+              Text(
+                "Coming Soon!",
+                style: AppTextStyles.bold(20, color: AppColors.headlineColor),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 12.h),
+              Text(
+                "This feature is currently under development. Stay tuned for updates!",
+                style: AppTextStyles.regular(16, color: Colors.grey),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 24.h),
+              ElevatedButton(
+                onPressed: () => Get.back(),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.buttonPrimaryColor,
+                  minimumSize: Size(double.infinity, 50.h),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.r),
+                  ),
+                ),
+                child: Text(
+                  "OK",
+                  style: AppTextStyles.bold(16, color: Colors.white),
+                ),
+              ),
+            ],
+          ),
         ),
-        SizedBox(height: 8.h),
-        Text(
-          label,
-          style: AppTextStyles.regular(12, color: AppColors.headlineColor),
-        ),
-      ],
+      ),
+    );
+  }
+
+  Widget _quickActionItem(
+    String iconPath,
+    String label, {
+    VoidCallback? onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Container(
+            height: 50.h,
+            width: 50.w,
+            padding: EdgeInsets.all(12.r),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+            child: Image.asset(iconPath, fit: BoxFit.contain),
+          ),
+          SizedBox(height: 8.h),
+          Text(
+            label,
+            style: AppTextStyles.regular(12, color: AppColors.headlineColor),
+          ),
+        ],
+      ),
     );
   }
 
@@ -629,7 +704,7 @@ class HomeView extends GetView<HomeController> {
                       width: 100.w,
                       height: 8.h,
                       decoration: BoxDecoration(
-                        color: Colors.grey.withOpacity(0.2),
+                        color: Colors.grey.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(4.r),
                       ),
                       child: Stack(

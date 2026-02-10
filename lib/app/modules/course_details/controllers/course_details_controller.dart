@@ -132,14 +132,14 @@ class CourseDetailsController extends GetxController {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFF6D4C41).withOpacity(0.1)),
+          border: Border.all(color: const Color(0xFF6D4C41).withValues(alpha: 0.1)),
         ),
         child: Row(
           children: [
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: const Color(0xFF6D4C41).withOpacity(0.1),
+                color: const Color(0xFF6D4C41).withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: Icon(icon, color: const Color(0xFF6D4C41)),

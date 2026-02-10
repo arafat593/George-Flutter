@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:george/app/utils/app_size.dart';
 import 'package:get/get.dart';
-
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
 import '../controllers/filter_controller.dart';

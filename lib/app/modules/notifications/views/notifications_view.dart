@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:george/app/utils/app_size.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_colors.dart';
@@ -82,7 +82,7 @@ class NotificationsView extends GetView<NotificationsController> {
       decoration: BoxDecoration(
         color: isUnread
             ? const Color(0xFF6B5345)
-            : Colors.grey.withOpacity(0.1),
+            : Colors.grey.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(25.r),
       ),
       child: Row(
@@ -132,7 +132,7 @@ class NotificationsView extends GetView<NotificationsController> {
                   style: AppTextStyles.regular(
                     14,
                     color: isUnread
-                        ? Colors.white.withOpacity(0.8)
+                        ? Colors.white.withValues(alpha: 0.8)
                         : Colors.grey.shade600,
                   ),
                 ),

@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:george/app/utils/app_size.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_text_styles.dart';
@@ -27,15 +27,13 @@ class ProfileView extends GetView<ProfileController> {
               SizedBox(height: 30.h),
               Text(
                 "Monthly Attendance",
-                style: AppTextStyles.bold(
-                  20,
-                ).copyWith(color: const Color(0xFF6D4C41)),
+                style: AppTextStyles.bold(20, color: const Color(0xFF6D4C41)),
               ),
               SizedBox(height: 20.h),
               _buildAttendanceChart(),
               SizedBox(height: 30.h),
               _buildStatsGrid(),
-              SizedBox(height: 100.h), // Bottom padding for nav bar
+              SizedBox(height: 110.h),
             ],
           ),
         ),
@@ -126,9 +124,9 @@ class ProfileView extends GetView<ProfileController> {
               Obx(
                 () => Text(
                   controller.userEmail.value,
-                  style: AppTextStyles.regular(
-                    12,
-                  ).copyWith(color: const Color(0xFF6D4C41).withOpacity(0.7)),
+                  style: AppTextStyles.regular(12).copyWith(
+                    color: const Color(0xFF6D4C41).withValues(alpha: 0.7),
+                  ),
                 ),
               ),
             ],
@@ -340,7 +338,10 @@ class ProfileView extends GetView<ProfileController> {
   }
 
   Widget _buildDivider() {
-    return Divider(color: const Color(0xFF6D4C41).withOpacity(0.2), height: 1);
+    return Divider(
+      color: const Color(0xFF6D4C41).withValues(alpha: 0.2),
+      height: 1,
+    );
   }
 
   Widget _buildAttendanceChart() {
@@ -453,7 +454,9 @@ class ProfileView extends GetView<ProfileController> {
     return Container(
       padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
-        color: const Color(0xFFD7CCC8).withOpacity(0.5), // Light brownish/beige
+        color: const Color(
+          0xFFD7CCC8,
+        ).withValues(alpha: 0.5), // Light brownish/beige
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: Column(
@@ -472,7 +475,7 @@ class ProfileView extends GetView<ProfileController> {
             subtitle,
             style: AppTextStyles.regular(
               10,
-            ).copyWith(color: const Color(0xFF6D4C41).withOpacity(0.8)),
+            ).copyWith(color: const Color(0xFF6D4C41).withValues(alpha: 0.8)),
           ),
         ],
       ),

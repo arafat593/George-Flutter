@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:george/app/utils/app_size.dart';
 import 'package:get/get.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
 import '../../../routes/app_pages.dart';
-import '../../../widgets/custom_text_field.dart';
 import '../controllers/wallet_controller.dart';
 
 class WalletView extends StatelessWidget {
@@ -17,40 +16,11 @@ class WalletView extends StatelessWidget {
         Get.arguments != null && Get.arguments['fromProfile'] == true;
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: showBackButton
-            ? GestureDetector(
-                onTap: () => Get.back(),
-                child: Row(
-                  children: [
-                    SizedBox(width: 16.w),
-                    Icon(
-                      Icons.arrow_back_ios,
-                      size: 18.r,
-                      color: AppColors.headlineColor,
-                    ),
-                    Text(
-                      'Back',
-                      style: AppTextStyles.medium(
-                        14,
-                        color: AppColors.headlineColor,
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            : null,
-        leadingWidth: showBackButton ? 80.w : 0,
-        title: Text(
-          'Wallet',
-          style: AppTextStyles.bold(24, color: AppColors.headlineColor),
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(60.h),
+        child: SafeArea(child: _buildAppBar()),
       ),
+      backgroundColor: AppColors.backgroundColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -85,10 +55,25 @@ class WalletView extends StatelessWidget {
               ),
               SizedBox(height: 15.h),
               _buildPaymentHistory(controller),
-              SizedBox(height: 100.h), // Bottom padding for FAB and Nav
+              SizedBox(height: 70.h),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildAppBar() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Wallet',
+            style: AppTextStyles.bold(24, color: AppColors.headlineColor),
+          ),
+        ],
       ),
     );
   }
@@ -97,17 +82,16 @@ class WalletView extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: const Color(0xffEBE3D9), // Light beige background
+        color: const Color(0xffEBE3D9),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // "Credit/Debit" Label
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
-              color: const Color(0xFF6D4C41), // Dark brown
+              color: const Color(0xFF6D4C41),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
@@ -127,8 +111,6 @@ class WalletView extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-
-          // Name Fields
           Row(
             children: [
               Expanded(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:george/app/utils/app_size.dart';
 import 'package:get/get.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
@@ -15,35 +15,26 @@ class StoreView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        title: Text(
-          '',
-          style: AppTextStyles.bold(
-            20,
-          ).copyWith(color: AppColors.headlineColor),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          child: Obx(() {
+            return GridView.builder(
+              padding: EdgeInsets.only(bottom: 80.h),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.70, // Adjusted for image + text height
+                crossAxisSpacing: 15.w,
+                mainAxisSpacing: 20.h,
+              ),
+              itemCount: controller.products.length,
+              itemBuilder: (context, index) {
+                final product = controller.products[index];
+                return _buildProductCard(product);
+              },
+            );
+          }),
         ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: Obx(() {
-          return GridView.builder(
-            padding: EdgeInsets.only(bottom: 100.h),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 0.70, // Adjusted for image + text height
-              crossAxisSpacing: 15.w,
-              mainAxisSpacing: 20.h,
-            ),
-            itemCount: controller.products.length,
-            itemBuilder: (context, index) {
-              final product = controller.products[index];
-              return _buildProductCard(product);
-            },
-          );
-        }),
       ),
     );
   }
@@ -77,10 +68,10 @@ class StoreView extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       color: product['isOutOfStock']
-                          ? Colors.black.withOpacity(0.7)
+                          ? Colors.black.withValues(alpha: 0.7)
                           : const Color(
                               0xFF6D4C41,
-                            ).withOpacity(0.8), // Dark brown/transparent
+                            ).withValues(alpha: 0.8), // Dark brown/transparent
                       borderRadius: BorderRadius.circular(4.r),
                     ),
                     child: Text(

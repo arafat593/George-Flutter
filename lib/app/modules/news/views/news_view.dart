@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:george/app/utils/app_size.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_colors.dart';
@@ -76,9 +76,9 @@ class NewsView extends GetView<NewsController> {
       child: Container(
         margin: EdgeInsets.only(bottom: 24.h),
         decoration: BoxDecoration(
-          color: AppColors.cardBackgroundColor.withOpacity(0.5),
+          color: AppColors.cardBackgroundColor.withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(20.r),
-          border: Border.all(color: Colors.white.withOpacity(0.2)),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
         ),
         clipBehavior: Clip.antiAlias,
         child: Column(

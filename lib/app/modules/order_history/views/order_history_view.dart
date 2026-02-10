@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:george/app/utils/app_size.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_text_styles.dart';
@@ -72,12 +72,12 @@ class OrderHistoryView extends GetView<OrderHistoryController> {
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF6D4C41).withOpacity(0.05),
+            color: const Color(0xFF6D4C41).withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
         ],
-        border: Border.all(color: const Color(0xFF6D4C41).withOpacity(0.1)),
+        border: Border.all(color: const Color(0xFF6D4C41).withValues(alpha: 0.1)),
       ),
       child: Row(
         children: [
@@ -121,7 +121,7 @@ class OrderHistoryView extends GetView<OrderHistoryController> {
                   order['items'],
                   style: AppTextStyles.regular(
                     12,
-                  ).copyWith(color: const Color(0xFF6D4C41).withOpacity(0.6)),
+                  ).copyWith(color: const Color(0xFF6D4C41).withValues(alpha: 0.6)),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -132,7 +132,7 @@ class OrderHistoryView extends GetView<OrderHistoryController> {
                     Text(
                       order['date'],
                       style: AppTextStyles.medium(12).copyWith(
-                        color: const Color(0xFF6D4C41).withOpacity(0.6),
+                        color: const Color(0xFF6D4C41).withValues(alpha: 0.6),
                       ),
                     ),
                     Container(
@@ -141,7 +141,7 @@ class OrderHistoryView extends GetView<OrderHistoryController> {
                         vertical: 4.h,
                       ),
                       decoration: BoxDecoration(
-                        color: statusColor.withOpacity(0.1),
+                        color: statusColor.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(8.r),
                       ),
                       child: Text(
