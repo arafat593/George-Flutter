@@ -1,4 +1,4 @@
-package com.george.george
+package com.george.georgetestingapp
 
 import io.flutter.embedding.android.FlutterActivity
 
