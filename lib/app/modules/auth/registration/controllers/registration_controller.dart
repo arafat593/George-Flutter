@@ -4,12 +4,13 @@ import 'package:get/get.dart';
 class RegistrationController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  final firstNameController = TextEditingController();
-  final lastNameController = TextEditingController();
-  final phoneController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
+  late TextEditingController firstNameController;
+  late TextEditingController lastNameController;
+  late TextEditingController phoneController;
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
+  late TextEditingController confirmPasswordController;
+  late FocusNode focusNode;
 
   final selectedGender = 'Male'.obs;
   final isPasswordVisible = false.obs;
@@ -17,8 +18,15 @@ class RegistrationController extends GetxController {
   final isTermsAccepted = false.obs;
 
   @override
-  void onClose() {
-    super.onClose();
+  void onInit() {
+    super.onInit();
+    firstNameController = TextEditingController();
+    lastNameController = TextEditingController();
+    phoneController = TextEditingController();
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+    confirmPasswordController = TextEditingController();
+    focusNode = FocusNode();
   }
 
   void togglePasswordVisibility() =>

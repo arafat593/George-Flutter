@@ -5,11 +5,12 @@ import 'package:get/get.dart';
 class RecoveryOtpController extends GetxController {
   final RxInt seconds = 59.obs;
   Timer? _timer;
-  final TextEditingController otpController = TextEditingController();
+  late TextEditingController otpController;
 
   @override
   void onInit() {
     super.onInit();
+    otpController = TextEditingController();
     startTimer();
   }
 

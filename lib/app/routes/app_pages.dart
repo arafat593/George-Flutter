@@ -16,8 +16,6 @@ import '../modules/auth/recovery_password/bindings/recovery_password_binding.dar
 import '../modules/auth/recovery_password/views/recovery_password_view.dart';
 import '../modules/auth/registration/bindings/registration_binding.dart';
 import '../modules/auth/registration/views/registration_view.dart';
-import '../modules/auth/registration_otp/bindings/registration_otp_binding.dart';
-import '../modules/auth/registration_otp/views/registration_otp_view.dart';
 import '../modules/auth/splash_screen/bindings/splash_screen_binding.dart';
 import '../modules/auth/splash_screen/views/splash_screen_view.dart';
 import '../modules/custom_bottom_nav/bindings/custom_bottom_nav_binding.dart';
@@ -44,7 +42,6 @@ import '../modules/my_bookings/bindings/my_bookings_binding.dart';
 import '../modules/my_bookings/views/my_bookings_view.dart';
 import '../modules/booking_details/bindings/booking_details_binding.dart';
 import '../modules/booking_details/views/booking_details_view.dart';
-import '../modules/store/bindings/store_binding.dart';
 import '../modules/product_details/bindings/product_details_binding.dart';
 import '../modules/wallet/views/top_up_success_view.dart';
 import '../modules/product_details/views/product_details_view.dart';
@@ -70,7 +67,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.SPLASH_SCREEN;
+  static const INITIAL = Routes.CUSTOM_BOTTOM_NAV;
 
   static final routes = [
     GetPage(
@@ -107,11 +104,6 @@ class AppPages {
       name: _Paths.REGISTRATION,
       page: () => const RegistrationView(),
       binding: RegistrationBinding(),
-    ),
-    GetPage(
-      name: _Paths.REGISTRATION_OTP,
-      page: () => const RegistrationOtpView(),
-      binding: RegistrationOtpBinding(),
     ),
     GetPage(
       name: _Paths.RECOVERY_OTP,

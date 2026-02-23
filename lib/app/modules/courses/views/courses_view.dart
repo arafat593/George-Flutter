@@ -8,7 +8,6 @@ import '../../../widgets/app_refresh_indicator.dart';
 import '../../home/controllers/home_controller.dart';
 import '../controllers/courses_controller.dart';
 
-
 class CoursesView extends GetView<CoursesController> {
   const CoursesView({super.key});
   @override
@@ -28,9 +27,11 @@ class CoursesView extends GetView<CoursesController> {
                 },
                 child: ListView.builder(
                   physics: const AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 24.w,
-                    vertical: 16.h,
+                  padding: EdgeInsets.only(
+                    bottom: 100.h,
+                    left: 24.w,
+                    right: 24.w,
+                    // vertical: 16.h,
                   ),
                   itemCount: 3,
                   itemBuilder: (context, index) {
@@ -43,7 +44,6 @@ class CoursesView extends GetView<CoursesController> {
                 ),
               ),
             ),
-            SizedBox(height: 120.h),
           ],
         ),
       ),

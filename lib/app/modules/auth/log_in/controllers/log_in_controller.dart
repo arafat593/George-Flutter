@@ -4,16 +4,11 @@ import 'package:get/get.dart';
 class LogInController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
+  late FocusNode focusNode;
   final isPasswordVisible = false.obs;
   final isRememberMe = false.obs;
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   void login() {
     if (formKey.currentState?.validate() ?? false) {
@@ -24,4 +19,13 @@ class LogInController extends GetxController {
   void togglePasswordVisibility() =>
       isPasswordVisible.value = !isPasswordVisible.value;
   void toggleRememberMe() => isRememberMe.value = !isRememberMe.value;
+
+  @override
+  void onInit() {
+    super.onInit();
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+    focusNode = FocusNode();
+  }
+
 }
