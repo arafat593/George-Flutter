@@ -1,9 +1,7 @@
 import 'package:get/get.dart';
-import '../modules/courses/bindings/courses_binding.dart';
-import '../modules/courses/bindings/filter_binding.dart';
 
-import '../modules/courses/views/courses_view.dart';
-import '../modules/courses/views/filter_view.dart';
+import '../modules/about_us/bindings/about_us_binding.dart';
+import '../modules/about_us/views/about_us_view.dart';
 import '../modules/auth/create_new_password/bindings/create_new_password_binding.dart';
 import '../modules/auth/create_new_password/views/create_new_password_view.dart';
 import '../modules/auth/log_in/bindings/log_in_binding.dart';
@@ -18,49 +16,53 @@ import '../modules/auth/registration/bindings/registration_binding.dart';
 import '../modules/auth/registration/views/registration_view.dart';
 import '../modules/auth/splash_screen/bindings/splash_screen_binding.dart';
 import '../modules/auth/splash_screen/views/splash_screen_view.dart';
-import '../modules/custom_bottom_nav/bindings/custom_bottom_nav_binding.dart';
-import '../modules/custom_bottom_nav/views/custom_bottom_nav_view.dart';
-import '../modules/home/bindings/home_binding.dart';
-import '../modules/home/views/home_view.dart';
-import '../modules/profile/bindings/profile_binding.dart';
-import '../modules/profile/views/profile_view.dart';
-import '../modules/news/bindings/news_binding.dart';
-import '../modules/news/views/news_view.dart';
-import '../modules/course_details/bindings/course_details_binding.dart';
-import '../modules/course_details/views/course_details_view.dart';
-import '../modules/news_details/bindings/news_details_binding.dart';
-import '../modules/news_details/views/news_details_view.dart';
-import '../modules/notifications/bindings/notifications_binding.dart';
-import '../modules/notifications/views/notifications_view.dart';
-import '../modules/checkout/bindings/checkout_binding.dart';
-import '../modules/checkout/views/checkout_view.dart';
 import '../modules/booking_confirmed/bindings/booking_confirmed_binding.dart';
 import '../modules/booking_confirmed/views/booking_confirmed_view.dart';
-import '../modules/instructor_details/bindings/instructor_details_binding.dart';
-import '../modules/instructor_details/views/instructor_details_view.dart';
-import '../modules/my_bookings/bindings/my_bookings_binding.dart';
-import '../modules/my_bookings/views/my_bookings_view.dart';
 import '../modules/booking_details/bindings/booking_details_binding.dart';
 import '../modules/booking_details/views/booking_details_view.dart';
-import '../modules/product_details/bindings/product_details_binding.dart';
-import '../modules/wallet/views/top_up_success_view.dart';
-import '../modules/product_details/views/product_details_view.dart';
-import '../modules/about_us/bindings/about_us_binding.dart';
-import '../modules/about_us/views/about_us_view.dart';
+import '../modules/checkout/bindings/checkout_binding.dart';
+import '../modules/checkout/views/checkout_view.dart';
+import '../modules/course_details/bindings/course_details_binding.dart';
+import '../modules/course_details/views/course_details_view.dart';
+import '../modules/courses/bindings/courses_binding.dart';
+import '../modules/courses/bindings/filter_binding.dart';
+import '../modules/courses/views/courses_view.dart';
+import '../modules/courses/views/filter_view.dart';
+import '../modules/custom_bottom_nav/bindings/custom_bottom_nav_binding.dart';
+import '../modules/custom_bottom_nav/views/custom_bottom_nav_view.dart';
 import '../modules/edit_profile/bindings/edit_profile_binding.dart';
 import '../modules/edit_profile/views/edit_profile_view.dart';
-import '../modules/memberships/bindings/memberships_binding.dart';
-import '../modules/memberships/views/memberships_view.dart';
+import '../modules/error_screen/bindings/error_screen_binding.dart';
+import '../modules/error_screen/views/error_screen_view.dart';
+import '../modules/home/bindings/home_binding.dart';
+import '../modules/home/views/home_view.dart';
+import '../modules/instructor_details/bindings/instructor_details_binding.dart';
+import '../modules/instructor_details/views/instructor_details_view.dart';
 import '../modules/membership_details/bindings/membership_details_binding.dart';
 import '../modules/membership_details/views/membership_details_view.dart';
-
-import '../modules/terms_conditions/bindings/terms_conditions_binding.dart';
-import '../modules/terms_conditions/views/terms_conditions_view.dart';
-
-import '../modules/wallet/bindings/wallet_binding.dart';
-import '../modules/wallet/views/wallet_view.dart';
+import '../modules/memberships/bindings/memberships_binding.dart';
+import '../modules/memberships/views/memberships_view.dart';
+import '../modules/my_bookings/bindings/my_bookings_binding.dart';
+import '../modules/my_bookings/views/my_bookings_view.dart';
+import '../modules/news/bindings/news_binding.dart';
+import '../modules/news/views/news_view.dart';
+import '../modules/news_details/bindings/news_details_binding.dart';
+import '../modules/news_details/views/news_details_view.dart';
+import '../modules/not_found_screen/bindings/not_found_screen_binding.dart';
+import '../modules/not_found_screen/views/not_found_screen_view.dart';
+import '../modules/notifications/bindings/notifications_binding.dart';
+import '../modules/notifications/views/notifications_view.dart';
 import '../modules/order_history/bindings/order_history_binding.dart';
 import '../modules/order_history/views/order_history_view.dart';
+import '../modules/product_details/bindings/product_details_binding.dart';
+import '../modules/product_details/views/product_details_view.dart';
+import '../modules/profile/bindings/profile_binding.dart';
+import '../modules/profile/views/profile_view.dart';
+import '../modules/terms_conditions/bindings/terms_conditions_binding.dart';
+import '../modules/terms_conditions/views/terms_conditions_view.dart';
+import '../modules/wallet/bindings/wallet_binding.dart';
+import '../modules/wallet/views/top_up_success_view.dart';
+import '../modules/wallet/views/wallet_view.dart';
 
 part 'app_routes.dart';
 
@@ -215,6 +217,16 @@ class AppPages {
       name: _Paths.FILTER,
       page: () => const FilterView(),
       binding: FilterBinding(),
+    ),
+    GetPage(
+      name: _Paths.ERROR_SCREEN,
+      page: () => const ErrorScreenView(),
+      binding: ErrorScreenBinding(),
+    ),
+    GetPage(
+      name: _Paths.NOT_FOUND_SCREEN,
+      page: () => const NotFoundScreenView(),
+      binding: NotFoundScreenBinding(),
     ),
   ];
 }
