@@ -34,7 +34,7 @@ class BookingConfirmedView extends GetView<BookingConfirmedController> {
                 width: double.infinity,
                 height: 55,
                 child: ElevatedButton(
-                  onPressed: () => Get.offAllNamed(Routes.CUSTOM_BOTTOM_NAV),
+                  onPressed: () => Get.offAllNamed(Routes.customBottomNav),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF6D4C41),
                     shape: RoundedRectangleBorder(

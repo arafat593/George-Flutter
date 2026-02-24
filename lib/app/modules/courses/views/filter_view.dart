@@ -266,7 +266,7 @@ class FilterView extends GetView<FilterController> {
                     overflow: TextOverflow.ellipsis,
                     style: AppTextStyles.regular(
                       14,
-                      color: AppColors.headlineColor.withOpacity(0.6),
+                      color: AppColors.headlineColor.withValues(alpha: 0.6),
                     ),
                   ),
                 ),
@@ -383,12 +383,12 @@ class FilterView extends GetView<FilterController> {
       decoration: BoxDecoration(
         color: isSelected
             ? AppColors.buttonPrimaryColor
-            : const Color(0xFFB7B0A8).withOpacity(0.3),
+            : const Color(0xFFB7B0A8).withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(100.r),
         border: Border.all(
           color: isSelected
               ? Colors.transparent
-              : AppColors.headlineColor.withOpacity(0.1),
+              : AppColors.headlineColor.withValues(alpha: 0.1),
         ),
       ),
       child: Text(
@@ -397,7 +397,7 @@ class FilterView extends GetView<FilterController> {
           14,
           color: isSelected
               ? Colors.white
-              : AppColors.headlineColor.withOpacity(0.8),
+              : AppColors.headlineColor.withValues(alpha: 0.8),
         ),
       ),
     );

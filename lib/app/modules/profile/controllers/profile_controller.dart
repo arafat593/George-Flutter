@@ -72,7 +72,7 @@ class ProfileController extends GetxController {
   Future<void> logout() async {
     try {
       Get.closeAllDialogs();
-      Get.offAllNamed(Routes.LOG_IN);
+      Get.offAllNamed(Routes.logIn);
       await storageServices.setToken("");
     } catch (e) {
       errorLog("logout", e);

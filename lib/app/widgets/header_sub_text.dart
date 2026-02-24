@@ -13,7 +13,7 @@ class HeaderSubText extends StatelessWidget {
       textAlign: TextAlign.center,
       style: AppTextStyles.regular(
         14,
-        color: AppColors.headlineColor.withOpacity(0.8),
+        color: AppColors.headlineColor.withValues(alpha: 0.8),
       ),
     );
   }

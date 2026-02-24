@@ -159,8 +159,8 @@ class SignUpForm extends StatelessWidget {
               children: [
                 CustomCheckBox(value: controller.isTermsAccepted.value, onChanged: (v) => controller.isTermsAccepted.value = v ?? false),
                 GestureDetector(
-                  onTap: () => Get.toNamed(Routes.TERMS_CONDITIONS),
                   child: Text('I agree to the Terms & Conditions', style: AppTextStyles.regular(14, color: AppColors.headlineColor)),
+                  onTap: () => Get.toNamed(Routes.termsConditions),
                 ),
               ],
             ),
@@ -174,7 +174,7 @@ class SignUpForm extends StatelessWidget {
               onTap: controller.isTermsAccepted.value
                   ? () {
                       if (controller.formKey.currentState?.validate() ?? false) {
-                        Get.toNamed(Routes.RECOVERY_OTP, arguments: {'isRegistering': true});
+                        Get.toNamed(Routes.recoveryOtp, arguments: {'isRegistering': true});
                       }
                     }
                   : null,

@@ -81,7 +81,7 @@ class LogInForm extends StatelessWidget {
                   const Spacer(),
                   GestureDetector(
                     onTap: () {
-                      Get.toNamed(Routes.RECOVERY_PASSWORD);
+                      Get.toNamed(Routes.recoveryPassword);
                     },
                     child: Text('Forgot password?', style: AppTextStyles.medium(14, color: AppColors.errorColor)),
                   ),

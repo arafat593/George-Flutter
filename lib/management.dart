@@ -17,9 +17,9 @@ class Management extends StatelessWidget {
       title: "Application",
       theme: themeData(),
       debugShowCheckedModeBanner: false,
-      initialRoute: AppPages.INITIAL,
+      initialRoute: AppPages.initial,
       getPages: AppPages.routes,
-      unknownRoute: GetPage(name: Routes.NOT_FOUND_SCREEN, page: () => const NotFoundScreenView(), binding: NotFoundScreenBinding()),
+      unknownRoute: GetPage(name: Routes.notFoundScreen, page: () => const NotFoundScreenView(), binding: NotFoundScreenBinding()),
       builder: (context, child) {
         ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
           return Overlay(initialEntries: [OverlayEntry(builder: (context) => ErrorScreenView())]);

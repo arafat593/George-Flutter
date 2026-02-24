@@ -190,7 +190,7 @@ class MembershipDetailsView extends StatelessWidget {
                                     fontSize: 12,
                                     color: const Color(
                                       0xff5D4037,
-                                    ).withOpacity(0.6),
+                                    ).withValues(alpha: 0.6),
                                   ),
                                 ),
                               ],
@@ -232,7 +232,7 @@ class MembershipDetailsView extends StatelessWidget {
                                   child: Container(
                                     height: 1,
                                     color: index % 2 == 0
-                                        ? Colors.white.withOpacity(0.3)
+                                        ? Colors.white.withValues(alpha: 0.3)
                                         : Colors.transparent,
                                   ),
                                 ),
@@ -245,7 +245,7 @@ class MembershipDetailsView extends StatelessWidget {
                               () => Text(
                                 "Wallet balance ${controller.walletBalance.value}",
                                 style: TextStyle(
-                                  color: Colors.white.withOpacity(0.7),
+                                  color: Colors.white.withValues(alpha: 0.7),
                                   fontSize: 14,
                                 ),
                               ),

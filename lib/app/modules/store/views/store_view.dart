@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/utils/app_size.dart';
 import 'package:get/get.dart';
-import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/store_controller.dart';
@@ -41,7 +40,7 @@ class StoreView extends StatelessWidget {
 
   Widget _buildProductCard(Map<String, dynamic> product) {
     return GestureDetector(
-      onTap: () => Get.toNamed(Routes.PRODUCT_DETAILS, arguments: product),
+      onTap: () => Get.toNamed(Routes.productDetails, arguments: product),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

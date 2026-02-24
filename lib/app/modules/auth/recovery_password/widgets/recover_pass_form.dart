@@ -54,7 +54,7 @@ class RcoverPassForm extends StatelessWidget {
                   onTap: () {
                     if (controller.formKey.currentState!.validate()) {
                       Get.toNamed(
-                        Routes.RECOVERY_OTP,
+                        Routes.recoveryOtp,
                         arguments: {'isRegistering': false},
                       );
                     }

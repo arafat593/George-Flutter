@@ -35,7 +35,7 @@ class RegistrationView extends GetView<RegistrationController> {
                 titleText: 'Already have an account? ',
                 optionText: 'Log In',
                 onTap: () {
-                  Get.toNamed(Routes.LOG_IN);
+                  Get.toNamed(Routes.logIn);
                 },
               ),
               SizedBox(height: 20.h),

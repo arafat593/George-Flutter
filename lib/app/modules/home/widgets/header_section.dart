@@ -35,7 +35,7 @@ class HeaderSection extends StatelessWidget {
                   iconPath: ImagePath.funnelIcon,
                   onTap: () {
                     filterController.resetTemp();
-                    Get.toNamed(Routes.FILTER);
+                    Get.toNamed(Routes.filter);
                   },
                   backgroundColor: isFilterActive
                       ? AppColors.buttonPrimaryColor
@@ -51,7 +51,7 @@ class HeaderSection extends StatelessWidget {
               SizedBox(width: 12.w),
               RoundedIconContainer(
                 iconPath: ImagePath.notification,
-                onTap: () => Get.toNamed(Routes.NOTIFICATIONS),
+                onTap: () => Get.toNamed(Routes.notifications),
               ),
             ],
           ),

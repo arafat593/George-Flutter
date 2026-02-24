@@ -207,7 +207,7 @@ class InstructorDetailsView extends GetView<InstructorDetailsController> {
           SizedBox(height: 8.h),
           GestureDetector(
             onTap: () => Get.toNamed(
-              Routes.COURSE_DETAILS,
+              Routes.courseDetails,
               arguments: {
                 'title': 'Morning Vinyasa Flow',
                 'price': 'QAR 200',
@@ -236,7 +236,7 @@ class InstructorDetailsView extends GetView<InstructorDetailsController> {
               const Spacer(),
               GestureDetector(
                 onTap: () => Get.toNamed(
-                  Routes.COURSE_DETAILS,
+                  Routes.courseDetails,
                   arguments: {
                     'title': 'Morning Vinyasa Flow',
                     'price': 'QAR 200',
@@ -289,7 +289,7 @@ class InstructorDetailsView extends GetView<InstructorDetailsController> {
                     width: 80.w,
                     height: 6.h,
                     decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(4.r),
                     ),
                     child: FractionallySizedBox(

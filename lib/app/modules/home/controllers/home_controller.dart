@@ -1,11 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:george/app/data/app_api_end_point.dart';
+import 'package:george/app/utils/app_log.dart';
+import 'package:george/models/class_data.dart';
+import 'package:george/repository/home_repository.dart';
+import 'package:george/services/api/api_services.dart';
+import 'package:george/services/storage_services/get_storage_services.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeController extends GetxController {
+  final HomeRepository _homeRepository = HomeRepository.instance;
   final RxInt selectedDateIndex = (DateTime.now().day - 1).obs;
   final RxBool isMembershipPaid = true.obs;
   final RxInt sessionsLeft = 5.obs;
+  final AppApiEndPoint api = AppApiEndPoint.instance;
+  final GetStorageServices storageServices = GetStorageServices.instance;
+  final ApiServices apiServices = ApiServices.instance;
+  final RxList allClasses = <ClassModel>[].obs;
+
+  Future<void> fetchClasses() async {
+    try {
+      var formatedDate =
+          "${currentMonth.value.month.toString().padLeft(2, "0")}-${currentMonth.value.day.toString().padLeft(2, "0")}-${currentMonth.value.year}";
+      allClasses.value = await _homeRepository.fetchClasses(
+        date: formatedDate,
+      );
+    } catch (e) {
+      errorLog("fetchClasses", e);
+    }
+  }
 
   final Rx<DateTime> currentMonth = DateTime(
     DateTime.now().year,
@@ -80,12 +103,14 @@ class HomeController extends GetxController {
       selectedDateIndex.value + 1,
     );
 
+    // Check for Today
     if (selected.year == today.year &&
         selected.month == today.month &&
         selected.day == today.day) {
       return 'Today';
     }
 
+    // Check for Tomorrow
     final tomorrow = today.add(const Duration(days: 1));
     if (selected.year == tomorrow.year &&
         selected.month == tomorrow.month &&
@@ -93,6 +118,7 @@ class HomeController extends GetxController {
       return 'Tomorrow';
     }
 
+    // Check for Yesterday
     final yesterday = today.subtract(const Duration(days: 1));
     if (selected.year == yesterday.year &&
         selected.month == yesterday.month &&
@@ -100,15 +126,27 @@ class HomeController extends GetxController {
       return 'Yesterday';
     }
 
-    return 'Previous';
+    // Check if it's a Future date (after tomorrow)
+    if (selected.isAfter(tomorrow)) {
+      return 'Upcoming';
+    }
+
+    // Check if it's a Past date (before yesterday)
+    if (selected.isBefore(yesterday)) {
+      return 'Previous';
+    }
+
+    // Fallback (should never reach here)
+    return '';
   }
 
   String get todayButtonText {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
 
-    if (dates.isEmpty || selectedDateIndex.value >= dates.length)
+    if (dates.isEmpty || selectedDateIndex.value >= dates.length) {
       return 'Today';
+    }
 
     final selected = DateTime(
       currentYear,
@@ -153,7 +191,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
+    fetchClasses();
     _initializeToToday();
   }
 

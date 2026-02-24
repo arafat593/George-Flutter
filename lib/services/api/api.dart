@@ -50,7 +50,7 @@ Error message: ${error.message}
           try {
             if (error.response?.statusCode == 401) {
               storageServices.storageClear();
-              Get.offAllNamed(Routes.LOG_IN);
+              Get.offAllNamed(Routes.logIn);
               return handler.next(error);
             }
           } catch (e) {

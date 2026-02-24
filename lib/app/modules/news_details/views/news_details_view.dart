@@ -309,7 +309,7 @@ class NewsDetailsView extends GetView<NewsDetailsController> {
         ),
         const Spacer(),
         ElevatedButton(
-          onPressed: () => Get.toNamed(Routes.INSTRUCTOR_DETAILS),
+          onPressed: () => Get.toNamed(Routes.instructorDetails),
           style: ElevatedButton.styleFrom(
             backgroundColor: brownColor,
             shape: RoundedRectangleBorder(

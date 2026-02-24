@@ -6,8 +6,4 @@ class RecoveryPasswordController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
 }

@@ -28,16 +28,16 @@ class SplashScreenController extends GetxController with GetSingleTickerProvider
       var token = GetStorageServices.instance.getToken();
       if (token.isEmpty) {
         Future.delayed(const Duration(seconds: 2), () {
-          Get.offNamed(Routes.ONBOARDING);
+          Get.offNamed(Routes.onboarding);
         });
         return;
       }
 
       appGlobalUserData.value = await authRepository.getUser();
       if (appGlobalUserData.value == null) {
-        Get.offNamed(Routes.ONBOARDING);
+        Get.offNamed(Routes.onboarding);
       } else {
-        Get.offNamed(Routes.CUSTOM_BOTTOM_NAV);
+        Get.offNamed(Routes.customBottomNav);
       }
     } catch (e) {
       errorLog("onAppInitial", e);

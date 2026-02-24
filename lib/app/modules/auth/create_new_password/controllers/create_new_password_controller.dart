@@ -11,10 +11,6 @@ class CreateNewPasswordController extends GetxController {
   final isPasswordVisible = false.obs;
   final isConfirmPasswordVisible = false.obs;
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   void togglePasswordVisibility() =>
       isPasswordVisible.value = !isPasswordVisible.value;
