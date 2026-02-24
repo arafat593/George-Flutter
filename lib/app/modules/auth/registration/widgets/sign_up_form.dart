@@ -16,43 +16,50 @@ class SignUpForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<RegistrationController>();
+    final controller = Get.putOrFind<RegistrationController>(() => RegistrationController());
     return Form(
       key: controller.formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextFieldLabelText(label: 'First name'),
-                    CustomTextField(
-                      controller: controller.firstNameController,
-                      hintText: 'First name',
-                      validator: (v) => v?.isEmpty ?? true ? 'Required' : null,
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(width: 16.w),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextFieldLabelText(label: 'Last name'),
-                    CustomTextField(
-                      controller: controller.lastNameController,
-                      hintText: 'Last name',
-                      validator: (v) => v?.isEmpty ?? true ? 'Required' : null,
-                    ),
-                  ],
-                ),
-              ),
-            ],
+          TextFieldLabelText(label: 'Full Name'),
+          CustomTextField(
+            controller: controller.fullNameController,
+            hintText: 'Enter full name',
+
+            validator: (v) => v?.isEmpty ?? true ? 'Required' : null,
           ),
+          // Row(
+          //   children: [
+          //     Expanded(
+          //       child: Column(
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: [
+          //           TextFieldLabelText(label: 'First name'),
+          //           CustomTextField(
+          //             controller: controller.firstNameController,
+          //             hintText: 'First name',
+          //             validator: (v) => v?.isEmpty ?? true ? 'Required' : null,
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //     SizedBox(width: 16.w),
+          //     Expanded(
+          //       child: Column(
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: [
+          //           TextFieldLabelText(label: 'Last name'),
+          //           CustomTextField(
+          //             controller: controller.lastNameController,
+          //             hintText: 'Last name',
+          //             validator: (v) => v?.isEmpty ?? true ? 'Required' : null,
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //   ],
+          // ),
           SizedBox(height: 20.h),
 
           // Phone Number
@@ -83,16 +90,11 @@ class SignUpForm extends StatelessWidget {
           TextFieldLabelText(label: 'Gender'),
           Obx(
             () => DropdownButtonFormField<String>(
-              value: controller.selectedGender.value,
+              initialValue: controller.selectedGender.value,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: AppColors.buttonSecondaryColor.withValues(
-                  alpha: 0.3,
-                ),
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 16.w,
-                  vertical: 12.h,
-                ),
+                fillColor: AppColors.buttonSecondaryColor.withValues(alpha: 0.3),
+                contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12.r),
                   borderSide: const BorderSide(color: AppColors.borderColor),
@@ -107,20 +109,11 @@ class SignUpForm extends StatelessWidget {
                 ),
               ),
               dropdownColor: AppColors.backgroundColor,
-              icon: Icon(
-                Icons.keyboard_arrow_down,
-                color: AppColors.headlineColor,
-              ),
+              icon: Icon(Icons.keyboard_arrow_down, color: AppColors.headlineColor),
               items: ['Male', 'Female'].map((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
-                  child: Text(
-                    value,
-                    style: AppTextStyles.regular(
-                      14,
-                      color: AppColors.headlineColor,
-                    ),
-                  ),
+                  child: Text(value, style: AppTextStyles.regular(14, color: AppColors.headlineColor)),
                 );
               }).toList(),
               onChanged: controller.setGender,
@@ -136,12 +129,7 @@ class SignUpForm extends StatelessWidget {
               hintText: '**** ****',
               obscureText: !controller.isPasswordVisible.value,
               suffixIcon: IconButton(
-                icon: Icon(
-                  controller.isPasswordVisible.value
-                      ? Icons.visibility
-                      : Icons.visibility_off,
-                  color: Colors.grey,
-                ),
+                icon: Icon(controller.isPasswordVisible.value ? Icons.visibility : Icons.visibility_off, color: Colors.grey),
                 onPressed: controller.togglePasswordVisibility,
               ),
               validator: (v) => (v?.length ?? 0) < 6 ? 'Min 6 chars' : null,
@@ -157,17 +145,10 @@ class SignUpForm extends StatelessWidget {
               hintText: '**** ****',
               obscureText: !controller.isConfirmPasswordVisible.value,
               suffixIcon: IconButton(
-                icon: Icon(
-                  controller.isConfirmPasswordVisible.value
-                      ? Icons.visibility
-                      : Icons.visibility_off,
-                  color: Colors.grey,
-                ),
+                icon: Icon(controller.isConfirmPasswordVisible.value ? Icons.visibility : Icons.visibility_off, color: Colors.grey),
                 onPressed: controller.toggleConfirmPasswordVisibility,
               ),
-              validator: (v) => v != controller.passwordController.text
-                  ? 'Passwords do not match'
-                  : null,
+              validator: (v) => v != controller.passwordController.text ? 'Passwords do not match' : null,
             ),
           ),
           SizedBox(height: 30.h),
@@ -176,20 +157,10 @@ class SignUpForm extends StatelessWidget {
           Obx(
             () => Row(
               children: [
-                CustomCheckBox(
-                  value: controller.isTermsAccepted.value,
-                  onChanged: (v) =>
-                      controller.isTermsAccepted.value = v ?? false,
-                ),
+                CustomCheckBox(value: controller.isTermsAccepted.value, onChanged: (v) => controller.isTermsAccepted.value = v ?? false),
                 GestureDetector(
                   onTap: () => Get.toNamed(Routes.TERMS_CONDITIONS),
-                  child: Text(
-                    'I agree to the Terms & Conditions',
-                    style: AppTextStyles.regular(
-                      14,
-                      color: AppColors.headlineColor,
-                    ),
-                  ),
+                  child: Text('I agree to the Terms & Conditions', style: AppTextStyles.regular(14, color: AppColors.headlineColor)),
                 ),
               ],
             ),
@@ -202,12 +173,8 @@ class SignUpForm extends StatelessWidget {
               buttonText: 'Register',
               onTap: controller.isTermsAccepted.value
                   ? () {
-                      if (controller.formKey.currentState?.validate() ??
-                          false) {
-                        Get.toNamed(
-                          Routes.RECOVERY_OTP,
-                          arguments: {'isRegistering': true},
-                        );
+                      if (controller.formKey.currentState?.validate() ?? false) {
+                        Get.toNamed(Routes.RECOVERY_OTP, arguments: {'isRegistering': true});
                       }
                     }
                   : null,

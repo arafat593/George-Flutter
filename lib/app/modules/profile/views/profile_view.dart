@@ -25,10 +25,7 @@ class ProfileView extends GetView<ProfileController> {
               SizedBox(height: 30.h),
               _buildMenuSection(),
               SizedBox(height: 30.h),
-              Text(
-                "Monthly Attendance",
-                style: AppTextStyles.bold(20, color: const Color(0xFF6D4C41)),
-              ),
+              Text("Monthly Attendance", style: AppTextStyles.bold(20, color: const Color(0xFF6D4C41))),
               SizedBox(height: 20.h),
               _buildAttendanceChart(),
               SizedBox(height: 30.h),
@@ -57,11 +54,8 @@ class ProfileView extends GetView<ProfileController> {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                       image: controller.profileImage.value.isNotEmpty
-                          ? FileImage(File(controller.profileImage.value))
-                                as ImageProvider
-                          : const NetworkImage(
-                              "https://picsum.photos/seed/profile/200",
-                            ),
+                          ? FileImage(File(controller.profileImage.value)) as ImageProvider
+                          : const NetworkImage("https://picsum.photos/seed/profile/200"),
                       fit: BoxFit.cover,
                     ),
                     border: Border.all(color: Colors.white, width: 2),
@@ -73,10 +67,7 @@ class ProfileView extends GetView<ProfileController> {
                 bottom: 0,
                 child: Container(
                   padding: EdgeInsets.all(4.r),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                  ),
+                  decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
                   child: Icon(Icons.camera_alt, size: 14.r, color: Colors.grey),
                 ),
               ),
@@ -91,32 +82,12 @@ class ProfileView extends GetView<ProfileController> {
             children: [
               Row(
                 children: [
-                  Obx(
-                    () => Text(
-                      controller.userName.value,
-                      style: AppTextStyles.bold(
-                        18,
-                      ).copyWith(color: const Color(0xFF6D4C41)),
-                    ),
-                  ),
+                  Obx(() => Text(controller.userName.value, style: AppTextStyles.bold(18).copyWith(color: const Color(0xFF6D4C41)))),
                   SizedBox(width: 8.w),
                   Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 8.w,
-                      vertical: 2.h,
-                    ),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF6D4C41),
-                      borderRadius: BorderRadius.circular(10.r),
-                    ),
-                    child: Obx(
-                      () => Text(
-                        controller.membershipType.value,
-                        style: AppTextStyles.medium(
-                          10,
-                        ).copyWith(color: Colors.white),
-                      ),
-                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
+                    decoration: BoxDecoration(color: const Color(0xFF6D4C41), borderRadius: BorderRadius.circular(10.r)),
+                    child: Obx(() => Text(controller.membershipType.value, style: AppTextStyles.medium(10).copyWith(color: Colors.white))),
                   ),
                 ],
               ),
@@ -124,9 +95,7 @@ class ProfileView extends GetView<ProfileController> {
               Obx(
                 () => Text(
                   controller.userEmail.value,
-                  style: AppTextStyles.regular(12).copyWith(
-                    color: const Color(0xFF6D4C41).withValues(alpha: 0.7),
-                  ),
+                  style: AppTextStyles.regular(12).copyWith(color: const Color(0xFF6D4C41).withValues(alpha: 0.7)),
                 ),
               ),
             ],
@@ -144,11 +113,7 @@ class ProfileView extends GetView<ProfileController> {
   Widget _buildMenuSection() {
     return Column(
       children: [
-        _buildMenuItem(
-          icon: Icons.edit_note,
-          title: "Memberships/ Packages",
-          onTap: () => Get.toNamed('/memberships'),
-        ),
+        _buildMenuItem(icon: Icons.edit_note, title: "Memberships/ Packages", onTap: () => Get.toNamed('/memberships')),
         _buildDivider(),
         Obx(
           () => _buildMenuItem(
@@ -170,36 +135,19 @@ class ProfileView extends GetView<ProfileController> {
           ),
         ),
         _buildDivider(),
-        _buildMenuItem(
-          icon: Icons.book,
-          title: "My Bookings",
-          onTap: () => Get.toNamed(Routes.MY_BOOKINGS),
-        ),
+        _buildMenuItem(icon: Icons.book, title: "My Bookings", onTap: () => Get.toNamed(Routes.MY_BOOKINGS)),
         _buildDivider(),
-        _buildMenuItem(
-          icon: Icons.shield_outlined,
-          title: "Order history",
-          onTap: () => Get.toNamed(Routes.ORDER_HISTORY),
-        ),
+        _buildMenuItem(icon: Icons.shield_outlined, title: "Order history", onTap: () => Get.toNamed(Routes.ORDER_HISTORY)),
         _buildDivider(),
         _buildMenuItem(
           icon: Icons.account_balance_wallet_outlined,
           title: "Wallet",
-          onTap: () =>
-              Get.toNamed(Routes.WALLET, arguments: {'fromProfile': true}),
+          onTap: () => Get.toNamed(Routes.WALLET, arguments: {'fromProfile': true}),
         ),
         _buildDivider(),
-        _buildMenuItem(
-          icon: Icons.info_outline,
-          title: "About INARA",
-          onTap: () => Get.toNamed(Routes.ABOUT_US),
-        ),
+        _buildMenuItem(icon: Icons.info_outline, title: "About INARA", onTap: () => Get.toNamed(Routes.ABOUT_US)),
         _buildDivider(),
-        _buildMenuItem(
-          icon: Icons.description_outlined,
-          title: "Terms & Conditions",
-          onTap: () => Get.toNamed(Routes.TERMS_CONDITIONS),
-        ),
+        _buildMenuItem(icon: Icons.description_outlined, title: "Terms & Conditions", onTap: () => Get.toNamed(Routes.TERMS_CONDITIONS)),
         _buildDivider(),
         _buildMenuItem(
           icon: Icons.logout,
@@ -207,54 +155,34 @@ class ProfileView extends GetView<ProfileController> {
           onTap: () {
             Get.dialog(
               Dialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.r),
-                ),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
                 child: Container(
                   padding: EdgeInsets.all(20.r),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20.r),
-                  ),
+                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20.r)),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        'Log Out',
-                        style: AppTextStyles.bold(
-                          20,
-                          color: const Color(0xFF6B5345),
-                        ),
-                      ),
+                      Text('Log Out', style: AppTextStyles.bold(20, color: const Color(0xFF6B5345))),
                       SizedBox(height: 12.h),
                       Text(
                         'Are you sure you want to log out?',
                         textAlign: TextAlign.center,
-                        style: AppTextStyles.regular(
-                          14,
-                          color: Colors.grey.shade600,
-                        ),
+                        style: AppTextStyles.regular(14, color: Colors.grey.shade600),
                       ),
                       SizedBox(height: 24.h),
                       Row(
                         children: [
                           Expanded(
                             child: ElevatedButton(
-                              onPressed: () => Get.back(),
+                              onPressed: () {
+                                Navigator.pop(Get.context!);
+                              },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFFDCC8B8),
                                 elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.r),
-                                ),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
                               ),
-                              child: Text(
-                                'No',
-                                style: AppTextStyles.bold(
-                                  16,
-                                  color: Colors.white,
-                                ),
-                              ),
+                              child: Text('No', style: AppTextStyles.bold(16, color: Colors.white)),
                             ),
                           ),
                           SizedBox(width: 12.w),
@@ -264,17 +192,9 @@ class ProfileView extends GetView<ProfileController> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF6B5345),
                                 elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.r),
-                                ),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
                               ),
-                              child: Text(
-                                'Yes',
-                                style: AppTextStyles.bold(
-                                  16,
-                                  color: Colors.white,
-                                ),
-                              ),
+                              child: Text('Yes', style: AppTextStyles.bold(16, color: Colors.white)),
                             ),
                           ),
                         ],
@@ -310,25 +230,12 @@ class ProfileView extends GetView<ProfileController> {
             Icon(icon, size: 20.r, color: Colors.grey[600]),
             SizedBox(width: 15.w),
             Expanded(
-              child: Text(
-                title,
-                style: AppTextStyles.medium(
-                  16,
-                ).copyWith(color: const Color(0xFF6D4C41)),
-              ),
+              child: Text(title, style: AppTextStyles.medium(16).copyWith(color: const Color(0xFF6D4C41))),
             ),
             if (isToggle)
-              Switch(
-                value: toggleValue,
-                onChanged: onToggle,
-                activeColor: const Color(0xFF6D4C41),
-              )
+              Switch(value: toggleValue, onChanged: onToggle, activeColor: const Color(0xFF6D4C41))
             else if (showArrow)
-              Icon(
-                Icons.arrow_forward_ios,
-                size: 16.r,
-                color: const Color(0xFF6D4C41),
-              )
+              Icon(Icons.arrow_forward_ios, size: 16.r, color: const Color(0xFF6D4C41))
             else if (!showArrow && onTap != null && icon == Icons.logout)
               Container(),
           ],
@@ -338,10 +245,7 @@ class ProfileView extends GetView<ProfileController> {
   }
 
   Widget _buildDivider() {
-    return Divider(
-      color: const Color(0xFF6D4C41).withValues(alpha: 0.2),
-      height: 1,
-    );
+    return Divider(color: const Color(0xFF6D4C41).withValues(alpha: 0.2), height: 1);
   }
 
   Widget _buildAttendanceChart() {
@@ -376,31 +280,20 @@ class ProfileView extends GetView<ProfileController> {
                       // Background Bar
                       Container(
                         width: 50.w,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFEBE3D9),
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
+                        decoration: BoxDecoration(color: const Color(0xFFEBE3D9), borderRadius: BorderRadius.circular(8.r)),
                       ),
                       FractionallySizedBox(
                         heightFactor: percentage.clamp(0.0, 1.0),
                         child: Container(
                           width: 50.w,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF6D4C41),
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
+                          decoration: BoxDecoration(color: const Color(0xFF6D4C41), borderRadius: BorderRadius.circular(8.r)),
                         ),
                       ),
                     ],
                   ),
                 ),
                 SizedBox(height: 8.h),
-                Text(
-                  data['month'],
-                  style: AppTextStyles.medium(
-                    14,
-                  ).copyWith(color: const Color(0xFF6D4C41)),
-                ),
+                Text(data['month'], style: AppTextStyles.medium(14).copyWith(color: const Color(0xFF6D4C41))),
               ],
             );
           },
@@ -415,48 +308,28 @@ class ProfileView extends GetView<ProfileController> {
         Row(
           children: [
             Expanded(
-              child: _buildStatCard(
-                icon: Icons.access_time,
-                title: "7 Classes Attended",
-                subtitle: "Great consistency! Keep up the momentum",
-              ),
+              child: _buildStatCard(icon: Icons.access_time, title: "7 Classes Attended", subtitle: "Great consistency! Keep up the momentum"),
             ),
             SizedBox(width: 15.w),
             Expanded(
-              child: _buildStatCard(
-                icon: Icons.self_improvement,
-                title: "Hatha Yoga",
-                subtitle: "You attend this class the most",
-              ),
+              child: _buildStatCard(icon: Icons.self_improvement, title: "Hatha Yoga", subtitle: "You attend this class the most"),
             ),
           ],
         ),
         SizedBox(height: 15.h),
         SizedBox(
           width: double.infinity,
-          child: _buildStatCard(
-            icon: Icons.person_outline,
-            title: "Sarah Jenkins",
-            subtitle: "Most attended instructor this month",
-            isWide: true,
-          ),
+          child: _buildStatCard(icon: Icons.person_outline, title: "Sarah Jenkins", subtitle: "Most attended instructor this month", isWide: true),
         ),
       ],
     );
   }
 
-  Widget _buildStatCard({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    bool isWide = false,
-  }) {
+  Widget _buildStatCard({required IconData icon, required String title, required String subtitle, bool isWide = false}) {
     return Container(
       padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
-        color: const Color(
-          0xFFD7CCC8,
-        ).withValues(alpha: 0.5), // Light brownish/beige
+        color: const Color(0xFFD7CCC8).withValues(alpha: 0.5), // Light brownish/beige
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: Column(
@@ -464,19 +337,9 @@ class ProfileView extends GetView<ProfileController> {
         children: [
           Icon(icon, size: 24.r, color: const Color(0xFF6D4C41)),
           SizedBox(height: 10.h),
-          Text(
-            title,
-            style: AppTextStyles.bold(
-              14,
-            ).copyWith(color: const Color(0xFF6D4C41)),
-          ),
+          Text(title, style: AppTextStyles.bold(14).copyWith(color: const Color(0xFF6D4C41))),
           SizedBox(height: 5.h),
-          Text(
-            subtitle,
-            style: AppTextStyles.regular(
-              10,
-            ).copyWith(color: const Color(0xFF6D4C41).withValues(alpha: 0.8)),
-          ),
+          Text(subtitle, style: AppTextStyles.regular(10).copyWith(color: const Color(0xFF6D4C41).withValues(alpha: 0.8))),
         ],
       ),
     );

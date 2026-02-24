@@ -15,11 +15,12 @@ class AppApiEndPoint {
   final String privacyPolicy = "termsAndConditions";
   final String login = "/auth/login";
   final String signUP = "/auth/register";
+  final String signUpOtpVerify = "/auth/verify-otp";
   final String authDeleteAccount = "login";
   final String userMe = "/users/me";
   final String userUpdate = "/users/update";
   final String changePassword = "login";
-  final String userResendOtp = "login";
+  final String userResendOtp = "/auth/resend-otp";
   final String authOtpVerify = "login";
   final String authForgotPassword = "login";
   final String authVerifyEmail = "login";

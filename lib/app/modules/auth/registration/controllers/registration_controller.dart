@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:george/app/utils/app_log.dart';
+import 'package:george/repository/auth_repository.dart';
 import 'package:get/get.dart';
 
 class RegistrationController extends GetxController {
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-  late TextEditingController firstNameController;
-  late TextEditingController lastNameController;
+  AuthRepository authRepository = AuthRepository.instance;
+  late GlobalKey<FormState> formKey;
+  late TextEditingController fullNameController;
   late TextEditingController phoneController;
   late TextEditingController emailController;
   late TextEditingController passwordController;
@@ -13,30 +14,77 @@ class RegistrationController extends GetxController {
   late FocusNode focusNode;
 
   final selectedGender = 'Male'.obs;
-  final isPasswordVisible = false.obs;
-  final isConfirmPasswordVisible = false.obs;
-  final isTermsAccepted = false.obs;
+  RxBool isPasswordVisible = false.obs;
+  RxBool isConfirmPasswordVisible = false.obs;
+  RxBool isTermsAccepted = false.obs;
+  RxBool isLoading = false.obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    firstNameController = TextEditingController();
-    lastNameController = TextEditingController();
-    phoneController = TextEditingController();
-    emailController = TextEditingController();
-    passwordController = TextEditingController();
-    confirmPasswordController = TextEditingController();
-    focusNode = FocusNode();
-  }
-
-  void togglePasswordVisibility() =>
-      isPasswordVisible.value = !isPasswordVisible.value;
-  void toggleConfirmPasswordVisibility() =>
-      isConfirmPasswordVisible.value = !isConfirmPasswordVisible.value;
+  void togglePasswordVisibility() => isPasswordVisible.value = !isPasswordVisible.value;
+  void toggleConfirmPasswordVisibility() => isConfirmPasswordVisible.value = !isConfirmPasswordVisible.value;
 
   void setGender(String? value) {
     if (value != null) {
       selectedGender.value = value;
     }
+  }
+
+  Future<void> signUp() async {
+    try {
+      if (!formKey.currentState!.validate()) {
+        return;
+      }
+      isLoading.value = true;
+      var response = await authRepository.signUp(
+        name: fullNameController.text.trim(),
+        email: emailController.text.trim().toLowerCase(),
+        phoneNumber: phoneController.text.trim(),
+        gender: selectedGender.value,
+        password: passwordController.text.trim(),
+      );
+      if (response) {}
+    } catch (e) {
+      errorLog("signUp", e);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  void onAppInitial() {
+    try {
+      fullNameController = .new();
+      phoneController = .new();
+      emailController = .new();
+      passwordController = .new();
+      confirmPasswordController = .new();
+      focusNode = .new();
+      formKey = .new();
+    } catch (e) {
+      errorLog("onAppInitial", e);
+    }
+  }
+
+  void onAppClose() {
+    try {
+      fullNameController.dispose();
+      phoneController.dispose();
+      emailController.dispose();
+      passwordController.dispose();
+      confirmPasswordController.dispose();
+      focusNode.dispose();
+    } catch (e) {
+      errorLog("onAppInitial", e);
+    }
+  }
+
+  @override
+  void onInit() {
+    onAppInitial();
+    super.onInit();
+  }
+
+  @override
+  void dispose() {
+    onAppClose();
+    super.dispose();
   }
 }

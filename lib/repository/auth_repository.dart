@@ -111,43 +111,16 @@ class AuthRepository {
   }
 
   Future<bool> signUp({
-    required String firstName,
-    required String lastName,
+    required String name,
     required String email,
-    required String mobileNumber,
+    required String phoneNumber,
+    required String gender,
     required String password,
-    required String role,
-    required String drivingLicense,
-    required List<String> drivingPhoto,
   }) async {
     try {
-      FormData formBodyData = FormData.fromMap({
-        "firstName": firstName,
-        "lastName": lastName,
-        "email": email,
-        "role": role,
-        "mobileNumber": mobileNumber,
-        "password": password,
-      });
+      Map<String, dynamic> bodyData = {"email": email, "password": password, "name": name, "phone": phoneNumber, "gender": gender};
 
-      if (drivingLicense.isNotEmpty) {
-        formBodyData.fields.add(MapEntry("DvLicences", drivingLicense));
-      }
-      for (var element in drivingPhoto) {
-        final file = File(element);
-        if (await file.exists()) {
-          String fileName = file.path.split('/').last;
-          var mimeType = lookupMimeType(file.path);
-          formBodyData.files.add(
-            MapEntry(
-              "image",
-              await MultipartFile.fromFile(file.path, filename: fileName, contentType: MediaType.parse(mimeType ?? "application/octet-stream")),
-            ),
-          );
-        }
-      }
-
-      var response = await apiServices.apiPostServices(url: api.userUpdate, body: formBodyData);
+      var response = await apiServices.apiPostServices(url: api.signUP, body: bodyData);
       if (response != null) {
         return true;
       }
@@ -169,10 +142,10 @@ class AuthRepository {
     return false;
   }
 
-  Future<bool> authOtpVerify({required String email, required int otp}) async {
+  Future<bool> authOtpVerify({required String email, required String otp}) async {
     try {
-      Map<String, dynamic> bodyData = {"email": email, "oneTimeCode": otp};
-      var response = await apiServices.apiPostServices(url: api.authOtpVerify, body: bodyData);
+      Map<String, dynamic> bodyData = {"email": email, "code": otp};
+      var response = await apiServices.apiPostServices(url: api.signUpOtpVerify, body: bodyData);
       if (response != null) {
         return true;
       }
