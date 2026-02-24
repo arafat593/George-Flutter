@@ -13,7 +13,8 @@ class AppApiEndPoint {
   final String termsAndConditions = "termsAndConditions";
   final String about = "termsAndConditions";
   final String privacyPolicy = "termsAndConditions";
-  final String login = "login";
+  final String login = "/auth/login";
+  final String signUP = "/auth/register";
   final String authDeleteAccount = "login";
   final String user = "login";
   final String changePassword = "login";
@@ -25,8 +26,8 @@ class AppApiEndPoint {
 }
 
 String _getDomain() {
-  String liveServer = "https://";
-  String localServer = "https://";
+  String liveServer = "https://inara-backend.mtscorporate.com";
+  String localServer = "https://inara-backend.mtscorporate.com";
 
   try {
     if (kDebugMode) {
