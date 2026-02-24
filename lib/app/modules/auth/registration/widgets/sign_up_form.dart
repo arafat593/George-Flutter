@@ -83,7 +83,7 @@ class SignUpForm extends StatelessWidget {
           TextFieldLabelText(label: 'Gender'),
           Obx(
             () => DropdownButtonFormField<String>(
-              value: controller.selectedGender.value,
+              initialValue: controller.selectedGender.value,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: AppColors.buttonSecondaryColor.withValues(
@@ -182,7 +182,7 @@ class SignUpForm extends StatelessWidget {
                       controller.isTermsAccepted.value = v ?? false,
                 ),
                 GestureDetector(
-                  onTap: () => Get.toNamed(Routes.TERMS_CONDITIONS),
+                  onTap: () => Get.toNamed(Routes.termsConditions),
                   child: Text(
                     'I agree to the Terms & Conditions',
                     style: AppTextStyles.regular(
@@ -205,7 +205,7 @@ class SignUpForm extends StatelessWidget {
                       if (controller.formKey.currentState?.validate() ??
                           false) {
                         Get.toNamed(
-                          Routes.RECOVERY_OTP,
+                          Routes.recoveryOtp,
                           arguments: {'isRegistering': true},
                         );
                       }

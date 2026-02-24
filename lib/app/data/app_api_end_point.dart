@@ -24,6 +24,7 @@ class AppApiEndPoint {
   final String authForgotPassword = "login";
   final String authVerifyEmail = "login";
   final String authResetPassword = "login";
+  final String allClasses = '/classes/';
 }
 
 String _getDomain() {

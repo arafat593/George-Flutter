@@ -34,7 +34,7 @@ class OnboardingView extends GetView<OnboardingController> {
                   CustomElevetedButton(
                     buttonText: 'Sign In',
                     onTap: () {
-                      Get.toNamed(Routes.LOG_IN);
+                      Get.toNamed(Routes.logIn);
                     },
                   ),
                   SizedBox(height: 15.h),
@@ -45,7 +45,7 @@ class OnboardingView extends GetView<OnboardingController> {
                     backgroundColor: AppColors.buttonSecondaryColor,
                     buttonTextColor: AppColors.headlineColor,
                     onTap: () {
-                      Get.toNamed(Routes.REGISTRATION);
+                      Get.toNamed(Routes.registration);
                     },
                   ),
                 ],

@@ -12,8 +12,8 @@ class WalletView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(WalletController());
-    final bool showBackButton =
-        Get.arguments != null && Get.arguments['fromProfile'] == true;
+    // final bool showBackButton =
+    //     Get.arguments != null && Get.arguments['fromProfile'] == true;
 
     return Scaffold(
       appBar: PreferredSize(
@@ -141,14 +141,14 @@ class WalletView extends StatelessWidget {
     return Container(
       height: 55,
       decoration: BoxDecoration(
-        color: const Color(0xFFBCAAA4).withOpacity(0.6),
+        color: const Color(0xFFBCAAA4).withValues(alpha: 0.6),
       ),
       child: TextFormField(
         controller: controller,
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: TextStyle(
-            color: const Color(0xFF5D4037).withOpacity(0.5),
+            color: const Color(0xFF5D4037).withValues(alpha: 0.5),
             fontSize: 15,
           ),
           contentPadding: const EdgeInsets.symmetric(
@@ -189,7 +189,7 @@ class WalletView extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: Colors.white.withOpacity(0.1),
+                  color: Colors.white.withValues(alpha: 0.1),
                   width: 1,
                 ),
               ),
@@ -202,7 +202,7 @@ class WalletView extends StatelessWidget {
                 "Current Balance",
                 style: AppTextStyles.regular(
                   14,
-                ).copyWith(color: Colors.white.withOpacity(0.8)),
+                ).copyWith(color: Colors.white.withValues(alpha: 0.8)),
               ),
               SizedBox(height: 8.h),
               Obx(
@@ -215,7 +215,7 @@ class WalletView extends StatelessWidget {
               SizedBox(
                 height: 36.h,
                 child: ElevatedButton(
-                  onPressed: () => Get.toNamed(Routes.TOP_UP_SUCCESS),
+                  onPressed: () => Get.toNamed(Routes.topUpSuccess),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     foregroundColor: const Color(0xFF6D4C41),

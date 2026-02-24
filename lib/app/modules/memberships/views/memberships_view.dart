@@ -137,7 +137,7 @@ class MembershipsView extends GetView<MembershipsController> {
       children: [
         GestureDetector(
           onTap: () => Get.toNamed(
-            Routes.MEMBERSHIP_DETAILS,
+            Routes.membershipDetails,
             arguments: {
               'type': 'Membership',
               'title': '1 month Membership',
@@ -154,7 +154,7 @@ class MembershipsView extends GetView<MembershipsController> {
         SizedBox(height: 20.h),
         GestureDetector(
           onTap: () => Get.toNamed(
-            Routes.MEMBERSHIP_DETAILS,
+            Routes.membershipDetails,
             arguments: {
               'type': 'Membership',
               'title': '1 month Membership',
@@ -178,7 +178,7 @@ class MembershipsView extends GetView<MembershipsController> {
         SizedBox(height: 16.h),
         GestureDetector(
           onTap: () => Get.toNamed(
-            Routes.MEMBERSHIP_DETAILS,
+            Routes.membershipDetails,
             arguments: {
               'type': 'Membership',
               'title': '3 month Membership',
@@ -208,7 +208,7 @@ class MembershipsView extends GetView<MembershipsController> {
       children: [
         GestureDetector(
           onTap: () => Get.toNamed(
-            Routes.MEMBERSHIP_DETAILS,
+            Routes.membershipDetails,
             arguments: {
               'type': 'Package',
               'title': '10 Class Pack',
@@ -225,7 +225,7 @@ class MembershipsView extends GetView<MembershipsController> {
         SizedBox(height: 20.h),
         GestureDetector(
           onTap: () => Get.toNamed(
-            Routes.MEMBERSHIP_DETAILS,
+            Routes.membershipDetails,
             arguments: {
               'type': 'Package',
               'title': '10 Class Pack',
@@ -268,7 +268,7 @@ class MembershipsView extends GetView<MembershipsController> {
               width: 100,
               height: 100,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.1),
+                color: Colors.white.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
             ),
@@ -281,7 +281,7 @@ class MembershipsView extends GetView<MembershipsController> {
                 "Active Membership",
                 style: AppTextStyles.regular(
                   12,
-                ).copyWith(color: Colors.white.withOpacity(0.8)),
+                ).copyWith(color: Colors.white.withValues(alpha: 0.8)),
               ),
               SizedBox(height: 8.h),
               Text(
@@ -293,7 +293,7 @@ class MembershipsView extends GetView<MembershipsController> {
                 "Sessions Left",
                 style: AppTextStyles.regular(
                   12,
-                ).copyWith(color: Colors.white.withOpacity(0.8)),
+                ).copyWith(color: Colors.white.withValues(alpha: 0.8)),
               ),
               Text(
                 "5", // Mock data
@@ -324,7 +324,7 @@ class MembershipsView extends GetView<MembershipsController> {
               width: 100,
               height: 100,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.1),
+                color: Colors.white.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
             ),
@@ -337,7 +337,7 @@ class MembershipsView extends GetView<MembershipsController> {
                 "Active Membership",
                 style: AppTextStyles.regular(
                   12,
-                ).copyWith(color: Colors.white.withOpacity(0.8)),
+                ).copyWith(color: Colors.white.withValues(alpha: 0.8)),
               ),
               SizedBox(height: 8.h),
               Text(
@@ -349,7 +349,7 @@ class MembershipsView extends GetView<MembershipsController> {
                 "Expires",
                 style: AppTextStyles.regular(
                   12,
-                ).copyWith(color: Colors.white.withOpacity(0.8)),
+                ).copyWith(color: Colors.white.withValues(alpha: 0.8)),
               ),
               Text(
                 "2023-12-31", // Mock data
@@ -375,7 +375,7 @@ class MembershipsView extends GetView<MembershipsController> {
       decoration: BoxDecoration(
         color: const Color(0xFFEBE3D9),
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: const Color(0xFF6D4C41).withOpacity(0.3)),
+        border: Border.all(color: const Color(0xFF6D4C41).withValues(alpha: 0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -403,7 +403,7 @@ class MembershipsView extends GetView<MembershipsController> {
               subtitle,
               style: AppTextStyles.regular(
                 14,
-              ).copyWith(color: const Color(0xFF6D4C41).withOpacity(0.7)),
+              ).copyWith(color: const Color(0xFF6D4C41).withValues(alpha: 0.7)),
             ),
           ],
           SizedBox(height: 16.h),
@@ -438,10 +438,10 @@ class MembershipsView extends GetView<MembershipsController> {
                           child: Switch(
                             value: isAutoRenew.value,
                             onChanged: (val) => isAutoRenew.value = val,
-                            activeColor: const Color(0xFF6D4C41),
+                            activeThumbColor: const Color(0xFF6D4C41),
                             activeTrackColor: Colors.white,
                             inactiveThumbColor: Colors.white,
-                            inactiveTrackColor: Colors.grey.withOpacity(0.3),
+                            inactiveTrackColor: Colors.grey.withValues(alpha: 0.3),
                           ),
                         ),
                       ),
@@ -458,7 +458,7 @@ class MembershipsView extends GetView<MembershipsController> {
 
               ElevatedButton(
                 onPressed: () => Get.toNamed(
-                  Routes.MEMBERSHIP_DETAILS,
+                  Routes.membershipDetails,
                   arguments: {
                     'type': type,
                     'title': title,

@@ -3,6 +3,7 @@ import 'package:george/app/data/app_colors.dart';
 import 'package:george/app/data/app_text_styles.dart';
 import 'package:george/app/modules/auth/recovery_otp/controllers/recovery_otp_controller.dart';
 import 'package:george/app/routes/app_pages.dart';
+import 'package:george/app/utils/app_log.dart';
 import 'package:george/app/utils/app_size.dart';
 import 'package:george/app/widgets/custom_elevated_button.dart';
 import 'package:get/get.dart';
@@ -47,7 +48,7 @@ class OtpTextField extends StatelessWidget {
             textStyle: AppTextStyles.medium(24, color: AppColors.headlineColor),
 
             onCompleted: (value) {
-              print("OTP: $value");
+              appLog("OTP: $value");
             },
             onChanged: (value) {},
           ),
@@ -73,9 +74,9 @@ class OtpTextField extends StatelessWidget {
                 buttonTextColor: AppColors.whiteColor,
                 onTap: () {
                   if (isRegistering) {
-                    return Get.offAllNamed(Routes.CUSTOM_BOTTOM_NAV);
+                    return Get.offAllNamed(Routes.customBottomNav);
                   } else {
-                    return Get.toNamed(Routes.CREATE_NEW_PASSWORD);
+                    return Get.toNamed(Routes.createNewPassword);
                   }
                 },
               ),

@@ -173,32 +173,32 @@ class ProfileView extends GetView<ProfileController> {
         _buildMenuItem(
           icon: Icons.book,
           title: "My Bookings",
-          onTap: () => Get.toNamed(Routes.MY_BOOKINGS),
+          onTap: () => Get.toNamed(Routes.myBookings),
         ),
         _buildDivider(),
         _buildMenuItem(
           icon: Icons.shield_outlined,
           title: "Order history",
-          onTap: () => Get.toNamed(Routes.ORDER_HISTORY),
+          onTap: () => Get.toNamed(Routes.orderHistory),
         ),
         _buildDivider(),
         _buildMenuItem(
           icon: Icons.account_balance_wallet_outlined,
           title: "Wallet",
           onTap: () =>
-              Get.toNamed(Routes.WALLET, arguments: {'fromProfile': true}),
+              Get.toNamed(Routes.wallet, arguments: {'fromProfile': true}),
         ),
         _buildDivider(),
         _buildMenuItem(
           icon: Icons.info_outline,
           title: "About INARA",
-          onTap: () => Get.toNamed(Routes.ABOUT_US),
+          onTap: () => Get.toNamed(Routes.aboutUs),
         ),
         _buildDivider(),
         _buildMenuItem(
           icon: Icons.description_outlined,
           title: "Terms & Conditions",
-          onTap: () => Get.toNamed(Routes.TERMS_CONDITIONS),
+          onTap: () => Get.toNamed(Routes.termsConditions),
         ),
         _buildDivider(),
         _buildMenuItem(
@@ -321,7 +321,7 @@ class ProfileView extends GetView<ProfileController> {
               Switch(
                 value: toggleValue,
                 onChanged: onToggle,
-                activeColor: const Color(0xFF6D4C41),
+                activeThumbColor: const Color(0xFF6D4C41),
               )
             else if (showArrow)
               Icon(
@@ -367,7 +367,7 @@ class ProfileView extends GetView<ProfileController> {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 5.h),
-                Container(
+                SizedBox(
                   width: 50.w,
                   height: 140.h,
                   child: Stack(

@@ -21,7 +21,7 @@ class CustomTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton.icon(
       onPressed: () {
-        Get.toNamed(Routes.MY_BOOKINGS);
+        Get.toNamed(Routes.myBookings);
       },
       icon: Icon(icon, size: 24.r, color: iconColor),
       label: Text(

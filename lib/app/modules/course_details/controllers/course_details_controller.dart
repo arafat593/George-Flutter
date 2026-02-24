@@ -57,7 +57,7 @@ class CourseDetailsController extends GetxController {
     } else {
       // Otherwise go to checkout
       Get.toNamed(
-        Routes.CHECKOUT,
+        Routes.checkout,
         arguments: {'title': title.value, 'price': price.value},
       );
     }
@@ -107,7 +107,7 @@ class CourseDetailsController extends GetxController {
               onTap: () {
                 Get.back(); // Close bottom sheet
                 Get.toNamed(
-                  Routes.CHECKOUT,
+                  Routes.checkout,
                   arguments: {'title': title.value, 'price': price.value},
                 );
               },

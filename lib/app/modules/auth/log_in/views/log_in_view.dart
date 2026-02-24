@@ -33,7 +33,7 @@ class LogInView extends GetView<LogInController> {
                 titleText: "Don't have an account? ",
                 optionText: 'Sign Up',
                 onTap: () {
-                  Get.toNamed(Routes.REGISTRATION);
+                  Get.toNamed(Routes.registration);
                 },
               ),
             ],

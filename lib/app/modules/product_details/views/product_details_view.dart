@@ -201,7 +201,7 @@ class ProductDetailsView extends StatelessWidget {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () => Get.toNamed(
-                          Routes.CHECKOUT,
+                          Routes.checkout,
                           arguments: {
                             'name': productName,
                             'price': productPrice,

@@ -69,162 +69,162 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.SPLASH_SCREEN;
+  static const initial = Routes.splashScreen;
 
   static final routes = [
     GetPage(
-      name: _Paths.COURSES,
+      name: _Paths.courses,
       page: () => const CoursesView(),
       binding: CoursesBinding(),
     ),
     GetPage(
-      name: _Paths.HOME,
+      name: _Paths.home,
       page: () => const HomeView(),
       binding: HomeBinding(),
     ),
     GetPage(
-      name: _Paths.PROFILE,
+      name: _Paths.profile,
       page: () => const ProfileView(),
       binding: ProfileBinding(),
     ),
     GetPage(
-      name: _Paths.CUSTOM_BOTTOM_NAV,
+      name: _Paths.customBottomNav,
       page: () => const CustomBottomNavView(),
       binding: CustomBottomNavBinding(),
     ),
     GetPage(
-      name: _Paths.SPLASH_SCREEN,
+      name: _Paths.splashScreen,
       page: () => const SplashScreenView(),
       binding: SplashScreenBinding(),
     ),
     GetPage(
-      name: _Paths.LOG_IN,
+      name: _Paths.logIn,
       page: () => const LogInView(),
       binding: LogInBinding(),
     ),
     GetPage(
-      name: _Paths.REGISTRATION,
+      name: _Paths.registration,
       page: () => const RegistrationView(),
       binding: RegistrationBinding(),
     ),
     GetPage(
-      name: _Paths.RECOVERY_OTP,
+      name: _Paths.recoveryOtp,
       page: () => const RecoveryOtpView(),
       binding: RecoveryOtpBinding(),
     ),
     GetPage(
-      name: _Paths.CREATE_NEW_PASSWORD,
+      name: _Paths.createNewPassword,
       page: () => const CreateNewPasswordView(),
       binding: CreateNewPasswordBinding(),
     ),
     GetPage(
-      name: _Paths.RECOVERY_PASSWORD,
+      name: _Paths.recoveryPassword,
       page: () => const RecoveryPasswordView(),
       binding: RecoveryPasswordBinding(),
     ),
     GetPage(
-      name: _Paths.ONBOARDING,
+      name: _Paths.onboarding,
       page: () => const OnboardingView(),
       binding: OnboardingBinding(),
     ),
     GetPage(
-      name: _Paths.NEWS,
+      name: _Paths.news,
       page: () => const NewsView(),
       binding: NewsBinding(),
     ),
     GetPage(
-      name: _Paths.COURSE_DETAILS,
+      name: _Paths.courseDetails,
       page: () => const CourseDetailsView(),
       binding: CourseDetailsBinding(),
     ),
     GetPage(
-      name: _Paths.NEWS_DETAILS,
+      name: _Paths.newsDetails,
       page: () => const NewsDetailsView(),
       binding: NewsDetailsBinding(),
     ),
     GetPage(
-      name: _Paths.NOTIFICATIONS,
+      name: _Paths.notifications,
       page: () => const NotificationsView(),
       binding: NotificationsBinding(),
     ),
     GetPage(
-      name: _Paths.CHECKOUT,
+      name: _Paths.checkout,
       page: () => const CheckoutView(),
       binding: CheckoutBinding(),
     ),
     GetPage(
-      name: _Paths.BOOKING_CONFIRMED,
+      name: _Paths.bookingConfirmed,
       page: () => const BookingConfirmedView(),
       binding: BookingConfirmedBinding(),
     ),
     GetPage(
-      name: _Paths.INSTRUCTOR_DETAILS,
+      name: _Paths.instructorDetails,
       page: () => const InstructorDetailsView(),
       binding: InstructorDetailsBinding(),
     ),
     GetPage(
-      name: _Paths.MY_BOOKINGS,
+      name: _Paths.myBookings,
       page: () => const MyBookingsView(),
       binding: MyBookingsBinding(),
     ),
     GetPage(
-      name: _Paths.BOOKING_DETAILS,
+      name: _Paths.bookingDetails,
       page: () => const BookingDetailsView(),
       binding: BookingDetailsBinding(),
     ),
-    GetPage(name: _Paths.TOP_UP_SUCCESS, page: () => const TopUpSuccessView()),
+    GetPage(name: _Paths.topUpSuccess, page: () => const TopUpSuccessView()),
     GetPage(
-      name: _Paths.PRODUCT_DETAILS,
+      name: _Paths.productDetails,
       page: () => const ProductDetailsView(),
       binding: ProductDetailsBinding(),
     ),
     GetPage(
-      name: _Paths.ABOUT_US,
+      name: _Paths.aboutUs,
       page: () => const AboutUsView(),
       binding: AboutUsBinding(),
     ),
     GetPage(
-      name: _Paths.EDIT_PROFILE,
+      name: _Paths.editProfile,
       page: () => const EditProfileView(),
       binding: EditProfileBinding(),
     ),
     GetPage(
-      name: _Paths.MEMBERSHIPS,
+      name: _Paths.memberships,
       page: () => const MembershipsView(),
       binding: MembershipsBinding(),
     ),
     GetPage(
-      name: _Paths.MEMBERSHIP_DETAILS,
+      name: _Paths.membershipDetails,
       page: () => MembershipDetailsView(),
       binding: MembershipDetailsBinding(),
     ),
     GetPage(
-      name: _Paths.TERMS_CONDITIONS,
+      name: _Paths.termsConditions,
       page: () => const TermsConditionsView(),
       binding: TermsConditionsBinding(),
     ),
     GetPage(
-      name: _Paths.WALLET,
+      name: _Paths.wallet,
       page: () => const WalletView(),
       binding: WalletBinding(),
     ),
     GetPage(
-      name: _Paths.ORDER_HISTORY,
+      name: _Paths.orderHistory,
       page: () => const OrderHistoryView(),
       binding: OrderHistoryBinding(),
     ),
     GetPage(
-      name: _Paths.FILTER,
+      name: _Paths.filter,
       page: () => const FilterView(),
       binding: FilterBinding(),
     ),
     GetPage(
-      name: _Paths.ERROR_SCREEN,
+      name: _Paths.errorScreen,
       page: () => const ErrorScreenView(),
       binding: ErrorScreenBinding(),
     ),
     GetPage(
-      name: _Paths.NOT_FOUND_SCREEN,
+      name: _Paths.notFoundScreen,
       page: () => const NotFoundScreenView(),
       binding: NotFoundScreenBinding(),
     ),

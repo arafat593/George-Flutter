@@ -68,7 +68,7 @@ class CheckoutView extends GetView<CheckoutController> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.6),
+                color: Colors.white.withValues(alpha: 0.6),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
@@ -148,7 +148,7 @@ class CheckoutView extends GetView<CheckoutController> {
                   Future.delayed(const Duration(seconds: 2), () {
                     Get.back(); // close dialog
                     Get.toNamed(
-                      Routes.BOOKING_CONFIRMED,
+                      Routes.bookingConfirmed,
                       arguments: {
                         'message': controller.fromMembership.value
                             ? '${controller.itemName.value} Confirmed!'
@@ -264,7 +264,7 @@ class CheckoutView extends GetView<CheckoutController> {
                           Text(
                             method['subtitle'] as String,
                             style: TextStyle(
-                              color: Colors.white.withOpacity(0.7),
+                              color: Colors.white.withValues(alpha: 0.7),
                               fontSize: 12,
                             ),
                           ),
@@ -365,14 +365,14 @@ class CheckoutView extends GetView<CheckoutController> {
     return Container(
       height: 55,
       decoration: BoxDecoration(
-        color: const Color(0xFFBCAAA4).withOpacity(0.6),
+        color: const Color(0xFFBCAAA4).withValues(alpha: 0.6),
       ),
       child: TextFormField(
         controller: controller,
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: TextStyle(
-            color: const Color(0xFF5D4037).withOpacity(0.5),
+            color: const Color(0xFF5D4037).withValues(alpha: 0.5),
             fontSize: 15,
           ),
           contentPadding: const EdgeInsets.symmetric(
@@ -463,7 +463,7 @@ class CheckoutView extends GetView<CheckoutController> {
                       ),
                       onPressed: () {
                         Get.toNamed(
-                          Routes.MEMBERSHIPS,
+                          Routes.memberships,
                           arguments: {'isFromSuggestions': true},
                         );
                       },
@@ -483,13 +483,13 @@ class CheckoutView extends GetView<CheckoutController> {
                     child: Switch(
                       value: autoRenew,
                       onChanged: (val) => controller.toggleAutoRenew(index),
-                      activeColor: AppColors.buttonPrimaryColor,
+                      activeThumbColor: AppColors.buttonPrimaryColor,
                     ),
                   ),
                   Text(
                     "Auto Renew",
                     style: TextStyle(
-                      color: AppColors.headlineColor.withOpacity(0.8),
+                      color: AppColors.headlineColor.withValues(alpha: 0.8),
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
                     ),

@@ -84,7 +84,7 @@ class CoursesView extends GetView<CoursesController> {
           children: [
             GestureDetector(
               onTap: () => Get.toNamed(
-                Routes.COURSE_DETAILS,
+                Routes.courseDetails,
                 preventDuplicates: true,
                 arguments: {'title': 'Morning Vinyasa Flow', 'price': price},
               ),
@@ -155,7 +155,7 @@ class CoursesView extends GetView<CoursesController> {
                   SizedBox(height: 8.h),
                   GestureDetector(
                     onTap: () => Get.toNamed(
-                      Routes.COURSE_DETAILS,
+                      Routes.courseDetails,
                       preventDuplicates: true,
                       arguments: {
                         'title': 'Morning Vinyasa Flow',
@@ -174,7 +174,7 @@ class CoursesView extends GetView<CoursesController> {
                   Row(
                     children: [
                       GestureDetector(
-                        onTap: () => Get.toNamed(Routes.INSTRUCTOR_DETAILS),
+                        onTap: () => Get.toNamed(Routes.instructorDetails),
                         child: Row(
                           children: [
                             CircleAvatar(
@@ -214,7 +214,7 @@ class CoursesView extends GetView<CoursesController> {
                       const Spacer(),
                       GestureDetector(
                         onTap: () => Get.toNamed(
-                          Routes.COURSE_DETAILS,
+                          Routes.courseDetails,
                           preventDuplicates: true,
                           arguments: {
                             'title': 'Morning Vinyasa Flow',
@@ -295,7 +295,7 @@ class CoursesView extends GetView<CoursesController> {
                             width: 80.w,
                             height: 6.h,
                             decoration: BoxDecoration(
-                              color: Colors.grey.withOpacity(0.2),
+                              color: Colors.grey.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(4.r),
                             ),
                             child: FractionallySizedBox(

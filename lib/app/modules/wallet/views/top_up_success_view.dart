@@ -63,7 +63,7 @@ class _TopUpSuccessViewState extends State<TopUpSuccessView> {
                         height: 55.h,
                         child: ElevatedButton(
                           onPressed: () =>
-                              Get.offNamed(Routes.CUSTOM_BOTTOM_NAV),
+                              Get.offNamed(Routes.customBottomNav),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF6B5345),
                             shape: RoundedRectangleBorder(

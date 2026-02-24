@@ -24,7 +24,7 @@ class LogInController extends GetxController {
       var response = await authRepository.login(email: emailController.text.trim().toLowerCase(), password: passwordController.text.trim());
       if (response) {
         appGlobalUserData.value = await authRepository.getUser();
-        Get.offAllNamed(Routes.CUSTOM_BOTTOM_NAV);
+        Get.offAllNamed(Routes.customBottomNav);
       }
     } catch (e) {
       errorLog("login", e);

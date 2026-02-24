@@ -8,7 +8,7 @@ import '../../store/controllers/store_controller.dart';
 import '../../wallet/controllers/wallet_controller.dart';
 import '../controllers/custom_bottom_nav_controller.dart';
 
-class CustomBottomNavBinding extends Bindings {
+class CustomBottomNavBinding extends BindingsInterface {
   @override
   void dependencies() {
     Get.lazyPut<CustomBottomNavController>(() => CustomBottomNavController());

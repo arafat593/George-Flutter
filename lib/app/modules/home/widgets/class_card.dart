@@ -69,7 +69,7 @@ class ClassCard extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   Get.toNamed(
-                    Routes.COURSE_DETAILS,
+                    Routes.courseDetails,
                     preventDuplicates: true,
                     arguments: {
                       'title': title,
@@ -115,7 +115,7 @@ class ClassCard extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     Get.toNamed(
-                      Routes.COURSE_DETAILS,
+                      Routes.courseDetails,
                       preventDuplicates: true,
                       arguments: {
                         'title': title,

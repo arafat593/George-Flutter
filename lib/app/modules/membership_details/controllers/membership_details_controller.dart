@@ -46,7 +46,7 @@ class MembershipDetailsController extends GetxController {
 
   void proceedToPayment() {
     Get.toNamed(
-      Routes.CHECKOUT,
+      Routes.checkout,
       arguments: {
         'itemName': title.value,
         'itemPrice': price.value,

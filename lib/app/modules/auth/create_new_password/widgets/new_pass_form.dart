@@ -98,7 +98,7 @@ class NewPassForm extends StatelessWidget {
                       onTap: () {
                         if (controller.formKey.currentState!.validate()) {
                           // Success logic - probably navigate to login
-                          Get.offAllNamed(Routes.LOG_IN);
+                          Get.offAllNamed(Routes.logIn);
                           Get.snackbar(
                             'Success',
                             'Password updated successfully',

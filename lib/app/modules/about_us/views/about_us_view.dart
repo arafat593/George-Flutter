@@ -29,7 +29,7 @@ class AboutUsView extends GetView<AboutUsController> {
                   Text(
                     "Founded in 2015, our yoga studio began with a simple vision: to create a sanctuary where everyone could discover the transformative power of yoga.\n\nToday, we're proud to be a thriving community of practitioners, from beginners taking their first steps to advanced yogis deepening their practice.",
                     style: AppTextStyles.regular(14).copyWith(
-                      color: const Color(0xFF6D4C41).withOpacity(0.8),
+                      color: const Color(0xFF6D4C41).withValues(alpha: 0.8),
                       height: 1.5,
                     ),
                   ),
@@ -39,7 +39,7 @@ class AboutUsView extends GetView<AboutUsController> {
                   Text(
                     "We believe yoga is for every body. Our mission is to provide accessible, authentic yoga instruction that honors the ancient traditions while embracing modern needs.",
                     style: AppTextStyles.regular(14).copyWith(
-                      color: const Color(0xFF6D4C41).withOpacity(0.8),
+                      color: const Color(0xFF6D4C41).withValues(alpha: 0.8),
                       height: 1.5,
                     ),
                   ),
@@ -150,7 +150,7 @@ class AboutUsView extends GetView<AboutUsController> {
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -170,7 +170,7 @@ class AboutUsView extends GetView<AboutUsController> {
             label,
             style: AppTextStyles.regular(
               10,
-            ).copyWith(color: const Color(0xFF6D4C41).withOpacity(0.7)),
+            ).copyWith(color: const Color(0xFF6D4C41).withValues(alpha: 0.7)),
             textAlign: TextAlign.center,
           ),
         ],
@@ -189,7 +189,7 @@ class AboutUsView extends GetView<AboutUsController> {
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: const Color(0xFFD7CCC8).withOpacity(0.4),
+        color: const Color(0xFFD7CCC8).withValues(alpha: 0.4),
         borderRadius: BorderRadius.circular(16.r),
       ),
       child: Column(
@@ -299,7 +299,7 @@ class AboutUsView extends GetView<AboutUsController> {
           text,
           style: AppTextStyles.regular(
             14,
-          ).copyWith(color: const Color(0xFF6D4C41).withOpacity(0.8)),
+          ).copyWith(color: const Color(0xFF6D4C41).withValues(alpha: 0.8)),
         ),
       ],
     );
