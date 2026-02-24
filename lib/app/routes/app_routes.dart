@@ -34,6 +34,8 @@ abstract class Routes {
   static const WALLET = _Paths.WALLET;
   static const ORDER_HISTORY = _Paths.ORDER_HISTORY;
   static const FILTER = _Paths.FILTER;
+  static const ERROR_SCREEN = _Paths.ERROR_SCREEN;
+  static const NOT_FOUND_SCREEN = _Paths.NOT_FOUND_SCREEN;
 }
 
 abstract class _Paths {
@@ -69,4 +71,6 @@ abstract class _Paths {
   static const WALLET = '/wallet';
   static const ORDER_HISTORY = '/order-history';
   static const FILTER = '/filter';
+  static const ERROR_SCREEN = '/error-screen';
+  static const NOT_FOUND_SCREEN = '/not-found-screen';
 }
