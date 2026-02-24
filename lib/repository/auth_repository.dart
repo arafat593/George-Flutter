@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:george/app/data/app_api_end_point.dart';
 import 'package:george/app/utils/app_log.dart';
+import 'package:george/models/app_user_data.dart';
 import 'package:george/services/api/api_services.dart';
 import 'package:george/services/api/non_auth_api.dart';
 import 'package:george/services/storage_services/get_storage_services.dart';
@@ -20,28 +21,19 @@ class AuthRepository {
   AppApiEndPoint api = AppApiEndPoint.instance;
   GetStorageServices storageServices = GetStorageServices.instance;
   /////////////// function
-  Future<bool> login({required String email, required String password, required String fcmToken, required String deviceId}) async {
+  Future<bool> login({required String email, required String password, String fcmToken = "", String deviceId = ""}) async {
     try {
       Map<String, String> bodyData = {
-        "email": email.trim().toLowerCase(),
+        "username": email.trim().toLowerCase(),
         "password": password.trim(),
-        "deviceId": deviceId.trim(),
-        "fcmToken": fcmToken.trim(),
+        // "deviceId": deviceId.trim(),
+        // "fcmToken": fcmToken.trim(),
       };
 
       var response = await apiServices.apiPostServices(url: api.login, body: bodyData);
       if (response != null) {
-        if (response["data"] != null && response["data"] is Map) {
-          var data = response["data"];
-          if (data["role"] != null && data["role"] is String) {
-            // await storageServices.s(data["role"].toString());
-          }
-          if (data["accessToken"] != null && data["accessToken"] is String) {
-            await storageServices.setToken(data["accessToken"].toString());
-          }
-          if (data["refreshToken"] != null && data["refreshToken"] is String) {
-            // await storageServices.setRefreshToken(data["refreshToken"].toString());
-          }
+        if (response["access_token"] is String) {
+          await storageServices.setToken(response["access_token"].toString());
         }
         return true;
       }
@@ -49,6 +41,20 @@ class AuthRepository {
       errorLog("login function repo", e);
     }
     return false;
+  }
+
+  Future<AppUserData?> getUser() async {
+    try {
+      var response = await apiServices.apiGetServices(api.userMe);
+      if (response != null) {
+        if (response is Map<String, dynamic>) {
+          return AppUserData.fromJson(response);
+        }
+      }
+    } catch (e) {
+      errorLog("getUser", e);
+    }
+    return null;
   }
 
   Future<bool> accountDelete({required String password}) async {
@@ -80,7 +86,7 @@ class AuthRepository {
           );
         }
       }
-      var response = await apiServices.apiPatchServices(url: api.user, body: formData);
+      var response = await apiServices.apiPatchServices(url: api.userUpdate, body: formData);
       if (response != null) {
         return true;
       }
@@ -141,7 +147,7 @@ class AuthRepository {
         }
       }
 
-      var response = await apiServices.apiPostServices(url: api.user, body: formBodyData);
+      var response = await apiServices.apiPostServices(url: api.userUpdate, body: formBodyData);
       if (response != null) {
         return true;
       }

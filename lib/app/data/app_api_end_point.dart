@@ -16,7 +16,8 @@ class AppApiEndPoint {
   final String login = "/auth/login";
   final String signUP = "/auth/register";
   final String authDeleteAccount = "login";
-  final String user = "login";
+  final String userMe = "/users/me";
+  final String userUpdate = "/users/update";
   final String changePassword = "login";
   final String userResendOtp = "login";
   final String authOtpVerify = "login";

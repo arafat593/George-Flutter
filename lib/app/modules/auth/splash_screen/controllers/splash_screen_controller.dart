@@ -1,41 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:george/app/routes/app_pages.dart';
+import 'package:george/app/utils/app_log.dart';
+import 'package:george/models/app_user_data.dart';
+import 'package:george/repository/auth_repository.dart';
+import 'package:george/services/storage_services/get_storage_services.dart';
 import 'package:get/get.dart';
-import '../../../../routes/app_pages.dart';
 
-class SplashScreenController extends GetxController
-    with GetSingleTickerProviderStateMixin {
+Rxn<AppUserData> appGlobalUserData = Rxn<AppUserData>();
+
+class SplashScreenController extends GetxController with GetSingleTickerProviderStateMixin {
   late AnimationController animationController;
   late Animation<double> scaleAnimation;
   late Animation<double> fadeAnimation;
+  final GetStorageServices storageServices = GetStorageServices.instance;
+  final AuthRepository authRepository = AuthRepository.instance;
+
+  Future<void> onAppInitial() async {
+    try {
+      animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 1500));
+
+      scaleAnimation = CurvedAnimation(parent: animationController, curve: Curves.easeOutBack);
+
+      fadeAnimation = CurvedAnimation(parent: animationController, curve: Curves.easeIn);
+
+      animationController.forward();
+
+      var token = GetStorageServices.instance.getToken();
+      if (token.isEmpty) {
+        Future.delayed(const Duration(seconds: 2), () {
+          Get.offNamed(Routes.ONBOARDING);
+        });
+        return;
+      }
+
+      appGlobalUserData.value = await authRepository.getUser();
+      if (appGlobalUserData.value == null) {
+        Get.offNamed(Routes.ONBOARDING);
+      } else {
+        Get.offNamed(Routes.CUSTOM_BOTTOM_NAV);
+      }
+    } catch (e) {
+      errorLog("onAppInitial", e);
+    }
+  }
+
+  void onAppClose() {
+    try {
+      animationController.dispose();
+    } catch (e) {
+      errorLog("onAppClose", e);
+    }
+  }
 
   @override
   void onInit() {
+    onAppInitial();
     super.onInit();
-    animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1500),
-    );
-
-    scaleAnimation = CurvedAnimation(
-      parent: animationController,
-      curve: Curves.easeOutBack,
-    );
-
-    fadeAnimation = CurvedAnimation(
-      parent: animationController,
-      curve: Curves.easeIn,
-    );
-
-    animationController.forward();
-
-    Future.delayed(const Duration(seconds: 3), () {
-      Get.offNamed(Routes.ONBOARDING);
-    });
   }
 
   @override
   void onClose() {
-    animationController.dispose();
+    onAppClose();
     super.onClose();
   }
 }

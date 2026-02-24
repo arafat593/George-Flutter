@@ -27,6 +27,7 @@ class AppApi {
           options.baseUrl = AppApiEndPoint.instance.baseUrl;
           options.contentType = 'application/json';
           options.headers["Accept"] = "application/json";
+          options.headers["content-type"] = "application/x-www-form-urlencoded";
 
           String token = storageServices.getToken();
           if (token.isNotEmpty) {
