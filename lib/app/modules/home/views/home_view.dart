@@ -36,7 +36,7 @@ class HomeView extends GetView<HomeController> {
                 const ClassHeaderSection(),
                 SizedBox(height: 16.h),
                 const ClassListSection(),
-                SizedBox(height: 125.h),
+                SizedBox(height: 20.h),
               ],
             ),
           ),
@@ -45,5 +45,3 @@ class HomeView extends GetView<HomeController> {
     );
   }
 }
-
-

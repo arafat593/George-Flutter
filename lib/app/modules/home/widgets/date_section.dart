@@ -25,7 +25,9 @@ class DateSection extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20.r),
                 ),
                 child: InkWell(
-                  onTap: () => controller.handleTodayButtonClick(),
+                  onTap: () {
+                    controller.handleTodayButtonClick();
+                  },
                   child: Text(
                     "Today",
                     style: AppTextStyles.medium(
@@ -91,7 +93,9 @@ class DateSection extends StatelessWidget {
                   bool isSelected = controller.selectedDateIndex.value == index;
                   var dateItem = controller.dates[index];
                   return GestureDetector(
-                    onTap: () => controller.setSelectedDate(index),
+                    onTap: () {
+                      controller.setSelectedDate(index);
+                    },
                     child: Container(
                       width: 60.w,
                       margin: EdgeInsets.symmetric(horizontal: 4.w),

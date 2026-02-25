@@ -9,6 +9,7 @@ import 'package:george/app/modules/home/widgets/gender_icon_row.dart';
 import 'package:george/app/modules/home/widgets/wait_list_dialog.dart';
 import 'package:george/app/routes/app_pages.dart';
 import 'package:george/app/utils/app_size.dart';
+import 'package:george/models/class_data.dart';
 import 'package:get/get.dart';
 
 class ClassCard extends StatelessWidget {
@@ -20,6 +21,8 @@ class ClassCard extends StatelessWidget {
   final String status;
   final int? spots;
   final bool isMembershipPaid;
+  final String image;
+  final ClassModel classItem;
 
   const ClassCard({
     super.key,
@@ -31,12 +34,15 @@ class ClassCard extends StatelessWidget {
     required this.status,
     this.spots,
     required this.isMembershipPaid,
+    required this.image,
+    required this.classItem,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(16.r),
+      margin: EdgeInsets.only(bottom: 15.h),
       decoration: BoxDecoration(
         color: AppColors.cardBackgroundColor,
         borderRadius: BorderRadius.circular(20.r),
@@ -72,8 +78,7 @@ class ClassCard extends StatelessWidget {
                     Routes.courseDetails,
                     preventDuplicates: true,
                     arguments: {
-                      'title': title,
-                      'price': price,
+                      'classItem': classItem,
                       'fromHistory': status != 'available',
                     },
                   );
@@ -96,9 +101,7 @@ class ClassCard extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 15.r,
-                    backgroundImage: const NetworkImage(
-                      'https://i.pravatar.cc/150?img=32',
-                    ),
+                    backgroundImage: NetworkImage(image),
                   ),
                   SizedBox(width: 8.w),
                   Text(

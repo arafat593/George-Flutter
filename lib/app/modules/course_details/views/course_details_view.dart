@@ -15,7 +15,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Obx(() {
-        if (!controller.isInitialized.value) {
+        if (controller.isInitialized.value) {
           return const Center(
             child: CircularProgressIndicator(color: Color(0xFF6B5345)),
           );
@@ -332,8 +332,6 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
 
   Widget _buildAboutSection() {
     const Color brownColor = Color(0xFF6B5345);
-    const String fullText =
-        'A dynamic flow class to wake up your body and mind.\nSynchronize breath with movement in this energizing session suited for those with some yoga experience.\nThis class focuses on improving flexibility, strength, and mindfulness through a series of progressive poses and breathing techniques.';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -353,8 +351,8 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
                 children: [
                   TextSpan(
                     text: controller.isAboutExpanded.value
-                        ? fullText
-                        : '${fullText.substring(0, 150)}... ',
+                        ? controller.description.value
+                        : '${controller.description.value.substring(0, controller.description.value.length ~/ 2)}... ',
                   ),
                   TextSpan(
                     text: controller.isAboutExpanded.value
