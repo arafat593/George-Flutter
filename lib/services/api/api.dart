@@ -25,15 +25,17 @@ class AppApi {
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           options.baseUrl = AppApiEndPoint.instance.baseUrl;
-          options.contentType = 'application/json';
           options.headers["Accept"] = "application/json";
-          options.headers["content-type"] = "application/x-www-form-urlencoded";
 
           String token = storageServices.getToken();
           if (token.isNotEmpty) {
             options.headers["Authorization"] = "Bearer $token";
           }
-
+          if (options.contentType == null) {
+            options.contentType = Headers.jsonContentType;
+          } else {
+            options.contentType ??= 'application/json';
+          }
           return handler.next(options); // Continue request
         },
         onError: (error, handler) async {

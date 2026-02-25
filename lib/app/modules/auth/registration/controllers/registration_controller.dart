@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:george/app/routes/app_pages.dart';
 import 'package:george/app/utils/app_log.dart';
 import 'package:george/repository/auth_repository.dart';
 import 'package:get/get.dart';
@@ -41,7 +42,9 @@ class RegistrationController extends GetxController {
         gender: selectedGender.value,
         password: passwordController.text.trim(),
       );
-      if (response) {}
+      if (response) {
+        Get.toNamed(Routes.recoveryOtp, arguments: {'isSignUp': true, "email": emailController.text.trim().toLowerCase()});
+      }
     } catch (e) {
       errorLog("signUp", e);
     } finally {
@@ -51,13 +54,13 @@ class RegistrationController extends GetxController {
 
   void onAppInitial() {
     try {
+      formKey = .new();
       fullNameController = .new();
       phoneController = .new();
       emailController = .new();
       passwordController = .new();
       confirmPasswordController = .new();
       focusNode = .new();
-      formKey = .new();
     } catch (e) {
       errorLog("onAppInitial", e);
     }
