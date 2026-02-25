@@ -16,17 +16,19 @@ class HomeController extends GetxController {
   final AppApiEndPoint api = AppApiEndPoint.instance;
   final GetStorageServices storageServices = GetStorageServices.instance;
   final ApiServices apiServices = ApiServices.instance;
-  final RxList allClasses = <ClassModel>[].obs;
+  RxList<ClassModel> allClasses = <ClassModel>[].obs;
+  final RxBool isloading = false.obs;
 
-  Future<void> fetchClasses() async {
+  Future<void> fetchClasses(String date) async {
     try {
-      var formatedDate =
-          "${currentMonth.value.month.toString().padLeft(2, "0")}-${currentMonth.value.day.toString().padLeft(2, "0")}-${currentMonth.value.year}";
-      allClasses.value = await _homeRepository.fetchClasses(
-        date: formatedDate,
-      );
+      isloading.value = true;
+      // var formatedDate =
+      //     "${currentMonth.value.month.toString().padLeft(2, "0")}-${currentMonth.value.day.toString().padLeft(2, "0")}-${currentMonth.value.year}";
+      allClasses.value = await _homeRepository.fetchClasses(date: date);
     } catch (e) {
       errorLog("fetchClasses", e);
+    } finally {
+      isloading.value = false;
     }
   }
 
@@ -187,11 +189,17 @@ class HomeController extends GetxController {
   }
 
   final dates = <Map<String, String>>[].obs;
-
+  String get _todayFormattedDate {
+    final now = DateTime.now();
+    final month = now.month.toString().padLeft(2, '0');
+    final day = now.day.toString().padLeft(2, '0');
+    final year = now.year.toString();
+    return '$month-$day-$year';
+  }
   @override
   void onInit() {
     super.onInit();
-    fetchClasses();
+    fetchClasses(_todayFormattedDate);
     _initializeToToday();
   }
 
@@ -293,6 +301,14 @@ class HomeController extends GetxController {
 
   void setSelectedDate(int index) {
     selectedDateIndex.value = index;
+    final selected = DateTime(
+      currentYear,
+      currentMonth.value.month,
+      selectedDateIndex.value + 1,
+    );
+    final formatedDate =
+        '${selected.month.toString().padLeft(2, '0')}-${selected.day.toString().padLeft(2, '0')}-${selected.year}';
+    fetchClasses(formatedDate);
     scrollToSelectedDate();
   }
 

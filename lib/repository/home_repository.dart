@@ -21,7 +21,7 @@ class HomeRepository {
     try {
       Map<String, dynamic> queryParameter = {
         'scheduledAt': date,
-        'page':100,
+        'page':1,
         "sortBy":"scheduledAt","sortOrder":'asc'
       };
       if (instructor.isNotEmpty) {

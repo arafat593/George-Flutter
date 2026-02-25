@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:george/models/class_data.dart';
 import 'package:get/get.dart';
 import '../../../routes/app_pages.dart';
 import '../../home/controllers/home_controller.dart';
 
 class CourseDetailsController extends GetxController {
-  final RxBool isInitialized = false.obs;
+  RxBool isInitialized = true.obs;
+  Rxn<ClassModel> classModel = Rxn();
 
   // Example data
   final RxString imageUrl =
@@ -17,29 +19,55 @@ class CourseDetailsController extends GetxController {
   final RxString title = 'Morning Vinyasa Flow'.obs;
   final RxString price = 'QAR 200'.obs;
   final RxString instructorName = 'Sarah Jenkins'.obs;
+  final RxString description =
+      'A dynamic flow class to wake up your body and mind.\nSynchronize breath with movement in this energizing session suited for those with some yoga experience.\nThis class focuses on improving flexibility, strength, and mindfulness through a series of progressive poses and breathing techniques.'
+          .obs;
   final RxBool fromHistory = false.obs;
   final RxBool isAboutExpanded = false.obs;
 
+  void onAppInitialize() {
+    try {
+      var arg = Get.arguments;
+      if (arg is ClassModel) {
+        classModel.value = arg;
+      } else {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          Get.offAndToNamed(Routes.notFoundScreen);
+        });
+      }
+    } catch (e) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Get.offAndToNamed(Routes.errorScreen);
+      });
+    } finally {
+      Future.delayed(const Duration(milliseconds: 300), () {
+        isInitialized.value = false;
+      });
+    }
+  }
+
   @override
   void onInit() {
+    onAppInitialize();
     super.onInit();
 
-    // Safely get arguments or use defaults
-    final args = Get.arguments as Map<String, dynamic>?;
+    // // Safely get arguments or use defaults
+    // final args = Get.arguments as Map<String, dynamic>?;
 
-    if (args != null) {
-      imageUrl.value = args['imageUrl'] ?? imageUrl.value;
-      instructorImage.value = args['instructorImage'] ?? instructorImage.value;
-      mapImage.value = args['mapImage'] ?? mapImage.value;
-      title.value = args['title'] ?? title.value;
-      price.value = args['price'] ?? price.value;
-      instructorName.value = args['instructorName'] ?? instructorName.value;
-      fromHistory.value = args['fromHistory'] ?? false;
-    }
+    // if (args != null) {
+    //   imageUrl.value = args['imageUrl'] ?? imageUrl.value;
+    //   instructorImage.value = args['instructorImage'] ?? instructorImage.value;
+    //   mapImage.value = args['mapImage'] ?? mapImage.value;
+    //   title.value = args['title'] ?? title.value;
+    //   price.value = args['price'] ?? price.value;
+    //   instructorName.value = args['instructorName'] ?? instructorName.value;
+    //   fromHistory.value = args['fromHistory'] ?? false;
+    //   description.value = args['description'] ?? description.value;
+    // }
 
-    Future.delayed(const Duration(milliseconds: 300), () {
-      isInitialized.value = true;
-    });
+    // Future.delayed(const Duration(milliseconds: 300), () {
+    //   isInitialized.value = true;
+    // });
   }
 
   void bookNow() {
@@ -132,7 +160,9 @@ class CourseDetailsController extends GetxController {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFF6D4C41).withValues(alpha: 0.1)),
+          border: Border.all(
+            color: const Color(0xFF6D4C41).withValues(alpha: 0.1),
+          ),
         ),
         child: Row(
           children: [
