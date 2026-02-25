@@ -23,7 +23,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
 
         return Stack(
           children: [
-            // Top Image
+
             Positioned(
               top: 0,
               left: 0,
@@ -32,7 +32,6 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
               child: Image.network(product.thumbnail, fit: BoxFit.cover),
             ),
 
-            // Back Button
             Positioned(
               top: 50.h,
               left: 20.w,
@@ -59,7 +58,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
 
             // Content Overlay
             Positioned.fill(
-              top: 0.45.sh,
+              top: 0.37.sh,
               child: Container(
                 decoration: BoxDecoration(
                   color: AppColors.backgroundColor,
@@ -67,11 +66,8 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                     top: Radius.circular(30.r),
                   ),
                 ),
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20.w,
-                    vertical: 25.h,
-                  ),
+                child: Padding(
+                  padding: const EdgeInsets.all(18),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -112,7 +108,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                       SizedBox(height: 15.h),
 
                       // Description
-                      _buildInfoSection("Description:", product.description),
+                      _buildInfoSection("Description:", product.description,),
                       SizedBox(height: 15.h),
 
                       // Pickup Note
@@ -165,8 +161,8 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.buttonPrimaryColor,
                         padding: EdgeInsets.symmetric(
-                          horizontal: 50.w,
-                          vertical: 15.h,
+                          horizontal: 30.w,
+                          vertical: 8.h,
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12.r),
@@ -203,6 +199,8 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
         SizedBox(height: 4.h),
         Text(
           content,
+          maxLines: 3,
+          overflow: TextOverflow.ellipsis,
           style: AppTextStyles.regular(
             16,
           ).copyWith(color: AppColors.bodyTextColor),
