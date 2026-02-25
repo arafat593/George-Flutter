@@ -1,42 +1,49 @@
+import 'package:george/models/product_details_model.dart';
+import 'package:george/repository/productdetails_repository.dart';
 import 'package:get/get.dart';
+import '../../../utils/app_log.dart';
 
 class ProductDetailsController extends GetxController {
-  final count = 1.obs;
+  late String productId;
 
-  // Mock data that would typically come from arguments or API
-  final productArgs = (Get.arguments as Map<String, dynamic>?) ?? {};
+  RxBool isLoading = false.obs;
 
-  int get availableCount => productArgs['available'] ?? 100;
+  final ProductDetailsRepository _productDetailsRepository =
+      ProductDetailsRepository.instance;
 
-  late final RxString selectedImage;
+  Rx<ProductDetailsModel?> productDetails = Rx<ProductDetailsModel?>(null);
+  RxInt quantity = 1.obs;
 
-  // Mock images for the carousel/thumbnails
-  final images = [
-    "https://picsum.photos/seed/detail1/500/500",
-    "https://picsum.photos/seed/detail2/500/500",
-    "https://picsum.photos/seed/detail3/500/500",
-  ];
+  void increment() {
+    quantity.value++;
+  }
+
+  void decrement() {
+    if (quantity.value > 1) {
+      quantity.value--;
+    }
+  }
 
   @override
   void onInit() {
     super.onInit();
-    final initialImage = productArgs['image'] ?? images[0];
-    selectedImage = initialImage.toString().obs;
+    productId = Get.arguments as String;
+    fetchProductDetails();
   }
 
-  void updateImage(String imageUrl) {
-    selectedImage.value = imageUrl;
-  }
+  Future<void> fetchProductDetails() async {
+    try {
+      isLoading.value = true;
 
-  void increment() {
-    if (count.value < availableCount) {
-      count.value++;
-    }
-  }
+      final result = await _productDetailsRepository.fetchProductDetails(
+        id: productId,
+      );
 
-  void decrement() {
-    if (count.value > 1) {
-      count.value--;
+      productDetails.value = result;
+    } catch (e) {
+      errorLog("ProductDetailsController", e);
+    } finally {
+      isLoading.value = false;
     }
   }
 }

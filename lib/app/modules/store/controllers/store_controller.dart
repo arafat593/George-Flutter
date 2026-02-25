@@ -1,48 +1,75 @@
+import 'package:flutter/material.dart';
+import 'package:george/app/utils/app_log.dart';
+import 'package:george/repository/store_repository.dart';
 import 'package:get/get.dart';
 
+import '../../../../models/store_product_model.dart';
+
 class StoreController extends GetxController {
-  final products = <Map<String, dynamic>>[
-    {
-      "name": "Premium Eco-Friendly Yoga Mat (6mm)",
-      "price": "QAR 2,450",
-      "image": "https://picsum.photos/seed/yoga_mat/500/500",
-      "available": 20,
-      "isOutOfStock": false,
-    },
-    {
-      "name": "100% Cotton Yoga Strap (8 ft)",
-      "price": "QAR 2,450",
-      "image": "https://picsum.photos/seed/yoga_strap/500/500",
-      "available": 10,
-      "isOutOfStock": false,
-    },
-    {
-      "name": "Round Meditation Cushion (Zafu)",
-      "price": "QAR 2,450",
-      "image": "https://picsum.photos/seed/meditation_cushion/500/500",
-      "available": 10,
-      "isOutOfStock": false,
-    },
-    {
-      "name": "Insulated Stainless Steel Water Bottle - 750ml",
-      "price": "QAR 2,450",
-      "image": "https://picsum.photos/seed/water_bottle/500/500",
-      "available": 0,
-      "isOutOfStock": true,
-    },
-    {
-      "name": "High-Density Foam Yoga Block",
-      "price": "QAR 2,450",
-      "image": "https://picsum.photos/seed/yoga_block/500/500",
-      "available": 10,
-      "isOutOfStock": false,
-    },
-    {
-      "name": "Premium Eco-Friendly Yoga Mat (6mm)",
-      "price": "QAR 2,450",
-      "image": "https://picsum.photos/seed/yoga_mat_2/500/500",
-      "available": 10,
-      "isOutOfStock": false,
-    },
-  ].obs;
+  late ScrollController scrollController;
+  final RxList<StoreProductModel> products = <StoreProductModel>[].obs;
+  final RxBool isLoading = false.obs;
+  final RxBool isPaginationLoading = false.obs;
+  bool isHasPagination = true;
+  var page = 1;
+
+  void pagination(){
+    try{
+      scrollController.addListener(() {
+if(scrollController.position.maxScrollExtent >= scrollController.position.pixels){
+  if(isHasPagination && !isPaginationLoading.value){
+    isPaginationLoading.value = true;
+    getStoreData(page: page);
+  }
+}
+      },);
+    }catch(_){}
+  }
+
+  Future<void> getStoreData({required int page }) async {
+    try {
+
+      final (response, hasPagination) = await StoreRepository.instance.storeClasses(page);
+     products.addAll(response);
+     if(hasPagination == true){
+       page = page+1;
+     }else{
+       isHasPagination = false;
+     }
+    } catch (e) {
+      errorLog("error is", e);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+Future<void> onAppInitial()async{
+  try{
+    isLoading.value = true;
+    scrollController = .new();
+   await getStoreData(page: 1);
+    pagination();
+  }catch(e){
+    errorLog("error form StoreController onAppInitial function ",e);
+  }
+}
+
+
+
+ void onAppClose(){
+  try{
+    scrollController.dispose();
+  }catch(_){}
+  }
+  @override
+  void onInit() {
+    onAppInitial();
+    super.onInit();
+  }
+
+  @override
+  void onClose() {
+    onAppClose();
+    super.onClose();
+  }
 }
