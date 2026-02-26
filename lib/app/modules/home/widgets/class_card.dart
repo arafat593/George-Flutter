@@ -9,7 +9,6 @@ import 'package:george/app/modules/home/widgets/gender_icon_row.dart';
 import 'package:george/app/modules/home/widgets/wait_list_dialog.dart';
 import 'package:george/app/routes/app_pages.dart';
 import 'package:george/app/utils/app_size.dart';
-import 'package:george/models/class_data.dart';
 import 'package:get/get.dart';
 
 class ClassCard extends StatelessWidget {
@@ -23,7 +22,7 @@ class ClassCard extends StatelessWidget {
   final bool isMembershipPaid;
   final String image;
   final double progress;
-  final ClassModel classItem;
+  final String classId;
 
   const ClassCard({
     super.key,
@@ -36,8 +35,8 @@ class ClassCard extends StatelessWidget {
     this.availableSeats,
     required this.isMembershipPaid,
     required this.image,
-    required this.classItem,
     required this.progress,
+    required this.classId,
   });
 
   @override
@@ -45,11 +44,7 @@ class ClassCard extends StatelessWidget {
     final classStatus = status.toLowerCase();
     return GestureDetector(
       onTap: () {
-        Get.toNamed(
-          Routes.courseDetails,
-          preventDuplicates: true,
-          arguments: classItem,
-        );
+        Get.toNamed(Routes.courseDetails, arguments: classId);
       },
       child: Container(
         padding: EdgeInsets.all(16.r),

@@ -47,4 +47,18 @@ class HomeRepository {
     }
     return listOfData;
   }
+
+  Future<ClassModel> fetchClassById({required String id}) async {
+    try {
+      var response = await _apiServices.apiGetServices('${_api.allClasses}$id');
+      if (response != null) {
+        return ClassModel.fromJson(response);
+      } else {
+        throw Exception("Instructor data is null");
+      }
+    } catch (e) {
+      errorLog('FetchClassesRep', e);
+      rethrow;
+    }
+  }
 }

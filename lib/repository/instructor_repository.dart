@@ -15,24 +15,20 @@ class InstructorRepository {
   final ApiServices _apiServices = ApiServices.instance;
   final AppApiEndPoint _api = AppApiEndPoint.instance;
 
-  Future<InstructorModel> fetchInstructorModel({
-  required String id,
-}) async {
-  try {
-    
+  Future<InstructorModel> fetchInstructorModel({required String id}) async {
+    try {
+      final response = await _apiServices.apiGetServices(
+        "${_api.instructors}/$id",
+      );
 
-    final response = await _apiServices.apiGetServices(
-      "${_api.instructors}/$id",
-    );
-
-    if (response != null) {
-      return InstructorModel.fromJson(response);
-    } else {
-      throw Exception("Instructor data is null");
+      if (response != null) {
+        return InstructorModel.fromJson(response);
+      } else {
+        throw Exception("Instructor data is null");
+      }
+    } catch (e) {
+      errorLog('FetchInstructor', e);
+      rethrow;
     }
-  } catch (e) {
-    errorLog('FetchInstructor', e);
-    rethrow;
   }
-}
 }

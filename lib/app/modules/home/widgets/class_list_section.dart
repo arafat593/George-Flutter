@@ -39,6 +39,7 @@ class ClassListSection extends StatelessWidget {
             final progress = bookedSeats / maxParticipants;
             final timeDuration = classItem.duration;
             final status = classItem.status;
+            final classId = classItem.id;
             return ClassCard(
               badge: difficulity,
               image: instructorImage ?? 'https://i.pravatar.cc/150?img=32',
@@ -49,8 +50,8 @@ class ClassListSection extends StatelessWidget {
               status: status,
               availableSeats: availableSeats,
               isMembershipPaid: false,
-              classItem: classItem,
               progress: progress,
+              classId: classId,
             );
           },
         ),
@@ -58,13 +59,3 @@ class ClassListSection extends StatelessWidget {
     });
   }
 }
-// return ClassCard(
-//               badge: classItem.difficulty.value,
-//               title: title,
-//               price: 'QAR 350',
-//               time: '10:00 AM - 12:30 PM',
-//               instructor: 'Michael Chen',
-//               status: 'available',
-//               spots: 5,
-//               isMembershipPaid: false,
-//             );

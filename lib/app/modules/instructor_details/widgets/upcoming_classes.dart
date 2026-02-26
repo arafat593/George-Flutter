@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/data/app_text_styles.dart';
+import 'package:george/app/modules/course_details/controllers/course_details_controller.dart'
+    show CourseDetailsController;
 import 'package:george/app/utils/app_size.dart';
 import 'package:george/app/widgets/custom_progress.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../models/instructor_data.dart';
-import '../../../routes/app_pages.dart';
+import '../../course_details/views/course_details_view.dart';
 
 class UpcomingClassesCard extends StatelessWidget {
   const UpcomingClassesCard({super.key, required this.instructor});
@@ -16,7 +18,7 @@ class UpcomingClassesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: instructor?.upcomingClasses.length,
+      itemCount: instructor?.upcomingClasses.length ?? 0,
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       padding: EdgeInsets.zero,
@@ -36,14 +38,15 @@ class UpcomingClassesCard extends StatelessWidget {
         final formatedDate = DateFormat('MMMM d, yyyy').format(dateTime);
         final availableSpots = upcomingClass?.availableSpots ?? 0;
         final totalSpots = upcomingClass?.totalSpots ?? 0;
-        double progress = (totalSpots - availableSpots) / totalSpots;
+        final progress = (totalSpots - availableSpots) / totalSpots;
+        final id = upcomingClass?.id ?? '';
         return GestureDetector(
           onTap: () {
-            Get.toNamed(
-              Routes.courseDetails,
-              preventDuplicates: true,
-              arguments: {},
-            );
+            if (Get.isRegistered<CourseDetailsController>()) {
+              Get.delete<CourseDetailsController>();
+            }
+
+            Get.to(() => CourseDetailsView(), arguments: id);
           },
           child: Container(
             margin: EdgeInsets.only(bottom: 16.h),
@@ -101,21 +104,11 @@ class UpcomingClassesCard extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 8.h),
-                GestureDetector(
-                  onTap: () => Get.toNamed(
-                    Routes.courseDetails,
-                    arguments: {
-                      'title': 'Morning Vinyasa Flow',
-                      'price': 'QAR 200',
-                      'instructorName': 'Sarah Jenkins',
-                    },
-                  ),
-                  child: Text(
-                    className,
-                    style: AppTextStyles.medium(
-                      18,
-                      color: const Color(0xFF6B5345),
-                    ),
+                Text(
+                  className,
+                  style: AppTextStyles.medium(
+                    18,
+                    color: const Color(0xFF6B5345),
                   ),
                 ),
                 SizedBox(height: 12.h),

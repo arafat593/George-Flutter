@@ -158,5 +158,3 @@ class InstructorDetailsView extends GetView<InstructorDetailsController> {
     );
   }
 }
-
-

@@ -9,18 +9,24 @@ import 'package:intl/intl.dart';
 import '../../../data/app_text_styles.dart';
 import '../controllers/course_details_controller.dart';
 
-class CourseDetailsView extends GetView<CourseDetailsController> {
-  const CourseDetailsView({super.key});
+class CourseDetailsView extends StatelessWidget {
+   CourseDetailsView({super.key});
+   final CourseDetailsController controller =
+      Get.put(CourseDetailsController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Obx(() {
-        if (controller.isInitialized.value) {
+        if (controller.isLoading.value) {
           return const Center(
             child: CircularProgressIndicator(color: Color(0xFF6B5345)),
           );
+        }
+
+        if (controller.classByID.value == null) {
+          return const Center(child: Text("No data found"));
         }
 
         return Stack(
@@ -58,7 +64,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
   }
 
   Widget _buildBackgroundImage() {
-    final image = controller.classModel.value?.imageUrl;
+    final image = controller.classByID.value?.imageUrl;
     return Positioned(
       top: 0,
       left: 0,
@@ -160,7 +166,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
         children: [
           Expanded(
             child: Text(
-              controller.classModel.value?.title ?? "",
+              controller.classByID.value?.title ?? "",
               style: AppTextStyles.bold(22, color: brownColor),
             ),
           ),
@@ -174,7 +180,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
                 ],
               ),
               Text(
-                "QAR ${controller.classModel.value?.price.toString() ?? "0"}",
+                "QAR ${controller.classByID.value?.price.toString() ?? "0"}",
                 style: AppTextStyles.bold(24, color: brownColor),
               ),
             ],
@@ -197,7 +203,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
               borderRadius: BorderRadius.circular(8.r),
             ),
             child: Text(
-              controller.classModel.value?.difficulty ?? '',
+              controller.classByID.value?.difficulty ?? '',
               style: AppTextStyles.medium(12, color: brownColor),
             ),
           ),
@@ -230,9 +236,9 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
 
   Widget _buildSpotsSection() {
     const Color brownColor = Color(0xFF6B5345);
-    final bookedSeats = controller.classModel.value?.bookedSeats ?? 1;
-    final maxParticipants = controller.classModel.value?.maxParticipants ?? 1;
-    final availableSeat = controller.classModel.value?.availableSeats ?? 0;
+    final bookedSeats = controller.classByID.value?.bookedSeats ?? 1;
+    final maxParticipants = controller.classByID.value?.maxParticipants ?? 1;
+    final availableSeat = controller.classByID.value?.availableSeats ?? 0;
     double progress = bookedSeats / maxParticipants;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -262,7 +268,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
           CircleAvatar(
             radius: 26.r,
             backgroundImage: NetworkImage(
-              controller.classModel.value?.instructor.avatar ??
+              controller.classByID.value?.instructor.avatar ??
                   controller.instructorImage.value,
             ),
           ),
@@ -279,7 +285,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
                   ),
                 ),
                 Text(
-                  controller.classModel.value?.instructor.name ?? '',
+                  controller.classByID.value?.instructor.name ?? '',
                   style: AppTextStyles.medium(18, color: brownColor),
                 ),
               ],
@@ -289,7 +295,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
             onPressed: () {
               Get.toNamed(
                 '/instructor-details',
-                arguments: controller.classModel.value?.instructor.id,
+                arguments: controller.classByID.value?.instructor.id,
               );
             },
             style: ElevatedButton.styleFrom(
@@ -318,7 +324,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
         Text('About Class', style: AppTextStyles.bold(18, color: brownColor)),
         SizedBox(height: 12.h),
         Obx(() {
-          final description = controller.classModel.value?.description ?? '';
+          final description = controller.classByID.value?.description ?? '';
           return GestureDetector(
             onTap: () => controller.isAboutExpanded.value =
                 !controller.isAboutExpanded.value,
@@ -352,11 +358,24 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
   }
 
   Widget _buildDateTimeSection() {
-    final String dateString =
-        controller.classModel.value?.scheduledAt.toString() ?? '';
-    DateTime dateTime = DateTime.parse(dateString);
+    final scheduledAt = controller.classByID.value?.scheduledAt;
+
+    if (scheduledAt == null || scheduledAt.toString().isEmpty) {
+      return const SizedBox(); // or return a placeholder widget
+    }
+
+    DateTime? dateTime;
+
+    try {
+      dateTime = DateTime.parse(scheduledAt.toString());
+    } catch (e) {
+      return const SizedBox(); // prevent crash if format invalid
+    }
+
     final dateFormat = DateFormat('MMMM d, yyyy').format(dateTime);
+
     const Color brownColor = Color(0xFF6B5345);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -369,7 +388,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
             ),
             SizedBox(width: 8.w),
             Text(
-              controller.classModel.value?.duration ?? '',
+              controller.classByID.value?.duration ?? '',
               style: AppTextStyles.medium(
                 14,
                 color: brownColor.withValues(alpha: 0.6),

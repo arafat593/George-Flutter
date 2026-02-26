@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:george/models/class_data.dart';
+import 'package:george/repository/home_repository.dart';
 import 'package:get/get.dart';
 import '../../../routes/app_pages.dart';
+import '../../../utils/app_log.dart';
 import '../../home/controllers/home_controller.dart';
 
 class CourseDetailsController extends GetxController {
   RxBool isInitialized = true.obs;
-  Rxn<ClassModel> classModel = Rxn();
+  final RxBool isLoading = false.obs;
+  final HomeRepository _homeRepository = HomeRepository.instance;
+
+  Rxn<ClassModel> classByID = Rxn<ClassModel>();
+  final RxString id = ''.obs;
 
   // Example data
   final RxString imageUrl =
@@ -28,8 +34,10 @@ class CourseDetailsController extends GetxController {
   void onAppInitialize() {
     try {
       var arg = Get.arguments;
-      if (arg is ClassModel) {
-        classModel.value = arg;
+      print("✅✅✅$arg");
+      if (arg is String) {
+        id.value = arg;
+        fetchClassById(id.value);
       } else {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           Get.offAndToNamed(Routes.notFoundScreen);
@@ -46,28 +54,24 @@ class CourseDetailsController extends GetxController {
     }
   }
 
+  Future<void> fetchClassById(String id) async {
+    try {
+      isLoading.value = true;
+
+      classByID.value = null;
+
+      classByID.value = await _homeRepository.fetchClassById(id: id);
+    } catch (e) {
+      errorLog("fetchClasses", e);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   @override
   void onInit() {
     onAppInitialize();
     super.onInit();
-
-    // // Safely get arguments or use defaults
-    // final args = Get.arguments as Map<String, dynamic>?;
-
-    // if (args != null) {
-    //   imageUrl.value = args['imageUrl'] ?? imageUrl.value;
-    //   instructorImage.value = args['instructorImage'] ?? instructorImage.value;
-    //   mapImage.value = args['mapImage'] ?? mapImage.value;
-    //   title.value = args['title'] ?? title.value;
-    //   price.value = args['price'] ?? price.value;
-    //   instructorName.value = args['instructorName'] ?? instructorName.value;
-    //   fromHistory.value = args['fromHistory'] ?? false;
-    //   description.value = args['description'] ?? description.value;
-    // }
-
-    // Future.delayed(const Duration(milliseconds: 300), () {
-    //   isInitialized.value = true;
-    // });
   }
 
   void bookNow() {

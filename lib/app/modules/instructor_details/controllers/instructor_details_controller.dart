@@ -9,10 +9,9 @@ class InstructorDetailsController extends GetxController {
 
   final RxBool isLoading = false.obs;
 
-  /// Nullable reactive model
   final Rxn<InstructorModel> instructorDeatils = Rxn<InstructorModel>();
 
-  final String arg = Get.arguments;
+  var arg = Get.arguments;
 
   @override
   void onInit() {
