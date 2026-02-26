@@ -26,15 +26,11 @@ class CoursesView extends GetView<CoursesController> {
             Expanded(
               child: Obx(() {
                 if (controller.isLoading.value) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return const Center(child: CircularProgressIndicator());
                 }
 
                 if (controller.coursesList.isEmpty) {
-                  return const Center(
-                    child: Text("No Courses Found"),
-                  );
+                  return const Center(child: Text("No Courses Found"));
                 }
 
                 return AppRefreshIndicator(
@@ -77,10 +73,7 @@ class CoursesView extends GetView<CoursesController> {
         children: [
           Text(
             'Courses',
-            style: AppTextStyles.bold(
-              24,
-              color: AppColors.headlineColor,
-            ),
+            style: AppTextStyles.bold(24, color: AppColors.headlineColor),
           ),
         ],
       ),
@@ -88,16 +81,14 @@ class CoursesView extends GetView<CoursesController> {
   }
 
   Widget _buildCourseCard(
-      HomeController homeController,
-      Courses course, {
-        bool showBadge = true,
-      }) {
+    HomeController homeController,
+    Courses course, {
+    bool showBadge = true,
+  }) {
     return Obx(() {
-      final isPaid =
-          homeController.isMembershipPaid.value && showBadge;
+      final isPaid = homeController.isMembershipPaid.value && showBadge;
 
-      final price =
-      isPaid ? 'QAR 0' : 'QAR ${course.price}';
+      final price = isPaid ? 'QAR 0' : 'QAR ${course.price}';
 
       final seatPercentage = course.totalSeat == 0
           ? 0.0
@@ -120,8 +111,7 @@ class CoursesView extends GetView<CoursesController> {
                 arguments: course.id,
               ),
               child: ClipRRect(
-                borderRadius:
-                BorderRadius.vertical(top: Radius.circular(20.r)),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
                 child: Image.network(
                   course.coverImage,
                   height: 180.h,
@@ -131,10 +121,7 @@ class CoursesView extends GetView<CoursesController> {
                   errorBuilder: (_, __, ___) => Container(
                     height: 180.h,
                     color: Colors.grey.shade200,
-                    child: const Icon(
-                      Icons.broken_image,
-                      color: Colors.grey,
-                    ),
+                    child: const Icon(Icons.broken_image, color: Colors.grey),
                   ),
                 ),
               ),
@@ -148,8 +135,7 @@ class CoursesView extends GetView<CoursesController> {
                 children: [
                   /// Level + Price
                   Row(
-                    mainAxisAlignment:
-                    MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
                         padding: EdgeInsets.symmetric(
@@ -158,8 +144,7 @@ class CoursesView extends GetView<CoursesController> {
                         ),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius:
-                          BorderRadius.circular(8.r),
+                          borderRadius: BorderRadius.circular(8.r),
                         ),
                         child: Row(
                           children: [
@@ -219,28 +204,25 @@ class CoursesView extends GetView<CoursesController> {
 
                   /// Instructor
                   GestureDetector(
-                    onTap: () =>
-                        Get.toNamed(Routes.instructorDetails),
+                    onTap: () => Get.toNamed(
+                      Routes.instructorDetails,
+                      arguments: course.instructor.name,
+                    ),
                     child: Row(
                       children: [
                         CircleAvatar(
                           radius: 20.r,
-                          backgroundColor:
-                          Colors.grey.shade200,
-                          backgroundImage:
-                          course.instructor.image.isNotEmpty
-                              ? NetworkImage(
-                              course.instructor.image)
+                          backgroundColor: Colors.grey.shade200,
+                          backgroundImage: course.instructor.image.isNotEmpty
+                              ? NetworkImage(course.instructor.image)
                               : null,
-                          child:
-                          course.instructor.image.isEmpty
+                          child: course.instructor.image.isEmpty
                               ? const Icon(Icons.person)
                               : null,
                         ),
                         SizedBox(width: 12.w),
                         Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               'Instructor',
@@ -253,8 +235,7 @@ class CoursesView extends GetView<CoursesController> {
                               course.instructor.name,
                               style: AppTextStyles.medium(
                                 14,
-                                color:
-                                AppColors.headlineColor,
+                                color: AppColors.headlineColor,
                               ),
                             ),
                           ],
@@ -263,8 +244,7 @@ class CoursesView extends GetView<CoursesController> {
                         Icon(
                           Icons.arrow_forward,
                           size: 20.r,
-                          color:
-                          AppColors.headlineColor,
+                          color: AppColors.headlineColor,
                         ),
                       ],
                     ),
@@ -276,11 +256,10 @@ class CoursesView extends GetView<CoursesController> {
                   Row(
                     children: List.generate(
                       20,
-                          (index) => Expanded(
+                      (index) => Expanded(
                         child: Container(
                           height: 1,
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 2.w),
+                          margin: EdgeInsets.symmetric(horizontal: 2.w),
                           color: index % 2 == 0
                               ? Colors.grey.shade400
                               : Colors.transparent,
@@ -293,8 +272,7 @@ class CoursesView extends GetView<CoursesController> {
 
                   /// Date + Seats
                   Row(
-                    mainAxisAlignment:
-                    MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
                         children: [
@@ -305,8 +283,7 @@ class CoursesView extends GetView<CoursesController> {
                           ),
                           SizedBox(width: 8.w),
                           Column(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 "${course.scheduledAt?.day}-${course.scheduledAt?.month}-${course.scheduledAt?.year}",
@@ -319,8 +296,7 @@ class CoursesView extends GetView<CoursesController> {
                                 course.duration,
                                 style: AppTextStyles.medium(
                                   12,
-                                  color:
-                                  AppColors.headlineColor,
+                                  color: AppColors.headlineColor,
                                 ),
                               ),
                             ],
@@ -330,8 +306,7 @@ class CoursesView extends GetView<CoursesController> {
 
                       /// Seat Info
                       Column(
-                        crossAxisAlignment:
-                        CrossAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
                             "Available spots ${course.availableSeat}",
@@ -345,25 +320,16 @@ class CoursesView extends GetView<CoursesController> {
                             width: 80.w,
                             height: 6.h,
                             decoration: BoxDecoration(
-                              color: Colors.grey
-                                  .withValues(alpha: 0.2),
-                              borderRadius:
-                              BorderRadius.circular(
-                                  4.r),
+                              color: Colors.grey.withValues(alpha: 0.2),
+                              borderRadius: BorderRadius.circular(4.r),
                             ),
                             child: FractionallySizedBox(
-                              alignment:
-                              Alignment.centerLeft,
-                              widthFactor:
-                              seatPercentage.clamp(
-                                  0.0, 1.0),
+                              alignment: Alignment.centerLeft,
+                              widthFactor: seatPercentage.clamp(0.0, 1.0),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: AppColors
-                                      .buttonPrimaryColor,
-                                  borderRadius:
-                                  BorderRadius
-                                      .circular(4.r),
+                                  color: AppColors.buttonPrimaryColor,
+                                  borderRadius: BorderRadius.circular(4.r),
                                 ),
                               ),
                             ),
