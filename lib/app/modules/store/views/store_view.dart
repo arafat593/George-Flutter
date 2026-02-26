@@ -1,24 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/utils/app_size.dart';
 import 'package:get/get.dart';
+import '../../../../models/store_product_model.dart';
 import '../../../data/app_text_styles.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/store_controller.dart';
 
-class StoreView extends StatelessWidget {
+class StoreView extends GetView<StoreController> {
   const StoreView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<StoreController>();
-
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Obx(() {
+            if(controller.isLoading.value){
+              return Center(child: CircularProgressIndicator(),);
+            }
+            if(controller.products.isEmpty){
+              return Center( child:  Text("No data found"),);
+            }
             return GridView.builder(
+              physics: AlwaysScrollableScrollPhysics(),
+              controller: controller.scrollController,
               padding: EdgeInsets.only(bottom: 80.h),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -38,9 +45,9 @@ class StoreView extends StatelessWidget {
     );
   }
 
-  Widget _buildProductCard(Map<String, dynamic> product) {
+  Widget _buildProductCard(StoreProductModel product) {
     return GestureDetector(
-      onTap: () => Get.toNamed(Routes.productDetails, arguments: product),
+      onTap: () => Get.toNamed(Routes.productDetails,arguments: product.id),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -52,7 +59,7 @@ class StoreView extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12.r),
                     color: Colors.grey[300],
                     image: DecorationImage(
-                      image: NetworkImage(product['image']),
+                      image: NetworkImage(product.thumbnail),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -66,7 +73,7 @@ class StoreView extends StatelessWidget {
                       vertical: 4.h,
                     ),
                     decoration: BoxDecoration(
-                      color: product['isOutOfStock']
+                      color: product.stockQuantity == 0
                           ? Colors.black.withValues(alpha: 0.7)
                           : const Color(
                               0xFF6D4C41,
@@ -74,9 +81,9 @@ class StoreView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4.r),
                     ),
                     child: Text(
-                      product['isOutOfStock']
+                      product.stockQuantity == 0
                           ? "Out of stock"
-                          : "Available ${product['available']}",
+                          : "Available ${product.stockQuantity}",
                       style: AppTextStyles.medium(
                         10,
                       ).copyWith(color: Colors.white),
@@ -88,7 +95,7 @@ class StoreView extends StatelessWidget {
           ),
           SizedBox(height: 10.h),
           Text(
-            product['name'],
+            product.name,
             style: AppTextStyles.medium(
               14,
             ).copyWith(color: const Color(0xFF6D4C41), height: 1.2),
@@ -97,7 +104,7 @@ class StoreView extends StatelessWidget {
           ),
           SizedBox(height: 5.h),
           Text(
-            product['price'],
+            "${product.price}",
             style: AppTextStyles.bold(
               16,
             ).copyWith(color: const Color(0xFF4E342E)),
