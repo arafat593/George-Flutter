@@ -59,33 +59,35 @@ class OtpTextField extends StatelessWidget {
           SizedBox(height: 40.h),
 
           // Buttons
-          Row(
-            children: [
-              Expanded(
-                child: CustomElevetedButton(
-                  buttonText: 'Back',
-                  buttonTextColor: AppColors.headlineColor,
-                  backgroundColor: AppColors.buttonSecondaryColor,
-                  onTap: () => Get.back(),
+          Obx(
+            () => Row(
+              children: [
+                Expanded(
+                  child: CustomElevetedButton(
+                    buttonText: 'Back',
+                    buttonTextColor: AppColors.headlineColor,
+                    backgroundColor: AppColors.buttonSecondaryColor,
+                    onTap: () => Get.back(),
+                  ),
                 ),
-              ),
-              SizedBox(width: 20.w),
-              Expanded(
-                child: CustomElevetedButton(
-                  buttonText: 'Confirm',
-                  backgroundColor: AppColors.buttonPrimaryColor,
-                  buttonTextColor: AppColors.whiteColor,
-                  onTap: () {
-                    controller.verifyOtp(formKey);
-                    // if (isRegistering) {`
-                    //   return Get.offAllNamed(Routes.customBottomNav);
-                    // } else {
-                    //   return Get.toNamed(Routes.createNewPassword);
-                    // }
-                  },
+                SizedBox(width: 20.w),
+                Expanded(
+                  child: CustomElevetedButton(
+                    buttonText: controller.isLoading.value ? "loading..." : "Confirm",
+                    backgroundColor: AppColors.buttonPrimaryColor,
+                    buttonTextColor: AppColors.whiteColor,
+                    onTap: () {
+                      controller.verifyOtp(formKey);
+                      // if (isRegistering) {`
+                      //   return Get.offAllNamed(Routes.customBottomNav);
+                      // } else {
+                      //   return Get.toNamed(Routes.createNewPassword);
+                      // }
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

@@ -34,7 +34,7 @@ class ApiServices {
     } on DioException catch (e) {
       if (e.response.runtimeType != Null) {
         if (e.response?.statusCode == 401) {
-          await storageServices.storageClear();
+          await storageServices.logout();
           Get.offAllNamed(Routes.logIn);
         }
 
@@ -77,7 +77,7 @@ class ApiServices {
     } on DioException catch (e) {
       if (e.response.runtimeType != Null) {
         if (e.response?.statusCode == 401) {
-          await storageServices.storageClear();
+          await storageServices.logout();
           Get.offAllNamed(Routes.logIn);
         }
 
@@ -119,7 +119,7 @@ class ApiServices {
     } on DioException catch (e) {
       if (e.response.runtimeType != Null) {
         if (e.response?.statusCode == 401) {
-          await storageServices.storageClear();
+          await storageServices.logout();
           Get.offAllNamed(Routes.logIn);
         }
 
@@ -157,7 +157,7 @@ class ApiServices {
     } on DioException catch (e) {
       if (e.response.runtimeType != Null) {
         if (e.response?.statusCode == 401) {
-          await storageServices.storageClear();
+          await storageServices.logout();
           Get.offAllNamed(Routes.logIn);
         }
 
@@ -195,7 +195,7 @@ class ApiServices {
     } on DioException catch (e) {
       if (e.response.runtimeType != Null) {
         if (e.response?.statusCode == 401) {
-          await storageServices.storageClear();
+          await storageServices.logout();
           Get.offAllNamed(Routes.logIn);
         }
 

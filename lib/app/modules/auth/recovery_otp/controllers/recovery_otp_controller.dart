@@ -22,8 +22,12 @@ class RecoveryOtpController extends GetxController {
       isLoading.value = true;
       var response = await _authRepository.authOtpVerify(email: email.value, otp: otpController.text.trim());
       if (response) {
-        AppSnackBar.success("Successfully created account, login with your credential");
-        Get.offAllNamed(Routes.logIn);
+        if (isSignUP.value) {
+          AppSnackBar.success("Successfully created account, login with your credential");
+          Get.offAllNamed(Routes.logIn);
+        } else {
+          Get.offAndToNamed(Routes.createNewPassword, arguments: email.value);
+        }
       }
     } catch (e) {
       errorLog("verifyOtp", e);
@@ -83,9 +87,11 @@ class RecoveryOtpController extends GetxController {
       formKey = .new();
       startTimer();
       var arg = Get.arguments;
+      appLog(arg);
       if (arg is Map) {
         email.value = "${arg["email"] ?? ""}";
-        isSignUP.value = arg["isSignUP"] is bool ? arg["isSignUp"] : true;
+        isSignUP.value = arg["isSignUp"] is bool ? arg["isSignUp"] : true;
+        appLog(arg["isSignUp"]);
       } else {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           Get.offAndToNamed(Routes.notFoundScreen);

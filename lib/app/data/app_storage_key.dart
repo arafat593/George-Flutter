@@ -10,4 +10,5 @@ class AppStorageKey {
   String userRole = "userRole";
   String language = "language";
   String country = "country";
+  String loginInformation = "login-information";
 }

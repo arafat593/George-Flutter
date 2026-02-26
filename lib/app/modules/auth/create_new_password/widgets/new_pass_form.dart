@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/data/app_colors.dart';
 import 'package:george/app/modules/auth/create_new_password/controllers/create_new_password_controller.dart';
-import 'package:george/app/routes/app_pages.dart';
 import 'package:george/app/utils/app_size.dart';
 import 'package:george/app/widgets/custom_elevated_button.dart';
 import 'package:george/app/widgets/custom_text_field.dart';
@@ -9,8 +8,7 @@ import 'package:george/app/widgets/text_field_label_text.dart';
 import 'package:get/get.dart';
 
 class NewPassForm extends StatelessWidget {
-  const NewPassForm({super.key,});
-
+  const NewPassForm({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +26,7 @@ class NewPassForm extends StatelessWidget {
               hintText: '**** **** ****',
               obscureText: !controller.isPasswordVisible.value,
               suffixIcon: IconButton(
-                icon: Icon(
-                  controller.isPasswordVisible.value
-                      ? Icons.visibility
-                      : Icons.visibility_off,
-                  color: AppColors.headlineColor,
-                ),
+                icon: Icon(controller.isPasswordVisible.value ? Icons.visibility : Icons.visibility_off, color: AppColors.headlineColor),
                 onPressed: controller.togglePasswordVisibility,
               ),
               validator: (value) {
@@ -59,12 +52,7 @@ class NewPassForm extends StatelessWidget {
               hintText: '**** **** ****',
               obscureText: !controller.isConfirmPasswordVisible.value,
               suffixIcon: IconButton(
-                icon: Icon(
-                  controller.isConfirmPasswordVisible.value
-                      ? Icons.visibility
-                      : Icons.visibility_off,
-                  color: AppColors.headlineColor,
-                ),
+                icon: Icon(controller.isConfirmPasswordVisible.value ? Icons.visibility : Icons.visibility_off, color: AppColors.headlineColor),
                 onPressed: controller.toggleConfirmPasswordVisibility,
               ),
               validator: (value) {
@@ -78,41 +66,44 @@ class NewPassForm extends StatelessWidget {
               },
             ),
           ),
-           SizedBox(height: 50.h),
+          SizedBox(height: 50.h),
 
-              // Buttons Row
-              Row(
-                children: [
-                  Expanded(
-                    child: CustomElevetedButton(
-                      buttonText: 'Back',
-                      backgroundColor: AppColors.buttonSecondaryColor,
-                      buttonTextColor: AppColors.headlineColor,
-                      onTap: () => Get.back(),
-                    ),
+          // Buttons Row
+          Obx(
+            () => Row(
+              children: [
+                Expanded(
+                  child: CustomElevetedButton(
+                    buttonText: 'Back',
+                    backgroundColor: AppColors.buttonSecondaryColor,
+                    buttonTextColor: AppColors.headlineColor,
+                    onTap: () => Get.back(),
                   ),
-                  SizedBox(width: 20.w),
-                  Expanded(
-                    child: CustomElevetedButton(
-                      buttonText: 'Save',
-                      onTap: () {
-                        if (controller.formKey.currentState!.validate()) {
-                          // Success logic - probably navigate to login
-                          Get.offAllNamed(Routes.logIn);
-                          Get.snackbar(
-                            'Success',
-                            'Password updated successfully',
-                            backgroundColor: Colors.green.withValues(
-                              alpha: 0.7,
-                            ),
-                            colorText: Colors.white,
-                          );
-                        }
-                      },
-                    ),
+                ),
+                SizedBox(width: 20.w),
+                Expanded(
+                  child: CustomElevetedButton(
+                    buttonText: controller.isLoading.value ? "loading.." : 'Save',
+                    onTap: () {
+                      controller.checkAndUpdate();
+                      // if (controller.formKey.currentState!.validate()) {
+                      //   // Success logic - probably navigate to login
+                      //   Get.offAllNamed(Routes.logIn);
+                      //   Get.snackbar(
+                      //     'Success',
+                      //     'Password updated successfully',
+                      //     backgroundColor: Colors.green.withValues(
+                      //       alpha: 0.7,
+                      //     ),
+                      //     colorText: Colors.white,
+                      //   );
+                      // }
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

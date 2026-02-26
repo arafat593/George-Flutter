@@ -9,11 +9,11 @@ class AppApiEndPoint {
   //app use base
   final String domain = _getDomain();
   final String baseUrl = "${_getDomain()}/api/v1";
-  final String liveServer = "https://";
   final String termsAndConditions = "termsAndConditions";
   final String about = "termsAndConditions";
   final String privacyPolicy = "termsAndConditions";
   final String login = "/auth/login";
+  final String refreshToken = "/auth/refresh";
   final String signUP = "/auth/register";
   final String signUpOtpVerify = "/auth/verify-otp";
   final String authDeleteAccount = "login";
@@ -22,9 +22,9 @@ class AppApiEndPoint {
   final String changePassword = "login";
   final String userResendOtp = "/auth/resend-otp";
   final String authOtpVerify = "login";
-  final String authForgotPassword = "login";
-  final String authVerifyEmail = "login";
-  final String authResetPassword = "login";
+  final String authForgotPassword = "/auth/forgot-password";
+  final String authVerifyEmail = "/auth/verify-otp";
+  final String authResetPassword = "/auth/reset-password";
   final String allClasses = '/classes/';
 }
 

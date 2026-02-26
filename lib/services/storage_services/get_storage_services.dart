@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:george/app/data/app_storage_key.dart';
 import 'package:george/app/utils/app_log.dart';
 import 'package:get_storage/get_storage.dart';
@@ -26,6 +28,45 @@ class GetStorageServices {
     } catch (e) {
       errorLog("get token", e);
       return "";
+    }
+  }
+
+  Future<void> setRefreshToken(String value) async {
+    try {
+      await box.write(AppStorageKey.instance.refreshToken, value);
+      await box.save();
+    } catch (e) {
+      errorLog("set refresh token ", e);
+    }
+  }
+
+  String getRefreshToken() {
+    try {
+      return box.read(AppStorageKey.instance.refreshToken) ?? "";
+    } catch (e) {
+      errorLog("get refresh token", e);
+      return "";
+    }
+  }
+
+  ///////////////////// login information
+
+  Future<void> setLoginInformation({required String email, required String password}) async {
+    try {
+      var value = jsonEncode({"email": email, "password": password});
+      await box.write(AppStorageKey.instance.loginInformation, value);
+    } catch (e) {
+      errorLog("setLoginInformation", e);
+    }
+  }
+
+  Map<String, dynamic> getLoginInformation() {
+    try {
+      var data = box.read(AppStorageKey.instance.loginInformation) ?? "";
+      return jsonDecode(data);
+    } catch (e) {
+      errorLog("getLoginInformation", e);
+      return {};
     }
   }
 
@@ -88,9 +129,10 @@ class GetStorageServices {
   }
 
   ///logout
-  Future<void> storageClear() async {
+  Future<void> logout() async {
     try {
       await box.write(AppStorageKey.instance.token, "");
+      await box.write(AppStorageKey.instance.refreshToken, "");
       await setLanguage("en_US");
     } catch (e) {
       errorLog("logout", e);
