@@ -35,16 +35,17 @@ class ClassesResponse {
     };
   }
 }
+
 class ClassModel {
   final String title;
   final String description;
-  final ClassType type;
-  final int duration;
+  final String type;  // Changed from ClassType
+  final String duration;
   final DateTime scheduledAt;
   final int maxParticipants;
   final bool isFree;
   final String id;
-  final ClassStatus status;
+  final String status;  // Changed from ClassStatus
   final String courseId;
   final String instructorId;
   final int order;
@@ -52,9 +53,9 @@ class ClassModel {
   final DateTime updatedAt;
   final int bookedSeats;
   final int availableSeats;
-  final Difficulty difficulty;
-  final Gender gender;
-  final int price;
+  final String difficulty;  // Changed from Difficulty
+  final String gender;  // Changed from Gender
+  final double price;
   final String location;
   final String locationMapLink;
   final String phone;
@@ -92,23 +93,23 @@ class ClassModel {
     return ClassModel(
       title: json['title'] ?? '',
       description: json['description'] ?? '',
-      type: ClassTypeX.fromString(json['type'] ?? ''),
-      duration: (json['duration'] as num?)?.toInt() ?? 0,
+      type: json['type'] ?? '',
+      duration: json['duration'] ?? '',
       scheduledAt: DateTime.parse(json['scheduledAt']),
       maxParticipants: (json['maxParticipants'] as num?)?.toInt() ?? 0,
       isFree: json['isFree'] ?? false,
       id: json['id'] ?? '',
-      status: ClassStatusX.fromString(json['status'] ?? ''),
+      status: json['status'] ?? '',
       courseId: json['courseId'] ?? '',
       instructorId: json['instructorId'] ?? '',
-      order: (json['order']as num?)?.toInt() ?? 0,
+      order: (json['order'] as num?)?.toInt() ?? 0,
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
       bookedSeats: (json['bookedSeats'] as num?)?.toInt() ?? 0,
       availableSeats: (json['availableSeats'] as num?)?.toInt() ?? 0,
-      difficulty: DifficultyX.fromString(json['difficulty'] ?? ''),
-      gender: GenderX.fromString(json['gender'] ?? ''),
-      price: (json['price'] as num?)?.toInt() ?? 0,
+      difficulty: json['difficulty'] ?? '',
+      gender: json['gender'] ?? '',
+      price: (json['price'] as num?)?.toDouble() ?? 0,
       location: json['location'] ?? '',
       locationMapLink: json['locationMapLink'] ?? '',
       phone: json['phone'] ?? '',
@@ -121,13 +122,13 @@ class ClassModel {
     return {
       'title': title,
       'description': description,
-      'type': type.value,
+      'type': type,
       'duration': duration,
       'scheduledAt': scheduledAt.toIso8601String(),
       'maxParticipants': maxParticipants,
       'isFree': isFree,
       'id': id,
-      'status': status.value,
+      'status': status,
       'courseId': courseId,
       'instructorId': instructorId,
       'order': order,
@@ -135,8 +136,8 @@ class ClassModel {
       'updatedAt': updatedAt.toIso8601String(),
       'bookedSeats': bookedSeats,
       'availableSeats': availableSeats,
-      'difficulty': difficulty.value,
-      'gender': gender.value,
+      'difficulty': difficulty,
+      'gender': gender,
       'price': price,
       'location': location,
       'locationMapLink': locationMapLink,
@@ -146,6 +147,7 @@ class ClassModel {
     };
   }
 }
+
 class Instructor {
   final String id;
   final String name;
@@ -169,76 +171,12 @@ class Instructor {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'email': email,
-      'avatar': avatar,
-    };
-  }
-}
-enum ClassType {
-  live,
-}
-
-enum ClassStatus {
-  completed,
-  scheduled,
-}
-
-enum Difficulty {
-  beginner,
-  intermediate,
-  advanced,
-}
-
-enum Gender {
-  male,
-  female,
-  both,
-}
-extension ClassTypeX on ClassType {
-  String get value => name.toUpperCase();
-
-  static ClassType fromString(String value) {
-    return ClassType.values.firstWhere(
-      (e) => e.name.toUpperCase() == value.toUpperCase(),
-      orElse: () => ClassType.live,
-    );
+    return {'id': id, 'name': name, 'email': email, 'avatar': avatar};
   }
 }
 
-extension ClassStatusX on ClassStatus {
-  String get value => name.toUpperCase();
-
-  static ClassStatus fromString(String value) {
-    return ClassStatus.values.firstWhere(
-      (e) => e.name.toUpperCase() == value.toUpperCase(),
-      orElse: () => ClassStatus.scheduled,
-    );
-  }
-}
-
-extension DifficultyX on Difficulty {
-  String get value =>
-      name[0].toUpperCase() + name.substring(1); // Beginner
-
-  static Difficulty fromString(String value) {
-    return Difficulty.values.firstWhere(
-      (e) => e.name.toLowerCase() == value.toLowerCase(),
-      orElse: () => Difficulty.beginner,
-    );
-  }
-}
-
-extension GenderX on Gender {
-  String get value =>
-      name[0].toUpperCase() + name.substring(1); // Male
-
-  static Gender fromString(String value) {
-    return Gender.values.firstWhere(
-      (e) => e.name.toLowerCase() == value.toLowerCase(),
-      orElse: () => Gender.both,
-    );
-  }
-}
+// You can remove all the extension classes below:
+// - ClassTypeX
+// - ClassStatusX  
+// - DifficultyX
+// - GenderX

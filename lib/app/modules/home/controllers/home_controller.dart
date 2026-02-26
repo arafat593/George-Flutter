@@ -6,7 +6,6 @@ import 'package:george/repository/home_repository.dart';
 import 'package:george/services/api/api_services.dart';
 import 'package:george/services/storage_services/get_storage_services.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HomeController extends GetxController {
   final HomeRepository _homeRepository = HomeRepository.instance;
@@ -17,18 +16,19 @@ class HomeController extends GetxController {
   final GetStorageServices storageServices = GetStorageServices.instance;
   final ApiServices apiServices = ApiServices.instance;
   RxList<ClassModel> allClasses = <ClassModel>[].obs;
-  final RxBool isloading = false.obs;
+  final RxBool isLoading = false.obs;
+  // RxInt currentPage = 1.obs;
+  // RxInt lastPage = 1.obs;
+  // RxBool isLoadingMore = false.obs;
 
   Future<void> fetchClasses(String date) async {
     try {
-      isloading.value = true;
-      // var formatedDate =
-      //     "${currentMonth.value.month.toString().padLeft(2, "0")}-${currentMonth.value.day.toString().padLeft(2, "0")}-${currentMonth.value.year}";
+      isLoading.value = true;
       allClasses.value = await _homeRepository.fetchClasses(date: date);
     } catch (e) {
       errorLog("fetchClasses", e);
     } finally {
-      isloading.value = false;
+      isLoading.value = false;
     }
   }
 
@@ -196,6 +196,7 @@ class HomeController extends GetxController {
     final year = now.year.toString();
     return '$month-$day-$year';
   }
+
   @override
   void onInit() {
     super.onInit();
@@ -319,14 +320,5 @@ class HomeController extends GetxController {
 
   void handleTodayButtonClick() {
     resetToToday();
-  }
-
-  Future<void> launchMaps() async {
-    final Uri url = Uri.parse('https://www.google.com/maps');
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url, mode: LaunchMode.externalApplication);
-    } else {
-      Get.snackbar('Error', 'Could not open maps');
-    }
   }
 }

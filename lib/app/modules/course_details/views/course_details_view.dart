@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:george/app/data/app_colors.dart';
 import 'package:george/app/data/image_path.dart';
 import 'package:george/app/utils/app_size.dart';
+import 'package:george/app/widgets/custom_progress.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../../data/app_text_styles.dart';
 import '../controllers/course_details_controller.dart';
@@ -56,6 +58,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
   }
 
   Widget _buildBackgroundImage() {
+    final image = controller.classModel.value?.imageUrl;
     return Positioned(
       top: 0,
       left: 0,
@@ -64,10 +67,11 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
       child: Container(
         height: 300.h,
         width: double.infinity,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
-              "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1000",
+              image ??
+                  "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1000",
             ),
             fit: BoxFit.cover,
           ),
@@ -156,7 +160,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
         children: [
           Expanded(
             child: Text(
-              controller.title.value,
+              controller.classModel.value?.title ?? "",
               style: AppTextStyles.bold(22, color: brownColor),
             ),
           ),
@@ -170,7 +174,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
                 ],
               ),
               Text(
-                controller.price.value,
+                "QAR ${controller.classModel.value?.price.toString() ?? "0"}",
                 style: AppTextStyles.bold(24, color: brownColor),
               ),
             ],
@@ -193,7 +197,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
               borderRadius: BorderRadius.circular(8.r),
             ),
             child: Text(
-              'Intermediate',
+              controller.classModel.value?.difficulty ?? '',
               style: AppTextStyles.medium(12, color: brownColor),
             ),
           ),
@@ -226,49 +230,25 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
 
   Widget _buildSpotsSection() {
     const Color brownColor = Color(0xFF6B5345);
+    final bookedSeats = controller.classModel.value?.bookedSeats ?? 1;
+    final maxParticipants = controller.classModel.value?.maxParticipants ?? 1;
+    final availableSeat = controller.classModel.value?.availableSeats ?? 0;
+    double progress = bookedSeats / maxParticipants;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Available spots 2',
+          'Available spots $availableSeat',
           style: AppTextStyles.regular(
             12,
             color: brownColor.withValues(alpha: 0.6),
           ),
         ),
         SizedBox(height: 8.h),
-        Container(
-          width: double.infinity,
-          height: 10.h,
-          decoration: BoxDecoration(
-            color: const Color(0xFFD6C8BE),
-            borderRadius: BorderRadius.circular(10.r),
-          ),
-          child: Stack(
-            children: [
-              FractionallySizedBox(
-                alignment: Alignment.centerLeft,
-                widthFactor: 0.9,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: brownColor,
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-                ),
-              ),
-              Align(
-                alignment: const Alignment(0.8, 0),
-                child: Container(
-                  width: 12.r,
-                  height: 12.r,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-              ),
-            ],
-          ),
+        CustomProgress(
+          progress: progress,
+          backgroundColor: Color(0xFFD6C8BE),
+          progressColor: brownColor,
         ),
       ],
     );
@@ -279,39 +259,39 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
     return Obx(
       () => Row(
         children: [
-          GestureDetector(
-            onTap: () => Get.toNamed('/instructor-details'),
-            child: Row(
+          CircleAvatar(
+            radius: 26.r,
+            backgroundImage: NetworkImage(
+              controller.classModel.value?.instructor.avatar ??
+                  controller.instructorImage.value,
+            ),
+          ),
+          SizedBox(width: 10.w),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CircleAvatar(
-                  radius: 26.r,
-                  backgroundImage: NetworkImage(
-                    controller.instructorImage.value,
+                Text(
+                  'Instructors',
+                  style: AppTextStyles.regular(
+                    10,
+                    color: brownColor.withValues(alpha: 0.6),
                   ),
                 ),
-                SizedBox(width: 12.w),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Instructors',
-                      style: AppTextStyles.regular(
-                        10,
-                        color: brownColor.withValues(alpha: 0.6),
-                      ),
-                    ),
-                    Text(
-                      controller.instructorName.value,
-                      style: AppTextStyles.medium(18, color: brownColor),
-                    ),
-                  ],
+                Text(
+                  controller.classModel.value?.instructor.name ?? '',
+                  style: AppTextStyles.medium(18, color: brownColor),
                 ),
               ],
             ),
           ),
-          const Spacer(),
           ElevatedButton(
-            onPressed: () => Get.toNamed('/instructor-details'),
+            onPressed: () {
+              Get.toNamed(
+                '/instructor-details',
+                arguments: controller.classModel.value?.instructor.id,
+              );
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: brownColor,
               shape: RoundedRectangleBorder(
@@ -332,14 +312,14 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
 
   Widget _buildAboutSection() {
     const Color brownColor = Color(0xFF6B5345);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('About Class', style: AppTextStyles.bold(18, color: brownColor)),
         SizedBox(height: 12.h),
-        Obx(
-          () => GestureDetector(
+        Obx(() {
+          final description = controller.classModel.value?.description ?? '';
+          return GestureDetector(
             onTap: () => controller.isAboutExpanded.value =
                 !controller.isAboutExpanded.value,
             child: RichText(
@@ -350,9 +330,11 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
                 ),
                 children: [
                   TextSpan(
-                    text: controller.isAboutExpanded.value
-                        ? controller.description.value
-                        : '${controller.description.value.substring(0, controller.description.value.length ~/ 2)}... ',
+                    text: description.isNotEmpty
+                        ? controller.isAboutExpanded.value
+                              ? description
+                              : '${description.substring(0, description.length ~/ 2)}... '
+                        : 'No description added.',
                   ),
                   TextSpan(
                     text: controller.isAboutExpanded.value
@@ -363,48 +345,56 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
                 ],
               ),
             ),
-          ),
-        ),
+          );
+        }),
       ],
     );
   }
 
   Widget _buildDateTimeSection() {
+    final String dateString =
+        controller.classModel.value?.scheduledAt.toString() ?? '';
+    DateTime dateTime = DateTime.parse(dateString);
+    final dateFormat = DateFormat('MMMM d, yyyy').format(dateTime);
     const Color brownColor = Color(0xFF6B5345);
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Icon(
-          Icons.access_time,
-          size: 20.r,
-          color: brownColor.withValues(alpha: 0.6),
-        ),
-        SizedBox(width: 8.w),
-        Flexible(
-          child: Text(
-            '08:00 AM to 08:30 AM',
-            style: AppTextStyles.medium(
-              14,
+        Row(
+          children: [
+            Icon(
+              Icons.access_time,
+              size: 20.r,
               color: brownColor.withValues(alpha: 0.6),
             ),
-            overflow: TextOverflow.ellipsis,
-          ),
+            SizedBox(width: 8.w),
+            Text(
+              controller.classModel.value?.duration ?? '',
+              style: AppTextStyles.medium(
+                14,
+                color: brownColor.withValues(alpha: 0.6),
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
         ),
-        SizedBox(width: 16.w),
-        Icon(
-          Icons.calendar_today_outlined,
-          size: 20.r,
-          color: brownColor.withValues(alpha: 0.6),
-        ),
-        SizedBox(width: 8.w),
-        Flexible(
-          child: Text(
-            'October 20, 2025',
-            style: AppTextStyles.medium(
-              14,
+        Row(
+          children: [
+            Icon(
+              Icons.calendar_today_outlined,
+              size: 20.r,
               color: brownColor.withValues(alpha: 0.6),
             ),
-            overflow: TextOverflow.ellipsis,
-          ),
+            SizedBox(width: 8.w),
+            Text(
+              dateFormat,
+              style: AppTextStyles.medium(
+                14,
+                color: brownColor.withValues(alpha: 0.6),
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
         ),
       ],
     );
