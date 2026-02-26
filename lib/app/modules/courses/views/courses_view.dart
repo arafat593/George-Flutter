@@ -117,11 +117,7 @@ class CoursesView extends GetView<CoursesController> {
               onTap: () => Get.toNamed(
                 Routes.courseDetails,
                 preventDuplicates: true,
-                arguments: {
-                  'id': course.id,
-                  'title': course.title,
-                  'price': price,
-                },
+                arguments: course.id,
               ),
               child: ClipRRect(
                 borderRadius:

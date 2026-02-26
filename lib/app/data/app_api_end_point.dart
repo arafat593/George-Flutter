@@ -27,6 +27,7 @@ class AppApiEndPoint {
   final String authResetPassword = "login";
   final String allClasses = '/classes/';
   final String allCourses = '/courses/';
+  String courseDetails(String courseId) => '/courses/$courseId';
 }
 
 String _getDomain() {
