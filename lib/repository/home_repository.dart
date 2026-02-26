@@ -16,17 +16,19 @@ class HomeRepository {
   Future<List<ClassModel>> fetchClasses({
     required String date,
     String instructor = '',
+    int page = 1,
   }) async {
     List<ClassModel> listOfData = [];
     try {
       Map<String, dynamic> queryParameter = {
         'scheduledAt': date,
-        'page':1,
-        "sortBy":"scheduledAt","sortOrder":'asc'
+        'page': page,
+        "sortBy": "scheduledAt",
+        "sortOrder": 'asc',
       };
-      if (instructor.isNotEmpty) {
-        queryParameter['search'] = instructor;
-      }
+      // if (instructor.isNotEmpty) {
+      //   queryParameter['search'] = instructor;
+      // }
 
       var response = await _apiServices.apiGetServices(
         _api.allClasses,

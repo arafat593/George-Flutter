@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/modules/home/widgets/class_card.dart';
 import 'package:george/app/utils/app_size.dart';
-import 'package:george/models/class_data.dart';
 import 'package:get/get.dart';
 
 import '../controllers/home_controller.dart';
@@ -14,7 +13,7 @@ class ClassListSection extends StatelessWidget {
     final controller = Get.find<HomeController>();
     return Obx(() {
       // final isPaid = controller.isMembershipPaid.value;
-      if (controller.isloading.value) {
+      if (controller.isLoading.value) {
         return Center(child: CircularProgressIndicator());
       }
       if (controller.allClasses.isEmpty) {
@@ -30,23 +29,28 @@ class ClassListSection extends StatelessWidget {
           itemBuilder: (context, index) {
             final classItem = controller.allClasses[index];
             final title = classItem.title;
-            final difficulity = classItem.difficulty.value;
+            final difficulity = classItem.difficulty;
             final price = classItem.price;
             final instructorName = classItem.instructor.name;
-            final image = classItem.imageUrl;
-            final description = classItem.description;
-            print('✅✅✅$description');
+            final instructorImage = classItem.instructor.avatar;
+            final availableSeats = classItem.availableSeats;
+            final maxParticipants = classItem.maxParticipants;
+            final bookedSeats = classItem.bookedSeats;
+            final progress = bookedSeats / maxParticipants;
+            final timeDuration = classItem.duration;
+            final status = classItem.status;
             return ClassCard(
               badge: difficulity,
-              image: image ?? 'https://i.pravatar.cc/150?img=32',
+              image: instructorImage ?? 'https://i.pravatar.cc/150?img=32',
               title: title,
               price: 'QAR $price',
-              time: '10:00 AM - 12:30 PM',
+              time: timeDuration,
               instructor: instructorName,
-              status: 'available',
-              spots: 5,
+              status: status,
+              availableSeats: availableSeats,
               isMembershipPaid: false,
               classItem: classItem,
+              progress: progress,
             );
           },
         ),
