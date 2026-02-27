@@ -135,7 +135,7 @@ class AppPages {
     GetPage(
       name: _Paths.courseDetails,
       page: () =>  CourseDetailsView(),
-      // binding: CourseDetailsBinding(),
+      binding: CourseDetailsBinding(),
     ),
     GetPage(
       name: _Paths.newsDetails,

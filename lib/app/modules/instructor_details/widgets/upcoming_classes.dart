@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/data/app_text_styles.dart';
-import 'package:george/app/modules/course_details/controllers/course_details_controller.dart'
-    show CourseDetailsController;
 import 'package:george/app/utils/app_size.dart';
 import 'package:george/app/widgets/custom_progress.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../models/instructor_data.dart';
-import '../../course_details/views/course_details_view.dart';
 
 class UpcomingClassesCard extends StatelessWidget {
   const UpcomingClassesCard({super.key, required this.instructor});
@@ -17,6 +14,14 @@ class UpcomingClassesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (instructor?.upcomingClasses.isEmpty ?? true) {
+      return Center(
+        child: Text(
+          'No upcoming classes',
+          style: AppTextStyles.medium(14, color: Colors.grey),
+        ),
+      );
+    }
     return ListView.builder(
       itemCount: instructor?.upcomingClasses.length ?? 0,
       shrinkWrap: true,
@@ -42,11 +47,7 @@ class UpcomingClassesCard extends StatelessWidget {
         final id = upcomingClass?.id ?? '';
         return GestureDetector(
           onTap: () {
-            if (Get.isRegistered<CourseDetailsController>()) {
-              Get.delete<CourseDetailsController>();
-            }
-
-            Get.to(() => CourseDetailsView(), arguments: id);
+            Get.back(result: id);
           },
           child: Container(
             margin: EdgeInsets.only(bottom: 16.h),

@@ -293,4 +293,11 @@ class CourseDetailsController extends GetxController {
   void cancelBooking() {
     Get.back();
   }
+
+  void refreshData(String newId) {
+    if (newId.isNotEmpty && newId != id.value) {
+      id.value = newId;
+      fetchClassById(newId);
+    }
+  }
 }

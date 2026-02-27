@@ -9,10 +9,8 @@ import 'package:intl/intl.dart';
 import '../../../data/app_text_styles.dart';
 import '../controllers/course_details_controller.dart';
 
-class CourseDetailsView extends StatelessWidget {
-   CourseDetailsView({super.key});
-   final CourseDetailsController controller =
-      Get.put(CourseDetailsController());
+class CourseDetailsView extends GetView<CourseDetailsController> {
+  const CourseDetailsView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -292,11 +290,14 @@ class CourseDetailsView extends StatelessWidget {
             ),
           ),
           ElevatedButton(
-            onPressed: () {
-              Get.toNamed(
+            onPressed: () async {
+              final result = await Get.toNamed(
                 '/instructor-details',
                 arguments: controller.classByID.value?.instructor.id,
               );
+              if (result != null && result is String) {
+                controller.refreshData(result);
+              }
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: brownColor,
