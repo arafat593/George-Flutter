@@ -22,38 +22,53 @@ class ClassListSection extends StatelessWidget {
 
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.w),
-        child: ListView.builder(
-          itemCount: controller.allClasses.length,
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            final classItem = controller.allClasses[index];
-            final title = classItem.title;
-            final difficulity = classItem.difficulty;
-            final price = classItem.price;
-            final instructorName = classItem.instructor.name;
-            final instructorImage = classItem.instructor.avatar;
-            final availableSeats = classItem.availableSeats;
-            final maxParticipants = classItem.maxParticipants;
-            final bookedSeats = classItem.bookedSeats;
-            final progress = bookedSeats / maxParticipants;
-            final timeDuration = classItem.duration;
-            final status = classItem.status;
-            final classId = classItem.id;
-            return ClassCard(
-              badge: difficulity,
-              image: instructorImage ?? 'https://i.pravatar.cc/150?img=32',
-              title: title,
-              price: 'QAR $price',
-              time: timeDuration,
-              instructor: instructorName,
-              status: status,
-              availableSeats: availableSeats,
-              isMembershipPaid: false,
-              progress: progress,
-              classId: classId,
-            );
-          },
+        child: Column(
+          children: [
+            ListView.builder(
+              itemCount: controller.allClasses.length,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.zero,
+              itemBuilder: (context, index) {
+                final classItem = controller.allClasses[index];
+                final title = classItem.title;
+                final difficulity = classItem.difficulty;
+                final price = classItem.price;
+                final instructorName = classItem.instructor.name;
+                final instructorImage = classItem.instructor.avatar;
+                final availableSeats = classItem.availableSeats;
+                final maxParticipants = classItem.maxParticipants;
+                final bookedSeats = classItem.bookedSeats;
+                final progress = bookedSeats / maxParticipants;
+                final timeDuration = classItem.duration;
+                final status = classItem.status;
+                final classId = classItem.id;
+                final gender = classItem.gender;
+                return ClassCard(
+                  badge: difficulity,
+                  image: instructorImage ?? 'https://i.pravatar.cc/150?img=32',
+                  title: title,
+                  price: 'QAR $price',
+                  time: timeDuration,
+                  instructor: instructorName,
+                  status: status,
+                  availableSeats: availableSeats,
+                  isMembershipPaid: false,
+                  progress: progress,
+                  classId: classId,
+                  gender: gender,
+                );
+              },
+            ),
+            SizedBox(height: 90.h),
+            if (controller.isLoadingMore.value)
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 20.h),
+                child: const Center(
+                  child: CircularProgressIndicator(color: Color(0xFF6B5345)),
+                ),
+              ),
+          ],
         ),
       );
     });

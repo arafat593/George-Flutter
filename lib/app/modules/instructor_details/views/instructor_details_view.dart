@@ -22,8 +22,8 @@ class InstructorDetailsView extends GetView<InstructorDetailsController> {
         final backgroundImage =
             instructor?.backgroundImage ??
             "https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&q=80&w=1000";
-        final speciality = instructor?.speciality ?? 'Prenatal Yoga ';
-        final instructorName = instructor?.name ?? 'Sarah Jenkins';
+        final speciality = instructor?.speciality ?? 'No Specilaity Added';
+        final instructorName = instructor?.name ?? 'No Instructor Name added';
         final bio = instructor?.bio ?? 'No bio added yet.';
         return Stack(
           children: [

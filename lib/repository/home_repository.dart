@@ -13,12 +13,10 @@ class HomeRepository {
   final ApiServices _apiServices = ApiServices.instance;
   final AppApiEndPoint _api = AppApiEndPoint.instance;
 
-  Future<List<ClassModel>> fetchClasses({
+  Future<ClassesResponse?> fetchClasses({
     required String date,
-    String instructor = '',
     int page = 1,
   }) async {
-    List<ClassModel> listOfData = [];
     try {
       Map<String, dynamic> queryParameter = {
         'scheduledAt': date,
@@ -26,9 +24,6 @@ class HomeRepository {
         "sortBy": "scheduledAt",
         "sortOrder": 'asc',
       };
-      // if (instructor.isNotEmpty) {
-      //   queryParameter['search'] = instructor;
-      // }
 
       var response = await _apiServices.apiGetServices(
         _api.allClasses,
@@ -36,16 +31,12 @@ class HomeRepository {
       );
 
       if (response != null) {
-        if (response['classes'] is List) {
-          for (var element in response['classes']) {
-            listOfData.add(ClassModel.fromJson(element));
-          }
-        }
+        return ClassesResponse.fromJson(response);
       }
     } catch (e) {
       errorLog('FetchClassesRep', e);
     }
-    return listOfData;
+    return null;
   }
 
   Future<ClassModel> fetchClassById({required String id}) async {

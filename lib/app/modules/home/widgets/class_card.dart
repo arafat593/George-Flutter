@@ -23,6 +23,7 @@ class ClassCard extends StatelessWidget {
   final String image;
   final double progress;
   final String classId;
+  final String gender;
 
   const ClassCard({
     super.key,
@@ -37,6 +38,7 @@ class ClassCard extends StatelessWidget {
     required this.image,
     required this.progress,
     required this.classId,
+    required this.gender,
   });
 
   @override
@@ -78,14 +80,16 @@ class ClassCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  title,
-                  style: AppTextStyles.medium(
-                    18,
-                    color: AppColors.headlineColor,
+                Expanded(
+                  child: Text(
+                    title,
+                    style: AppTextStyles.medium(
+                      18,
+                      color: AppColors.headlineColor,
+                    ),
                   ),
                 ),
-                const GenderIconsRow(),
+                GenderIconsRow(gender: gender),
               ],
             ),
             SizedBox(height: 12.h),
