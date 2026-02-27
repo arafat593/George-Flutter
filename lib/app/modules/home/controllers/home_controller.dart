@@ -17,14 +17,24 @@ class HomeController extends GetxController {
   final GetStorageServices storageServices = GetStorageServices.instance;
   final ApiServices apiServices = ApiServices.instance;
   RxList<ClassModel> allClasses = <ClassModel>[].obs;
+  RxList<String> allInstructor = <String>[].obs;
+  RxList<String> allClassName = <String>[].obs;
   final RxBool isLoading = false.obs;
   RxInt currentPage = 1.obs;
   RxInt lastPage = 1.obs;
   RxBool isLoadingMore = false.obs;
   final ScrollController scrollController = ScrollController();
   final ScrollController classScrollController = ScrollController();
+  RxString currentDate = ''.obs;
 
-  Future<void> fetchClasses(String date, {bool isLoadMore = false}) async {
+  Future<void> fetchClasses(
+    String date, {
+    bool isLoadMore = false,
+    String? difficulty,
+    String? gender,
+    String? instructor,
+    String? className,
+  }) async {
     try {
       if (isLoadMore) {
         isLoadingMore.value = true;
@@ -33,10 +43,15 @@ class HomeController extends GetxController {
         currentPage.value = 1;
         allClasses.clear();
       }
+      currentDate.value = date;
 
       final response = await _homeRepository.fetchClasses(
         date: date,
         page: currentPage.value,
+        difficulty: difficulty ?? '',
+        gender: gender ?? '',
+        instructor: instructor ?? '',
+        className: className ?? '',
       );
 
       if (response != null) {
@@ -66,6 +81,7 @@ class HomeController extends GetxController {
     );
     final formattedDate =
         '${selected.month.toString().padLeft(2, '0')}-${selected.day.toString().padLeft(2, '0')}-${selected.year}';
+    currentDate.value = formattedDate;
     await fetchClasses(formattedDate, isLoadMore: true);
   }
 
@@ -253,7 +269,7 @@ class HomeController extends GetxController {
     }
   }
 
-  void onAppClose(){
+  void onAppClose() {
     try {
       scrollController.dispose();
       classScrollController.dispose();
@@ -378,6 +394,7 @@ class HomeController extends GetxController {
     );
     final formatedDate =
         '${selected.month.toString().padLeft(2, '0')}-${selected.day.toString().padLeft(2, '0')}-${selected.year}';
+    currentDate.value = formatedDate;
     fetchClasses(formatedDate);
     scrollToSelectedDate();
   }

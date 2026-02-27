@@ -15,6 +15,10 @@ class HomeRepository {
 
   Future<ClassesResponse?> fetchClasses({
     required String date,
+    String instructor = '',
+    String gender = '',
+    String difficulty = '',
+    String className = '',
     int page = 1,
   }) async {
     try {
@@ -25,18 +29,33 @@ class HomeRepository {
         "sortOrder": 'asc',
       };
 
-      var response = await _apiServices.apiGetServices(
+      if (instructor.isNotEmpty) {
+        queryParameter['search'] = instructor;
+      }
+      if (gender.isNotEmpty) {
+        queryParameter['gender'] = gender;
+      }
+      if (difficulty.isNotEmpty) {
+        queryParameter['difficulty'] = difficulty;
+      }
+      if (className.isNotEmpty) {
+        queryParameter['search'] = className;
+      }
+
+      final response = await _apiServices.apiGetServices(
         _api.allClasses,
         queryParameters: queryParameter,
       );
 
       if (response != null) {
         return ClassesResponse.fromJson(response);
+      } else {
+        throw Exception("Response is null");
       }
     } catch (e) {
       errorLog('FetchClassesRep', e);
+      rethrow;
     }
-    return null;
   }
 
   Future<ClassModel> fetchClassById({required String id}) async {

@@ -44,6 +44,8 @@ class ClassListSection extends StatelessWidget {
                 final status = classItem.status;
                 final classId = classItem.id;
                 final gender = classItem.gender;
+                controller.allInstructor.add(instructorName);
+                controller.allClassName.add(title);
                 return ClassCard(
                   badge: difficulity,
                   image: instructorImage ?? 'https://i.pravatar.cc/150?img=32',
