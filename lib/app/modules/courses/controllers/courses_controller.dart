@@ -1,7 +1,9 @@
+import 'package:george/app/utils/app_log.dart';
 import 'package:get/get.dart';
 
 import '../../../../models/all_courses_model.dart';
 import '../../../../services/api/courses_service.dart';
+
 class CoursesController extends GetxController {
   final CoursesService _service = CoursesService();
 
@@ -26,7 +28,7 @@ class CoursesController extends GetxController {
         coursesList.value = result.courses;
       }
     } catch (e) {
-      print("Error: $e");
+      errorLog("Error: ", e);
     } finally {
       isLoading(false);
     }

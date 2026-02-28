@@ -9,7 +9,6 @@ import 'package:george/app/modules/home/widgets/gender_icon_row.dart';
 import 'package:george/app/modules/home/widgets/wait_list_dialog.dart';
 import 'package:george/app/routes/app_pages.dart';
 import 'package:george/app/utils/app_size.dart';
-import 'package:george/models/class_data.dart';
 import 'package:get/get.dart';
 
 class ClassCard extends StatelessWidget {
@@ -23,7 +22,8 @@ class ClassCard extends StatelessWidget {
   final bool isMembershipPaid;
   final String image;
   final double progress;
-  final ClassModel classItem;
+  final String classId;
+  final String gender;
 
   const ClassCard({
     super.key,
@@ -36,8 +36,9 @@ class ClassCard extends StatelessWidget {
     this.availableSeats,
     required this.isMembershipPaid,
     required this.image,
-    required this.classItem,
     required this.progress,
+    required this.classId,
+    required this.gender,
   });
 
   @override
@@ -45,19 +46,12 @@ class ClassCard extends StatelessWidget {
     final classStatus = status.toLowerCase();
     return GestureDetector(
       onTap: () {
-        Get.toNamed(
-          Routes.courseDetails,
-          preventDuplicates: true,
-          arguments: classItem,
-        );
+        Get.toNamed(Routes.courseDetails, arguments: classId);
       },
       child: Container(
         padding: EdgeInsets.all(16.r),
         margin: EdgeInsets.only(bottom: 15.h),
-        decoration: BoxDecoration(
-          color: AppColors.cardBackgroundColor,
-          borderRadius: BorderRadius.circular(20.r),
-        ),
+        decoration: BoxDecoration(color: AppColors.cardBackgroundColor, borderRadius: BorderRadius.circular(20.r)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -67,30 +61,20 @@ class ClassCard extends StatelessWidget {
                 Row(
                   children: [
                     BadgeContainer(text: badge),
-                    if (isMembershipPaid) ...[
-                      SizedBox(width: 8.w),
-                      BadgeContainer(text: 'Membership'),
-                    ],
+                    if (isMembershipPaid) ...[SizedBox(width: 8.w), BadgeContainer(text: 'Membership')],
                   ],
                 ),
-                Text(
-                  price,
-                  style: AppTextStyles.bold(20, color: AppColors.headlineColor),
-                ),
+                Text(price, style: AppTextStyles.bold(20, color: AppColors.headlineColor)),
               ],
             ),
             SizedBox(height: 12.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  title,
-                  style: AppTextStyles.medium(
-                    18,
-                    color: AppColors.headlineColor,
-                  ),
+                Expanded(
+                  child: Text(title, style: AppTextStyles.medium(18, color: AppColors.headlineColor)),
                 ),
-                const GenderIconsRow(),
+                GenderIconsRow(gender: gender),
               ],
             ),
             SizedBox(height: 12.h),
@@ -98,18 +82,9 @@ class ClassCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    CircleAvatar(
-                      radius: 15.r,
-                      backgroundImage: NetworkImage(image),
-                    ),
+                    CircleAvatar(radius: 15.r, backgroundImage: NetworkImage(image)),
                     SizedBox(width: 8.w),
-                    Text(
-                      instructor,
-                      style: AppTextStyles.regular(
-                        14,
-                        color: AppColors.headlineColor,
-                      ),
-                    ),
+                    Text(instructor, style: AppTextStyles.regular(14, color: AppColors.headlineColor)),
                   ],
                 ),
                 const Spacer(),
@@ -119,27 +94,15 @@ class ClassCard extends StatelessWidget {
                       Get.toNamed(
                         Routes.courseDetails,
                         preventDuplicates: true,
-                        arguments: {
-                          'title': title,
-                          'price': price,
-                          'fromHistory': status != 'available',
-                        },
+                        arguments: {'title': title, 'price': price, 'fromHistory': status != 'available'},
                       );
                     },
-                    child: Icon(
-                      Icons.arrow_forward,
-                      color: AppColors.headlineColor,
-                      size: 24.r,
-                    ),
+                    child: Icon(Icons.arrow_forward, color: AppColors.headlineColor, size: 24.r),
                   )
                 else if (status == 'fully_booked')
                   GestureDetector(
                     onTap: () => waitListDialog(context: context),
-                    child: Icon(
-                      Icons.notification_add_outlined,
-                      color: AppColors.headlineColor,
-                      size: 24.r,
-                    ),
+                    child: Icon(Icons.notification_add_outlined, color: AppColors.headlineColor, size: 24.r),
                   ),
               ],
             ),
@@ -151,19 +114,13 @@ class ClassCard extends StatelessWidget {
                   children: [
                     Icon(Icons.access_time, size: 16.r, color: Colors.grey),
                     SizedBox(width: 4.w),
-                    Text(
-                      time,
-                      style: AppTextStyles.regular(14, color: Colors.grey),
-                    ),
+                    Text(time, style: AppTextStyles.regular(14, color: Colors.grey)),
                   ],
                 ),
                 if (classStatus != 'cancelled' && availableSeats != 0)
                   SizedBox(
                     width: 100.w,
-                    child: AvailableSpotsIndicator(
-                      availableSeats: availableSeats ?? 0,
-                      progress: progress,
-                    ),
+                    child: AvailableSpotsIndicator(availableSeats: availableSeats ?? 0, progress: progress),
                   )
                 else if (availableSeats == 0)
                   const FullyBookedIndicator()

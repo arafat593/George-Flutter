@@ -39,21 +39,13 @@ class CoursesView extends GetView<CoursesController> {
                   },
                   child: ListView.builder(
                     physics: const AlwaysScrollableScrollPhysics(),
-                    padding: EdgeInsets.only(
-                      bottom: 100.h,
-                      left: 24.w,
-                      right: 24.w,
-                    ),
+                    padding: EdgeInsets.only(bottom: 100.h, left: 24.w, right: 24.w),
                     itemCount: controller.coursesList.length,
                     itemBuilder: (context, index) {
                       final course = controller.coursesList[index];
                       final bool showBadge = index != 1;
 
-                      return _buildCourseCard(
-                        homeController,
-                        course,
-                        showBadge: showBadge,
-                      );
+                      return _buildCourseCard(homeController, course, showBadge: showBadge);
                     },
                   ),
                 );
@@ -70,46 +62,28 @@ class CoursesView extends GetView<CoursesController> {
       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Courses',
-            style: AppTextStyles.bold(24, color: AppColors.headlineColor),
-          ),
-        ],
+        children: [Text('Courses', style: AppTextStyles.bold(24, color: AppColors.headlineColor))],
       ),
     );
   }
 
-  Widget _buildCourseCard(
-    HomeController homeController,
-    Courses course, {
-    bool showBadge = true,
-  }) {
+  Widget _buildCourseCard(HomeController homeController, Courses course, {bool showBadge = true}) {
     return Obx(() {
       final isPaid = homeController.isMembershipPaid.value && showBadge;
 
       final price = isPaid ? 'QAR 0' : 'QAR ${course.price}';
 
-      final seatPercentage = course.totalSeat == 0
-          ? 0.0
-          : (course.availableSeat / course.totalSeat);
+      final seatPercentage = course.totalSeat == 0 ? 0.0 : (course.availableSeat / course.totalSeat);
 
       return Container(
         margin: EdgeInsets.only(bottom: 24.h),
-        decoration: BoxDecoration(
-          color: AppColors.cardBackgroundColor,
-          borderRadius: BorderRadius.circular(20.r),
-        ),
+        decoration: BoxDecoration(color: AppColors.cardBackgroundColor, borderRadius: BorderRadius.circular(20.r)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             /// Course Image
             GestureDetector(
-              onTap: () => Get.toNamed(
-                Routes.courseDetails,
-                preventDuplicates: true,
-                arguments: course.id,
-              ),
+              onTap: () => Get.toNamed(Routes.courseDetails, preventDuplicates: true, arguments: course.id),
               child: ClipRRect(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
                 child: Image.network(
@@ -118,7 +92,7 @@ class CoursesView extends GetView<CoursesController> {
                   width: double.infinity,
                   fit: BoxFit.cover,
                   cacheHeight: 300,
-                  errorBuilder: (_, __, ___) => Container(
+                  errorBuilder: (_, _, _) => Container(
                     height: 180.h,
                     color: Colors.grey.shade200,
                     child: const Icon(Icons.broken_image, color: Colors.grey),
@@ -138,43 +112,16 @@ class CoursesView extends GetView<CoursesController> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 12.w,
-                          vertical: 4.h,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
+                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8.r)),
                         child: Row(
                           children: [
-                            Text(
-                              course.level,
-                              style: AppTextStyles.medium(
-                                12,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            if (isPaid) ...[
-                              SizedBox(width: 8.w),
-                              Text(
-                                '| Membership',
-                                style: AppTextStyles.medium(
-                                  12,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ],
+                            Text(course.level, style: AppTextStyles.medium(12, color: Colors.grey)),
+                            if (isPaid) ...[SizedBox(width: 8.w), Text('| Membership', style: AppTextStyles.medium(12, color: Colors.grey))],
                           ],
                         ),
                       ),
-                      Text(
-                        price,
-                        style: AppTextStyles.bold(
-                          20,
-                          color: AppColors.headlineColor,
-                        ),
-                      ),
+                      Text(price, style: AppTextStyles.bold(20, color: AppColors.headlineColor)),
                     ],
                   ),
 
@@ -185,67 +132,34 @@ class CoursesView extends GetView<CoursesController> {
                     onTap: () => Get.toNamed(
                       Routes.courseDetails,
                       preventDuplicates: true,
-                      arguments: {
-                        'id': course.id,
-                        'title': course.title,
-                        'price': price,
-                      },
+                      arguments: {'id': course.id, 'title': course.title, 'price': price},
                     ),
-                    child: Text(
-                      course.title,
-                      style: AppTextStyles.medium(
-                        20,
-                        color: AppColors.headlineColor,
-                      ),
-                    ),
+                    child: Text(course.title, style: AppTextStyles.medium(20, color: AppColors.headlineColor)),
                   ),
 
                   SizedBox(height: 12.h),
 
                   /// Instructor
                   GestureDetector(
-                    onTap: () => Get.toNamed(
-                      Routes.instructorDetails,
-                      arguments: course.instructor.name,
-                    ),
+                    onTap: () => Get.toNamed(Routes.instructorDetails, arguments: course.instructor.name),
                     child: Row(
                       children: [
                         CircleAvatar(
                           radius: 20.r,
                           backgroundColor: Colors.grey.shade200,
-                          backgroundImage: course.instructor.image.isNotEmpty
-                              ? NetworkImage(course.instructor.image)
-                              : null,
-                          child: course.instructor.image.isEmpty
-                              ? const Icon(Icons.person)
-                              : null,
+                          backgroundImage: course.instructor.image.isNotEmpty ? NetworkImage(course.instructor.image) : null,
+                          child: course.instructor.image.isEmpty ? const Icon(Icons.person) : null,
                         ),
                         SizedBox(width: 12.w),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Instructor',
-                              style: AppTextStyles.regular(
-                                10,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            Text(
-                              course.instructor.name,
-                              style: AppTextStyles.medium(
-                                14,
-                                color: AppColors.headlineColor,
-                              ),
-                            ),
+                            Text('Instructor', style: AppTextStyles.regular(10, color: Colors.grey)),
+                            Text(course.instructor.name, style: AppTextStyles.medium(14, color: AppColors.headlineColor)),
                           ],
                         ),
                         const Spacer(),
-                        Icon(
-                          Icons.arrow_forward,
-                          size: 20.r,
-                          color: AppColors.headlineColor,
-                        ),
+                        Icon(Icons.arrow_forward, size: 20.r, color: AppColors.headlineColor),
                       ],
                     ),
                   ),
@@ -260,9 +174,7 @@ class CoursesView extends GetView<CoursesController> {
                         child: Container(
                           height: 1,
                           margin: EdgeInsets.symmetric(horizontal: 2.w),
-                          color: index % 2 == 0
-                              ? Colors.grey.shade400
-                              : Colors.transparent,
+                          color: index % 2 == 0 ? Colors.grey.shade400 : Colors.transparent,
                         ),
                       ),
                     ),
@@ -276,29 +188,16 @@ class CoursesView extends GetView<CoursesController> {
                     children: [
                       Row(
                         children: [
-                          Icon(
-                            Icons.access_time,
-                            size: 16.r,
-                            color: Colors.grey,
-                          ),
+                          Icon(Icons.access_time, size: 16.r, color: Colors.grey),
                           SizedBox(width: 8.w),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 "${course.scheduledAt?.day}-${course.scheduledAt?.month}-${course.scheduledAt?.year}",
-                                style: AppTextStyles.regular(
-                                  12,
-                                  color: Colors.grey,
-                                ),
+                                style: AppTextStyles.regular(12, color: Colors.grey),
                               ),
-                              Text(
-                                course.duration,
-                                style: AppTextStyles.medium(
-                                  12,
-                                  color: AppColors.headlineColor,
-                                ),
-                              ),
+                              Text(course.duration, style: AppTextStyles.medium(12, color: AppColors.headlineColor)),
                             ],
                           ),
                         ],
@@ -308,29 +207,17 @@ class CoursesView extends GetView<CoursesController> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(
-                            "Available spots ${course.availableSeat}",
-                            style: AppTextStyles.regular(
-                              10,
-                              color: Colors.grey,
-                            ),
-                          ),
+                          Text("Available spots ${course.availableSeat}", style: AppTextStyles.regular(10, color: Colors.grey)),
                           SizedBox(height: 4.h),
                           Container(
                             width: 80.w,
                             height: 6.h,
-                            decoration: BoxDecoration(
-                              color: Colors.grey.withValues(alpha: 0.2),
-                              borderRadius: BorderRadius.circular(4.r),
-                            ),
+                            decoration: BoxDecoration(color: Colors.grey.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(4.r)),
                             child: FractionallySizedBox(
                               alignment: Alignment.centerLeft,
                               widthFactor: seatPercentage.clamp(0.0, 1.0),
                               child: Container(
-                                decoration: BoxDecoration(
-                                  color: AppColors.buttonPrimaryColor,
-                                  borderRadius: BorderRadius.circular(4.r),
-                                ),
+                                decoration: BoxDecoration(color: AppColors.buttonPrimaryColor, borderRadius: BorderRadius.circular(4.r)),
                               ),
                             ),
                           ),

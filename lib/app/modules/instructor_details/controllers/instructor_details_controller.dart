@@ -1,23 +1,44 @@
+import 'package:flutter/material.dart';
+import 'package:george/app/routes/app_pages.dart';
 import 'package:george/app/utils/app_log.dart';
 import 'package:george/models/instructor_data.dart';
 import 'package:george/repository/instructor_repository.dart';
 import 'package:get/get.dart';
 
 class InstructorDetailsController extends GetxController {
-  final InstructorRepository _instructorRepository =
-      InstructorRepository.instance;
+  final InstructorRepository _instructorRepository = InstructorRepository.instance;
 
   final RxBool isLoading = false.obs;
+  RxString id = ''.obs;
 
-  /// Nullable reactive model
   final Rxn<InstructorModel> instructorDeatils = Rxn<InstructorModel>();
 
-  final String arg = Get.arguments;
+  void onAppInitiazied() {
+    try {
+      var arg = Get.arguments;
+      if (arg is String) {
+        id.value = arg;
+        fetchInstructor(id.value);
+      } else {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          Get.offAndToNamed(Routes.notFoundScreen);
+        });
+      }
+    } catch (e) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Get.offAndToNamed(Routes.errorScreen);
+      });
+    } finally {
+      Future.delayed(const Duration(milliseconds: 300), () {
+        isLoading.value = false;
+      });
+    }
+  }
 
   @override
   void onInit() {
+    onAppInitiazied();
     super.onInit();
-    fetchInstructor(arg);
   }
 
   Future<void> fetchInstructor(String id) async {

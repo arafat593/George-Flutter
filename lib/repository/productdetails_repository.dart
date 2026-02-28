@@ -1,6 +1,5 @@
 import 'package:george/app/data/app_api_end_point.dart';
 import 'package:george/app/utils/app_log.dart';
-import 'package:george/models/class_data.dart';
 import 'package:george/services/api/api_services.dart';
 
 import '../models/product_details_model.dart';
@@ -15,13 +14,9 @@ class ProductDetailsRepository {
   final ApiServices _apiServices = ApiServices.instance;
   final AppApiEndPoint _api = AppApiEndPoint.instance;
 
-  Future<ProductDetailsModel> fetchProductDetails({
-    required String id,
-  }) async {
+  Future<ProductDetailsModel> fetchProductDetails({required String id}) async {
     try {
-      var response = await _apiServices.apiGetServices(
-        "${_api.storeProduct}/$id",
-      );
+      var response = await _apiServices.apiGetServices("${_api.storeProduct}/$id");
 
       if (response != null) {
         return ProductDetailsModel.fromJson(response);

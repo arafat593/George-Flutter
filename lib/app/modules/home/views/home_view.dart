@@ -24,6 +24,7 @@ class HomeView extends GetView<HomeController> {
             await Future.delayed(const Duration(seconds: 2));
           },
           child: SingleChildScrollView(
+            controller: controller.classScrollController,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

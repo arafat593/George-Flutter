@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/data/app_colors.dart';
 import 'package:george/app/data/image_path.dart';
-import 'package:george/app/modules/courses/controllers/filter_controller.dart';
+import 'package:george/app/modules/home/controllers/home_controller.dart';
 import 'package:george/app/routes/app_pages.dart';
 import 'package:george/app/utils/app_size.dart';
 import 'package:george/app/widgets/custom_text_button.dart';
@@ -13,6 +13,7 @@ class HeaderSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<HomeController>();
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
       child: Row(
@@ -27,27 +28,32 @@ class HeaderSection extends StatelessWidget {
           ),
           Row(
             children: [
-              Obx(() {
-                final filterController = Get.find<FilterController>();
-                final isFilterActive = filterController.isFilterApplied.value;
-
-                return RoundedIconContainer(
-                  iconPath: ImagePath.funnelIcon,
-                  onTap: () {
-                    filterController.resetTemp();
-                    Get.toNamed(Routes.filter);
-                  },
-                  backgroundColor: isFilterActive
-                      ? AppColors.buttonPrimaryColor
-                      : Colors.white,
-                  iconColor: isFilterActive
-                      ? Colors.white
-                      : AppColors.headlineColor,
-                  border: isFilterActive
-                      ? Border.all(color: AppColors.headlineColor, width: 2.r)
-                      : null,
-                );
-              }),
+              RoundedIconContainer(
+                iconPath: ImagePath.funnelIcon,
+                onTap: () {
+                  // filterController.resetTemp();
+                  Get.toNamed(
+                    Routes.filter,
+                    arguments: {
+                      'instructors': controller.allInstructor.value,
+                      'classes': controller.allClassName.value,
+                    },
+                  );
+                },
+                backgroundColor:
+                    //  isFilterActive
+                    //     ? AppColors.buttonPrimaryColor
+                    //     :
+                    Colors.white,
+                iconColor:
+                    // isFilterActive
+                    //     ? Colors.white
+                    //     :
+                    AppColors.headlineColor,
+                // border: isFilterActive
+                //     ? Border.all(color: AppColors.headlineColor, width: 2.r)
+                //     : null,
+              ),
               SizedBox(width: 12.w),
               RoundedIconContainer(
                 iconPath: ImagePath.notification,
