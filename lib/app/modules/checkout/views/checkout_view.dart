@@ -1,4 +1,3 @@
-
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -11,8 +10,10 @@ import '../../product_details/controllers/product_details_controller.dart';
 import '../controllers/checkout_controller.dart';
 
 class CheckoutView extends GetView<CheckoutController> {
-   CheckoutView({super.key,});
-  final storeController= Get.find<StoreController>();
+  CheckoutView({super.key});
+
+  final storeController = Get.find<StoreController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,12 +90,12 @@ class CheckoutView extends GetView<CheckoutController> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  SizedBox(height: 4,),
+                  SizedBox(height: 4),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                       Text(
-                          "Quantity :${controller.product.quantity}",
+                      Text(
+                        "Quantity :${controller.product.quantity}",
                         style: TextStyle(
                           color: AppColors.headlineColor,
                           fontSize: 16,
@@ -111,7 +112,7 @@ class CheckoutView extends GetView<CheckoutController> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 8,),
+                  SizedBox(height: 8),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -123,14 +124,14 @@ class CheckoutView extends GetView<CheckoutController> {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                       Text(
-                         "QAR ${controller.product.totalPrice}",
-                          style: TextStyle(
-                            color: AppColors.headlineColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      Text(
+                        "QAR ${controller.product.totalPrice}",
+                        style: TextStyle(
+                          color: AppColors.headlineColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                         ),
+                      ),
                     ],
                   ),
                 ],
@@ -197,7 +198,7 @@ class CheckoutView extends GetView<CheckoutController> {
                             ? 'Order Confirmed!'
                             : 'Payment Confirmed!',
                       },
-                      preventDuplicates: false
+                      preventDuplicates: false,
                     );
                   });
                 },
@@ -549,7 +550,7 @@ class CheckoutView extends GetView<CheckoutController> {
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-     itemCount: min(4, storeController.products.length),
+      itemCount: min(4, storeController.products.length),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 0.70,
@@ -559,11 +560,11 @@ class CheckoutView extends GetView<CheckoutController> {
       itemBuilder: (context, index) {
         final products = storeController.products.value[index];
         return InkWell(
-          onTap: (){
-            if(Get.isRegistered<ProductDetailsController>()){
+          onTap: () {
+            if (Get.isRegistered<ProductDetailsController>()) {
               Get.delete<ProductDetailsController>(force: true);
             }
-            Get.offAndToNamed(Routes.productDetails,arguments: products.id);
+            Get.offAndToNamed(Routes.productDetails, arguments: products.id);
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
