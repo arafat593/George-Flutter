@@ -36,22 +36,30 @@ dependencies:
   cupertino_icons: ^1.0.8
   get: ^5.0.0-release-candidate-9.3.2
   pin_code_fields: ^8.0.1
-  image_picker: ^1.2.1
-  permission_handler: ^11.4.0
   url_launcher: ^6.1.10
   geolocator: ^10.1.0
   geocoding: ^2.1.1
   custom_refresh_indicator: ^4.0.1
 
+  # image related 
+  cached_network_image: ^3.4.1
+  flutter_cache_manager: ^3.4.1
+  image_picker: ^1.2.0
+  permission_handler: ^11.4.0
+
+
   # storage
   get_storage: ^2.1.1
 
-
+  # ui related
+  skeletonizer: ^2.1.0+1
+  
   # api services
   dio: ^5.9.1
   mime: ^2.0.0
   http_parser: ^4.1.2
   pretty_dio_logger: ^1.4.0
+  intl: ^0.20.2
   
 
 

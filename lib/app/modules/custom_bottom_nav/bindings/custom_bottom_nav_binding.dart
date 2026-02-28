@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import '../../courses/controllers/filter_controller.dart';
 
 import '../../home/controllers/home_controller.dart';
 import '../../courses/controllers/courses_controller.dart';
@@ -12,7 +11,7 @@ class CustomBottomNavBinding extends BindingsInterface {
   @override
   void dependencies() {
     Get.lazyPut<CustomBottomNavController>(() => CustomBottomNavController());
-    Get.put<FilterController>(FilterController());
+    // Get.put<FilterController>(FilterController());
     Get.lazyPut<HomeController>(() => HomeController());
     Get.lazyPut<CoursesController>(() => CoursesController());
     Get.lazyPut<ProfileController>(() => ProfileController());

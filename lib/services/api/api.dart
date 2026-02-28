@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:george/app/data/app_api_end_point.dart';
 import 'package:george/app/routes/app_pages.dart';
 import 'package:george/app/utils/app_log.dart';
+import 'package:george/services/api/non_auth_api.dart';
 import 'package:george/services/storage_services/get_storage_services.dart';
 import 'package:get/get.dart';
 
@@ -25,15 +26,17 @@ class AppApi {
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           options.baseUrl = AppApiEndPoint.instance.baseUrl;
-          options.contentType = 'application/json';
           options.headers["Accept"] = "application/json";
-          options.headers["content-type"] = "application/x-www-form-urlencoded";
 
           String token = storageServices.getToken();
           if (token.isNotEmpty) {
             options.headers["Authorization"] = "Bearer $token";
           }
-
+          if (options.contentType == null) {
+            options.contentType = Headers.jsonContentType;
+          } else {
+            options.contentType ??= 'application/json';
+          }
           return handler.next(options); // Continue request
         },
         onError: (error, handler) async {
@@ -49,9 +52,15 @@ Error message: ${error.message}
 
           try {
             if (error.response?.statusCode == 401) {
-              storageServices.storageClear();
-              Get.offAllNamed(Routes.logIn);
-              return handler.next(error);
+              var response = await _reFreshNewAccessToken();
+              if (response.isNotEmpty) {
+                _dio.options.headers["Authorization"] = "Bearer $response";
+                return handler.resolve(await _dio.fetch(error.requestOptions));
+              } else {
+                await storageServices.logout();
+                Get.offAllNamed(Routes.logIn);
+                return handler.next(error);
+              }
             }
           } catch (e) {
             errorLog("error form api try and catch bloc", e);
@@ -66,4 +75,24 @@ Error message: ${error.message}
     });
   }
   Dio get sendRequest => _dio;
+}
+
+// Token refresh logic
+Future<String> _reFreshNewAccessToken() async {
+  try {
+    var refreshToken = GetStorageServices.instance.getRefreshToken();
+    final response = await NonAuthApi().sendRequest.post(AppApiEndPoint.instance.refreshToken, data: {"token": refreshToken});
+    if (response.statusCode == 200) {
+      if (response.data["access_token"] is String) {
+        await GetStorageServices.instance.setToken(response.data["access_token"]);
+        await GetStorageServices.instance.setRefreshToken(response.data["refresh_token"]);
+        return response.data["access_token"].toString();
+      }
+    } else {
+      await GetStorageServices.instance.logout();
+    }
+  } catch (e) {
+    errorLog("reFreshNewAccessToken", e);
+  }
+  return "";
 }

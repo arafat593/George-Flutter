@@ -1,12 +1,50 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:george/app/routes/app_pages.dart';
 import 'package:george/app/utils/app_log.dart';
+import 'package:george/app/widgets/snack_bar/app_snack_bar.dart';
+import 'package:george/repository/auth_repository.dart';
 import 'package:get/get.dart';
 
 class RecoveryOtpController extends GetxController {
+  final AuthRepository _authRepository = AuthRepository.instance;
   final RxInt seconds = 90.obs;
   Timer? _timer;
   late TextEditingController otpController;
+  late GlobalKey<FormState> formKey;
+  RxString email = "".obs;
+  RxBool isSignUP = true.obs;
+  RxBool isLoading = false.obs;
+
+  Future<void> verifyOtp(GlobalKey<FormState> formKey) async {
+    try {
+      if (!formKey.currentState!.validate()) return;
+      isLoading.value = true;
+      var response = await _authRepository.authOtpVerify(email: email.value, otp: otpController.text.trim());
+      if (response) {
+        if (isSignUP.value) {
+          AppSnackBar.success("Successfully created account, login with your credential");
+          Get.offAllNamed(Routes.logIn);
+        } else {
+          Get.offAndToNamed(Routes.createNewPassword, arguments: email.value);
+        }
+      }
+    } catch (e) {
+      errorLog("verifyOtp", e);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> resendOtp() async {
+    try {
+      if (seconds.value > 0) return;
+      startTimer();
+      await _authRepository.authResendOTP(email: email.value);
+    } catch (e) {
+      errorLog("resendOtp", e);
+    }
+  }
 
   void startTimer() {
     try {
@@ -46,9 +84,24 @@ class RecoveryOtpController extends GetxController {
   void onAppInitial() {
     try {
       otpController = .new();
+      formKey = .new();
       startTimer();
+      var arg = Get.arguments;
+      appLog(arg);
+      if (arg is Map) {
+        email.value = "${arg["email"] ?? ""}";
+        isSignUP.value = arg["isSignUp"] is bool ? arg["isSignUp"] : true;
+        appLog(arg["isSignUp"]);
+      } else {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          Get.offAndToNamed(Routes.notFoundScreen);
+        });
+      }
     } catch (e) {
       errorLog("onAppInitial", e);
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        Get.offAndToNamed(Routes.notFoundScreen);
+      });
     }
   }
 

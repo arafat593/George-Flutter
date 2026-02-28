@@ -30,6 +30,7 @@ class LogInView extends GetView<LogInController> {
 
               //Auth Option Text
               AuthOptions(
+                seconds: 0.obs,
                 titleText: "Don't have an account? ",
                 optionText: 'Sign Up',
                 onTap: () {

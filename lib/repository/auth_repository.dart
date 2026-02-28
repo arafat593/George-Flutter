@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:george/app/data/app_api_end_point.dart';
@@ -30,10 +31,18 @@ class AuthRepository {
         // "fcmToken": fcmToken.trim(),
       };
 
-      var response = await apiServices.apiPostServices(url: api.login, body: bodyData);
+      var response = await apiServices.apiPostServices(
+        url: api.login,
+        body: bodyData,
+        options: Options(contentType: Headers.formUrlEncodedContentType),
+      );
       if (response != null) {
         if (response["access_token"] is String) {
           await storageServices.setToken(response["access_token"].toString());
+        }
+
+        if (response["refresh_token"] is String) {
+          await storageServices.setRefreshToken(response["refresh_token"].toString());
         }
         return true;
       }
@@ -120,7 +129,7 @@ class AuthRepository {
     try {
       Map<String, dynamic> bodyData = {"email": email, "password": password, "name": name, "phone": phoneNumber, "gender": gender};
 
-      var response = await apiServices.apiPostServices(url: api.signUP, body: bodyData);
+      var response = await apiServices.apiPostServices(url: api.signUP, body: jsonEncode(bodyData));
       if (response != null) {
         return true;
       }
@@ -132,7 +141,7 @@ class AuthRepository {
 
   Future<bool> authResendOTP({required String email}) async {
     try {
-      var response = await apiServices.apiPostServices(url: api.userResendOtp, body: {"email": email});
+      var response = await apiServices.apiPostServices(url: api.userResendOtp, query: {"email": email});
       if (response != null) {
         return true;
       }
@@ -169,29 +178,23 @@ class AuthRepository {
     return false;
   }
 
-  Future<String> forgotVerifyEmail({required String email, required int otp}) async {
+  Future<bool> forgotVerifyEmail({required String email, required String otp}) async {
     try {
-      Map<String, dynamic> bodyData = {"email": email, "oneTimeCode": otp};
+      Map<String, dynamic> bodyData = {"email": email, "code": otp};
       var response = await apiServices.apiPostServices(url: api.authVerifyEmail, body: bodyData);
       if (response != null) {
-        if (response["data"] != null && response["data"] is String) {
-          return response["data"].toString();
-        }
+        return true;
       }
     } catch (e) {
       errorLog("forgotPassword repo", e);
     }
-    return "";
+    return false;
   }
 
-  Future<bool> forgotResetPassword({required String token, required String newPassword, required String confirmPassword}) async {
+  Future<bool> forgotResetPassword({required String email, required String newPassword}) async {
     try {
-      Map<String, dynamic> bodyData = {"newPassword": newPassword, "confirmPassword": confirmPassword};
-      var response = await nonAuthApi.sendRequest.post(
-        api.authResetPassword,
-        data: bodyData,
-        options: Options(headers: {"Authorization": "Bearer $token", "Content-Type": "application/json", "Accept": "*/*"}),
-      );
+      Map<String, dynamic> bodyData = {"email": email, "new_password": newPassword};
+      var response = await nonAuthApi.sendRequest.post(api.authResetPassword, data: bodyData);
 
       if (response.statusCode == 200) {
         return true;

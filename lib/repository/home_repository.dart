@@ -13,36 +13,54 @@ class HomeRepository {
   final ApiServices _apiServices = ApiServices.instance;
   final AppApiEndPoint _api = AppApiEndPoint.instance;
 
-  Future<List<ClassModel>> fetchClasses({
+  Future<ClassesResponse?> fetchClasses({
     required String date,
     String instructor = '',
+    String gender = '',
+    String difficulty = '',
+    String className = '',
+    int page = 1,
   }) async {
-    List<ClassModel> listOfData = [];
     try {
-      Map<String, dynamic> queryParameter = {
-        'scheduledAt': date,
-        'page':1,
-        "sortBy":"scheduledAt","sortOrder":'asc'
-      };
+      Map<String, dynamic> queryParameter = {'scheduledAt': date, 'page': page, "sortBy": "scheduledAt", "sortOrder": 'asc'};
+
       if (instructor.isNotEmpty) {
         queryParameter['search'] = instructor;
       }
+      if (gender.isNotEmpty) {
+        queryParameter['gender'] = gender;
+      }
+      if (difficulty.isNotEmpty) {
+        queryParameter['difficulty'] = difficulty;
+      }
+      if (className.isNotEmpty) {
+        queryParameter['search'] = className;
+      }
 
-      var response = await _apiServices.apiGetServices(
-        _api.allClasses,
-        queryParameters: queryParameter,
-      );
+      final response = await _apiServices.apiGetServices(_api.allClasses, queryParameters: queryParameter);
 
       if (response != null) {
-        if (response['classes'] is List) {
-          for (var element in response['classes']) {
-            listOfData.add(ClassModel.fromJson(element));
-          }
-        }
+        return ClassesResponse.fromJson(response);
+      } else {
+        throw Exception("Response is null");
       }
     } catch (e) {
       errorLog('FetchClassesRep', e);
+      rethrow;
     }
-    return listOfData;
+  }
+
+  Future<ClassModel> fetchClassById({required String id}) async {
+    try {
+      var response = await _apiServices.apiGetServices('${_api.allClasses}$id');
+      if (response != null) {
+        return ClassModel.fromJson(response);
+      } else {
+        throw Exception("Instructor data is null");
+      }
+    } catch (e) {
+      errorLog('FetchClassesRep', e);
+      rethrow;
+    }
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/data/app_colors.dart';
 import 'package:george/app/modules/auth/recovery_password/controllers/recovery_password_controller.dart';
-import 'package:george/app/routes/app_pages.dart';
 import 'package:george/app/utils/app_size.dart';
 import 'package:george/app/widgets/custom_elevated_button.dart';
 import 'package:george/app/widgets/custom_text_field.dart';
@@ -37,31 +36,28 @@ class RcoverPassForm extends StatelessWidget {
           SizedBox(height: 50.h),
 
           // Buttons Row
-          Row(
-            children: [
-              Expanded(
-                child: CustomElevetedButton(
-                  buttonText: 'Back',
-                  backgroundColor: AppColors.buttonSecondaryColor,
-                  buttonTextColor: AppColors.headlineColor,
-                  onTap: () => Get.back(),
+          Obx(
+            () => Row(
+              children: [
+                Expanded(
+                  child: CustomElevetedButton(
+                    buttonText: 'Back',
+                    backgroundColor: AppColors.buttonSecondaryColor,
+                    buttonTextColor: AppColors.headlineColor,
+                    onTap: () => Get.back(),
+                  ),
                 ),
-              ),
-              SizedBox(width: 20.w),
-              Expanded(
-                child: CustomElevetedButton(
-                  buttonText: 'Next',
-                  onTap: () {
-                    if (controller.formKey.currentState!.validate()) {
-                      Get.toNamed(
-                        Routes.recoveryOtp,
-                        arguments: {'isRegistering': false},
-                      );
-                    }
-                  },
+                SizedBox(width: 20.w),
+                Expanded(
+                  child: CustomElevetedButton(
+                    buttonText: controller.isLoading.value ? 'loading..' : 'Next',
+                    onTap: () {
+                      controller.checkAndSendOtp();
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

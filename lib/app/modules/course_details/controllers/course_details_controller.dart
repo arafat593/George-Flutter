@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:george/models/class_data.dart';
+import 'package:george/repository/home_repository.dart';
 import 'package:get/get.dart';
 import '../../../routes/app_pages.dart';
+import '../../../utils/app_log.dart';
 import '../../home/controllers/home_controller.dart';
 
 class CourseDetailsController extends GetxController {
   RxBool isInitialized = true.obs;
-  Rxn<ClassModel> classModel = Rxn();
+  final RxBool isLoading = false.obs;
+  final HomeRepository _homeRepository = HomeRepository.instance;
+
+  Rxn<ClassModel> classByID = Rxn<ClassModel>();
+  final RxString id = ''.obs;
 
   // Example data
-  final RxString imageUrl =
-      'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1000'
-          .obs;
+  final RxString imageUrl = 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1000'.obs;
   final RxString instructorImage = 'https://i.pravatar.cc/150?img=32'.obs;
-  final RxString mapImage =
-      'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&q=80&w=1000'
-          .obs;
+  final RxString mapImage = 'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&q=80&w=1000'.obs;
   final RxString title = 'Morning Vinyasa Flow'.obs;
   final RxString price = 'QAR 200'.obs;
   final RxString instructorName = 'Sarah Jenkins'.obs;
@@ -28,8 +30,9 @@ class CourseDetailsController extends GetxController {
   void onAppInitialize() {
     try {
       var arg = Get.arguments;
-      if (arg is ClassModel) {
-        classModel.value = arg;
+      if (arg is String) {
+        id.value = arg;
+        fetchClassById(id.value);
       } else {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           Get.offAndToNamed(Routes.notFoundScreen);
@@ -46,28 +49,24 @@ class CourseDetailsController extends GetxController {
     }
   }
 
+  Future<void> fetchClassById(String id) async {
+    try {
+      isLoading.value = true;
+
+      classByID.value = null;
+
+      classByID.value = await _homeRepository.fetchClassById(id: id);
+    } catch (e) {
+      errorLog("fetchClasses", e);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   @override
   void onInit() {
     onAppInitialize();
     super.onInit();
-
-    // // Safely get arguments or use defaults
-    // final args = Get.arguments as Map<String, dynamic>?;
-
-    // if (args != null) {
-    //   imageUrl.value = args['imageUrl'] ?? imageUrl.value;
-    //   instructorImage.value = args['instructorImage'] ?? instructorImage.value;
-    //   mapImage.value = args['mapImage'] ?? mapImage.value;
-    //   title.value = args['title'] ?? title.value;
-    //   price.value = args['price'] ?? price.value;
-    //   instructorName.value = args['instructorName'] ?? instructorName.value;
-    //   fromHistory.value = args['fromHistory'] ?? false;
-    //   description.value = args['description'] ?? description.value;
-    // }
-
-    // Future.delayed(const Duration(milliseconds: 300), () {
-    //   isInitialized.value = true;
-    // });
   }
 
   void bookNow() {
@@ -84,10 +83,7 @@ class CourseDetailsController extends GetxController {
       _showPaymentMethodDialog();
     } else {
       // Otherwise go to checkout
-      Get.toNamed(
-        Routes.checkout,
-        arguments: {'title': title.value, 'price': price.value},
-      );
+      Get.toNamed(Routes.checkout, arguments: {'title': title.value, 'price': price.value});
     }
   }
 
@@ -99,10 +95,7 @@ class CourseDetailsController extends GetxController {
         padding: const EdgeInsets.all(24),
         decoration: const BoxDecoration(
           color: Color(0xffF3EFE9),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(24),
-            topRight: Radius.circular(24),
-          ),
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -110,17 +103,12 @@ class CourseDetailsController extends GetxController {
           children: [
             const Text(
               "Select Payment Method",
-              style: TextStyle(
-                color: Color(0xFF5D4037),
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(color: Color(0xFF5D4037), fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 24),
             _buildPaymentOption(
               title: "Class Pack Session",
-              subtitle:
-                  "${homeController.sessionsLeft.value} sessions remaining",
+              subtitle: "${homeController.sessionsLeft.value} sessions remaining",
               icon: Icons.confirmation_number_outlined,
               onTap: () {
                 Get.back(); // Close bottom sheet
@@ -134,10 +122,7 @@ class CourseDetailsController extends GetxController {
               icon: Icons.payment_outlined,
               onTap: () {
                 Get.back(); // Close bottom sheet
-                Get.toNamed(
-                  Routes.checkout,
-                  arguments: {'title': title.value, 'price': price.value},
-                );
+                Get.toNamed(Routes.checkout, arguments: {'title': title.value, 'price': price.value});
               },
             ),
             const SizedBox(height: 32),
@@ -147,12 +132,7 @@ class CourseDetailsController extends GetxController {
     );
   }
 
-  Widget _buildPaymentOption({
-    required String title,
-    required String subtitle,
-    required IconData icon,
-    required VoidCallback onTap,
-  }) {
+  Widget _buildPaymentOption({required String title, required String subtitle, required IconData icon, required VoidCallback onTap}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -160,18 +140,13 @@ class CourseDetailsController extends GetxController {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: const Color(0xFF6D4C41).withValues(alpha: 0.1),
-          ),
+          border: Border.all(color: const Color(0xFF6D4C41).withValues(alpha: 0.1)),
         ),
         child: Row(
           children: [
             Container(
               padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: const Color(0xFF6D4C41).withValues(alpha: 0.1),
-                shape: BoxShape.circle,
-              ),
+              decoration: BoxDecoration(color: const Color(0xFF6D4C41).withValues(alpha: 0.1), shape: BoxShape.circle),
               child: Icon(icon, color: const Color(0xFF6D4C41)),
             ),
             const SizedBox(width: 16),
@@ -181,16 +156,9 @@ class CourseDetailsController extends GetxController {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
-                      color: Color(0xFF5D4037),
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: const TextStyle(color: Color(0xFF5D4037), fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  Text(
-                    subtitle,
-                    style: const TextStyle(color: Colors.grey, fontSize: 12),
-                  ),
+                  Text(subtitle, style: const TextStyle(color: Colors.grey, fontSize: 12)),
                 ],
               ),
             ),
@@ -216,35 +184,21 @@ class CourseDetailsController extends GetxController {
         insetPadding: const EdgeInsets.symmetric(horizontal: 40),
         child: Container(
           padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: const Color(0xffF3EFE9),
-            borderRadius: BorderRadius.circular(24),
-          ),
+          decoration: BoxDecoration(color: const Color(0xffF3EFE9), borderRadius: BorderRadius.circular(24)),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
                 width: 80,
                 height: 80,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF6D4C41),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.check_rounded,
-                  color: Colors.white,
-                  size: 50,
-                ),
+                decoration: const BoxDecoration(color: Color(0xFF6D4C41), shape: BoxShape.circle),
+                child: const Icon(Icons.check_rounded, color: Colors.white, size: 50),
               ),
               const SizedBox(height: 24),
               const Text(
                 "Booking Confirmed!",
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color(0xFF5D4037),
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(color: Color(0xFF5D4037), fontSize: 22, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 12),
               Text(
@@ -263,18 +217,12 @@ class CourseDetailsController extends GetxController {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF6D4C41),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     elevation: 0,
                   ),
                   child: const Text(
                     'Back To Home',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                 ),
               ),
@@ -288,5 +236,12 @@ class CourseDetailsController extends GetxController {
 
   void cancelBooking() {
     Get.back();
+  }
+
+  void refreshData(String newId) {
+    if (newId.isNotEmpty && newId != id.value) {
+      id.value = newId;
+      fetchClassById(newId);
+    }
   }
 }

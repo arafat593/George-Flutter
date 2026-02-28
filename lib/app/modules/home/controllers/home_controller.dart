@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/data/app_api_end_point.dart';
+import 'package:george/app/routes/app_pages.dart';
 import 'package:george/app/utils/app_log.dart';
 import 'package:george/models/class_data.dart';
 import 'package:george/repository/home_repository.dart';
 import 'package:george/services/api/api_services.dart';
 import 'package:george/services/storage_services/get_storage_services.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HomeController extends GetxController {
   final HomeRepository _homeRepository = HomeRepository.instance;
@@ -17,27 +17,78 @@ class HomeController extends GetxController {
   final GetStorageServices storageServices = GetStorageServices.instance;
   final ApiServices apiServices = ApiServices.instance;
   RxList<ClassModel> allClasses = <ClassModel>[].obs;
-  final RxBool isloading = false.obs;
+  RxList<String> allInstructor = <String>[].obs;
+  RxList<String> allClassName = <String>[].obs;
+  final RxBool isLoading = false.obs;
+  RxInt currentPage = 1.obs;
+  RxInt lastPage = 1.obs;
+  RxBool isLoadingMore = false.obs;
+  final ScrollController scrollController = ScrollController();
+  final ScrollController classScrollController = ScrollController();
+  RxString currentDate = ''.obs;
 
-  Future<void> fetchClasses(String date) async {
+  Future<void> fetchClasses(
+    String date, {
+    bool isLoadMore = false,
+    String? difficulty,
+    String? gender,
+    String? instructor,
+    String? className,
+  }) async {
     try {
-      isloading.value = true;
-      // var formatedDate =
-      //     "${currentMonth.value.month.toString().padLeft(2, "0")}-${currentMonth.value.day.toString().padLeft(2, "0")}-${currentMonth.value.year}";
-      allClasses.value = await _homeRepository.fetchClasses(date: date);
+      if (isLoadMore) {
+        isLoadingMore.value = true;
+      } else {
+        isLoading.value = true;
+        currentPage.value = 1;
+        allClasses.clear();
+      }
+      currentDate.value = date;
+
+      final response = await _homeRepository.fetchClasses(
+        date: date,
+        page: currentPage.value,
+        difficulty: difficulty ?? '',
+        gender: gender ?? '',
+        instructor: instructor ?? '',
+        className: className ?? '',
+      );
+
+      if (response != null) {
+        if (isLoadMore) {
+          allClasses.addAll(response.classes);
+        } else {
+          allClasses.assignAll(response.classes);
+        }
+        lastPage.value = response.totalPages;
+      }
     } catch (e) {
       errorLog("fetchClasses", e);
     } finally {
-      isloading.value = false;
+      isLoading.value = false;
+      isLoadingMore.value = false;
     }
+  }
+
+  Future<void> loadMoreClasses() async {
+    if (isLoadingMore.value || currentPage.value >= lastPage.value) return;
+
+    currentPage.value++;
+    final selected = DateTime(
+      currentYear,
+      currentMonth.value.month,
+      selectedDateIndex.value + 1,
+    );
+    final formattedDate =
+        '${selected.month.toString().padLeft(2, '0')}-${selected.day.toString().padLeft(2, '0')}-${selected.year}';
+    currentDate.value = formattedDate;
+    await fetchClasses(formattedDate, isLoadMore: true);
   }
 
   final Rx<DateTime> currentMonth = DateTime(
     DateTime.now().year,
     DateTime.now().month,
   ).obs;
-
-  final ScrollController scrollController = ScrollController();
 
   final List<String> monthNames = [
     'January',
@@ -196,11 +247,47 @@ class HomeController extends GetxController {
     final year = now.year.toString();
     return '$month-$day-$year';
   }
+
+  void onAppInitialized() {
+    try {
+      fetchClasses(_todayFormattedDate);
+      _initializeToToday();
+      classScrollController.addListener(() {
+        if (classScrollController.position.pixels >=
+            classScrollController.position.maxScrollExtent - 200) {
+          loadMoreClasses();
+        }
+      });
+    } catch (e) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Get.offAndToNamed(Routes.errorScreen);
+      });
+    } finally {
+      Future.delayed(const Duration(milliseconds: 300), () {
+        isLoading.value = false;
+      });
+    }
+  }
+
+  void onAppClose() {
+    try {
+      scrollController.dispose();
+      classScrollController.dispose();
+    } catch (e) {
+      errorLog("onAppClose", e);
+    }
+  }
+
   @override
   void onInit() {
     super.onInit();
-    fetchClasses(_todayFormattedDate);
-    _initializeToToday();
+    onAppInitialized();
+  }
+
+  @override
+  void onClose() {
+    onAppClose();
+    super.onClose();
   }
 
   void _initializeToToday() {
@@ -213,7 +300,6 @@ class HomeController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-
     refreshToToday();
   }
 
@@ -308,6 +394,7 @@ class HomeController extends GetxController {
     );
     final formatedDate =
         '${selected.month.toString().padLeft(2, '0')}-${selected.day.toString().padLeft(2, '0')}-${selected.year}';
+    currentDate.value = formatedDate;
     fetchClasses(formatedDate);
     scrollToSelectedDate();
   }
@@ -319,14 +406,5 @@ class HomeController extends GetxController {
 
   void handleTodayButtonClick() {
     resetToToday();
-  }
-
-  Future<void> launchMaps() async {
-    final Uri url = Uri.parse('https://www.google.com/maps');
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url, mode: LaunchMode.externalApplication);
-    } else {
-      Get.snackbar('Error', 'Could not open maps');
-    }
   }
 }

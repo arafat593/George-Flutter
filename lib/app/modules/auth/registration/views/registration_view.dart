@@ -32,6 +32,7 @@ class RegistrationView extends GetView<RegistrationController> {
 
               // Footer
               AuthOptions(
+                seconds: 0.obs,
                 titleText: 'Already have an account? ',
                 optionText: 'Log In',
                 onTap: () {

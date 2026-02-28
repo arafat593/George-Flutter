@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/utils/app_size.dart';
+import 'package:george/app/widgets/custom_elevated_button.dart';
 import 'package:get/get.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
@@ -47,7 +48,9 @@ class FilterView extends GetView<FilterController> {
               style: AppTextStyles.bold(28, color: AppColors.headlineColor),
             ),
             GestureDetector(
-              onTap: () => controller.clearFilter(),
+              onTap: () {
+                controller.clearFilter();
+              },
               child: Text(
                 "Clear",
                 style: AppTextStyles.semiBold(
@@ -79,37 +82,18 @@ class FilterView extends GetView<FilterController> {
                     SizedBox(height: 8.h),
                     Obx(
                       () => _buildAccordion(
-                        title:
-                            controller.tempInstructors.any((e) => e['selected'])
-                            ? controller.tempInstructors
-                                  .firstWhere((e) => e['selected'])['name']
-                                  .toString()
+                        title: controller.selectedInstructor.value.isNotEmpty
+                            ? controller.selectedInstructor.value
                             : 'Select an instructor',
                         isExpanded: isInstructorExpanded.value,
                         onTap: () => isInstructorExpanded.toggle(),
                         content: _buildSearchableList(
                           hintText: 'Search by Instructor name',
-                          items: controller.tempInstructors
-                              .where(
-                                (e) => e['name'].toLowerCase().contains(
-                                  controller.instructorSearch.value
-                                      .toLowerCase(),
-                                ),
-                              )
-                              .toList(),
+                          items: controller.instructors.value,
                           onSearchChanged: (val) =>
                               controller.instructorSearch.value = val,
                           onChanged: (name) {
-                            for (
-                              var i = 0;
-                              i < controller.tempInstructors.length;
-                              i++
-                            ) {
-                              controller.tempInstructors[i]['selected'] =
-                                  (controller.tempInstructors[i]['name'] ==
-                                  name);
-                            }
-                            controller.tempInstructors.refresh();
+                            controller.selectedInstructor.value = name;
                             isInstructorExpanded.value = false;
                           },
                         ),
@@ -126,34 +110,18 @@ class FilterView extends GetView<FilterController> {
                     SizedBox(height: 8.h),
                     Obx(
                       () => _buildAccordion(
-                        title: controller.tempClasses.any((e) => e['selected'])
-                            ? controller.tempClasses
-                                  .firstWhere((e) => e['selected'])['name']
-                                  .toString()
+                        title: controller.selectedClass.value.isNotEmpty
+                            ? controller.selectedClass.value
                             : 'Select a class name',
                         isExpanded: isClassExpanded.value,
                         onTap: () => isClassExpanded.toggle(),
                         content: _buildSearchableList(
                           hintText: 'Search by Class Name',
-                          items: controller.tempClasses
-                              .where(
-                                (e) => e['name'].toLowerCase().contains(
-                                  controller.classSearch.value.toLowerCase(),
-                                ),
-                              )
-                              .toList(),
+                          items: controller.classes.value,
                           onSearchChanged: (val) =>
                               controller.classSearch.value = val,
                           onChanged: (name) {
-                            for (
-                              var i = 0;
-                              i < controller.tempClasses.length;
-                              i++
-                            ) {
-                              controller.tempClasses[i]['selected'] =
-                                  (controller.tempClasses[i]['name'] == name);
-                            }
-                            controller.tempClasses.refresh();
+                            controller.selectedClass.value = name;
                             isClassExpanded.value = false;
                           },
                         ),
@@ -175,9 +143,9 @@ class FilterView extends GetView<FilterController> {
                         runSpacing: 12.h,
                         children: controller.difficulties.map((level) {
                           final isSelected =
-                              level == controller.tempDifficulty.value;
+                              level == controller.selectedDifficulty.value;
                           return GestureDetector(
-                            onTap: () => controller.tempDifficulty.value =
+                            onTap: () => controller.selectedDifficulty.value =
                                 isSelected ? '' : level,
                             child: _buildChip(level, isSelected),
                           );
@@ -200,9 +168,9 @@ class FilterView extends GetView<FilterController> {
                         runSpacing: 12.h,
                         children: controller.genders.map((gender) {
                           final isSelected =
-                              gender == controller.tempGender.value;
+                              gender == controller.selectedGender.value;
                           return GestureDetector(
-                            onTap: () => controller.tempGender.value =
+                            onTap: () => controller.selectedGender.value =
                                 isSelected ? '' : gender,
                             child: _buildChip(gender, isSelected),
                           );
@@ -216,20 +184,10 @@ class FilterView extends GetView<FilterController> {
             ),
             Padding(
               padding: EdgeInsets.all(24.w),
-              child: ElevatedButton(
-                onPressed: () => controller.applyFilter(),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.buttonPrimaryColor,
-                  minimumSize: Size(double.infinity, 56.h),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.r),
-                  ),
-                  elevation: 0,
-                ),
-                child: Text(
-                  'Apply Filter',
-                  style: AppTextStyles.bold(18, color: Colors.white),
-                ),
+              child: CustomElevetedButton(
+                onTap: () => controller.applyFilter(),
+                buttonText: 'Apply Filter',
+                backgroundColor: AppColors.buttonPrimaryColor,
               ),
             ),
           ],
@@ -298,10 +256,19 @@ class FilterView extends GetView<FilterController> {
 
   Widget _buildSearchableList({
     required String hintText,
-    required List<Map<String, dynamic>> items,
+    required List<String> items,
     required Function(String) onSearchChanged,
     required Function(String) onChanged,
   }) {
+    // Add this to filter items based on search text
+    final searchTerm = hintText.contains('Instructor')
+        ? controller.instructorSearch.value.toLowerCase()
+        : controller.classSearch.value.toLowerCase();
+
+    final filteredItems = items
+        .where((item) => item.toLowerCase().contains(searchTerm))
+        .toList();
+
     return Column(
       children: [
         Container(
@@ -316,7 +283,6 @@ class FilterView extends GetView<FilterController> {
               prefixIcon: Icon(Icons.search, color: Colors.grey, size: 20.sp),
               hintText: hintText,
               hintStyle: AppTextStyles.regular(14, color: Colors.grey),
-
               border: InputBorder.none,
               enabledBorder: InputBorder.none,
               focusedBorder: InputBorder.none,
@@ -325,19 +291,19 @@ class FilterView extends GetView<FilterController> {
             ),
           ),
         ),
-
         SizedBox(height: 12.h),
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: items.length,
+          itemCount: filteredItems.length, // Use filteredItems instead of items
           padding: EdgeInsets.zero,
           itemBuilder: (context, index) {
-            final item = items[index];
+            final item = filteredItems[index]; // Use filteredItems
             return Padding(
               padding: EdgeInsets.only(bottom: 10.h),
               child: GestureDetector(
-                onTap: () => onChanged(item['name']),
+                onTap: () =>
+                    onChanged(item), // FIXED: Now passes the item correctly
                 behavior: HitTestBehavior.opaque,
                 child: Row(
                   children: [
@@ -345,8 +311,14 @@ class FilterView extends GetView<FilterController> {
                       width: 24.w,
                       height: 24.w,
                       child: Checkbox(
-                        value: item['selected'],
-                        onChanged: (_) => onChanged(item['name']),
+                        value:
+                            item == controller.selectedInstructor.value ||
+                            item == controller.selectedClass.value,
+                        onChanged: (_) {
+                          onChanged(
+                            item,
+                          ); // FIXED: Now passes the item instead of empty string
+                        },
                         activeColor: AppColors.buttonPrimaryColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(4.r),
@@ -360,7 +332,7 @@ class FilterView extends GetView<FilterController> {
                     SizedBox(width: 12.w),
                     Expanded(
                       child: Text(
-                        item['name'],
+                        item,
                         style: AppTextStyles.regular(
                           16,
                           color: AppColors.headlineColor,

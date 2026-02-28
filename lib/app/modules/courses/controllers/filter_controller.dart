@@ -1,24 +1,16 @@
+import 'package:flutter/material.dart';
+import 'package:george/app/modules/home/controllers/home_controller.dart';
+import 'package:george/app/routes/app_pages.dart';
+import 'package:george/app/utils/app_log.dart';
 import 'package:get/get.dart';
 
 class FilterController extends GetxController {
   // --- Instructor ---
-  final RxList<Map<String, dynamic>> instructors = RxList<Map<String, dynamic>>(
-    [
-      {'name': 'Jane Cooper', 'selected': false},
-      {'name': 'Leslie Alexander', 'selected': false},
-      {'name': 'Theresa Webb', 'selected': false},
-      {'name': 'Jenny Wilson', 'selected': false},
-    ],
-  );
+  final RxList<String> instructors = <String>[].obs;
   final RxString instructorSearch = ''.obs;
 
   // --- Class Name ---
-  final RxList<Map<String, dynamic>> classes = RxList<Map<String, dynamic>>([
-    {'name': 'Inner Peace Yoga', 'selected': false},
-    {'name': 'Serene Soul Yoga', 'selected': false},
-    {'name': 'Harmony Yoga Studio', 'selected': false},
-    {'name': 'Pure Breath Yoga', 'selected': false},
-  ]);
+  final RxList<String> classes = <String>[].obs;
   final RxString classSearch = ''.obs;
 
   // --- Difficulty ---
@@ -26,80 +18,66 @@ class FilterController extends GetxController {
   final RxString selectedDifficulty = ''.obs;
 
   // --- Gender ---
-  final List<String> genders = ['Male', 'Female', 'Mixed'];
+  final List<String> genders = ['Male', 'Female', 'Both'];
   final RxString selectedGender = ''.obs;
 
   // Track if filter is applied
   final RxBool isFilterApplied = false.obs;
 
-  // Temp variables for the filter screen (to allow canceling)
-  final RxList<Map<String, dynamic>> tempInstructors =
-      RxList<Map<String, dynamic>>([]);
-  final RxList<Map<String, dynamic>> tempClasses = RxList<Map<String, dynamic>>(
-    [],
-  );
-  final RxString tempDifficulty = ''.obs;
-  final RxString tempGender = ''.obs;
+  final RxString selectedInstructor = ''.obs;
+  final RxString selectedClass = ''.obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    resetTemp();
-  }
-
-  void resetTemp() {
-    tempInstructors.assignAll(
-      instructors.map((e) => Map<String, dynamic>.from(e)).toList(),
-    );
-    tempClasses.assignAll(
-      classes.map((e) => Map<String, dynamic>.from(e)).toList(),
-    );
-    tempDifficulty.value = selectedDifficulty.value;
-    tempGender.value = selectedGender.value;
-  }
+  final HomeController homeController = Get.find<HomeController>();
 
   void applyFilter() {
-    instructors.assignAll(
-      tempInstructors.map((e) => Map<String, dynamic>.from(e)).toList(),
-    );
-    classes.assignAll(
-      tempClasses.map((e) => Map<String, dynamic>.from(e)).toList(),
-    );
-    selectedDifficulty.value = tempDifficulty.value;
-    selectedGender.value = tempGender.value;
+    appLog('---- FILTER DATA ----');
+    appLog('Instructor: ${selectedInstructor.value}');
+    appLog('Class: ${selectedClass.value}');
+    appLog('Difficulty: ${selectedDifficulty.value}');
+    appLog('Gender: ${selectedGender.value}');
+    appLog('----------------------');
 
-    checkIfFilterActive();
+    homeController.fetchClasses(
+      homeController.currentDate.value,
+      difficulty: selectedDifficulty.value,
+      gender: selectedGender.value,
+      instructor: selectedInstructor.value,
+      className: selectedClass.value,
+    );
+
     Get.back();
+  }
+
+  void onInitialize() {
+    try {
+      final arg = Get.arguments;
+      if (arg != null) {
+        final List<String> instructorsList = arg['instructors'] ?? [];
+        instructors.value = instructorsList.toSet().toList();
+        final List<String> classesList = arg['classes'] ?? [];
+        classes.value = classesList.toSet().toList();
+      }
+    } catch (e) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        errorLog('Filter Error', e);
+        Get.toNamed(Routes.errorScreen);
+      });
+    }
   }
 
   void clearFilter() {
-    resetAll();
-    Get.back();
-  }
-
-  void checkIfFilterActive() {
-    bool hasInstructor = instructors.any((e) => e['selected'] == true);
-    bool hasClass = classes.any((e) => e['selected'] == true);
-    bool hasDifficulty = selectedDifficulty.value.isNotEmpty;
-    bool hasGender = selectedGender.value.isNotEmpty;
-
-    isFilterApplied.value =
-        hasInstructor || hasClass || hasDifficulty || hasGender;
-  }
-
-  void resetAll() {
-    for (var i = 0; i < instructors.length; i++) {
-      instructors[i]['selected'] = false;
-    }
-    for (var i = 0; i < classes.length; i++) {
-      classes[i]['selected'] = false;
-    }
+    selectedInstructor.value = '';
+    selectedClass.value = '';
     selectedDifficulty.value = '';
     selectedGender.value = '';
     isFilterApplied.value = false;
+    homeController.fetchClasses(homeController.currentDate.value);
+    Get.back();
+  }
 
-    instructors.refresh();
-    classes.refresh();
-    resetTemp();
+  @override
+  void onInit() {
+    onInitialize();
+    super.onInit();
   }
 }

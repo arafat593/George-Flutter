@@ -3,9 +3,11 @@ import 'package:george/app/modules/auth/splash_screen/controllers/splash_screen_
 import 'package:george/app/routes/app_pages.dart';
 import 'package:george/app/utils/app_log.dart';
 import 'package:george/repository/auth_repository.dart';
+import 'package:george/services/storage_services/get_storage_services.dart';
 import 'package:get/get.dart';
 
 class LogInController extends GetxController {
+  final GetStorageServices _storageServices = GetStorageServices.instance;
   final AuthRepository authRepository = AuthRepository.instance;
   late GlobalKey<FormState> formKey;
   late TextEditingController emailController;
@@ -24,6 +26,9 @@ class LogInController extends GetxController {
       var response = await authRepository.login(email: emailController.text.trim().toLowerCase(), password: passwordController.text.trim());
       if (response) {
         appGlobalUserData.value = await authRepository.getUser();
+        if (isRememberMe.value) {
+          await _storageServices.setLoginInformation(email: emailController.text.trim().toLowerCase(), password: passwordController.text.trim());
+        }
         Get.offAllNamed(Routes.customBottomNav);
       }
     } catch (e) {
@@ -45,6 +50,18 @@ class LogInController extends GetxController {
       passwordController = .new();
       formKey = .new();
       focusNode = .new();
+      var data = _storageServices.getLoginInformation();
+      if (data.isNotEmpty) {
+        isRememberMe.value = true;
+        if (data["email"] is String) {
+          emailController.text = data["email"].toString();
+        }
+        if (data["password"] is String) {
+          passwordController.text = data["password"].toString();
+        }
+      } else {
+        isRememberMe.value = false;
+      }
     } catch (e) {
       errorLog("onAppInitial", e);
     }

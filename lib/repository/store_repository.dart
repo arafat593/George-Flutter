@@ -1,6 +1,5 @@
 import 'package:george/app/data/app_api_end_point.dart';
 import 'package:george/app/utils/app_log.dart';
-import 'package:george/models/class_data.dart';
 import 'package:george/services/api/api_services.dart';
 
 import '../models/store_product_model.dart';
@@ -19,18 +18,9 @@ class StoreRepository {
     List<StoreProductModel> listOfData = [];
     bool hasPagination = false;
     try {
-      Map<String, dynamic> queryParameter = {
+      Map<String, dynamic> queryParameter = {'pageSize': 10, 'page': page, "sortBy": "createdAt", "sortOrder": 'desc'};
 
-        'pageSize': 10,
-        'page':page,
-        "sortBy":"createdAt",
-        "sortOrder":'desc'
-      };
-
-      var response = await _apiServices.apiGetServices(
-        _api.storeProduct,
-        queryParameters: queryParameter,
-      );
+      var response = await _apiServices.apiGetServices(_api.storeProduct, queryParameters: queryParameter);
 
       if (response != null) {
         if (response['products'] is List) {
@@ -40,8 +30,6 @@ class StoreRepository {
         }
         hasPagination = (int.tryParse("${response["totalPages"]}") ?? 0) > page ? true : false;
       }
-
-
     } catch (e) {
       errorLog('FetchClassesRep', e);
     }
