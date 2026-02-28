@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:george/app/routes/app_pages.dart';
 import 'package:george/app/utils/app_size.dart';
 import 'package:get/get.dart';
+import '../../../../models/product_details_model.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
 import '../controllers/product_details_controller.dart';
 
 class ProductDetailsView extends GetView<ProductDetailsController> {
+
   const ProductDetailsView({super.key});
 
   @override
@@ -23,7 +26,6 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
 
         return Stack(
           children: [
-
             Positioned(
               top: 0,
               left: 0,
@@ -58,7 +60,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
 
             // Content Overlay
             Positioned.fill(
-              top: 0.37.sh,
+              top: 0.35.sh,
               child: Container(
                 decoration: BoxDecoration(
                   color: AppColors.backgroundColor,
@@ -97,28 +99,51 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                             },
                           ),
                         ),
-                      SizedBox(height: 25.h),
-
-                      // Material
+                      SizedBox(height: 8.h),
                       _buildInfoSection("Material:", product.material),
-                      SizedBox(height: 15.h),
+                      SizedBox(height: 6.h),
 
-                      // Dimensions
                       _buildInfoSection("Dimensions:", product.dimensions),
-                      SizedBox(height: 15.h),
+                      SizedBox(height: 6.h),
+                      Text(
+                        'Description',
+                        style: AppTextStyles.bold(
+                          16,
+                        ).copyWith(color: AppColors.headlineColor),
+                      ),
+                      SizedBox(height: 4.h),
+                      Text(
+                        product.description,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTextStyles.regular(
+                          16,
+                        ).copyWith(color: AppColors.bodyTextColor),
+                      ),
+                      SizedBox(height: 6.h),
 
-                      // Description
-                      _buildInfoSection("Description:", product.description,),
-                      SizedBox(height: 15.h),
-
-                      // Pickup Note
                       _buildInfoSection(
                         "Pickup Note:",
                         "Available at the studio.",
                       ),
+                      SizedBox(height: 6.h),
+                      Text(
+                        'QAR :${product.price}',
+                        style: AppTextStyles.bold(
+                          16,
+                        ).copyWith(color: AppColors.headlineColor),
+                      ),
+                      SizedBox(height: 6.h),
+                      Obx(
+                        () => Text(
+                          "Total price :${controller.productDetails.value?.totalPrice.toStringAsFixed(2)}",
+                          style: AppTextStyles.bold(
+                            16,
+                          ).copyWith(color: AppColors.headlineColor),
+                        ),
+                      ),
 
-                      // Bottom padding for footer
-                      SizedBox(height: 100.h),
+                      Spacer(),
                     ],
                   ),
                 ),
@@ -140,14 +165,14 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                           icon: Icons.remove,
                           onTap: controller.decrement,
                         ),
-                        SizedBox(width: 25.w),
+                        SizedBox(width: 20.w),
                         Obx(
                           () => Text(
-                            controller.quantity.value.toString(),
+                            controller.productDetails.value?.quantity.toString() ?? '0',
                             style: AppTextStyles.bold(24),
                           ),
                         ),
-                        SizedBox(width: 25.w),
+                        SizedBox(width: 20.w),
                         _buildQuantityBtn(
                           icon: Icons.add,
                           onTap: controller.increment,
@@ -155,9 +180,13 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                       ],
                     ),
                     const Spacer(),
-                    // Buy Now Button
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(Routes.checkout,arguments: {
+                          'product':controller.productDetails.value,
+                          'isFromShop': true,
+                        },);
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.buttonPrimaryColor,
                         padding: EdgeInsets.symmetric(
@@ -172,7 +201,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                       child: Text(
                         "Buy Now",
                         style: AppTextStyles.bold(
-                          18,
+                          16,
                         ).copyWith(color: Colors.white),
                       ),
                     ),
@@ -193,13 +222,13 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
         Text(
           title,
           style: AppTextStyles.bold(
-            18,
+            16,
           ).copyWith(color: AppColors.headlineColor),
         ),
         SizedBox(height: 4.h),
         Text(
           content,
-          maxLines: 3,
+          maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: AppTextStyles.regular(
             16,

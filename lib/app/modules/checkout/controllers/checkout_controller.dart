@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../models/product_details_model.dart';
+
 class CheckoutController extends GetxController {
+
+  late ProductDetailsModel product;
+
   final selectedPaymentMethod = 0.obs;
 
   final cartTotal = "".obs;
@@ -13,6 +18,7 @@ class CheckoutController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    product = Get.arguments['product'];
     if (Get.arguments != null && Get.arguments is Map) {
       itemName.value = Get.arguments['title'] ?? Get.arguments['name'] ?? "";
       cartTotal.value = Get.arguments['price'] ?? "QAR 0";
@@ -26,32 +32,6 @@ class CheckoutController extends GetxController {
     }
   }
 
-  final suggestedProducts = <Map<String, dynamic>>[
-    {
-      "name": "Premium Eco-Friendly Yoga Mat (6mm)",
-      "price": "QAR 2,450",
-      "image":
-          "https://images.unsplash.com/photo-1592419044706-39796d40f98c?auto=format&fit=crop&q=80&w=1000",
-    },
-    {
-      "name": "100% Cotton Yoga Strap (8 ft)",
-      "price": "QAR 2,450",
-      "image":
-          "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1000",
-    },
-    {
-      "name": "High-Density Yoga Block",
-      "price": "QAR 150",
-      "image":
-          "https://images.unsplash.com/photo-1510894347713-fc3ad6cb0322?auto=format&fit=crop&q=80&w=1000",
-    },
-    {
-      "name": "Insulated Yoga Water Bottle",
-      "price": "QAR 250",
-      "image":
-          "https://images.unsplash.com/photo-1610819013583-699784223af5?auto=format&fit=crop&q=80&w=1000",
-    },
-  ].obs;
 
   final firstNameCtrl = TextEditingController();
   final lastNameCtrl = TextEditingController();

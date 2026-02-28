@@ -1,13 +1,18 @@
+
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:george/app/modules/store/controllers/store_controller.dart';
 import 'package:get/get.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
 import '../../../routes/app_pages.dart';
+import '../../product_details/controllers/product_details_controller.dart';
 import '../controllers/checkout_controller.dart';
 
 class CheckoutView extends GetView<CheckoutController> {
-  const CheckoutView({super.key});
-
+   CheckoutView({super.key,});
+  final storeController= Get.find<StoreController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,26 +76,62 @@ class CheckoutView extends GetView<CheckoutController> {
                 color: Colors.white.withValues(alpha: 0.6),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Total",
+                  Text(
+                    controller.product.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: AppColors.headlineColor,
-                      fontSize: 16,
+                      fontSize: 18,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  Obx(
-                    () => Text(
-                      controller.cartTotal.value,
-                      style: TextStyle(
-                        color: AppColors.headlineColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                  SizedBox(height: 4,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                       Text(
+                          "Quantity :${controller.product.quantity}",
+                        style: TextStyle(
+                          color: AppColors.headlineColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
+                      Text(
+                        "Price QAR :${controller.product.price}",
+                        style: TextStyle(
+                          color: AppColors.headlineColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 8,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Total Price",
+                        style: TextStyle(
+                          color: AppColors.headlineColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                       Text(
+                         "QAR ${controller.product.totalPrice}",
+                          style: TextStyle(
+                            color: AppColors.headlineColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                    ],
                   ),
                 ],
               ),
@@ -156,6 +197,7 @@ class CheckoutView extends GetView<CheckoutController> {
                             ? 'Order Confirmed!'
                             : 'Payment Confirmed!',
                       },
+                      preventDuplicates: false
                     );
                   });
                 },
@@ -507,7 +549,7 @@ class CheckoutView extends GetView<CheckoutController> {
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: controller.suggestedProducts.length,
+     itemCount: min(4, storeController.products.length),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 0.70,
@@ -515,43 +557,51 @@ class CheckoutView extends GetView<CheckoutController> {
         mainAxisSpacing: 15,
       ),
       itemBuilder: (context, index) {
-        final product = controller.suggestedProducts[index];
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  image: DecorationImage(
-                    image: NetworkImage(product['image']),
-                    fit: BoxFit.cover,
+        final products = storeController.products.value[index];
+        return InkWell(
+          onTap: (){
+            if(Get.isRegistered<ProductDetailsController>()){
+              Get.delete<ProductDetailsController>(force: true);
+            }
+            Get.offAndToNamed(Routes.productDetails,arguments: products.id);
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    image: DecorationImage(
+                      image: NetworkImage(products.thumbnail),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              product['name'],
-              style: TextStyle(
-                color: AppColors.headlineColor,
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                height: 1.2,
+              const SizedBox(height: 10),
+              Text(
+                products.name,
+                style: TextStyle(
+                  color: AppColors.headlineColor,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  height: 1.2,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            const SizedBox(height: 4),
-            Text(
-              product['price'],
-              style: TextStyle(
-                color: AppColors.headlineColor,
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
+              const SizedBox(height: 4),
+              Text(
+                "${products.price}",
+                style: TextStyle(
+                  color: AppColors.headlineColor,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );
