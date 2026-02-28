@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:george/models/product_details_model.dart';
 import 'package:george/repository/productdetails_repository.dart';
 import 'package:get/get.dart';
@@ -11,18 +12,59 @@ class ProductDetailsController extends GetxController {
   final ProductDetailsRepository _productDetailsRepository =
       ProductDetailsRepository.instance;
 
-  Rx<ProductDetailsModel?> productDetails = Rx<ProductDetailsModel?>(null);
-  RxInt quantity = 1.obs;
+  Rxn<ProductDetailsModel> productDetails = Rxn<ProductDetailsModel>();
+
 
   void increment() {
-    quantity.value++;
+    try {
+      var product = productDetails.value;
+      if (product == null) return;
+      var quantity = product.quantity;
+      var stockQuantity = product.stockQuantity;
+      if ((quantity + 1) < stockQuantity) {
+        quantity = quantity +1;
+        var totalPrice = product.price * quantity;
+        productDetails.value = product.copyWith(
+          quantity: quantity,
+          totalPrice: totalPrice,
+        );
+      } else {
+        Get.snackbar(
+          "Insufficient Quantity",
+          "Need To less",
+          backgroundColor: Colors.orange,
+        );
+      }
+    } catch (e) {
+      errorLog("Error is", e);
+    }
   }
 
   void decrement() {
-    if (quantity.value > 1) {
-      quantity.value--;
+    try{
+      var product = productDetails.value;
+      if(product == null)return;
+       var currentQuantity =product.quantity;
+       if(currentQuantity > 1){
+        var newQuantity =  currentQuantity -1;
+        var totalPrice= product.price * newQuantity;
+        productDetails.value = product.copyWith(
+          quantity: newQuantity,
+          totalPrice:  totalPrice,
+        );
+       }else{
+         Get.snackbar(
+           "Minimum Quantity",
+           "Quantity cannot be less than 1",
+           backgroundColor: Colors.orange,
+         );
+       }
+    }catch(e){
+      errorLog("Error is", e);
     }
   }
+
+
 
   @override
   void onInit() {
@@ -34,11 +76,9 @@ class ProductDetailsController extends GetxController {
   Future<void> fetchProductDetails() async {
     try {
       isLoading.value = true;
-
       final result = await _productDetailsRepository.fetchProductDetails(
         id: productId,
       );
-
       productDetails.value = result;
     } catch (e) {
       errorLog("ProductDetailsController", e);

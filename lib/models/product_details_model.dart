@@ -6,6 +6,8 @@ class ProductDetailsModel {
   final String material;
   final String dimensions;
   final double price;
+  final double totalPrice;
+  final int quantity;
   final int stockQuantity;
   final List<String> images;
   final String thumbnail;
@@ -52,20 +54,22 @@ class ProductDetailsModel {
     required this.averageRating,
     required this.totalReviews,
     required this.createdAt,
-    required this.updatedAt,
+    required this.updatedAt, required this.totalPrice, required this.quantity,
   });
 
   factory ProductDetailsModel.fromJson(Map<String, dynamic> json) {
     return ProductDetailsModel(
-      id: json['id'] ?? '',
+      id: "${json['id'] ?? ''}",
       name: json['name'] ?? '',
       description: json['description'] ?? '',
       shortDescription: json['shortDescription'] ?? '',
       material: json['material'] ?? '',
       dimensions: json['dimensions'] ?? '',
-      price: json['price'] ?? 0,
-      stockQuantity: json['stockQuantity'] ?? 0,
-      images: List<String>.from(json['images'] ?? []),
+      price: double.tryParse("${json['price'] ?? 0}") ?? 0,
+      totalPrice: double.tryParse("${json['price'] ?? 0}") ?? 0,
+      quantity: 1,
+      stockQuantity: int.tryParse("${json['stockQuantity'] ?? 0}") ?? 0,
+      images: json['images'] is List ? (json['images'] as List).map((e) => e.toString()).toList():[],
       thumbnail: json['thumbnail'] ?? '',
       weight: (json['weight'] as num).toDouble(),
       color: json['color'] ?? '',
@@ -86,6 +90,68 @@ class ProductDetailsModel {
     );
   }
 
+  ProductDetailsModel copyWith({
+    String? id,
+    String? name,
+    String? description,
+    String? shortDescription,
+    String? material,
+    String? dimensions,
+    double? price,
+    double? totalPrice,
+    int? quantity,
+    int? stockQuantity,
+    List<String>? images,
+    String? thumbnail,
+    double? weight,
+    String? color,
+    String? size,
+    int? discountPrice,
+    String? sku,
+    List<String>? tags,
+    String? categoryId,
+    String? slug,
+    String? status,
+    bool? isFeatured,
+    int? viewCount,
+    int? salesCount,
+    double? averageRating,
+    int? totalReviews,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) {
+    return ProductDetailsModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      shortDescription: shortDescription ?? this.shortDescription,
+      material: material ?? this.material,
+      dimensions: dimensions ?? this.dimensions,
+      price: price ?? this.price,
+      totalPrice: totalPrice ?? this.totalPrice,
+      quantity: quantity ?? this.quantity,
+      stockQuantity: stockQuantity ?? this.stockQuantity,
+      images: images ?? this.images,
+      thumbnail: thumbnail ?? this.thumbnail,
+      weight: weight ?? this.weight,
+      color: color ?? this.color,
+      size: size ?? this.size,
+      discountPrice: discountPrice ?? this.discountPrice,
+      sku: sku ?? this.sku,
+      tags: tags ?? this.tags,
+      categoryId: categoryId ?? this.categoryId,
+      slug: slug ?? this.slug,
+      status: status ?? this.status,
+      isFeatured: isFeatured ?? this.isFeatured,
+      viewCount: viewCount ?? this.viewCount,
+      salesCount: salesCount ?? this.salesCount,
+      averageRating: averageRating ?? this.averageRating,
+      totalReviews: totalReviews ?? this.totalReviews,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       "id": id,
@@ -95,6 +161,8 @@ class ProductDetailsModel {
       "material": material,
       "dimensions": dimensions,
       "price": price,
+      "totalPrice": price,
+      "quantity": quantity,
       "stockQuantity": stockQuantity,
       "images": images,
       "thumbnail": thumbnail,
