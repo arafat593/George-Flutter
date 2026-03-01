@@ -46,7 +46,7 @@ class ClassCard extends StatelessWidget {
     final classStatus = status.toLowerCase();
     return GestureDetector(
       onTap: () {
-        Get.toNamed(Routes.courseDetails, arguments: classId);
+        Get.toNamed(Routes.classDetails, arguments: classId);
       },
       child: Container(
         padding: EdgeInsets.all(16.r),

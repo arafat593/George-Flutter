@@ -17,6 +17,7 @@ abstract class Routes {
   static const onboarding = _Paths.onboarding;
   static const news = _Paths.news;
   static const courseDetails = _Paths.courseDetails;
+  static const classDetails = _Paths.classDetails;
   static const newsDetails = _Paths.newsDetails;
   static const notifications = _Paths.notifications;
   static const checkout = _Paths.checkout;
@@ -54,6 +55,7 @@ abstract class _Paths {
   static const onboarding = '/onboarding';
   static const news = '/news';
   static const courseDetails = '/course-details';
+  static const classDetails = '/class-details';
   static const newsDetails = '/news-details';
   static const notifications = '/notifications';
   static const checkout = '/checkout';

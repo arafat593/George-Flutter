@@ -1,3 +1,5 @@
+import 'package:george/app/modules/class_details/bindings/class_details_binding.dart';
+import 'package:george/app/modules/class_details/views/class_details_view.dart';
 import 'package:get/get.dart';
 
 import '../modules/about_us/bindings/about_us_binding.dart';
@@ -84,6 +86,7 @@ class AppPages {
     GetPage(name: _Paths.recoveryPassword, page: () => const RecoveryPasswordView(), binding: RecoveryPasswordBinding()),
     GetPage(name: _Paths.onboarding, page: () => const OnboardingView(), binding: OnboardingBinding()),
     GetPage(name: _Paths.news, page: () => const NewsView(), binding: NewsBinding()),
+    GetPage(name: _Paths.classDetails, page: () => const ClassDetailsView(), binding: ClassDetailsBinding()),
     GetPage(name: _Paths.courseDetails, page: () => CourseDetailsView(), binding: CourseDetailsBinding()),
     GetPage(name: _Paths.newsDetails, page: () => const NewsDetailsView(), binding: NewsDetailsBinding()),
     GetPage(name: _Paths.notifications, page: () => const NotificationsView(), binding: NotificationsBinding()),
