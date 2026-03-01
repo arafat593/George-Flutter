@@ -14,7 +14,7 @@ class ProductDetailsModel {
   final double weight;
   final String color;
   final String size;
-  final int? discountPrice;
+  final double? discountPrice;
   final String sku;
   final List<String> tags;
   final String? categoryId;
@@ -65,26 +65,28 @@ class ProductDetailsModel {
       shortDescription: json['shortDescription'] ?? '',
       material: json['material'] ?? '',
       dimensions: json['dimensions'] ?? '',
-      price: double.tryParse("${json['price'] ?? 0}") ?? 0,
-      totalPrice: double.tryParse("${json['price'] ?? 0}") ?? 0,
+      price: (json['price'] as num?)?.toDouble() ?? 0.0,
+      totalPrice: (json['price'] as num?)?.toDouble() ?? 0.0,
       quantity: 1,
-      stockQuantity: int.tryParse("${json['stockQuantity'] ?? 0}") ?? 0,
-      images: json['images'] is List ? (json['images'] as List).map((e) => e.toString()).toList():[],
+      stockQuantity: (json['stockQuantity'] as num?)?.toInt() ?? 0,
+      images: json['images'] is List
+          ? (json['images'] as List).map((e) => e.toString()).toList()
+          : [],
       thumbnail: json['thumbnail'] ?? '',
-      weight: (json['weight'] as num).toDouble(),
+      weight: (json['weight'] as num?)?.toDouble() ?? 0.0,
       color: json['color'] ?? '',
       size: json['size'] ?? '',
-      discountPrice: json['discountPrice'],
+      discountPrice: (json['discountPrice'] as num?)?.toDouble(),
       sku: json['sku'] ?? '',
       tags: List<String>.from(json['tags'] ?? []),
       categoryId: json['categoryId'],
       slug: json['slug'] ?? '',
       status: json['status'] ?? '',
       isFeatured: json['isFeatured'] ?? false,
-      viewCount: json['viewCount'] ?? 0,
-      salesCount: json['salesCount'] ?? 0,
-      averageRating: (json['averageRating'] as num).toDouble(),
-      totalReviews: json['totalReviews'] ?? 0,
+      viewCount: (json['viewCount'] as num?)?.toInt() ?? 0,
+      salesCount: (json['salesCount'] as num?)?.toInt() ?? 0,
+      averageRating: (json['averageRating'] as num?)?.toDouble() ?? 0.0,
+      totalReviews: (json['totalReviews'] as num?)?.toInt() ?? 0,
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
     );
@@ -106,7 +108,7 @@ class ProductDetailsModel {
     double? weight,
     String? color,
     String? size,
-    int? discountPrice,
+    double? discountPrice,
     String? sku,
     List<String>? tags,
     String? categoryId,

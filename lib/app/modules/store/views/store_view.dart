@@ -17,11 +17,11 @@ class StoreView extends GetView<StoreController> {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Obx(() {
-            if(controller.isLoading.value){
-              return Center(child: CircularProgressIndicator(),);
+            if (controller.isLoading.value) {
+              return Center(child: CircularProgressIndicator());
             }
-            if(controller.products.isEmpty){
-              return Center( child:  Text("No data found"),);
+            if (controller.products.isEmpty) {
+              return Center(child: Text("No data found"));
             }
             return GridView.builder(
               physics: AlwaysScrollableScrollPhysics(),
@@ -47,7 +47,7 @@ class StoreView extends GetView<StoreController> {
 
   Widget _buildProductCard(StoreProductModel product) {
     return GestureDetector(
-      onTap: () => Get.toNamed(Routes.productDetails,arguments: product.id),
+      onTap: () => Get.toNamed(Routes.productDetails, arguments: product.id),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -55,12 +55,25 @@ class StoreView extends GetView<StoreController> {
             child: Stack(
               children: [
                 Container(
+                  height: AppSize.size.height * 0.5,
+                  width: AppSize.size.width * 0.5,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12.r),
                     color: Colors.grey[300],
-                    image: DecorationImage(
-                      image: NetworkImage(product.thumbnail),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12.r),
+                    child: Image.network(
+                      product.thumbnail,
                       fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return SizedBox(
+                          child: Image.network(
+                            "https://as1.ftcdn.net/jpg/10/22/24/80/1000_F_1022248039_7LDxHRi3Mlt9BK3wzLBUGZp9XAO1gt2s.jpg",
+                            fit: BoxFit.cover,
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../../../utils/app_log.dart';
 
 class ProductDetailsController extends GetxController {
-  late String productId;
+  RxString productId=''.obs;
 
   RxBool isLoading = false.obs;
 
@@ -63,21 +63,30 @@ class ProductDetailsController extends GetxController {
       errorLog("Error is", e);
     }
   }
+  void refreshData(String newId) {
+    print('👉👉👉 ${newId.isNotEmpty} ${newId != productId.value}');
 
+    if (newId.isNotEmpty && newId != productId.value) {
+      productId.value = newId;
+      fetchProductDetails(newId);
+    }
+  }
 
 
   @override
   void onInit() {
     super.onInit();
-    productId = Get.arguments as String;
-    fetchProductDetails();
+    productId.value = Get.arguments;
+    fetchProductDetails(productId.value);
   }
 
-  Future<void> fetchProductDetails() async {
+
+
+  Future<void> fetchProductDetails(String id) async {
     try {
       isLoading.value = true;
       final result = await _productDetailsRepository.fetchProductDetails(
-        id: productId,
+        id: id,
       );
       productDetails.value = result;
     } catch (e) {

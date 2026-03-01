@@ -16,11 +16,11 @@ class UpcomingClassesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     if (instructor?.upcomingClasses.isEmpty ?? true) {
       return Center(
-        child: Text('No upcoming classes', style: AppTextStyles.medium(14, color: Colors.grey)),
+        child: Text('No upcoming classes',style: AppTextStyles.medium(14, color: Colors.grey)),
       );
     }
     return ListView.builder(
-      itemCount: instructor?.upcomingClasses.length ?? 0,
+      itemCount: instructor?.upcomingClasses.length ??       0,
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       padding: EdgeInsets.zero,

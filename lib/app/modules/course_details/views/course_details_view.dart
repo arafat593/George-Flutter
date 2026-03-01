@@ -26,7 +26,11 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
           return const Center(child: Text("Course not found"));
         }
 
-        return Stack(children: [_buildBackgroundImage(), _buildTopHeader(), _buildBookingDetailsSheet()]);
+        return Stack(children: [
+          _buildBackgroundImage(),
+          _buildTopHeader(),
+          _buildBookingDetailsSheet()
+        ]);
       }),
     );
   }

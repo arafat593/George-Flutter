@@ -1,8 +1,8 @@
-
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:george/app/modules/store/controllers/store_controller.dart';
+import 'package:george/app/utils/app_size.dart';
 import 'package:get/get.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
@@ -11,8 +11,10 @@ import '../../product_details/controllers/product_details_controller.dart';
 import '../controllers/checkout_controller.dart';
 
 class CheckoutView extends GetView<CheckoutController> {
-   CheckoutView({super.key,});
-  final storeController= Get.find<StoreController>();
+  CheckoutView({super.key});
+
+  final storeController = Get.find<StoreController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,12 +91,12 @@ class CheckoutView extends GetView<CheckoutController> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  SizedBox(height: 4,),
+                  SizedBox(height: 4),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                       Text(
-                          "Quantity :${controller.product.quantity}",
+                      Text(
+                        "Quantity :${controller.product.quantity}",
                         style: TextStyle(
                           color: AppColors.headlineColor,
                           fontSize: 16,
@@ -111,7 +113,7 @@ class CheckoutView extends GetView<CheckoutController> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 8,),
+                  SizedBox(height: 8),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -123,14 +125,14 @@ class CheckoutView extends GetView<CheckoutController> {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                       Text(
-                         "QAR ${controller.product.totalPrice}",
-                          style: TextStyle(
-                            color: AppColors.headlineColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      Text(
+                        "QAR ${controller.product.totalPrice}",
+                        style: TextStyle(
+                          color: AppColors.headlineColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                         ),
+                      ),
                     ],
                   ),
                 ],
@@ -197,7 +199,7 @@ class CheckoutView extends GetView<CheckoutController> {
                             ? 'Order Confirmed!'
                             : 'Payment Confirmed!',
                       },
-                      preventDuplicates: false
+                      preventDuplicates: false,
                     );
                   });
                 },
@@ -549,7 +551,7 @@ class CheckoutView extends GetView<CheckoutController> {
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-     itemCount: min(4, storeController.products.length),
+      itemCount: min(4, storeController.products.length),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 0.70,
@@ -559,22 +561,30 @@ class CheckoutView extends GetView<CheckoutController> {
       itemBuilder: (context, index) {
         final products = storeController.products.value[index];
         return InkWell(
-          onTap: (){
-            if(Get.isRegistered<ProductDetailsController>()){
-              Get.delete<ProductDetailsController>(force: true);
-            }
-            Get.offAndToNamed(Routes.productDetails,arguments: products.id);
+          onTap: () {
+            Get.back(result: products.id);
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: Container(
+                  height: AppSize.size.height * 0.5,
+                  width: AppSize.size.width * 0.5,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    image: DecorationImage(
-                      image: NetworkImage(products.thumbnail),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.network(
+                      products.thumbnail,
                       fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.network(
+                          "https://as1.ftcdn.net/jpg/10/22/24/80/1000_F_1022248039_7LDxHRi3Mlt9BK3wzLBUGZp9XAO1gt2s.jpg",
+                          fit: BoxFit.cover,
+                        );
+                      },
                     ),
                   ),
                 ),
