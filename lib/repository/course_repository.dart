@@ -24,12 +24,14 @@ class CourseRepository {
     }
     return null;
   }
-
   Future<Courses?> getCourseDetails(String courseId) async {
     try {
-      var response = await _apiServices.apiGetServices(_api.courseDetails(courseId));
+      var response = await _apiServices.apiGetServices(
+        _api.courseDetails(courseId),
+      );
       if (response != null) {
-        final courseData = response.containsKey('course') ? response['course'] : response;
+        final courseData =
+        response.containsKey('course') ? response['course'] : response;
         return Courses.fromJson(courseData);
       }
     } catch (e) {
