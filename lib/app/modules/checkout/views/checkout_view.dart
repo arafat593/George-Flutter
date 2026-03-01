@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:george/app/modules/store/controllers/store_controller.dart';
+import 'package:george/app/utils/app_size.dart';
 import 'package:get/get.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
@@ -561,21 +562,29 @@ class CheckoutView extends GetView<CheckoutController> {
         final products = storeController.products.value[index];
         return InkWell(
           onTap: () {
-            if (Get.isRegistered<ProductDetailsController>()) {
-              Get.delete<ProductDetailsController>(force: true);
-            }
-            Get.offAndToNamed(Routes.productDetails, arguments: products.id);
+            Get.back(result: products.id);
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: Container(
+                  height: AppSize.size.height * 0.5,
+                  width: AppSize.size.width * 0.5,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    image: DecorationImage(
-                      image: NetworkImage(products.thumbnail),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.network(
+                      products.thumbnail,
                       fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.network(
+                          "https://as1.ftcdn.net/jpg/10/22/24/80/1000_F_1022248039_7LDxHRi3Mlt9BK3wzLBUGZp9XAO1gt2s.jpg",
+                          fit: BoxFit.cover,
+                        );
+                      },
                     ),
                   ),
                 ),
