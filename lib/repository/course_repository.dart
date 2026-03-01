@@ -6,8 +6,7 @@ import 'package:george/services/api/api_services.dart';
 class CourseRepository {
   ////////////// Contractures
   CourseRepository._privetContractures();
-  static final CourseRepository _instance =
-      CourseRepository._privetContractures();
+  static final CourseRepository _instance = CourseRepository._privetContractures();
   static CourseRepository get instance => _instance;
 
   /////////////// object
@@ -22,6 +21,19 @@ class CourseRepository {
       }
     } catch (e) {
       errorLog("getAllCourses repo", e);
+    }
+    return null;
+  }
+
+  Future<Courses?> getCourseDetails(String courseId) async {
+    try {
+      var response = await _apiServices.apiGetServices(_api.courseDetails(courseId));
+      if (response != null) {
+        final courseData = response.containsKey('course') ? response['course'] : response;
+        return Courses.fromJson(courseData);
+      }
+    } catch (e) {
+      errorLog("getCourseDetails repo", e);
     }
     return null;
   }
