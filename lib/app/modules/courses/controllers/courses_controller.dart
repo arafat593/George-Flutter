@@ -1,14 +1,14 @@
 import 'package:george/app/utils/app_log.dart';
 import 'package:get/get.dart';
 
-import '../../../../models/all_courses_model.dart';
+import '../../../../models/all_class_model.dart';
 import '../../../../services/api/courses_service.dart';
 
 class CoursesController extends GetxController {
   final CoursesService _service = CoursesService();
 
   var isLoading = false.obs;
-  var coursesList = <Courses>[].obs;
+  var coursesList = <Classes>[].obs;
   final count = 0.obs;
   void increment() => count.value++;
 

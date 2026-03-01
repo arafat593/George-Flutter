@@ -2,20 +2,17 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:get_storage/get_storage.dart';
 import '../../app/data/app_api_end_point.dart';
-import '../../models/all_courses_model.dart';
+import '../../models/all_class_model.dart';
 
 class CoursesService {
   final box = GetStorage();
 
   Map<String, String> get _headers {
     final token = box.read("token");
-    return {
-      "Accept": "application/json",
-      "Authorization": "Bearer $token",
-    };
+    return {"Accept": "application/json", "Authorization": "Bearer $token"};
   }
 
-  Future<AllCoursesModel?> getAllCourses() async {
+  Future<AllClassModel?> getAllCourses() async {
     try {
       final url = Uri.parse(
         "${AppApiEndPoint.instance.baseUrl}${AppApiEndPoint.instance.allCourses}",
@@ -29,7 +26,7 @@ class CoursesService {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        return AllCoursesModel.fromJson(data);
+        return AllClassModel.fromJson(data);
       } else {
         print("API Failed with status: ${response.statusCode}");
         return null;
@@ -41,7 +38,7 @@ class CoursesService {
   }
 
   /// GET /api/v1/courses/{courseId}
-  Future<Courses?> getCourseDetails(String courseId) async {
+  Future<Classes?> getCourseDetails(String courseId) async {
     try {
       final url = Uri.parse(
         "${AppApiEndPoint.instance.baseUrl}${AppApiEndPoint.instance.courseDetails(courseId)}",
@@ -59,7 +56,7 @@ class CoursesService {
         // দুইটাই handle করা হচ্ছে
         if (data is Map<String, dynamic>) {
           final courseData = data.containsKey('course') ? data['course'] : data;
-          return Courses.fromJson(courseData);
+          return Classes.fromJson(courseData);
         }
         return null;
       } else {

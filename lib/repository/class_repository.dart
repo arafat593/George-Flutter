@@ -1,27 +1,27 @@
 import 'package:george/app/data/app_api_end_point.dart';
 import 'package:george/app/utils/app_log.dart';
-import 'package:george/models/all_courses_model.dart';
+import 'package:george/models/all_class_model.dart';
 import 'package:george/services/api/api_services.dart';
 
-class CourseRepository {
+class ClassRepository {
   ////////////// Contractures
-  CourseRepository._privetContractures();
-  static final CourseRepository _instance =
-      CourseRepository._privetContractures();
-  static CourseRepository get instance => _instance;
+  ClassRepository._privetContractures();
+  static final ClassRepository _instance =
+      ClassRepository._privetContractures();
+  static ClassRepository get instance => _instance;
 
   /////////////// object
   final ApiServices _apiServices = ApiServices.instance;
   final AppApiEndPoint _api = AppApiEndPoint.instance;
 
-  Future<AllCoursesModel?> getAllCourses() async {
+  Future<AllClassModel?> getAllCourses() async {
     try {
       var response = await _apiServices.apiGetServices(_api.allCourses);
       if (response != null) {
-        return AllCoursesModel.fromJson(response);
+        return AllClassModel.fromJson(response);
       }
     } catch (e) {
-      errorLog("getAllCourses repo", e);
+      errorLog("getAllClasses repo", e);
     }
     return null;
   }
