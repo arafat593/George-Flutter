@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:george/app/data/app_colors.dart';
 import 'package:george/app/utils/app_size.dart';
+import 'package:george/app/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_text_styles.dart';
@@ -11,39 +13,8 @@ class OrderHistoryView extends GetView<OrderHistoryController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFDF9F6),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: GestureDetector(
-          onTap: () => Get.back(),
-          child: Row(
-            children: [
-              SizedBox(width: 16.w),
-              Icon(
-                Icons.arrow_back_ios,
-                size: 20.r,
-                color: const Color(0xFF6D4C41),
-              ),
-              Text(
-                'Back',
-                style: AppTextStyles.semiBold(
-                  20,
-                  color: const Color(0xFF6D4C41),
-                ),
-              ),
-            ],
-          ),
-        ),
-        leadingWidth: 100.w,
-        title: Text(
-          "Order History",
-          style: AppTextStyles.bold(
-            28,
-          ).copyWith(color: const Color(0xFF6D4C41)),
-        ),
-        centerTitle: true,
-      ),
+      backgroundColor: AppColors.backgroundColor,
+      appBar: CustomAppBar(title: 'Order History'),
       body: Obx(
         () => ListView.separated(
           padding: EdgeInsets.all(20.r),
@@ -77,7 +48,9 @@ class OrderHistoryView extends GetView<OrderHistoryController> {
             offset: const Offset(0, 4),
           ),
         ],
-        border: Border.all(color: const Color(0xFF6D4C41).withValues(alpha: 0.1)),
+        border: Border.all(
+          color: const Color(0xFF6D4C41).withValues(alpha: 0.1),
+        ),
       ),
       child: Row(
         children: [
@@ -119,9 +92,9 @@ class OrderHistoryView extends GetView<OrderHistoryController> {
                 SizedBox(height: 4.h),
                 Text(
                   order['items'],
-                  style: AppTextStyles.regular(
-                    12,
-                  ).copyWith(color: const Color(0xFF6D4C41).withValues(alpha: 0.6)),
+                  style: AppTextStyles.regular(12).copyWith(
+                    color: const Color(0xFF6D4C41).withValues(alpha: 0.6),
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/utils/app_size.dart';
+import 'package:george/app/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_colors.dart';
@@ -14,14 +15,13 @@ class MembershipsView extends GetView<MembershipsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
+      appBar: CustomAppBar(title: "Membership"),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildAppBar(),
-              SizedBox(height: 20.h),
               _buildTabs(),
               SizedBox(height: 24.h),
               Obx(
@@ -33,41 +33,6 @@ class MembershipsView extends GetView<MembershipsController> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildAppBar() {
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: () => Get.back(),
-          child: Row(
-            children: [
-              Icon(
-                Icons.arrow_back_ios,
-                size: 20.sp,
-                color: const Color(0xFF6D4C41),
-              ),
-              Text(
-                "Back",
-                style: AppTextStyles.semiBold(
-                  20,
-                  color: const Color(0xFF6D4C41),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: Center(
-            child: Text(
-              "Membership",
-              style: AppTextStyles.bold(28, color: const Color(0xFF6D4C41)),
-            ),
-          ),
-        ),
-        SizedBox(width: 80.w), // Balance spacing
-      ],
     );
   }
 
@@ -375,7 +340,9 @@ class MembershipsView extends GetView<MembershipsController> {
       decoration: BoxDecoration(
         color: const Color(0xFFEBE3D9),
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: const Color(0xFF6D4C41).withValues(alpha: 0.3)),
+        border: Border.all(
+          color: const Color(0xFF6D4C41).withValues(alpha: 0.3),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -441,7 +408,9 @@ class MembershipsView extends GetView<MembershipsController> {
                             activeThumbColor: const Color(0xFF6D4C41),
                             activeTrackColor: Colors.white,
                             inactiveThumbColor: Colors.white,
-                            inactiveTrackColor: Colors.grey.withValues(alpha: 0.3),
+                            inactiveTrackColor: Colors.grey.withValues(
+                              alpha: 0.3,
+                            ),
                           ),
                         ),
                       ),

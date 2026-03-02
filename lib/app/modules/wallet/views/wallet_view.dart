@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/utils/app_size.dart';
+import 'package:george/app/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
@@ -18,7 +19,9 @@ class WalletView extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.h),
-        child: SafeArea(child: _buildAppBar()),
+        child: SafeArea(
+          child: CustomAppBar(title: 'Wallet', showBackButton: false),
+        ),
       ),
       backgroundColor: AppColors.backgroundColor,
       body: SingleChildScrollView(
@@ -59,21 +62,6 @@ class WalletView extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildAppBar() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Wallet',
-            style: AppTextStyles.bold(24, color: AppColors.headlineColor),
-          ),
-        ],
       ),
     );
   }

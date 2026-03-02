@@ -28,7 +28,9 @@ class CustomBottomNavView extends GetView<CustomBottomNavController> {
             child: FloatingActionButton(
               heroTag: 'home_fab',
               onPressed: () => controller.changeIndex(5), // index 4 is Home
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100),
+              ),
               backgroundColor: AppColors.primaryColor,
               elevation: 4,
               child: Padding(
@@ -37,7 +39,8 @@ class CustomBottomNavView extends GetView<CustomBottomNavController> {
               ),
             ),
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
 
           bottomNavigationBar: BottomAppBar(
             shape: const CircularNotchedRectangle(),
@@ -53,11 +56,27 @@ class CustomBottomNavView extends GetView<CustomBottomNavController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _bottomNavItem(index: 0, iconPath: ImagePath.courses, label: 'Courses'),
-                    _bottomNavItem(index: 1, iconPath: ImagePath.wallet, label: 'Wallet'),
+                    _bottomNavItem(
+                      index: 0,
+                      iconPath: ImagePath.courses,
+                      label: 'Courses',
+                    ),
+                    _bottomNavItem(
+                      index: 1,
+                      iconPath: ImagePath.wallet,
+                      label: 'Wallet',
+                    ),
                     const SizedBox(width: 40), // Space for FAB
-                    _bottomNavItem(index: 3, iconPath: ImagePath.store, label: 'Store'),
-                    _bottomNavItem(index: 4, iconPath: ImagePath.profile, label: 'Profile'),
+                    _bottomNavItem(
+                      index: 3,
+                      iconPath: ImagePath.store,
+                      label: 'Store',
+                    ),
+                    _bottomNavItem(
+                      index: 4,
+                      iconPath: ImagePath.profile,
+                      label: 'Account',
+                    ),
                   ],
                 ),
               ),
@@ -65,7 +84,14 @@ class CustomBottomNavView extends GetView<CustomBottomNavController> {
           ),
           body: IndexedStack(
             index: controller.currentIndex.value,
-            children: [const CoursesView(), const WalletView(), const WalletView(), const StoreView(), const ProfileView(), const HomeView()],
+            children: [
+              const CoursesView(),
+              const WalletView(),
+              const WalletView(),
+              const StoreView(),
+              const ProfileView(),
+              const HomeView(),
+            ],
           ),
           // body: Obx(() {
           //   switch (controller.currentIndex.value) {
@@ -90,7 +116,11 @@ class CustomBottomNavView extends GetView<CustomBottomNavController> {
   }
 
   // Custom Bottom Item
-  Widget _bottomNavItem({required int index, required String iconPath, required String label}) {
+  Widget _bottomNavItem({
+    required int index,
+    required String iconPath,
+    required String label,
+  }) {
     bool isSelected = controller.currentIndex.value == index;
     return InkWell(
       onTap: () => controller.changeIndex(index),
@@ -105,19 +135,31 @@ class CustomBottomNavView extends GetView<CustomBottomNavController> {
             height: 4.h,
             decoration: BoxDecoration(
               color: isSelected ? AppColors.whiteColor : Colors.transparent,
-              borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10)),
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10),
+              ),
             ),
           ),
           SizedBox(height: 10.h),
           // Icon
-          Image.asset(iconPath, height: 24.h, color: isSelected ? AppColors.whiteColor : AppColors.bottomNevUnselectedItemColor),
+          Image.asset(
+            iconPath,
+            height: 24.h,
+            color: isSelected
+                ? AppColors.whiteColor
+                : AppColors.bottomNevUnselectedItemColor,
+          ),
           SizedBox(height: 4.h),
           // Label
           Text(
             label,
-            style: AppTextStyles.regular(
-              10,
-            ).copyWith(color: isSelected ? AppColors.whiteColor : AppColors.bottomNevUnselectedItemColor, overflow: TextOverflow.ellipsis),
+            style: AppTextStyles.regular(10).copyWith(
+              color: isSelected
+                  ? AppColors.whiteColor
+                  : AppColors.bottomNevUnselectedItemColor,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       ),

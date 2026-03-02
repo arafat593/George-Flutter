@@ -15,13 +15,9 @@ class ClassDetailsController extends GetxController {
   final RxString id = ''.obs;
 
   // Example data
-  final RxString imageUrl =
-      'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1000'
-          .obs;
+  final RxString imageUrl = 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1000'.obs;
   final RxString instructorImage = 'https://i.pravatar.cc/150?img=32'.obs;
-  final RxString mapImage =
-      'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&q=80&w=1000'
-          .obs;
+  final RxString mapImage = 'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&q=80&w=1000'.obs;
   final RxString title = 'Morning Vinyasa Flow'.obs;
   final RxString price = 'QAR 200'.obs;
   final RxString instructorName = 'Sarah Jenkins'.obs;
@@ -36,7 +32,6 @@ class ClassDetailsController extends GetxController {
       var arg = Get.arguments;
       if (arg is String) {
         id.value = arg;
-        print("✅✅✅Received class ID: ${id.value}");
         fetchClassById(id.value);
       } else {
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -88,10 +83,7 @@ class ClassDetailsController extends GetxController {
       _showPaymentMethodDialog();
     } else {
       // Otherwise go to checkout
-      Get.toNamed(
-        Routes.checkout,
-        arguments: {'title': title.value, 'price': price.value},
-      );
+      Get.toNamed(Routes.checkout, arguments: {'title': title.value, 'price': price.value});
     }
   }
 
@@ -103,10 +95,7 @@ class ClassDetailsController extends GetxController {
         padding: const EdgeInsets.all(24),
         decoration: const BoxDecoration(
           color: Color(0xffF3EFE9),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(24),
-            topRight: Radius.circular(24),
-          ),
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -114,17 +103,12 @@ class ClassDetailsController extends GetxController {
           children: [
             const Text(
               "Select Payment Method",
-              style: TextStyle(
-                color: Color(0xFF5D4037),
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(color: Color(0xFF5D4037), fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 24),
             _buildPaymentOption(
               title: "Class Pack Session",
-              subtitle:
-                  "${homeController.sessionsLeft.value} sessions remaining",
+              subtitle: "${homeController.sessionsLeft.value} sessions remaining",
               icon: Icons.confirmation_number_outlined,
               onTap: () {
                 Get.back(); // Close bottom sheet
@@ -138,10 +122,7 @@ class ClassDetailsController extends GetxController {
               icon: Icons.payment_outlined,
               onTap: () {
                 Get.back(); // Close bottom sheet
-                Get.toNamed(
-                  Routes.checkout,
-                  arguments: {'title': title.value, 'price': price.value},
-                );
+                Get.toNamed(Routes.checkout, arguments: {'title': title.value, 'price': price.value});
               },
             ),
             const SizedBox(height: 32),
@@ -151,12 +132,7 @@ class ClassDetailsController extends GetxController {
     );
   }
 
-  Widget _buildPaymentOption({
-    required String title,
-    required String subtitle,
-    required IconData icon,
-    required VoidCallback onTap,
-  }) {
+  Widget _buildPaymentOption({required String title, required String subtitle, required IconData icon, required VoidCallback onTap}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -164,18 +140,13 @@ class ClassDetailsController extends GetxController {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: const Color(0xFF6D4C41).withValues(alpha: 0.1),
-          ),
+          border: Border.all(color: const Color(0xFF6D4C41).withValues(alpha: 0.1)),
         ),
         child: Row(
           children: [
             Container(
               padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: const Color(0xFF6D4C41).withValues(alpha: 0.1),
-                shape: BoxShape.circle,
-              ),
+              decoration: BoxDecoration(color: const Color(0xFF6D4C41).withValues(alpha: 0.1), shape: BoxShape.circle),
               child: Icon(icon, color: const Color(0xFF6D4C41)),
             ),
             const SizedBox(width: 16),
@@ -185,16 +156,9 @@ class ClassDetailsController extends GetxController {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
-                      color: Color(0xFF5D4037),
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: const TextStyle(color: Color(0xFF5D4037), fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  Text(
-                    subtitle,
-                    style: const TextStyle(color: Colors.grey, fontSize: 12),
-                  ),
+                  Text(subtitle, style: const TextStyle(color: Colors.grey, fontSize: 12)),
                 ],
               ),
             ),
@@ -220,35 +184,21 @@ class ClassDetailsController extends GetxController {
         insetPadding: const EdgeInsets.symmetric(horizontal: 40),
         child: Container(
           padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: const Color(0xffF3EFE9),
-            borderRadius: BorderRadius.circular(24),
-          ),
+          decoration: BoxDecoration(color: const Color(0xffF3EFE9), borderRadius: BorderRadius.circular(24)),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
                 width: 80,
                 height: 80,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF6D4C41),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.check_rounded,
-                  color: Colors.white,
-                  size: 50,
-                ),
+                decoration: const BoxDecoration(color: Color(0xFF6D4C41), shape: BoxShape.circle),
+                child: const Icon(Icons.check_rounded, color: Colors.white, size: 50),
               ),
               const SizedBox(height: 24),
               const Text(
                 "Booking Confirmed!",
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color(0xFF5D4037),
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(color: Color(0xFF5D4037), fontSize: 22, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 12),
               Text(
@@ -267,18 +217,12 @@ class ClassDetailsController extends GetxController {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF6D4C41),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     elevation: 0,
                   ),
                   child: const Text(
                     'Back To Home',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                 ),
               ),

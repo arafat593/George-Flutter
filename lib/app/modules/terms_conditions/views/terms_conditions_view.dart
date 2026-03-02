@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/utils/app_size.dart';
+import 'package:george/app/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
@@ -12,33 +13,7 @@ class TermsConditionsView extends GetView<TermsConditionsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: GestureDetector(
-          onTap: () => Get.back(),
-          child: Row(
-            children: [
-              SizedBox(width: 16.w),
-              Icon(
-                Icons.arrow_back_ios,
-                size: 20.r,
-                color: AppColors.bodyTextColor,
-              ),
-              Text(
-                'Back',
-                style: AppTextStyles.semiBold(
-                  20,
-                  color: AppColors.bodyTextColor,
-                ),
-              ),
-            ],
-          ),
-        ),
-        leadingWidth: 100.w,
-        title: Text("Terms & Conditions", style: AppTextStyles.bold(28)),
-        centerTitle: true,
-      ),
+      appBar: CustomAppBar(title: 'Terms & Conditions'),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
         child: Column(

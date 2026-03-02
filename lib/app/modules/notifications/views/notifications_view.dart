@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/utils/app_size.dart';
+import 'package:george/app/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_colors.dart';
@@ -13,10 +14,10 @@ class NotificationsView extends GetView<NotificationsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
+      appBar: CustomAppBar(title: 'Notifications'),
       body: SafeArea(
         child: Column(
           children: [
-            _buildAppBar(),
             Expanded(
               child: Obx(
                 () => ListView.builder(

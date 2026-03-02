@@ -3,11 +3,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:george/app/modules/store/controllers/store_controller.dart';
 import 'package:george/app/utils/app_size.dart';
+import 'package:george/app/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
 import '../../../routes/app_pages.dart';
-import '../../product_details/controllers/product_details_controller.dart';
 import '../controllers/checkout_controller.dart';
 
 class CheckoutView extends GetView<CheckoutController> {
@@ -19,37 +19,7 @@ class CheckoutView extends GetView<CheckoutController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      appBar: AppBar(
-        title: Text(
-          'Checkout',
-          style: AppTextStyles.bold(28, color: AppColors.headlineColor),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: GestureDetector(
-          onTap: () => Get.back(),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(width: 16),
-              Icon(
-                Icons.arrow_back_ios,
-                size: 20,
-                color: AppColors.headlineColor,
-              ),
-              Text(
-                "Back",
-                style: AppTextStyles.semiBold(
-                  20,
-                  color: AppColors.headlineColor,
-                ),
-              ),
-            ],
-          ),
-        ),
-        leadingWidth: 100,
-      ),
+      appBar: CustomAppBar(title: "Checkout"),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Column(

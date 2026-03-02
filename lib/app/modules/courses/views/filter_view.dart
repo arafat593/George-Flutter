@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/utils/app_size.dart';
+import 'package:george/app/widgets/custom_appbar.dart';
 import 'package:george/app/widgets/custom_elevated_button.dart';
 import 'package:get/get.dart';
 import '../../../data/app_colors.dart';
@@ -17,50 +18,10 @@ class FilterView extends GetView<FilterController> {
 
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            GestureDetector(
-              onTap: () => Get.back(),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.arrow_back_ios,
-                    size: 20.sp,
-                    color: AppColors.headlineColor,
-                  ),
-                  Text(
-                    "Back",
-                    style: AppTextStyles.semiBold(
-                      20,
-                      color: AppColors.headlineColor,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Text(
-              'Filter',
-              style: AppTextStyles.bold(28, color: AppColors.headlineColor),
-            ),
-            GestureDetector(
-              onTap: () {
-                controller.clearFilter();
-              },
-              child: Text(
-                "Clear",
-                style: AppTextStyles.semiBold(
-                  20,
-                  color: AppColors.headlineColor,
-                ),
-              ),
-            ),
-          ],
-        ),
+      appBar: CustomAppBar(
+        title: 'Filter',
+        showAction: true,
+        actionOnTap: () => controller.clearFilter(),
       ),
       body: SafeArea(
         child: Column(

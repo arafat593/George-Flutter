@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../data/app_text_styles.dart';
+import '../../../widgets/app_image/app_image.dart';
 import '../controllers/class_details_controller.dart';
 
 class ClassDetailsView extends GetView<ClassDetailsController> {
@@ -263,11 +264,13 @@ class ClassDetailsView extends GetView<ClassDetailsController> {
     return Obx(
       () => Row(
         children: [
-          CircleAvatar(
-            radius: 26.r,
-            backgroundImage: NetworkImage(
-              controller.classByID.value?.instructor.avatar ??
-                  controller.instructorImage.value,
+          ClipOval(
+            child: AppImage(
+              url: controller.classByID.value?.instructor.avatar,
+              path: "assets/images/network_placeholder_image.jpg",
+              width: 52.r,
+              height: 52.r,
+              fit: BoxFit.cover,
             ),
           ),
           SizedBox(width: 10.w),

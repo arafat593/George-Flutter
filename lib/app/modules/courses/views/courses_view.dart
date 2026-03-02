@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/utils/app_size.dart';
+import 'package:george/app/widgets/custom_appbar.dart';
 import 'package:george/models/all_courses_model.dart';
 import 'package:get/get.dart';
-import '../../../../models/all_class_model.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
 import '../../../routes/app_pages.dart';
@@ -19,11 +19,11 @@ class CoursesView extends GetView<CoursesController> {
 
     return Scaffold(
       backgroundColor: Colors.transparent,
+      appBar: CustomAppBar(title: 'Courses', showBackButton: false),
       body: SafeArea(
         bottom: false,
         child: Column(
           children: [
-            _buildAppBar(),
             Expanded(
               child: Obx(() {
                 if (controller.isLoading.value) {
@@ -62,21 +62,6 @@ class CoursesView extends GetView<CoursesController> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildAppBar() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Courses',
-            style: AppTextStyles.bold(24, color: AppColors.headlineColor),
-          ),
-        ],
       ),
     );
   }

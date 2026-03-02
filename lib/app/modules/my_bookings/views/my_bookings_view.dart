@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/utils/app_size.dart';
+import 'package:george/app/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_colors.dart';
@@ -13,11 +14,10 @@ class MyBookingsView extends GetView<MyBookingsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
+      appBar: CustomAppBar(title: "My Bookings"),
       body: SafeArea(
         child: Column(
           children: [
-            _buildAppBar(),
-            SizedBox(height: 16.h),
             _buildTabs(),
             Expanded(
               child: Obx(() {
@@ -30,42 +30,6 @@ class MyBookingsView extends GetView<MyBookingsController> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildAppBar() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-      child: Row(
-        children: [
-          GestureDetector(
-            onTap: () => Get.back(),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.arrow_back_ios,
-                  size: 20.r,
-                  color: const Color(0xFF6B5345),
-                ),
-                Text(
-                  'Back',
-                  style: AppTextStyles.semiBold(
-                    20,
-                    color: const Color(0xFF6B5345),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const Spacer(),
-          Text(
-            'My Bookings',
-            style: AppTextStyles.bold(20, color: AppColors.bodyTextColor),
-          ),
-          const Spacer(),
-          SizedBox(width: 80.w),
-        ],
       ),
     );
   }

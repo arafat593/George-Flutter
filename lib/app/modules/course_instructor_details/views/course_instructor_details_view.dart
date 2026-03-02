@@ -48,86 +48,89 @@ class CourseInstructorDetailsView
                 ],
               ),
             ),
-            CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(child: SizedBox(height: 400.h)),
-                SliverToBoxAdapter(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.backgroundColor,
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(30.r),
-                      ),
-                    ),
-                    padding: EdgeInsets.all(24.r),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                instructorName,
-                                style: AppTextStyles.bold(
-                                  24,
-                                  color: const Color(0xFF6B5345),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 12.w,
-                                vertical: 4.h,
-                              ),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFF3EFE9),
-                                borderRadius: BorderRadius.circular(8.r),
-                                border: Border.all(
-                                  color: const Color(0xFFBCB1AA),
-                                ),
-                              ),
-                              child: Text(
-                                speciality,
-                                style: AppTextStyles.medium(
-                                  10,
-                                  color: const Color(0xFF6B5345),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 16.h),
-                        Text(
-                          'Bio',
-                          style: AppTextStyles.bold(
-                            20,
-                            color: const Color(0xFF6B5345),
-                          ),
-                        ),
-                        SizedBox(height: 8.h),
-                        Text(
-                          bio,
-                          style: AppTextStyles.regular(
-                            14,
-                            color: Colors.grey.shade700,
-                          ),
-                        ),
-                        SizedBox(height: 32.h),
-                        Text(
-                          'Upcoming Classes',
-                          style: AppTextStyles.bold(
-                            20,
-                            color: const Color(0xFF6B5345),
-                          ),
-                        ),
-                        SizedBox(height: 16.h),
-                        CourseUpcomingClassesCard(instructor: instructor),
-                      ],
-                    ),
+            DraggableScrollableSheet(
+              initialChildSize: 0.6,
+              minChildSize: 0.55,
+              maxChildSize: 0.85,
+              snap: true,
+              snapSizes: const [0.6, 0.85],
+              builder: (context, scrollController) => Container(
+                decoration: BoxDecoration(
+                  color: AppColors.backgroundColor,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(30.r),
                   ),
                 ),
-              ],
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24.w),
+                  child: ListView(
+                    controller: scrollController,
+                    shrinkWrap: true,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              instructorName,
+                              style: AppTextStyles.bold(
+                                24,
+                                color: const Color(0xFF6B5345),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 12.w,
+                              vertical: 4.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF3EFE9),
+                              borderRadius: BorderRadius.circular(8.r),
+                              border: Border.all(
+                                color: const Color(0xFFBCB1AA),
+                              ),
+                            ),
+                            child: Text(
+                              speciality,
+                              style: AppTextStyles.medium(
+                                10,
+                                color: const Color(0xFF6B5345),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 16.h),
+                      Text(
+                        'Bio',
+                        style: AppTextStyles.bold(
+                          20,
+                          color: const Color(0xFF6B5345),
+                        ),
+                      ),
+                      SizedBox(height: 8.h),
+                      Text(
+                        bio,
+                        style: AppTextStyles.regular(
+                          14,
+                          color: Colors.grey.shade700,
+                        ),
+                      ),
+                      SizedBox(height: 32.h),
+                      Text(
+                        'Upcoming Classes',
+                        style: AppTextStyles.bold(
+                          20,
+                          color: const Color(0xFF6B5345),
+                        ),
+                      ),
+                      SizedBox(height: 16.h),
+                      CourseUpcomingClassesCard(instructor: instructor),
+                    ],
+                  ),
+                ),
+              ),
             ),
             Positioned(
               top: 50.h,
