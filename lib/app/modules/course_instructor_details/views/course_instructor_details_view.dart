@@ -4,10 +4,12 @@ import 'package:get/get.dart';
 
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
+import '../../../widgets/app_image/app_image.dart';
 import '../controllers/course_instructor_details_controller.dart';
-import '../widgets/upcoming_classes.dart';
+import '../widgets/course_upcoming_classes.dart';
 
-class CourseInstructorDetailsView extends GetView<CourseInstructorDetailsController> {
+class CourseInstructorDetailsView
+    extends GetView<CourseInstructorDetailsController> {
   const CourseInstructorDetailsView({super.key});
 
   @override
@@ -19,9 +21,7 @@ class CourseInstructorDetailsView extends GetView<CourseInstructorDetailsControl
           return Center(child: CircularProgressIndicator());
         }
         final instructor = controller.instructorDeatils.value;
-        final backgroundImage =
-            instructor?.backgroundImage ??
-            "https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&q=80&w=1000";
+        final backgroundImage = instructor?.backgroundImage;
         final speciality = instructor?.speciality ?? 'No Specilaity Added';
         final instructorName = instructor?.name ?? 'No Instructor Name added';
         final bio = instructor?.bio ?? 'No bio added yet.';
@@ -32,20 +32,20 @@ class CourseInstructorDetailsView extends GetView<CourseInstructorDetailsControl
               left: 0,
               right: 0,
               height: 450.h,
-              child: Container(
-                height: 300.h,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(backgroundImage),
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  AppImage(
+                    url: backgroundImage,
+                    path: "assets/images/network_placeholder_image.jpg",
                     fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: 450.h,
                   ),
-                ),
-                child: Container(
-                  height: 300.h,
-                  width: double.infinity,
-                  color: Colors.black.withValues(alpha: 0.4),
-                ),
+
+                  /// Dark overlay
+                  Container(color: Colors.black.withValues(alpha: 0.4)),
+                ],
               ),
             ),
             CustomScrollView(
@@ -122,7 +122,7 @@ class CourseInstructorDetailsView extends GetView<CourseInstructorDetailsControl
                           ),
                         ),
                         SizedBox(height: 16.h),
-                        UpcomingClassesCard(instructor: instructor),
+                        CourseUpcomingClassesCard(instructor: instructor),
                       ],
                     ),
                   ),
@@ -158,5 +158,3 @@ class CourseInstructorDetailsView extends GetView<CourseInstructorDetailsControl
     );
   }
 }
-
-

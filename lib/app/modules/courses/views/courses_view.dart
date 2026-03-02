@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/utils/app_size.dart';
+import 'package:george/models/all_courses_model.dart';
 import 'package:get/get.dart';
 import '../../../../models/all_class_model.dart';
 import '../../../data/app_colors.dart';
@@ -82,7 +83,7 @@ class CoursesView extends GetView<CoursesController> {
 
   Widget _buildCourseCard(
     HomeController homeController,
-    Classes course, {
+    Course course, {
     bool showBadge = true,
   }) {
     return Obx(() {
@@ -213,10 +214,10 @@ class CoursesView extends GetView<CoursesController> {
                         CircleAvatar(
                           radius: 20.r,
                           backgroundColor: Colors.grey.shade200,
-                          backgroundImage: course.instructor.image.isNotEmpty
-                              ? NetworkImage(course.instructor.image)
+                          backgroundImage: course.instructor.avatar.isNotEmpty
+                              ? NetworkImage(course.instructor.avatar)
                               : null,
-                          child: course.instructor.image.isEmpty
+                          child: course.instructor.avatar.isEmpty
                               ? const Icon(Icons.person)
                               : null,
                         ),

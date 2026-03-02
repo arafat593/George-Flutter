@@ -3,12 +3,9 @@ import 'package:george/app/data/app_colors.dart';
 import 'package:george/app/data/image_path.dart';
 import 'package:george/app/routes/app_pages.dart';
 import 'package:george/app/utils/app_size.dart';
-import 'package:george/models/all_courses_model.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../../../repository/course_repository.dart';
 import '../../../data/app_text_styles.dart';
-import '../../courses/controllers/courses_controller.dart';
 import '../controllers/course_details_controller.dart';
 
 class CourseDetailsView extends GetView<CourseDetailsController> {
@@ -79,7 +76,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
               ? DecorationImage(
                   image: NetworkImage(coverImage),
                   fit: BoxFit.cover,
-                  onError: (_, __) {},
+                  onError: (_, _) {},
                 )
               : null,
         ),
@@ -299,7 +296,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
     return Obx(() {
       final instructor = controller.course.value?.instructor;
       final name = instructor?.name ?? '';
-      final image = instructor?.image ?? '';
+      final image = instructor?.avatar ?? '';
 
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -348,10 +345,15 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
           Expanded(
             flex: 1,
             child: ElevatedButton(
-              onPressed: () => Get.toNamed(
-                Routes.courseInstructorDetails,
-                arguments: instructor?.name,
-              ),
+              onPressed: () async {
+                final result = await Get.toNamed(
+                  Routes.courseInstructorDetails,
+                  arguments: controller.course.value?.instructor.id,
+                );
+                if (result != null && result is String) {
+                  controller.refreshData(result);
+                }
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: brownColor,
                 shape: RoundedRectangleBorder(
