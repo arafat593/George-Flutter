@@ -1,9 +1,9 @@
 class AllCoursesModel {
-  List<Courses> courses;
-  int total;
-  int page;
-  int pageSize;
-  int totalPages;
+  final List<Course> courses;
+  final int total;
+  final int page;
+  final int pageSize;
+  final int totalPages;
 
   AllCoursesModel({
     required this.courses,
@@ -16,7 +16,7 @@ class AllCoursesModel {
   factory AllCoursesModel.fromJson(Map<String, dynamic> json) {
     return AllCoursesModel(
       courses: (json['courses'] as List? ?? [])
-          .map((e) => Courses.fromJson(e))
+          .map((e) => Course.fromJson(e))
           .toList(),
       total: json['total'] ?? 0,
       page: json['page'] ?? 1,
@@ -26,29 +26,29 @@ class AllCoursesModel {
   }
 }
 
-class Courses {
-  String title;
-  String slug;
-  String description;
-  String coverImage;
-  double price;
-  DateTime? scheduledAt;
-  String duration;
-  String level;
-  String language;
-  String gender;
-  String location;
-  String phone;
-  String locationMapLink;
-  int totalSeat;
-  int availableSeat;
-  String id;
-  DateTime? publishedAt;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  Instructor instructor;
+class Course {
+  final String title;
+  final String slug;
+  final String description;
+  final String coverImage;
+  final double price;
+  final DateTime? scheduledAt;
+  final String duration;
+  final String level;
+  final String language;
+  final String gender;
+  final String? location; // ✅ nullable
+  final String phone;
+  final String locationMapLink;
+  final int totalSeat;
+  final int availableSeat;
+  final String id;
+  final DateTime? publishedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final Instructor instructor;
 
-  Courses({
+  Course({
     required this.title,
     required this.slug,
     required this.description,
@@ -71,13 +71,13 @@ class Courses {
     required this.instructor,
   });
 
-  factory Courses.fromJson(Map<String, dynamic> json) {
-    return Courses(
+  factory Course.fromJson(Map<String, dynamic> json) {
+    return Course(
       title: json['title'] ?? '',
       slug: json['slug'] ?? '',
       description: json['description'] ?? '',
       coverImage: json['coverImage'] ?? '',
-      price: (json['price'] as num?)?.toDouble() ?? 0.0, // ✅ fixed
+      price: (json['price'] as num?)?.toDouble() ?? 0.0,
       scheduledAt: json['scheduledAt'] != null
           ? DateTime.tryParse(json['scheduledAt'])
           : null,
@@ -85,7 +85,7 @@ class Courses {
       level: json['level'] ?? '',
       language: json['language'] ?? '',
       gender: json['gender'] ?? '',
-      location: json['location'] ?? '',
+      location: json['location'], // ✅ can be null
       phone: json['phone'] ?? '',
       locationMapLink: json['locationMapLink'] ?? '',
       totalSeat: json['TotalSeat'] ?? 0,
@@ -102,23 +102,39 @@ class Courses {
           : null,
       instructor: json['instructor'] != null
           ? Instructor.fromJson(json['instructor'])
-          : Instructor(name: '', image: ''),
+          : Instructor.empty(),
     );
   }
 }
+
 class Instructor {
+  final String id;
   final String name;
-  final String image;
+  final String email;
+  final String avatar;
 
   Instructor({
+    required this.id,
     required this.name,
-    required this.image,
+    required this.email,
+    required this.avatar,
   });
 
   factory Instructor.fromJson(Map<String, dynamic> json) {
     return Instructor(
+      id: json['id'] ?? '',
       name: json['name'] ?? '',
-      image: json['avatar'] ?? '',
+      email: json['email'] ?? '',
+      avatar: json['avatar'] ?? '',
+    );
+  }
+
+  factory Instructor.empty() {
+    return Instructor(
+      id: '',
+      name: '',
+      email: '',
+      avatar: '',
     );
   }
 }

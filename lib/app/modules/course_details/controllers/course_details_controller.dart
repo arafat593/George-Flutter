@@ -2,16 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:george/models/all_courses_model.dart';
 import 'package:get/get.dart';
 import '../../../../repository/course_repository.dart';
+import '../../../../repository/home_repository.dart';
 import '../../../routes/app_pages.dart';
+import '../../../utils/app_log.dart';
 import '../../home/controllers/home_controller.dart';
 
 class CourseDetailsController extends GetxController {
   final CourseRepository _service = CourseRepository.instance;
   final RxBool isLoading = true.obs;
-  final Rxn<Courses> course = Rxn<Courses>();
+  final Rxn<Course> course = Rxn<Course>();
   final RxBool isAboutExpanded = false.obs;
   final RxBool fromHistory = false.obs;
   final RxString displayPrice = ''.obs;
+  final RxString id = ''.obs;
+  Rxn<Course> courseById = Rxn<Course>();
 
   @override
   void onInit() {
@@ -321,6 +325,25 @@ class CourseDetailsController extends GetxController {
       ),
       barrierDismissible: false,
     );
+  }
+  Future<void> fetchClassById(String id) async {
+    try {
+      isLoading.value = true;
+
+      courseById.value = null;
+
+      courseById.value = await _service.getCourseDetails(id);
+    } catch (e) {
+      errorLog("fetchClasses", e);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+  void refreshData(String newId) {
+    if (newId.isNotEmpty && newId != id.value) {
+      id.value = newId;
+      fetchClassById(newId);
+    }
   }
 
   void cancelBooking() => Get.back();

@@ -25,6 +25,7 @@ class InstructorDetailsView extends GetView<InstructorDetailsController> {
         final speciality = instructor?.speciality ?? 'No Specilaity Added';
         final instructorName = instructor?.name ?? 'No Instructor Name added';
         final bio = instructor?.bio ?? 'No bio added yet.';
+        print(backgroundImage);
         return Stack(
           children: [
             Positioned(

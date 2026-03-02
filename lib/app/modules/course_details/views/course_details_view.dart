@@ -300,7 +300,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
     return Obx(() {
       final instructor = controller.course.value?.instructor;
       final name = instructor?.name ?? '';
-      final image = instructor?.image ?? '';
+      final image = instructor?.avatar ?? '';
 
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -349,10 +349,15 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
           Expanded(
             flex: 1,
             child: ElevatedButton(
-              onPressed: () => Get.toNamed(
-                Routes.instructorDetails,
-                arguments: instructor?.name,
-              ),
+              onPressed: () async {
+                final result = await Get.toNamed(
+                  '/instructor-details',
+                  arguments: controller.course.value?.instructor.id,
+                );
+                if (result != null && result is String) {
+                  controller.refreshData(result);
+                }
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: brownColor,
                 shape: RoundedRectangleBorder(
