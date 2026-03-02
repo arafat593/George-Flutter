@@ -23,6 +23,7 @@ abstract class Routes {
   static const checkout = _Paths.checkout;
   static const bookingConfirmed = _Paths.bookingConfirmed;
   static const instructorDetails = _Paths.instructorDetails;
+  static const courseInstructorDetails = _Paths.courseInstructorDetails;
   static const myBookings = _Paths.myBookings;
   static const bookingDetails = _Paths.bookingDetails;
   static const topUpSuccess = _Paths.topUpSuccess;
@@ -61,6 +62,7 @@ abstract class _Paths {
   static const checkout = '/checkout';
   static const bookingConfirmed = '/booking-confirmed';
   static const instructorDetails = '/instructor-details';
+  static const courseInstructorDetails = '/course-instructor-details';
   static const myBookings = '/my-bookings';
   static const bookingDetails = '/booking-details';
   static const topUpSuccess = '/top-up-success';
