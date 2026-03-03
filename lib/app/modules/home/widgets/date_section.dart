@@ -18,16 +18,19 @@ class DateSection extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
-                decoration: BoxDecoration(
-                  color: AppColors.buttonSecondaryColor,
-                  borderRadius: BorderRadius.circular(20.r),
-                ),
-                child: InkWell(
-                  onTap: () {
-                    controller.handleTodayButtonClick();
-                  },
+              InkWell(
+                onTap: () {
+                  controller.handleTodayButtonClick();
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 6.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.buttonSecondaryColor,
+                    borderRadius: BorderRadius.circular(20.r),
+                  ),
                   child: Text(
                     "Today",
                     style: AppTextStyles.medium(

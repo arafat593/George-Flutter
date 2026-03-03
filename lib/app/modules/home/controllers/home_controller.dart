@@ -406,5 +406,14 @@ class HomeController extends GetxController {
 
   void handleTodayButtonClick() {
     resetToToday();
+     final selected = DateTime(
+      currentYear,
+      currentMonth.value.month,
+      selectedDateIndex.value + 1,
+    );
+    final formatedDate =
+        '${selected.month.toString().padLeft(2, '0')}-${selected.day.toString().padLeft(2, '0')}-${selected.year}';
+    currentDate.value = formatedDate;
+    fetchClasses(formatedDate);
   }
 }
