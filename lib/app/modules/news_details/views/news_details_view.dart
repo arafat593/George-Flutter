@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/utils/app_size.dart';
+import 'package:george/app/widgets/app_image/app_image.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_colors.dart';
@@ -54,22 +55,18 @@ class NewsDetailsView extends GetView<NewsDetailsController> {
       left: 0,
       right: 0,
       height: 450.h,
-      child: Container(
-        height: 300.h,
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: NetworkImage(
-              "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1000",
-            ),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          AppImage(
+            url: "",
+            path: "assets/images/network_placeholder_image.jpg",
             fit: BoxFit.cover,
           ),
-        ),
-        child: Container(
-          height: 300.h,
-          width: double.infinity,
-          color: Colors.black.withValues(alpha: 0.4),
-        ),
+
+          // Dark overlay
+          Container(color: Colors.black.withValues(alpha: 0.4)),
+        ],
       ),
     );
   }
@@ -284,10 +281,13 @@ class NewsDetailsView extends GetView<NewsDetailsController> {
   Widget _buildInstructorSection(Color brownColor) {
     return Row(
       children: [
-        CircleAvatar(
-          radius: 26.r,
-          backgroundImage: const NetworkImage(
-            'https://i.pravatar.cc/150?img=32',
+        ClipOval(
+          child: AppImage(
+            url: 'https://i.pravatar.cc/150?img=32',
+            path: "assets/images/network_placeholder_image.jpg",
+            width: 52.r, // radius * 2
+            height: 52.r,
+            fit: BoxFit.cover,
           ),
         ),
         SizedBox(width: 12.w),
@@ -342,12 +342,13 @@ class NewsDetailsView extends GetView<NewsDetailsController> {
           SizedBox(height: 16.h),
           ClipRRect(
             borderRadius: BorderRadius.circular(15.r),
-            child: Image.network(
-              'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&q=80&w=1000',
+            child: AppImage(
+              url: '',
+              networkPlaceholderImage:
+                  "assets/images/network_placeholder_image.jpg", // fallback asset
               height: 160.h,
               width: double.infinity,
               fit: BoxFit.cover,
-              cacheHeight: 400,
             ),
           ),
           SizedBox(height: 16.h),

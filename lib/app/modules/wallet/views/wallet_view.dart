@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/utils/app_size.dart';
+import 'package:george/app/widgets/app_image/app_image.dart';
 import 'package:george/app/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
 import '../../../data/app_colors.dart';
@@ -155,76 +156,92 @@ class WalletView extends StatelessWidget {
   Widget _buildBalanceCard(WalletController controller) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(20.r),
       decoration: BoxDecoration(
-        color: const Color(0xFF6D4C41), // Matching the dark brown in image
+        color: const Color(0xFF6D4C41),
         borderRadius: BorderRadius.circular(16.r),
-        image: DecorationImage(
-          image: NetworkImage("https://picsum.photos/seed/pattern/500/500"),
-          fit: BoxFit.cover,
-          opacity: 0.1,
-        ),
       ),
-      child: Stack(
-        children: [
-          // Decorative circles/wireframe simulation using simple shapes if no image
-          Positioned(
-            right: -30,
-            top: -30,
-            child: Container(
-              width: 150.r,
-              height: 150.r,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.1),
-                  width: 1,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16.r),
+        child: Stack(
+          children: [
+            /// Pattern Background
+            Positioned.fill(
+              child: Opacity(
+                opacity: 0.1,
+                child: AppImage(
+                  url: "https://picsum.photos/seed/pattern/500/500",
+                  path: "assets/images/network_placeholder_image.jpg",
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Current Balance",
-                style: AppTextStyles.regular(
-                  14,
-                ).copyWith(color: Colors.white.withValues(alpha: 0.8)),
-              ),
-              SizedBox(height: 8.h),
-              Obx(
-                () => Text(
-                  "QAR ${controller.balance.value.toStringAsFixed(2)}",
-                  style: AppTextStyles.bold(28).copyWith(color: Colors.white),
-                ),
-              ),
-              SizedBox(height: 20.h),
-              SizedBox(
-                height: 36.h,
-                child: ElevatedButton(
-                  onPressed: () => Get.toNamed(Routes.topUpSuccess),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: const Color(0xFF6D4C41),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.r),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    elevation: 0,
-                  ),
-                  child: Text(
-                    "Add Money",
-                    style: AppTextStyles.medium(14).copyWith(
-                      color: const Color(0xFF6D4C41),
-                      fontWeight: FontWeight.bold,
-                    ),
+
+            /// Decorative Circle
+            Positioned(
+              right: -30,
+              top: -30,
+              child: Container(
+                width: 150.r,
+                height: 150.r,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.1),
+                    width: 1,
                   ),
                 ),
               ),
-            ],
-          ),
-        ],
+            ),
+
+            /// Content
+            Padding(
+              padding: EdgeInsets.all(20.r),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Current Balance",
+                    style: AppTextStyles.regular(
+                      14,
+                    ).copyWith(color: Colors.white.withValues(alpha: 0.8)),
+                  ),
+                  SizedBox(height: 8.h),
+                  Obx(
+                    () => Text(
+                      "QAR ${controller.balance.value.toStringAsFixed(2)}",
+                      style: AppTextStyles.bold(
+                        28,
+                      ).copyWith(color: Colors.white),
+                    ),
+                  ),
+                  SizedBox(height: 20.h),
+                  SizedBox(
+                    height: 36.h,
+                    child: ElevatedButton(
+                      onPressed: () => Get.toNamed(Routes.topUpSuccess),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: const Color(0xFF6D4C41),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        elevation: 0,
+                      ),
+                      child: Text(
+                        "Add Money",
+                        style: AppTextStyles.medium(14).copyWith(
+                          color: const Color(0xFF6D4C41),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:george/app/utils/app_size.dart';
+import 'package:george/app/widgets/app_image/app_image.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_colors.dart';
@@ -78,18 +79,18 @@ class EditProfileView extends GetView<EditProfileController> {
       child: Stack(
         children: [
           Obx(() {
-            return Container(
+            return SizedBox(
               width: 100.r,
               height: 100.r,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: controller.profileImage.value.isNotEmpty
-                      ? FileImage(File(controller.profileImage.value))
-                            as ImageProvider
-                      : const NetworkImage(
-                          "https://picsum.photos/seed/profile/200",
-                        ),
+              child: ClipOval(
+                child: AppImage(
+                  filePath: controller.profileImage.value.isNotEmpty
+                      ? controller.profileImage.value
+                      : null,
+                  url: controller.profileImage.value.isEmpty
+                      ? "https://picsum.photos/seed/profile/200"
+                      : null,
+                  path: "assets/images/network_placeholder_image.jpg",
                   fit: BoxFit.cover,
                 ),
               ),

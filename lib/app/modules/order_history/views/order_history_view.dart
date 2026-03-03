@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/data/app_colors.dart';
 import 'package:george/app/utils/app_size.dart';
+import 'package:george/app/widgets/app_image/app_image.dart';
 import 'package:george/app/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
 
@@ -55,13 +56,14 @@ class OrderHistoryView extends GetView<OrderHistoryController> {
       child: Row(
         children: [
           // Order Image
-          Container(
+          SizedBox(
             width: 80.r,
             height: 80.r,
-            decoration: BoxDecoration(
+            child: ClipRRect(
               borderRadius: BorderRadius.circular(12.r),
-              image: DecorationImage(
-                image: NetworkImage(order['image']),
+              child: AppImage(
+                url: order['image'] ?? '',
+                path: "assets/images/network_placeholder_image.jpg",
                 fit: BoxFit.cover,
               ),
             ),

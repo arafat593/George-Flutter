@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:george/app/modules/store/controllers/store_controller.dart';
 import 'package:george/app/utils/app_size.dart';
+import 'package:george/app/widgets/app_image/app_image.dart';
 import 'package:george/app/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
 import '../../../data/app_colors.dart';
@@ -545,16 +546,14 @@ class CheckoutView extends GetView<CheckoutController> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Image.network(
-                      products.thumbnail,
+                    borderRadius: BorderRadius.circular(12.r),
+                    child: AppImage(
+                      url: products.thumbnail,
+                      networkPlaceholderImage:
+                          "assets/images/network_placeholder_image.jpg", // fallback
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Image.network(
-                          "https://as1.ftcdn.net/jpg/10/22/24/80/1000_F_1022248039_7LDxHRi3Mlt9BK3wzLBUGZp9XAO1gt2s.jpg",
-                          fit: BoxFit.cover,
-                        );
-                      },
+                      width: double.infinity,
+                      height: 180.h, // set your desired height
                     ),
                   ),
                 ),

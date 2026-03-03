@@ -24,7 +24,10 @@ class LogInForm extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextFieldLabelText(label: 'Email or Phone Number', showAstric: false),
+              TextFieldLabelText(
+                label: 'Email or Phone Number',
+                showAstric: false,
+              ),
               CustomTextField(
                 controller: controller.emailController,
                 hintText: 'enter your email or phone number',
@@ -52,7 +55,12 @@ class LogInForm extends StatelessWidget {
                   keyboardType: TextInputType.visiblePassword,
                   focusNode: controller.focusNode,
                   suffixIcon: IconButton(
-                    icon: Icon(controller.isPasswordVisible.value ? Icons.visibility : Icons.visibility_off, color: AppColors.headlineColor),
+                    icon: Icon(
+                      controller.isPasswordVisible.value
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: AppColors.headlineColor,
+                    ),
                     onPressed: controller.togglePasswordVisibility,
                   ),
                   validator: (value) {
@@ -73,17 +81,32 @@ class LogInForm extends StatelessWidget {
                     return SizedBox(
                       height: 24.h,
                       width: 24.w,
-                      child: CustomCheckBox(onChanged: (value) => controller.toggleRememberMe(), value: controller.isRememberMe.value),
+                      child: CustomCheckBox(
+                        onChanged: (value) => controller.toggleRememberMe(),
+                        value: controller.isRememberMe.value,
+                      ),
                     );
                   }),
                   SizedBox(width: 8.w),
-                  Text('Remember me', style: AppTextStyles.regular(14, color: AppColors.headlineColor)),
+                  Text(
+                    'Remember me',
+                    style: AppTextStyles.regular(
+                      14,
+                      color: AppColors.headlineColor,
+                    ),
+                  ),
                   const Spacer(),
                   GestureDetector(
                     onTap: () {
                       Get.toNamed(Routes.recoveryPassword);
                     },
-                    child: Text('Forgot password?', style: AppTextStyles.medium(14, color: AppColors.errorColor)),
+                    child: Text(
+                      'Forgot password?',
+                      style: AppTextStyles.medium(
+                        14,
+                        color: AppColors.errorColor,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -92,7 +115,9 @@ class LogInForm extends StatelessWidget {
 
               Obx(
                 () => CustomElevetedButton(
-                  buttonText: controller.isLoading.value ? "Loading...." : 'Log In',
+                  buttonText: controller.isLoading.value
+                      ? "Loading...."
+                      : 'Log In',
                   onTap: () {
                     if (!controller.isLoading.value) {
                       controller.login();

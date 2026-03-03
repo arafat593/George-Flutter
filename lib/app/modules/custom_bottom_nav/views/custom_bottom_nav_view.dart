@@ -43,41 +43,49 @@ class CustomBottomNavView extends GetView<CustomBottomNavController> {
               FloatingActionButtonLocation.centerDocked,
 
           bottomNavigationBar: BottomAppBar(
+            height: AppSize.size.width * 0.14,
             shape: const CircularNotchedRectangle(),
             notchMargin: 12.0,
             color: AppColors.primaryColor,
             elevation: 0,
             padding: EdgeInsets.zero,
-            child: SizedBox(
-              height: 70.h,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.w),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _bottomNavItem(
-                      index: 0,
-                      iconPath: ImagePath.courses,
-                      label: 'Courses',
+            child: SafeArea(
+              child: SizedBox(
+                width: AppSize.size.width,
+                child: FittedBox(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _bottomNavItem(
+                          index: 0,
+                          iconPath: ImagePath.store,
+                          label: 'Store',
+                        ),
+                        _bottomNavItem(
+                          index: 1,
+                          iconPath: ImagePath.courses,
+                          label: 'Courses',
+                        ),
+
+                        SizedBox(
+                          width: AppSize.size.width * 0.25,
+                        ), // Space for FAB
+                        _bottomNavItem(
+                          index: 3,
+                          iconPath: ImagePath.wallet,
+                          label: 'Wallet',
+                        ),
+                        _bottomNavItem(
+                          index: 4,
+                          iconPath: ImagePath.profile,
+                          label: 'Account',
+                        ),
+                      ],
                     ),
-                    _bottomNavItem(
-                      index: 1,
-                      iconPath: ImagePath.wallet,
-                      label: 'Wallet',
-                    ),
-                    const SizedBox(width: 40), // Space for FAB
-                    _bottomNavItem(
-                      index: 3,
-                      iconPath: ImagePath.store,
-                      label: 'Store',
-                    ),
-                    _bottomNavItem(
-                      index: 4,
-                      iconPath: ImagePath.profile,
-                      label: 'Account',
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -85,10 +93,10 @@ class CustomBottomNavView extends GetView<CustomBottomNavController> {
           body: IndexedStack(
             index: controller.currentIndex.value,
             children: [
+              const StoreView(),
               const CoursesView(),
               const WalletView(),
               const WalletView(),
-              const StoreView(),
               const ProfileView(),
               const HomeView(),
             ],
@@ -126,42 +134,46 @@ class CustomBottomNavView extends GetView<CustomBottomNavController> {
       onTap: () => controller.changeIndex(index),
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Top indicator
-          Container(
-            width: 40.w,
-            height: 4.h,
-            decoration: BoxDecoration(
-              color: isSelected ? AppColors.whiteColor : Colors.transparent,
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(10),
-                bottomRight: Radius.circular(10),
+      child: SizedBox(
+        width: AppSize.size.width * 0.2,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Top indicator
+            Container(
+              width: 40.w,
+              height: 4.h,
+              decoration: BoxDecoration(
+                color: isSelected ? AppColors.whiteColor : Colors.transparent,
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 10.h),
-          // Icon
-          Image.asset(
-            iconPath,
-            height: 24.h,
-            color: isSelected
-                ? AppColors.whiteColor
-                : AppColors.bottomNevUnselectedItemColor,
-          ),
-          SizedBox(height: 4.h),
-          // Label
-          Text(
-            label,
-            style: AppTextStyles.regular(10).copyWith(
+            SizedBox(height: 10.h),
+            // Icon
+            Image.asset(
+              iconPath,
+              height: 24.h,
+              width: 24.w,
               color: isSelected
                   ? AppColors.whiteColor
                   : AppColors.bottomNevUnselectedItemColor,
-              overflow: TextOverflow.ellipsis,
             ),
-          ),
-        ],
+            SizedBox(height: 4.h),
+            // Label
+            Text(
+              label,
+              style: AppTextStyles.regular(10).copyWith(
+                color: isSelected
+                    ? AppColors.whiteColor
+                    : AppColors.bottomNevUnselectedItemColor,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

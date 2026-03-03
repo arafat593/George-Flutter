@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/routes/app_pages.dart';
 import 'package:george/app/utils/app_size.dart';
+import 'package:george/app/widgets/app_image/app_image.dart';
 import 'package:get/get.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
@@ -29,15 +30,13 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
               left: 0,
               right: 0,
               height: 0.5.sh,
-              child: Image.network(
-                product.thumbnail,
+              child: AppImage(
+                url: product.thumbnail,
+                networkPlaceholderImage:
+                    "assets/images/network_placeholder_image.jpg", // fallback image
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    color: Colors.grey.shade200,
-                    child: const Icon(Icons.image_not_supported, size: 40),
-                  );
-                },
+                width: double.infinity,
+                height: 0.5.sh,
               ),
             ),
 
@@ -98,15 +97,13 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                                   borderRadius: BorderRadius.circular(8.r),
                                 ),
                                 clipBehavior: Clip.antiAlias,
-                                child: Image.network(
-                                  product.images[index],
+                                child: AppImage(
+                                  url: product.images[index],
                                   fit: BoxFit.cover,
-                                  errorBuilder: (context,error,stackTrace){
-                                    return Container(
-                                      color: Colors.grey.shade200,
-                                      child: const Icon(Icons.broken_image,size: 30,),
-                                    );
-                                  },
+                                  width: 104.w,
+                                  height: 104.w, // adjust if needed
+                                  networkPlaceholderImage:
+                                      "assets/images/network_placeholder_image.jpg",
                                 ),
                               );
                             },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/utils/app_size.dart';
+import 'package:george/app/widgets/app_image/app_image.dart';
 import 'package:george/app/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
 
@@ -143,12 +144,13 @@ class MyBookingsView extends GetView<MyBookingsController> {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(15.r),
-              child: Image.network(
-                'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1000',
+              child: AppImage(
+                url: '',
+                path:
+                    "assets/images/network_placeholder_image.jpg", // fallback asset
                 height: 180.h,
                 width: double.infinity,
                 fit: BoxFit.cover,
-                cacheHeight: 400,
               ),
             ),
             SizedBox(height: 16.h),
@@ -199,10 +201,15 @@ class MyBookingsView extends GetView<MyBookingsController> {
             SizedBox(height: 12.h),
             Row(
               children: [
-                CircleAvatar(
-                  radius: 18.r,
-                  backgroundImage: const NetworkImage(
-                    'https://i.pravatar.cc/150?img=32',
+                SizedBox(
+                  width: 36.r,
+                  height: 36.r,
+                  child: ClipOval(
+                    child: AppImage(
+                      url: 'https://i.pravatar.cc/150?img=32',
+                      path: "assets/images/network_placeholder_image.jpg",
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 SizedBox(width: 12.w),
@@ -262,12 +269,13 @@ class MyBookingsView extends GetView<MyBookingsController> {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(15.r),
-              child: Image.network(
-                'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1000',
+              child: AppImage(
+                url: '',
+                path:
+                    "assets/images/network_placeholder_image.jpg", // fallback asset
                 height: 180.h,
                 width: double.infinity,
                 fit: BoxFit.cover,
-                cacheHeight: 300,
               ),
             ),
             SizedBox(height: 16.h),
@@ -318,10 +326,15 @@ class MyBookingsView extends GetView<MyBookingsController> {
             SizedBox(height: 12.h),
             Row(
               children: [
-                CircleAvatar(
-                  radius: 18.r,
-                  backgroundImage: const NetworkImage(
-                    'https://i.pravatar.cc/150?img=32',
+                SizedBox(
+                  width: 36.r,
+                  height: 36.r,
+                  child: ClipOval(
+                    child: AppImage(
+                      url: 'https://i.pravatar.cc/150?img=32',
+                      path: "assets/images/network_placeholder_image.jpg",
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 SizedBox(width: 12.w),

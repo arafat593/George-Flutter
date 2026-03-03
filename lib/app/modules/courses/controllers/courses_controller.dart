@@ -3,7 +3,6 @@ import 'package:george/models/all_courses_model.dart';
 import 'package:george/repository/course_repository.dart';
 import 'package:get/get.dart';
 
-import '../../../../models/all_class_model.dart';
 
 class CoursesController extends GetxController {
   final CourseRepository _service = CourseRepository.instance;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/data/image_path.dart';
 import 'package:george/app/utils/app_size.dart';
+import 'package:george/app/widgets/app_image/app_image.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_text_styles.dart';
@@ -55,11 +56,12 @@ class BookingDetailsView extends GetView<BookingDetailsController> {
       right: 0,
       height: 450.h,
       child: Obx(
-        () => Image.network(
-          controller.imageUrl.value,
+        () => AppImage(
+          url: controller.imageUrl.value,
+          path: "assets/images/network_placeholder_image.jpg", // fallback
           fit: BoxFit.cover,
-          cacheHeight: 800,
-          errorBuilder: (_, _, _) => Container(color: Colors.grey.shade300),
+          width: double.infinity,
+          height: 450.h,
         ),
       ),
     );
@@ -186,7 +188,10 @@ class BookingDetailsView extends GetView<BookingDetailsController> {
       children: [
         Text(
           'Available spots 2',
-          style: AppTextStyles.regular(12, color: brownColor.withValues(alpha: 0.6)),
+          style: AppTextStyles.regular(
+            12,
+            color: brownColor.withValues(alpha: 0.6),
+          ),
         ),
         SizedBox(height: 8.h),
         Container(
@@ -231,9 +236,14 @@ class BookingDetailsView extends GetView<BookingDetailsController> {
     return Obx(
       () => Row(
         children: [
-          CircleAvatar(
-            radius: 26.r,
-            backgroundImage: NetworkImage(controller.instructorImage.value),
+          ClipOval(
+            child: AppImage(
+              url: controller.instructorImage.value,
+              path: "assets/images/network_placeholder_image.jpg",
+              width: 52.r, // radius * 2
+              height: 52.r,
+              fit: BoxFit.cover,
+            ),
           ),
           SizedBox(width: 12.w),
           Column(
@@ -306,12 +316,19 @@ class BookingDetailsView extends GetView<BookingDetailsController> {
     const Color brownColor = Color(0xFF6B5345);
     return Row(
       children: [
-        Icon(Icons.access_time, size: 20.r, color: brownColor.withValues(alpha: 0.6)),
+        Icon(
+          Icons.access_time,
+          size: 20.r,
+          color: brownColor.withValues(alpha: 0.6),
+        ),
         SizedBox(width: 8.w),
         Flexible(
           child: Text(
             '08:00 AM to 08:30 AM',
-            style: AppTextStyles.medium(14, color: brownColor.withValues(alpha: 0.6)),
+            style: AppTextStyles.medium(
+              14,
+              color: brownColor.withValues(alpha: 0.6),
+            ),
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -325,7 +342,10 @@ class BookingDetailsView extends GetView<BookingDetailsController> {
         Flexible(
           child: Text(
             'October 20, 2025',
-            style: AppTextStyles.medium(14, color: brownColor.withValues(alpha: 0.6)),
+            style: AppTextStyles.medium(
+              14,
+              color: brownColor.withValues(alpha: 0.6),
+            ),
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -349,12 +369,13 @@ class BookingDetailsView extends GetView<BookingDetailsController> {
           ClipRRect(
             borderRadius: BorderRadius.circular(15.r),
             child: Obx(
-              () => Image.network(
-                controller.mapImage.value,
+              () => AppImage(
+                url: controller.mapImage.value,
+                networkPlaceholderImage:
+                    "assets/images/network_placeholder_image.jpg",
                 height: 160.h,
                 width: double.infinity,
                 fit: BoxFit.cover,
-                cacheHeight: 400,
               ),
             ),
           ),

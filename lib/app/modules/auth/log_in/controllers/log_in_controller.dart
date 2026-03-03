@@ -23,11 +23,17 @@ class LogInController extends GetxController {
         return;
       }
       isLoading.value = true;
-      var response = await authRepository.login(email: emailController.text.trim().toLowerCase(), password: passwordController.text.trim());
+      var response = await authRepository.login(
+        email: emailController.text.trim().toLowerCase(),
+        password: passwordController.text.trim(),
+      );
       if (response) {
         appGlobalUserData.value = await authRepository.getUser();
         if (isRememberMe.value) {
-          await _storageServices.setLoginInformation(email: emailController.text.trim().toLowerCase(), password: passwordController.text.trim());
+          await _storageServices.setLoginInformation(
+            email: emailController.text.trim().toLowerCase(),
+            password: passwordController.text.trim(),
+          );
         }
         Get.offAllNamed(Routes.customBottomNav);
       }
@@ -41,13 +47,16 @@ class LogInController extends GetxController {
     // }
   }
 
-  void togglePasswordVisibility() => isPasswordVisible.value = !isPasswordVisible.value;
+  void togglePasswordVisibility() =>
+      isPasswordVisible.value = !isPasswordVisible.value;
   void toggleRememberMe() => isRememberMe.value = !isRememberMe.value;
 
   void onAppInitial() {
     try {
       emailController = .new();
       passwordController = .new();
+      emailController.text = 'marvin@test.com';
+      passwordController.text = 'User123!';
       formKey = .new();
       focusNode = .new();
       var data = _storageServices.getLoginInformation();

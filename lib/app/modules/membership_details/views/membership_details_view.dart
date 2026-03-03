@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/modules/membership_details/controllers/membership_details_controller.dart';
-import 'package:george/app/utils/app_size.dart';
+import 'package:george/app/widgets/app_image/app_image.dart';
 import 'package:get/get.dart';
 
 class MembershipDetailsView extends StatelessWidget {
@@ -19,22 +19,18 @@ class MembershipDetailsView extends StatelessWidget {
             left: 0,
             right: 0,
             height: MediaQuery.of(context).size.height * 0.6,
-            child: Container(
-              height: 300.h,
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(
-                    "https://images.unsplash.com/photo-1545205597-3d9d02c29597?q=80&w=2070&auto=format&fit=crop",
-                  ),
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                AppImage(
+                  url: "",
+                  path: "assets/images/network_placeholder_image.jpg",
                   fit: BoxFit.cover,
                 ),
-              ),
-              child: Container(
-                height: 300.h,
-                width: double.infinity,
-                color: Colors.black.withValues(alpha: 0.4),
-              ),
+
+                /// Dark overlay
+                Container(color: Colors.black.withValues(alpha: 0.4)),
+              ],
             ),
           ),
 

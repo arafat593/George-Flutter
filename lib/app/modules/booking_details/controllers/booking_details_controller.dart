@@ -3,18 +3,12 @@ import 'package:get/get.dart';
 
 class BookingDetailsController extends GetxController {
   final RxBool isInitialized = false.obs;
-
-  // Example data
-  final RxString imageUrl =
-      'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1000'
-          .obs;
-  final RxString instructorImage = 'https://i.pravatar.cc/150?img=32'.obs;
-  final RxString mapImage =
-      'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&q=80&w=1000'
-          .obs;
-  final RxString title = 'Morning Vinyasa Flow'.obs;
-  final RxString price = 'QAR 200'.obs;
-  final RxString instructorName = 'Sarah Jenkins'.obs;
+  final RxString imageUrl = ''.obs;
+  final RxString instructorImage = ''.obs;
+  final RxString mapImage = ''.obs;
+  final RxString title = 'No title added'.obs;
+  final RxString price = 'N/A'.obs;
+  final RxString instructorName = 'No name added'.obs;
 
   @override
   void onInit() {

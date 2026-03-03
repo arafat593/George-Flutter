@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:george/app/data/app_text_styles.dart';
 import 'package:george/app/routes/app_pages.dart';
 import 'package:george/app/utils/app_size.dart';
+import 'package:george/app/widgets/app_image/app_image.dart';
 import 'package:george/app/widgets/custom_progress.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -116,9 +117,14 @@ class CourseUpcomingClassesCard extends StatelessWidget {
                 SizedBox(height: 12.h),
                 Row(
                   children: [
-                    CircleAvatar(
-                      radius: 15.r,
-                      backgroundImage: NetworkImage(instructorAvater),
+                    ClipOval(
+                      child: AppImage(
+                        url: instructorAvater,
+                        path: "assets/images/network_placeholder_image.jpg",
+                        width: 30.r, // radius * 2
+                        height: 30.r,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                     SizedBox(width: 8.w),
                     Text(

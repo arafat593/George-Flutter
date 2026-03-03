@@ -1,5 +1,3 @@
-import 'package:george/app/modules/class_details/bindings/class_details_binding.dart';
-import 'package:george/app/modules/class_details/views/class_details_view.dart';
 import 'package:get/get.dart';
 
 import '../modules/about_us/bindings/about_us_binding.dart';
@@ -24,6 +22,8 @@ import '../modules/booking_details/bindings/booking_details_binding.dart';
 import '../modules/booking_details/views/booking_details_view.dart';
 import '../modules/checkout/bindings/checkout_binding.dart';
 import '../modules/checkout/views/checkout_view.dart';
+import '../modules/class_details/bindings/class_details_binding.dart';
+import '../modules/class_details/views/class_details_view.dart';
 import '../modules/course_details/bindings/course_details_binding.dart';
 import '../modules/course_details/views/course_details_view.dart';
 import '../modules/course_instructor_details/bindings/course_instructor_details_binding.dart';
@@ -38,6 +38,8 @@ import '../modules/edit_profile/bindings/edit_profile_binding.dart';
 import '../modules/edit_profile/views/edit_profile_view.dart';
 import '../modules/error_screen/bindings/error_screen_binding.dart';
 import '../modules/error_screen/views/error_screen_view.dart';
+import '../modules/faq/bindings/faq_binding.dart';
+import '../modules/faq/views/faq_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/instructor_details/bindings/instructor_details_binding.dart';
@@ -58,6 +60,8 @@ import '../modules/notifications/bindings/notifications_binding.dart';
 import '../modules/notifications/views/notifications_view.dart';
 import '../modules/order_history/bindings/order_history_binding.dart';
 import '../modules/order_history/views/order_history_view.dart';
+import '../modules/privacy_policy/bindings/privacy_policy_binding.dart';
+import '../modules/privacy_policy/views/privacy_policy_view.dart';
 import '../modules/product_details/bindings/product_details_binding.dart';
 import '../modules/product_details/views/product_details_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
@@ -238,9 +242,19 @@ class AppPages {
       binding: NotFoundScreenBinding(),
     ),
     GetPage(
-        name: _Paths.courseInstructorDetails,
-        page: () => const CourseInstructorDetailsView(),
-        binding: CourseInstructorDetailsBinding(),
-      ),
+      name: _Paths.courseInstructorDetails,
+      page: () => const CourseInstructorDetailsView(),
+      binding: CourseInstructorDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.privacyPolicy,
+      page: () => const PrivacyPolicyView(),
+      binding: PrivacyPolicyBinding(),
+    ),
+    GetPage(
+      name: _Paths.faq,
+      page: () => const FaqView(),
+      binding: FaqBinding(),
+    ),
   ];
 }

@@ -4,8 +4,7 @@ class NewsController extends GetxController {
   // Add logic to fetch news if needed
   final newsItems = [
     {
-      'image':
-          'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1000&auto=format&fit=crop',
+      'image': '',
       'date': 'Wed Dec 10 2025',
       'title': 'New Morning Yoga Classes Added',
       'description':
@@ -16,8 +15,7 @@ class NewsController extends GetxController {
       'showGenderIcons': true,
     },
     {
-      'image':
-          'https://images.unsplash.com/photo-1599447421416-3414502d1820?q=80&w=1000&auto=format&fit=crop',
+      'image': '',
       'date': 'Wed Dec 10 2025',
       'title': 'Special Workshop This Weekend',
       'description':
@@ -27,8 +25,7 @@ class NewsController extends GetxController {
       'time': '10:00-11:30 AM',
     },
     {
-      'image':
-          'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1000&auto=format&fit=crop',
+      'image': '',
       'date': 'Wed Dec 10 2025',
       'title': 'Improve Your Flexibility in 30 Days',
       'description':

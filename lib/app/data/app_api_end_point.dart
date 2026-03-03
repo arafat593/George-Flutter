@@ -9,9 +9,9 @@ class AppApiEndPoint {
   //app use base
   final String domain = _getDomain();
   final String baseUrl = "${_getDomain()}/api/v1";
-  final String termsAndConditions = "termsAndConditions";
+  final String termsAndConditions = "/terms-conditions";
   final String about = "termsAndConditions";
-  final String privacyPolicy = "termsAndConditions";
+  final String privacyPolicy = "/privacy-policy";
   final String login = "/auth/login";
   final String refreshToken = "/auth/refresh";
   final String signUP = "/auth/register";
@@ -30,6 +30,7 @@ class AppApiEndPoint {
   final String allCourses = '/courses/';
   String courseDetails(String courseId) => '/courses/$courseId';
   final String instructors = '/instructors';
+  final String faq = '/faq';
 }
 
 String _getDomain() {

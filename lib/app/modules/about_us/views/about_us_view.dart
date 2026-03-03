@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/utils/app_size.dart';
+import 'package:george/app/widgets/app_image/app_image.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_colors.dart';
@@ -23,7 +24,13 @@ class AboutUsView extends GetView<AboutUsController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildStatsRow(),
-                  SizedBox(height: 24.h),
+                  Text(
+                    'About Us',
+                    style: AppTextStyles.semiBold24.apply(
+                      color: const Color(0xFF6D4C41),
+                    ),
+                  ),
+                  SizedBox(height: 16.h),
                   _buildSectionTitle("Our story"),
                   SizedBox(height: 8.h),
                   Text(
@@ -61,60 +68,53 @@ class AboutUsView extends GetView<AboutUsController> {
   Widget _buildHeader() {
     return Stack(
       children: [
-        Container(
+        AppImage(
+          url: "https://picsum.photos/seed/yoga_pose/800/600",
+          width: AppSize.size.width,
           height: 300.h,
-          width: double.infinity,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(
-                "https://picsum.photos/seed/yoga_pose/800/600",
-              ),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Container(
-            height: 300.h,
-            width: double.infinity,
-            color: Colors.black.withValues(alpha: 0.4),
-          ),
+          fit: BoxFit.cover,
+          path: "assets/images/network_placeholder_image.jpg",
+        ),
+        Container(
+          width: AppSize.size.width,
+          height: 300.h,
+          color: Colors.black.withValues(alpha: 0.2),
         ),
         SafeArea(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () => Get.back(),
+            padding: const EdgeInsets.only(left: 20),
+            child: GestureDetector(
+              onTap: () => Get.back(),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(40.r),
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 8.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.white600.withValues(alpha: 0.6),
+                    borderRadius: BorderRadius.circular(40.r),
+                  ),
                   child: Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
                         Icons.arrow_back_ios,
-                        size: 20.sp,
-                        color: const Color(0xFF6D4C41),
+                        color: AppColors.bodyTextColor,
+                        size: 20.r,
                       ),
                       Text(
-                        "Back",
-                        style: AppTextStyles.semiBold(
-                          20,
-                          color: const Color(0xFF6D4C41),
+                        'Back',
+                        style: AppTextStyles.bold(
+                          16,
+                          color: AppColors.bodyTextColor,
                         ),
                       ),
                     ],
                   ),
                 ),
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      "About Us",
-                      style: AppTextStyles.bold(
-                        28,
-                        color: const Color(0xFF6D4C41),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 80.w), // Balance back button
-              ],
+              ),
             ),
           ),
         ),
@@ -204,8 +204,10 @@ class AboutUsView extends GetView<AboutUsController> {
           SizedBox(height: 12.h),
           ClipRRect(
             borderRadius: BorderRadius.circular(12.r),
-            child: Image.network(
-              "https://picsum.photos/seed/map/600/300",
+            child: AppImage(
+              url: "",
+              networkPlaceholderImage:
+                  "assets/images/network_placeholder_image.jpg",
               height: 150.h,
               width: double.infinity,
               fit: BoxFit.cover,

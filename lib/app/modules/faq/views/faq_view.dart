@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:george/app/data/app_colors.dart';
+import 'package:george/app/data/app_text_styles.dart';
 import 'package:george/app/utils/app_size.dart';
 import 'package:george/app/widgets/custom_appbar.dart';
+
 import 'package:get/get.dart';
-import '../../../data/app_colors.dart';
-import '../../../data/app_text_styles.dart';
-import '../controllers/terms_conditions_controller.dart';
 
-class TermsConditionsView extends GetView<TermsConditionsController> {
-  const TermsConditionsView({super.key});
+import '../controllers/faq_controller.dart';
 
+class FaqView extends GetView<FaqController> {
+  const FaqView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
-      appBar: const CustomAppBar(title: 'Terms & Conditions'),
+      appBar: CustomAppBar(title: 'FaqView'),
       body: Obx(() {
         if (controller.isLoading.value) {
           return const Center(
@@ -23,12 +23,12 @@ class TermsConditionsView extends GetView<TermsConditionsController> {
           );
         }
 
-        final terms = controller.termsCondition.value;
+        final faq = controller.faq.value;
 
-        if (terms == null || terms.content.isEmpty) {
+        if (faq == null || faq.content.isEmpty) {
           return Center(
             child: Text(
-              "No Terms & Conditions available.",
+              "No FAQ available.",
               style: AppTextStyles.regular(
                 14,
               ).copyWith(color: AppColors.bodyTextColor),
@@ -39,7 +39,7 @@ class TermsConditionsView extends GetView<TermsConditionsController> {
         return SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
           child: Text(
-            terms.content,
+            faq.content,
             style: AppTextStyles.regular(14).copyWith(
               color: AppColors.bodyTextColor.withValues(alpha: 0.8),
               height: 1.5,

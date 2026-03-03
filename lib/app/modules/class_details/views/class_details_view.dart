@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:george/app/data/app_colors.dart';
 import 'package:george/app/data/image_path.dart';
@@ -45,18 +47,28 @@ class ClassDetailsView extends GetView<ClassDetailsController> {
       left: 16.w,
       child: GestureDetector(
         onTap: () => Get.back(),
-        child: Row(
-          children: [
-            Icon(
-              Icons.arrow_back_ios,
-              color: AppColors.bodyTextColor,
-              size: 20.r,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(40.r),
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+            decoration: BoxDecoration(
+              color: AppColors.white600.withValues(alpha: 0.6),
+              borderRadius: BorderRadius.circular(40.r),
             ),
-            Text(
-              'Back',
-              style: AppTextStyles.bold(16, color: AppColors.bodyTextColor),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.arrow_back_ios,
+                  color: AppColors.bodyTextColor,
+                  size: 20.r,
+                ),
+                Text(
+                  'Back',
+                  style: AppTextStyles.bold(16, color: AppColors.bodyTextColor),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -69,23 +81,21 @@ class ClassDetailsView extends GetView<ClassDetailsController> {
       left: 0,
       right: 0,
       height: 450.h,
-      child: Container(
-        height: 300.h,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: NetworkImage(
-              image ??
-                  "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1000",
-            ),
+      child: Stack(
+        children: [
+          AppImage(
+            url: image,
+            width: AppSize.size.width,
+            height: AppSize.size.width,
             fit: BoxFit.cover,
+            path: "assets/images/network_placeholder_image.jpg",
           ),
-        ),
-        child: Container(
-          height: 300.h,
-          width: double.infinity,
-          color: Colors.black.withValues(alpha: 0.3),
-        ),
+          Container(
+            width: AppSize.size.width,
+            height: AppSize.size.width,
+            color: Colors.black.withValues(alpha: 0.2),
+          ),
+        ],
       ),
     );
   }
@@ -95,7 +105,7 @@ class ClassDetailsView extends GetView<ClassDetailsController> {
 
     return DraggableScrollableSheet(
       initialChildSize: 0.6,
-      minChildSize: 0.55,
+      minChildSize: 0.6,
       maxChildSize: 0.95,
       snap: true,
       snapSizes: const [0.6, 0.95],
@@ -126,8 +136,8 @@ class ClassDetailsView extends GetView<ClassDetailsController> {
               _buildInstructorSection(),
               SizedBox(height: 24.h),
               _buildAboutSection(),
-              SizedBox(height: 20.h),
-              _buildDateTimeSection(),
+              // SizedBox(height: 20.h),
+              // _buildDateTimeSection(),
               SizedBox(height: 24.h),
               _buildLocationSection(),
               // Only show Book Now button if not from history
@@ -158,15 +168,24 @@ class ClassDetailsView extends GetView<ClassDetailsController> {
 
   Widget _buildHeaderSection() {
     const Color brownColor = Color(0xFF6B5345);
-    return Obx(
-      () => Row(
+    return Obx(() {
+      final title = controller.classByID.value?.title;
+      final gender = controller.classByID.value?.gender;
+      final classGender = (gender ?? '').trim().toLowerCase();
+      return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: Text(
-              controller.classByID.value?.title ?? "",
-              style: AppTextStyles.bold(22, color: brownColor),
+            child: Column(
+              spacing: 5.h,
+              children: [
+                Text(
+                  title ?? "",
+                  style: AppTextStyles.bold(22, color: brownColor),
+                ),
+                _buildDateTimeSection(),
+              ],
             ),
           ),
           Column(
@@ -174,19 +193,21 @@ class ClassDetailsView extends GetView<ClassDetailsController> {
             children: [
               Row(
                 children: [
-                  Icon(Icons.male_outlined, size: 24.r, color: brownColor),
-                  Icon(Icons.female_outlined, size: 24.r, color: brownColor),
+                  if (classGender == 'male' || classGender == 'both')
+                    Icon(Icons.male_outlined, size: 24.r, color: brownColor),
+                  if (classGender == 'female' || classGender == 'both')
+                    Icon(Icons.female_outlined, size: 24.r, color: brownColor),
                 ],
               ),
               Text(
                 "QAR ${controller.classByID.value?.price.toString() ?? "0"}",
-                style: AppTextStyles.bold(24, color: brownColor),
+                style: AppTextStyles.semiBold24.apply(color: brownColor),
               ),
             ],
           ),
         ],
-      ),
-    );
+      );
+    });
   }
 
   Widget _buildLevelTag() {
@@ -381,20 +402,21 @@ class ClassDetailsView extends GetView<ClassDetailsController> {
     const Color brownColor = Color(0xFF6B5345);
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      spacing: 10.w,
       children: [
         Row(
           children: [
             Icon(
               Icons.access_time,
-              size: 20.r,
+              size: 15.r,
               color: brownColor.withValues(alpha: 0.6),
             ),
             SizedBox(width: 8.w),
             Text(
               controller.classByID.value?.duration ?? '',
               style: AppTextStyles.medium(
-                14,
+                12,
                 color: brownColor.withValues(alpha: 0.6),
               ),
               overflow: TextOverflow.ellipsis,
@@ -405,14 +427,14 @@ class ClassDetailsView extends GetView<ClassDetailsController> {
           children: [
             Icon(
               Icons.calendar_today_outlined,
-              size: 20.r,
+              size: 15.r,
               color: brownColor.withValues(alpha: 0.6),
             ),
             SizedBox(width: 8.w),
             Text(
               dateFormat,
               style: AppTextStyles.medium(
-                14,
+                12,
                 color: brownColor.withValues(alpha: 0.6),
               ),
               overflow: TextOverflow.ellipsis,
@@ -439,12 +461,11 @@ class ClassDetailsView extends GetView<ClassDetailsController> {
           ClipRRect(
             borderRadius: BorderRadius.circular(15.r),
             child: Obx(
-              () => Image.network(
-                controller.mapImage.value,
-                height: 160.h,
+              () => AppImage(
+                url: controller.mapImage.value,
                 width: double.infinity,
+                height: 160.h,
                 fit: BoxFit.cover,
-                cacheHeight: 400,
               ),
             ),
           ),

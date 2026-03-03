@@ -38,6 +38,8 @@ abstract class Routes {
   static const filter = _Paths.filter;
   static const errorScreen = _Paths.errorScreen;
   static const notFoundScreen = _Paths.notFoundScreen;
+  static const privacyPolicy = _Paths.privacyPolicy;
+  static const faq = _Paths.faq;
 }
 
 abstract class _Paths {
@@ -77,4 +79,6 @@ abstract class _Paths {
   static const filter = '/filter';
   static const errorScreen = '/error-screen';
   static const notFoundScreen = '/not-found-screen';
+  static const privacyPolicy = '/privacy-policy';
+  static const faq = '/faq';
 }

@@ -3,6 +3,7 @@ import 'package:george/app/data/app_colors.dart';
 import 'package:george/app/data/image_path.dart';
 import 'package:george/app/routes/app_pages.dart';
 import 'package:george/app/utils/app_size.dart';
+import 'package:george/app/widgets/app_image/app_image.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../data/app_text_styles.dart';
@@ -42,18 +43,28 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
       left: 16.w,
       child: GestureDetector(
         onTap: () => Get.back(),
-        child: Row(
-          children: [
-            Icon(
-              Icons.arrow_back_ios,
-              color: AppColors.bodyTextColor,
-              size: 20.r,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(40.r),
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+            decoration: BoxDecoration(
+              color: AppColors.white600.withValues(alpha: 0.6),
+              borderRadius: BorderRadius.circular(40.r),
             ),
-            Text(
-              'Back',
-              style: AppTextStyles.bold(16, color: AppColors.bodyTextColor),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.arrow_back_ios,
+                  color: AppColors.bodyTextColor,
+                  size: 20.r,
+                ),
+                Text(
+                  'Back',
+                  style: AppTextStyles.bold(16, color: AppColors.bodyTextColor),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -67,24 +78,21 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
       left: 0,
       right: 0,
       height: 450.h,
-      child: Container(
-        height: 300.h,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: Colors.grey.shade300,
-          image: coverImage.isNotEmpty
-              ? DecorationImage(
-                  image: NetworkImage(coverImage),
-                  fit: BoxFit.cover,
-                  onError: (_, _) {},
-                )
-              : null,
-        ),
-        child: Container(
-          height: 300.h,
-          width: double.infinity,
-          color: Colors.black.withValues(alpha: 0.3),
-        ),
+      child: Stack(
+        children: [
+          AppImage(
+            url: coverImage,
+            width: AppSize.size.width,
+            height: AppSize.size.width,
+            fit: BoxFit.cover,
+            path: "assets/images/network_placeholder_image.jpg",
+          ),
+          Container(
+            width: AppSize.size.width,
+            height: AppSize.size.width,
+            color: Colors.black.withValues(alpha: 0.2),
+          ),
+        ],
       ),
     );
   }
@@ -94,7 +102,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
 
     return DraggableScrollableSheet(
       initialChildSize: 0.6,
-      minChildSize: 0.55,
+      minChildSize: 0.6,
       maxChildSize: 0.95,
       snap: true,
       snapSizes: const [0.6, 0.95],
@@ -303,43 +311,39 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
         children: [
           Expanded(
             flex: 2,
-            child: GestureDetector(
-              onTap: () => Get.toNamed('/instructor-details'),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 26.r,
-                    backgroundColor: Colors.grey.shade200,
-                    backgroundImage: image.isNotEmpty
-                        ? NetworkImage(image)
-                        : null,
-                    child: image.isEmpty
-                        ? const Icon(Icons.person, color: Colors.grey)
-                        : null,
+            child: Row(
+              children: [
+                ClipOval(
+                  child: AppImage(
+                    url: image,
+                    path: "assets/images/network_placeholder_image.jpg",
+                    width: 52.r, // radius * 2
+                    height: 52.r,
+                    fit: BoxFit.cover,
                   ),
-                  SizedBox(width: 12.w),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Instructor',
-                          style: AppTextStyles.regular(
-                            10,
-                            color: brownColor.withValues(alpha: 0.6),
-                          ),
+                ),
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Instructor',
+                        style: AppTextStyles.regular(
+                          10,
+                          color: brownColor.withValues(alpha: 0.6),
                         ),
-                        Text(
-                          name,
-                          style: AppTextStyles.medium(18, color: brownColor),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
-                      ],
-                    ),
+                      ),
+                      Text(
+                        name,
+                        style: AppTextStyles.medium(18, color: brownColor),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           Expanded(

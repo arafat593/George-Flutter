@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../../../models/store_product_model.dart';
 import '../../../data/app_text_styles.dart';
 import '../../../routes/app_pages.dart';
+import '../../../widgets/app_image/app_image.dart';
 import '../controllers/store_controller.dart';
 
 class StoreView extends GetView<StoreController> {
@@ -63,17 +64,13 @@ class StoreView extends GetView<StoreController> {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12.r),
-                    child: Image.network(
-                      product.thumbnail,
+                    child: AppImage(
+                      url: product.thumbnail,
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return SizedBox(
-                          child: Image.network(
-                            "https://as1.ftcdn.net/jpg/10/22/24/80/1000_F_1022248039_7LDxHRi3Mlt9BK3wzLBUGZp9XAO1gt2s.jpg",
-                            fit: BoxFit.cover,
-                          ),
-                        );
-                      },
+                      width: double.infinity,
+                      height: 180.h, // adjust height as needed
+                      networkPlaceholderImage:
+                          "assets/images/network_placeholder_image.jpg",
                     ),
                   ),
                 ),

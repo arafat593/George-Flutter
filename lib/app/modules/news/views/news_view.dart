@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/utils/app_size.dart';
+import 'package:george/app/widgets/app_image/app_image.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_colors.dart';
@@ -88,25 +89,13 @@ class NewsView extends GetView<NewsController> {
               padding: EdgeInsets.all(12.r),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12.r),
-                child: Image.network(
-                  item['image'],
+                child: AppImage(
+                  url: item['image'],
+                  networkPlaceholderImage:
+                      "assets/images/network_placeholder_image.jpg", // fallback asset
                   height: 180.h,
                   width: double.infinity,
                   fit: BoxFit.cover,
-                  cacheHeight: 400, // Optimize memory
-                  errorBuilder: (context, error, stackTrace) => Container(
-                    height: 180.h,
-                    color: Colors.grey.shade300,
-                    child: const Icon(Icons.broken_image),
-                  ),
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return Container(
-                      height: 180.h,
-                      color: Colors.grey.shade200,
-                      child: const Center(child: CircularProgressIndicator()),
-                    );
-                  },
                 ),
               ),
             ),
