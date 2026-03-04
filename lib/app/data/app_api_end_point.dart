@@ -10,7 +10,7 @@ class AppApiEndPoint {
   final String domain = _getDomain();
   final String baseUrl = "${_getDomain()}/api/v1";
   final String termsAndConditions = "/terms-conditions";
-  final String about = "termsAndConditions";
+  final String about = "/about-us";
   final String privacyPolicy = "/privacy-policy";
   final String login = "/auth/login";
   final String refreshToken = "/auth/refresh";

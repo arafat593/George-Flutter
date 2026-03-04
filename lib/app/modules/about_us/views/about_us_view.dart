@@ -14,54 +14,85 @@ class AboutUsView extends GetView<AboutUsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _buildHeader(),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildStatsRow(),
-                  Text(
-                    'About Us',
-                    style: AppTextStyles.semiBold24.apply(
-                      color: const Color(0xFF6D4C41),
-                    ),
-                  ),
-                  SizedBox(height: 16.h),
-                  _buildSectionTitle("Our story"),
-                  SizedBox(height: 8.h),
-                  Text(
-                    "Founded in 2015, our yoga studio began with a simple vision: to create a sanctuary where everyone could discover the transformative power of yoga.\n\nToday, we're proud to be a thriving community of practitioners, from beginners taking their first steps to advanced yogis deepening their practice.",
-                    style: AppTextStyles.regular(14).copyWith(
-                      color: const Color(0xFF6D4C41).withValues(alpha: 0.8),
-                      height: 1.5,
-                    ),
-                  ),
-                  SizedBox(height: 24.h),
-                  _buildSectionTitle("Our Mission"),
-                  SizedBox(height: 8.h),
-                  Text(
-                    "We believe yoga is for every body. Our mission is to provide accessible, authentic yoga instruction that honors the ancient traditions while embracing modern needs.",
-                    style: AppTextStyles.regular(14).copyWith(
-                      color: const Color(0xFF6D4C41).withValues(alpha: 0.8),
-                      height: 1.5,
-                    ),
-                  ),
-                  SizedBox(height: 24.h),
-
-                  _buildLocationCard(),
-                  SizedBox(height: 24.h),
-                  _buildContactInfo(),
-                  SizedBox(height: 40.h),
-                ],
-              ),
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return Center(
+            child: CircularProgressIndicator(
+              color: AppColors.buttonPrimaryColor,
             ),
-          ],
-        ),
-      ),
+          );
+        }
+
+        final aboutUs = controller.aboutUs.value;
+
+        final ourStory = aboutUs?.ourStory ?? 'Nothing Added';
+        final ourMission = aboutUs?.ourMission ?? 'Nothing Added';
+        final location = aboutUs?.location ?? 'Nothing location Added';
+        final email = aboutUs?.email ?? 'Nothing email Added';
+        final phone = aboutUs?.phoneNumber ?? 'Nothing number Added';
+        final instaId = aboutUs?.instagramAccount ?? 'Nothing Id Added';
+        final activeMember = aboutUs?.activeMembers ?? 0;
+        final totalClasses = aboutUs?.totalClasses ?? 0;
+        final totalInstructor = aboutUs?.totalInstructors ?? 0;
+
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              _buildHeader(),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildStatsRow(
+                      activeMember: activeMember,
+                      instructor: totalInstructor,
+                      totalClasses: totalClasses,
+                    ),
+                    Text(
+                      'About Us',
+                      style: AppTextStyles.semiBold24.apply(
+                        color: const Color(0xFF6D4C41),
+                      ),
+                    ),
+                    SizedBox(height: 16.h),
+                    _buildSectionTitle("Our story"),
+                    SizedBox(height: 8.h),
+                    Text(
+                      ourStory,
+                      style: AppTextStyles.regular(14).copyWith(
+                        color: const Color(0xFF6D4C41).withValues(alpha: 0.8),
+                        height: 1.5,
+                      ),
+                    ),
+                    SizedBox(height: 24.h),
+                    _buildSectionTitle("Our Mission"),
+                    SizedBox(height: 8.h),
+                    Text(
+                      ourMission,
+                      style: AppTextStyles.regular(14).copyWith(
+                        color: const Color(0xFF6D4C41).withValues(alpha: 0.8),
+                        height: 1.5,
+                      ),
+                    ),
+                    SizedBox(height: 24.h),
+
+                    _buildLocationCard(),
+                    SizedBox(height: 24.h),
+                    _buildContactInfo(
+                      email: email,
+                      id: instaId,
+                      location: location,
+                      phone: phone,
+                    ),
+                    SizedBox(height: 40.h),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 
@@ -122,7 +153,11 @@ class AboutUsView extends GetView<AboutUsController> {
     );
   }
 
-  Widget _buildStatsRow() {
+  Widget _buildStatsRow({
+    required int activeMember,
+    required int totalClasses,
+    required int instructor,
+  }) {
     // The image shows stats cards OVERLAPPING the header image slightly or just below it.
     // The provided design has them floating a bit up. For simplicity I'll put them below the header with a negative offset translation if needed,
     // or just plain below. The image shows them cleanly separated in a row.
@@ -133,15 +168,15 @@ class AboutUsView extends GetView<AboutUsController> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _buildStatCard("10K+", "Active members"),
-          _buildStatCard("500+", "Classes"),
-          _buildStatCard("50+", "Instructors"),
+          _buildStatCard(activeMember, "Active members"),
+          _buildStatCard(totalClasses, "Classes"),
+          _buildStatCard(instructor, "Instructors"),
         ],
       ),
     );
   }
 
-  Widget _buildStatCard(String value, String label) {
+  Widget _buildStatCard(int value, String label) {
     return Container(
       width: 100.w,
       height: 80.h,
@@ -160,7 +195,7 @@ class AboutUsView extends GetView<AboutUsController> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            value,
+            value.toString(),
             style: AppTextStyles.bold(
               20,
             ).copyWith(color: const Color(0xFF6D4C41)),
@@ -269,24 +304,26 @@ class AboutUsView extends GetView<AboutUsController> {
     );
   }
 
-  Widget _buildContactInfo() {
+  Widget _buildContactInfo({
+    required String location,
+    required String email,
+    required String phone,
+    required String id,
+  }) {
     return Column(
       children: [
-        _buildContactRow(
-          Icons.location_on_outlined,
-          "8502 Preston Rd. Inglewood, Maine 98380",
-        ),
+        _buildContactRow(Icons.location_on_outlined, location),
         SizedBox(height: 12.h),
-        _buildContactRow(Icons.email_outlined, "michael.mitc@example.com"),
+        _buildContactRow(Icons.email_outlined, email),
         SizedBox(height: 12.h),
         _buildContactRow(
           Icons.phone_outlined,
-          "(201) 555-0124",
+          phone,
         ), // Using generic phone icon
         SizedBox(height: 12.h),
         _buildContactRow(
           Icons.camera_alt_outlined,
-          "Inara_Yoga",
+          id,
         ), // Instagram icon approximation
       ],
     );
@@ -294,14 +331,17 @@ class AboutUsView extends GetView<AboutUsController> {
 
   Widget _buildContactRow(IconData icon, String text) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Icon(icon, size: 20.sp, color: const Color(0xFF6D4C41)),
         SizedBox(width: 12.w),
-        Text(
-          text,
-          style: AppTextStyles.regular(
-            14,
-          ).copyWith(color: const Color(0xFF6D4C41).withValues(alpha: 0.8)),
+        Expanded(
+          child: Text(
+            text,
+            style: AppTextStyles.regular(
+              14,
+            ).copyWith(color: const Color(0xFF6D4C41).withValues(alpha: 0.8)),
+          ),
         ),
       ],
     );
