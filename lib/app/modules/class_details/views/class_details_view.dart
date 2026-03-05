@@ -1,10 +1,8 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:george/app/data/app_colors.dart';
 import 'package:george/app/data/image_path.dart';
 import 'package:george/app/utils/app_size.dart';
 import 'package:george/app/widgets/custom_progress.dart';
+import 'package:george/app/widgets/image_top_button.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -33,44 +31,11 @@ class ClassDetailsView extends GetView<ClassDetailsController> {
         return Stack(
           children: [
             _buildBackgroundImage(),
-            _buildTopHeader(),
+            ImageTopButton(onTap: () => Get.back()),
             _buildBookingDetailsSheet(),
           ],
         );
       }),
-    );
-  }
-
-  Widget _buildTopHeader() {
-    return Positioned(
-      top: 50.h,
-      left: 16.w,
-      child: GestureDetector(
-        onTap: () => Get.back(),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(40.r),
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-            decoration: BoxDecoration(
-              color: AppColors.white600.withValues(alpha: 0.6),
-              borderRadius: BorderRadius.circular(40.r),
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.arrow_back_ios,
-                  color: AppColors.bodyTextColor,
-                  size: 20.r,
-                ),
-                Text(
-                  'Back',
-                  style: AppTextStyles.bold(16, color: AppColors.bodyTextColor),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
     );
   }
 

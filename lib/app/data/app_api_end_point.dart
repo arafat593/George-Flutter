@@ -30,7 +30,9 @@ class AppApiEndPoint {
   final String allCourses = '/courses/';
   String courseDetails(String courseId) => '/courses/$courseId';
   final String instructors = '/instructors';
+  final String news = '/news';
   final String faq = '/faq';
+  final String membershipCatalogue = '/memberships/catalogue';
 }
 
 String _getDomain() {

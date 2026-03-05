@@ -13,7 +13,7 @@ class FaqView extends GetView<FaqController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'FaqView'),
+      appBar: CustomAppBar(title: 'FAQ'),
       body: Obx(() {
         if (controller.isLoading.value) {
           return const Center(

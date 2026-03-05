@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:george/app/modules/custom_bottom_nav/controllers/custom_bottom_nav_controller.dart';
 import 'package:george/app/utils/app_size.dart';
@@ -191,7 +190,7 @@ class ProfileView extends GetView<ProfileController> {
           title: "Wallet",
           onTap: () {
             final controller = Get.find<CustomBottomNavController>();
-            controller.changeIndex(2);
+            controller.changeIndex(3);
           },
         ),
         _buildDivider(),

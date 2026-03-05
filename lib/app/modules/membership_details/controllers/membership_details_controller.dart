@@ -1,19 +1,21 @@
+import 'package:george/models/membership_catalogue_model.dart';
 import 'package:get/get.dart';
 import '../../../routes/app_pages.dart';
 
 class MembershipDetailsController extends GetxController {
-  final RxString type = "Membership".obs;
+  final RxString type = "".obs;
 
-  final RxString title = "1 month Membership".obs;
-  final RxString subtitle = "Access to regular classes for 30 days".obs;
-  final RxString validity = "Valid for 1 month".obs;
+  final RxString title = "".obs;
+  final RxString subtitle = "".obs;
+  final RxString validity = "".obs;
 
-  final RxString startDate = "2023-12-31".obs;
-  final RxString endDate = "2024-02-18".obs;
+  final RxString startDate = "".obs;
+  final RxString endDate = "".obs;
 
-  final RxString price = "QAR 100".obs;
-  final RxString walletBalance = "QAR 200".obs;
+  final RxString price = "".obs;
+  final RxString walletBalance = "".obs;
   final RxBool isFromSuggestions = false.obs;
+  final Rx<MembershipModel?> membershipModel = Rx<MembershipModel?>(null);
 
   @override
   void onInit() {
@@ -34,6 +36,7 @@ class MembershipDetailsController extends GetxController {
     endDate.value = _getValue(args, 'endDate', endDate.value);
     walletBalance.value = _getValue(args, 'walletBalance', walletBalance.value);
     isFromSuggestions.value = args['isFromSuggestions'] ?? false;
+    membershipModel.value = args['membershipModel'] as MembershipModel?;
   }
 
   String _getValue(Map<String, dynamic> args, String key, String defaultValue) {

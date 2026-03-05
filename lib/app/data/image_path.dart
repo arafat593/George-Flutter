@@ -4,6 +4,9 @@ class ImagePath {
 
   static const String splashImage = '$imageUrl/splash_image.png';
   static const String onboardingImage = '$imageUrl/onboarding_bg.png';
+  static const String errorIllustration = '$imageUrl/error_illustration.png';
+  static const String notFoundIllustration =
+      '$imageUrl/not_found_illustration.png';
 
   // Aliases for user code
   static const String bookOpenIcon = '$iconUrl/news.png';

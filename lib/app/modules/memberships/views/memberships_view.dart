@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/utils/app_size.dart';
 import 'package:george/app/widgets/custom_appbar.dart';
+import 'package:george/models/membership_catalogue_model.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_colors.dart';
@@ -105,6 +106,10 @@ class MembershipsView extends GetView<MembershipsController> {
   }
 
   Widget _buildMembershipsContent() {
+    final length =
+        controller.membershipDataModel.value?.memberships.length ?? 0;
+    final membershipModel =
+        controller.membershipDataModel.value?.memberships ?? [];
     return Column(
       children: [
         GestureDetector(
@@ -124,51 +129,33 @@ class MembershipsView extends GetView<MembershipsController> {
           child: _buildActiveMembershipCard(),
         ),
         SizedBox(height: 20.h),
-        GestureDetector(
-          onTap: () => Get.toNamed(
-            Routes.membershipDetails,
-            arguments: {
-              'type': 'Membership',
-              'title': '1 month Membership',
-              'price': 'QAR 970',
-              'validity': 'Valid for 1 months',
-              'subtitle': 'Access to regular classes for 30 days',
-              'isFromSuggestions': Get.arguments != null
-                  ? Get.arguments['isFromSuggestions']
-                  : false,
-            },
-          ),
-          child: _buildMembershipOptionCard(
-            type: "Membership",
-            title: "1 month Membership",
-            price: "QAR 970",
-            subtitle: "Access to regular classes for 30 days",
-            validity: "Valid for 1 months",
-            isAutoRenew: controller.autoRenew1Month,
-          ),
-        ),
-        SizedBox(height: 16.h),
-        GestureDetector(
-          onTap: () => Get.toNamed(
-            Routes.membershipDetails,
-            arguments: {
-              'type': 'Membership',
-              'title': '3 month Membership',
-              'price': 'QAR 2750',
-              'validity': 'Valid for 3 months',
-              'subtitle': 'Access to classes for 90 days',
-              'isFromSuggestions': Get.arguments != null
-                  ? Get.arguments['isFromSuggestions']
-                  : false,
-            },
-          ),
-          child: _buildMembershipOptionCard(
-            type: "Membership",
-            title: "3 month Membership",
-            price: "QAR 2750",
-            subtitle: null,
-            validity: "Valid for 3 months",
-            isAutoRenew: controller.autoRenew3Month,
+        ListView.builder(
+          itemCount: length,
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemBuilder: (_, index) => GestureDetector(
+            onTap: () => Get.toNamed(
+              Routes.membershipDetails,
+              arguments: {
+                'type': 'Membership',
+                'title': '1 month Membership',
+                'price': 'QAR 970',
+                'validity': 'Valid for 1 months',
+                'subtitle': 'Access to regular classes for 30 days',
+                'isFromSuggestions': Get.arguments != null
+                    ? Get.arguments['isFromSuggestions']
+                    : false,
+              },
+            ),
+            child: _buildMembershipOptionCard(
+              type: "Membership",
+              title: "1 month Membership",
+              price: "QAR 970",
+              subtitle: "Access to regular classes for 30 days",
+              validity: "Valid for 1 months",
+              isAutoRenew: controller.autoRenew1Month,
+              membershipModel: membershipModel[index],
+            ),
           ),
         ),
       ],
@@ -216,6 +203,21 @@ class MembershipsView extends GetView<MembershipsController> {
             subtitle: "Attend 10 classes",
             validity: "Valid for 2 months",
             isAutoRenew: controller.autoRenew1Month,
+            membershipModel: MembershipModel(
+              id: 'id',
+              name: '',
+              description: 'description',
+              price: 0,
+              durationDays: 5,
+              allowedClasses: [],
+              timeRestriction: 'timeRestriction',
+              autoRenew: false,
+              status: '',
+              totalClasses: 0,
+              classDetails: [],
+              createdAt: DateTime.now(),
+              updatedAt: DateTime.now(),
+            ),
           ),
         ),
       ],
@@ -341,9 +343,11 @@ class MembershipsView extends GetView<MembershipsController> {
     String? subtitle,
     required String validity,
     required RxBool isAutoRenew,
+    required MembershipModel membershipModel,
   }) {
     return Container(
       padding: EdgeInsets.all(16.w),
+      margin: EdgeInsets.only(bottom: 12.h),
       decoration: BoxDecoration(
         color: const Color(0xFFEBE3D9),
         borderRadius: BorderRadius.circular(16.r),
@@ -358,13 +362,13 @@ class MembershipsView extends GetView<MembershipsController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                title,
+                membershipModel.name,
                 style: AppTextStyles.bold(
                   18,
                 ).copyWith(color: const Color(0xFF6D4C41)),
               ),
               Text(
-                price,
+                'QAR ${membershipModel.price.round()}',
                 style: AppTextStyles.bold(
                   18,
                 ).copyWith(color: const Color(0xFF6D4C41)),
@@ -374,7 +378,7 @@ class MembershipsView extends GetView<MembershipsController> {
           if (subtitle != null) ...[
             SizedBox(height: 8.h),
             Text(
-              subtitle,
+              membershipModel.description,
               style: AppTextStyles.regular(
                 14,
               ).copyWith(color: const Color(0xFF6D4C41).withValues(alpha: 0.7)),
@@ -396,7 +400,7 @@ class MembershipsView extends GetView<MembershipsController> {
                       ),
                       SizedBox(width: 8.w),
                       Text(
-                        validity,
+                        'Valid for ${membershipModel.durationDays} months',
                         style: AppTextStyles.medium(
                           14,
                         ).copyWith(color: const Color(0xFF6D4C41)),
@@ -441,6 +445,7 @@ class MembershipsView extends GetView<MembershipsController> {
                     'price': price,
                     'validity': validity,
                     'subtitle': subtitle,
+                    'membershipModel': membershipModel,
                     'isFromSuggestions': Get.arguments != null
                         ? Get.arguments['isFromSuggestions']
                         : false,

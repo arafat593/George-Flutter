@@ -1,7 +1,8 @@
+import 'package:george/models/news_model.dart';
 import 'package:get/get.dart';
 
 class NewsDetailsController extends GetxController {
-  final Map<String, dynamic> item = Get.arguments ?? {};
+  final NewsModel item = Get.arguments;
   var isExpanded = false.obs;
 
   void toggleExpanded() {

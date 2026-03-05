@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/utils/app_size.dart';
 import 'package:george/app/widgets/app_image/app_image.dart';
+import 'package:george/app/widgets/custom_appbar.dart';
+import 'package:george/models/news_model.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
@@ -14,64 +17,48 @@ class NewsView extends GetView<NewsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      body: SafeArea(
-        child: Column(
-          children: [
-            _buildAppBar(),
-            Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
-                itemCount: controller.newsItems.length,
-                itemBuilder: (context, index) {
-                  final item = controller.newsItems[index];
-                  return _buildNewsCard(item);
-                },
-              ),
+      appBar: CustomAppBar(title: 'News'),
+      body: Obx(() {
+        final length = controller.newsData.value?.news.length ?? 0;
+        final newsItems = controller.newsData.value?.news ?? [];
+        if (controller.isLoading.value) {
+          return Center(
+            child: CircularProgressIndicator(
+              color: AppColors.buttonPrimaryColor,
             ),
-          ],
-        ),
-      ),
-    );
-  }
+          );
+        }
 
-  Widget _buildAppBar() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-      child: Row(
-        children: [
-          GestureDetector(
-            onTap: () => Get.back(),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.arrow_back_ios,
-                  size: 20.r,
-                  color: AppColors.headlineColor,
-                ),
-                Text(
-                  'Back',
-                  style: AppTextStyles.semiBold(
-                    20,
-                    color: AppColors.headlineColor,
+        return SafeArea(
+          child: newsItems.isEmpty
+              ? Center(child: Text('No News Data Found'))
+              : ListView.builder(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 24.w,
+                    vertical: 10.h,
                   ),
+                  itemCount: length,
+                  itemBuilder: (context, index) {
+                    final item = newsItems[index];
+                    return _buildNewsCard(item);
+                  },
                 ),
-              ],
-            ),
-          ),
-          const Spacer(),
-          Text(
-            'News',
-            style: AppTextStyles.bold(28, color: AppColors.headlineColor),
-          ),
-          const Spacer(),
-          // Invisible box to balance the back button for centering
-          SizedBox(width: 80.w),
-        ],
-      ),
+        );
+      }),
     );
   }
 
-  Widget _buildNewsCard(Map<String, dynamic> item) {
+  Widget _buildNewsCard(NewsModel item) {
+    String formatDate(DateTime dateTime) {
+      String formatted = DateFormat('EE MMMM d, yyyy').format(dateTime);
+      return formatted;
+    }
+
+    final image = item.thumbnail;
+    final formattedDate = formatDate(item.publishedAt);
+    final title = item.title;
+    final description = item.shortDescription;
+
     return GestureDetector(
       onTap: () => Get.toNamed('/news-details', arguments: item),
       child: Container(
@@ -90,7 +77,7 @@ class NewsView extends GetView<NewsController> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12.r),
                 child: AppImage(
-                  url: item['image'],
+                  url: image,
                   networkPlaceholderImage:
                       "assets/images/network_placeholder_image.jpg", // fallback asset
                   height: 180.h,
@@ -105,7 +92,7 @@ class NewsView extends GetView<NewsController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    item['date'],
+                    formattedDate,
                     style: AppTextStyles.regular(
                       12,
                       color: Colors.grey.shade600,
@@ -113,7 +100,7 @@ class NewsView extends GetView<NewsController> {
                   ),
                   SizedBox(height: 8.h),
                   Text(
-                    item['title'],
+                    title,
                     style: AppTextStyles.bold(
                       18,
                       color: AppColors.headlineColor,
@@ -121,7 +108,9 @@ class NewsView extends GetView<NewsController> {
                   ),
                   SizedBox(height: 8.h),
                   Text(
-                    item['description'],
+                    description.length > 70
+                        ? '${description.substring(0, 70)}...'
+                        : description,
                     style: AppTextStyles.regular(
                       14,
                       color: Colors.grey.shade700,

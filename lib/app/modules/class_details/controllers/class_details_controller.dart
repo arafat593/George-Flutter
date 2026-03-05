@@ -41,10 +41,6 @@ class ClassDetailsController extends GetxController {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Get.offAndToNamed(Routes.errorScreen);
       });
-    } finally {
-      Future.delayed(const Duration(milliseconds: 300), () {
-        isInitialized.value = false;
-      });
     }
   }
 

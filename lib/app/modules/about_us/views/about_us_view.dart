@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/utils/app_size.dart';
 import 'package:george/app/widgets/app_image/app_image.dart';
+import 'package:george/app/widgets/image_top_button.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_colors.dart';
@@ -24,7 +25,6 @@ class AboutUsView extends GetView<AboutUsController> {
         }
 
         final aboutUs = controller.aboutUs.value;
-
         final ourStory = aboutUs?.ourStory ?? 'Nothing Added';
         final ourMission = aboutUs?.ourMission ?? 'Nothing Added';
         final location = aboutUs?.location ?? 'Nothing location Added';
@@ -114,38 +114,9 @@ class AboutUsView extends GetView<AboutUsController> {
         SafeArea(
           child: Padding(
             padding: const EdgeInsets.only(left: 20),
-            child: GestureDetector(
-              onTap: () => Get.back(),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(40.r),
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 16.w,
-                    vertical: 8.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.white600.withValues(alpha: 0.6),
-                    borderRadius: BorderRadius.circular(40.r),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.arrow_back_ios,
-                        color: AppColors.bodyTextColor,
-                        size: 20.r,
-                      ),
-                      Text(
-                        'Back',
-                        style: AppTextStyles.bold(
-                          16,
-                          color: AppColors.bodyTextColor,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [ImageTopButton(onTap: () => Get.back())],
             ),
           ),
         ),

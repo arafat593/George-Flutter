@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:george/app/data/image_path.dart';
 import 'package:george/app/utils/app_size.dart';
 import 'package:george/app/widgets/app_image/app_image.dart';
+import 'package:george/app/widgets/image_top_button.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_text_styles.dart';
@@ -25,27 +26,11 @@ class BookingDetailsView extends GetView<BookingDetailsController> {
         return Stack(
           children: [
             _buildBackgroundImage(),
-            _buildTopHeader(),
+            ImageTopButton(onTap: () => Get.back()),
             _buildBookingDetailsSheet(),
           ],
         );
       }),
-    );
-  }
-
-  Widget _buildTopHeader() {
-    return Positioned(
-      top: 50.h,
-      left: 16.w,
-      child: GestureDetector(
-        onTap: () => Get.back(),
-        child: Row(
-          children: [
-            Icon(Icons.arrow_back_ios, color: Colors.white, size: 20.r),
-            Text('Back', style: AppTextStyles.bold(16, color: Colors.white)),
-          ],
-        ),
-      ),
     );
   }
 

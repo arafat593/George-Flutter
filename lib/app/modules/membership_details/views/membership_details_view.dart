@@ -3,10 +3,8 @@ import 'package:george/app/modules/membership_details/controllers/membership_det
 import 'package:george/app/widgets/app_image/app_image.dart';
 import 'package:get/get.dart';
 
-class MembershipDetailsView extends StatelessWidget {
-  MembershipDetailsView({super.key});
-
-  final controller = Get.put(MembershipDetailsController());
+class MembershipDetailsView extends GetView<MembershipDetailsController> {
+  const MembershipDetailsView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +21,7 @@ class MembershipDetailsView extends StatelessWidget {
               fit: StackFit.expand,
               children: [
                 AppImage(
-                  url: "",
+                  url: '',
                   path: "assets/images/network_placeholder_image.jpg",
                   fit: BoxFit.cover,
                 ),
