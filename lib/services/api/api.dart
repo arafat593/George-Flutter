@@ -71,7 +71,15 @@ Error message: ${error.message}
         },
       ),
       if (kDebugMode)
-        PrettyDioLogger(requestHeader: true, request: true, compact: true, error: true, requestBody: true, responseHeader: true, responseBody: true),
+        PrettyDioLogger(
+          requestHeader: true,
+          request: true,
+          compact: true,
+          error: true,
+          requestBody: true,
+          responseHeader: true,
+          responseBody: true,
+        ),
     });
   }
   Dio get sendRequest => _dio;
@@ -81,11 +89,18 @@ Error message: ${error.message}
 Future<String> _reFreshNewAccessToken() async {
   try {
     var refreshToken = GetStorageServices.instance.getRefreshToken();
-    final response = await NonAuthApi().sendRequest.post(AppApiEndPoint.instance.refreshToken, data: {"token": refreshToken});
+    final response = await NonAuthApi().sendRequest.post(
+      AppApiEndPoint.instance.refreshToken,
+      data: {"refresh_token": refreshToken},
+    );
     if (response.statusCode == 200) {
       if (response.data["access_token"] is String) {
-        await GetStorageServices.instance.setToken(response.data["access_token"]);
-        await GetStorageServices.instance.setRefreshToken(response.data["refresh_token"]);
+        await GetStorageServices.instance.setToken(
+          response.data["access_token"],
+        );
+        await GetStorageServices.instance.setRefreshToken(
+          response.data["refresh_token"],
+        );
         return response.data["access_token"].toString();
       }
     } else {

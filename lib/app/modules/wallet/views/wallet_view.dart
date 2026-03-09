@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:george/app/utils/app_size.dart';
 import 'package:george/app/widgets/app_image/app_image.dart';
 import 'package:george/app/widgets/custom_appbar.dart';
+import 'package:george/app/widgets/snack_bar/app_snack_bar.dart';
 import 'package:get/get.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
-import '../../../routes/app_pages.dart';
 import '../controllers/wallet_controller.dart';
 
 class WalletView extends StatelessWidget {
@@ -218,7 +218,12 @@ class WalletView extends StatelessWidget {
                   SizedBox(
                     height: 36.h,
                     child: ElevatedButton(
-                      onPressed: () => Get.toNamed(Routes.topUpSuccess),
+                      onPressed: () {
+                        // Get.toNamed(Routes.topUpSuccess);
+                        AppSnackBar.success(
+                          'Wating for payment implementation',
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
                         foregroundColor: const Color(0xFF6D4C41),

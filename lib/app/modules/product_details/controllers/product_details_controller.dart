@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../../../utils/app_log.dart';
 
 class ProductDetailsController extends GetxController {
-  RxString productId=''.obs;
+  RxString productId = ''.obs;
 
   RxBool isLoading = false.obs;
 
@@ -14,7 +14,6 @@ class ProductDetailsController extends GetxController {
 
   Rxn<ProductDetailsModel> productDetails = Rxn<ProductDetailsModel>();
 
-
   void increment() {
     try {
       var product = productDetails.value;
@@ -22,7 +21,7 @@ class ProductDetailsController extends GetxController {
       var quantity = product.quantity;
       var stockQuantity = product.stockQuantity;
       if ((quantity + 1) < stockQuantity) {
-        quantity = quantity +1;
+        quantity = quantity + 1;
         var totalPrice = product.price * quantity;
         productDetails.value = product.copyWith(
           quantity: quantity,
@@ -41,37 +40,35 @@ class ProductDetailsController extends GetxController {
   }
 
   void decrement() {
-    try{
+    try {
       var product = productDetails.value;
-      if(product == null)return;
-       var currentQuantity =product.quantity;
-       if(currentQuantity > 1){
-        var newQuantity =  currentQuantity -1;
-        var totalPrice= product.price * newQuantity;
+      if (product == null) return;
+      var currentQuantity = product.quantity;
+      if (currentQuantity > 1) {
+        var newQuantity = currentQuantity - 1;
+        var totalPrice = product.price * newQuantity;
         productDetails.value = product.copyWith(
           quantity: newQuantity,
-          totalPrice:  totalPrice,
+          totalPrice: totalPrice,
         );
-       }else{
-         Get.snackbar(
-           "Minimum Quantity",
-           "Quantity cannot be less than 1",
-           backgroundColor: Colors.orange,
-         );
-       }
-    }catch(e){
+      } else {
+        Get.snackbar(
+          "Minimum Quantity",
+          "Quantity cannot be less than 1",
+          backgroundColor: Colors.orange,
+        );
+      }
+    } catch (e) {
       errorLog("Error is", e);
     }
   }
-  void refreshData(String newId) {
-    print('👉👉👉 ${newId.isNotEmpty} ${newId != productId.value}');
 
+  void refreshData(String newId) {
     if (newId.isNotEmpty && newId != productId.value) {
       productId.value = newId;
       fetchProductDetails(newId);
     }
   }
-
 
   @override
   void onInit() {
@@ -79,8 +76,6 @@ class ProductDetailsController extends GetxController {
     productId.value = Get.arguments;
     fetchProductDetails(productId.value);
   }
-
-
 
   Future<void> fetchProductDetails(String id) async {
     try {

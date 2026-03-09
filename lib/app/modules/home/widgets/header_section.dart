@@ -8,6 +8,8 @@ import 'package:george/app/widgets/custom_text_button.dart';
 import 'package:george/app/widgets/rounded_icon_container.dart';
 import 'package:get/get.dart';
 
+import '../../../widgets/snack_bar/app_snack_bar.dart';
+
 class HeaderSection extends StatelessWidget {
   const HeaderSection({super.key});
 
@@ -19,7 +21,14 @@ class HeaderSection extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          CustomTextButton(icon: Icons.menu_book, buttonText: 'Bookings'),
+          CustomTextButton(
+            icon: Icons.menu_book,
+            buttonText: 'Bookings',
+            onTap: () {
+              // Get.toNamed(Routes.myBookings);
+              AppSnackBar.success('Wating for payment implementation');
+            },
+          ),
           Image.asset(
             ImagePath.splashImage,
             height: 140.h,
@@ -57,7 +66,10 @@ class HeaderSection extends StatelessWidget {
               SizedBox(width: 12.w),
               RoundedIconContainer(
                 iconPath: ImagePath.notification,
-                onTap: () => Get.toNamed(Routes.notifications),
+                onTap: () {
+                  // return Get.toNamed(Routes.notifications);
+                  AppSnackBar.success('Wating for payment implementation');
+                },
               ),
             ],
           ),

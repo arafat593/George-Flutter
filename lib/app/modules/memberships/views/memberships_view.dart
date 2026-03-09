@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/utils/app_size.dart';
 import 'package:george/app/widgets/custom_appbar.dart';
+import 'package:george/app/widgets/snack_bar/app_snack_bar.dart';
 import 'package:george/models/membership_catalogue_model.dart';
 import 'package:get/get.dart';
 
@@ -110,22 +111,40 @@ class MembershipsView extends GetView<MembershipsController> {
         controller.membershipDataModel.value?.memberships.length ?? 0;
     final membershipModel =
         controller.membershipDataModel.value?.memberships ?? [];
+    if (controller.isLoading.value) {
+      return SizedBox(
+        height: Get.height * 0.75,
+        width: Get.width,
+        child: Center(
+          child: CircularProgressIndicator(color: AppColors.buttonPrimaryColor),
+        ),
+      );
+    } else if (length == 0) {
+      return SizedBox(
+        height: Get.height * 0.75,
+        width: Get.width,
+        child: Center(child: Text("No memberships available")),
+      );
+    }
     return Column(
       children: [
         GestureDetector(
-          onTap: () => Get.toNamed(
-            Routes.membershipDetails,
-            arguments: {
-              'type': 'Membership',
-              'title': '1 month Membership',
-              'validity': 'Valid until 2023-12-31',
-              'subtitle': 'Current Active Membership',
-              'price': 'QAR 970',
-              'isFromSuggestions': Get.arguments != null
-                  ? Get.arguments['isFromSuggestions']
-                  : false,
-            },
-          ),
+          onTap: () {
+            //   Get.toNamed(
+            //   Routes.membershipDetails,
+            //   arguments: {
+            //     'type': 'Membership',
+            //     'title': '1 month Membership',
+            //     'validity': 'Valid until 2023-12-31',
+            //     'subtitle': 'Current Active Membership',
+            //     'price': 'QAR 970',
+            //     'isFromSuggestions': Get.arguments != null
+            //         ? Get.arguments['isFromSuggestions']
+            //         : false,
+            //   },
+            // );
+            AppSnackBar.message('Wating for payment implementation');
+          },
           child: _buildActiveMembershipCard(),
         ),
         SizedBox(height: 20.h),
@@ -134,19 +153,22 @@ class MembershipsView extends GetView<MembershipsController> {
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (_, index) => GestureDetector(
-            onTap: () => Get.toNamed(
-              Routes.membershipDetails,
-              arguments: {
-                'type': 'Membership',
-                'title': '1 month Membership',
-                'price': 'QAR 970',
-                'validity': 'Valid for 1 months',
-                'subtitle': 'Access to regular classes for 30 days',
-                'isFromSuggestions': Get.arguments != null
-                    ? Get.arguments['isFromSuggestions']
-                    : false,
-              },
-            ),
+            onTap: () {
+              //   Get.toNamed(
+              //   Routes.membershipDetails,
+              //   arguments: {
+              //     'type': 'Membership',
+              //     'title': '1 month Membership',
+              //     'price': 'QAR 970',
+              //     'validity': 'Valid for 1 months',
+              //     'subtitle': 'Access to regular classes for 30 days',
+              //     'isFromSuggestions': Get.arguments != null
+              //         ? Get.arguments['isFromSuggestions']
+              //         : false,
+              //   },
+              // );
+              AppSnackBar.message('Wating for payment implementation');
+            },
             child: _buildMembershipOptionCard(
               type: "Membership",
               title: "1 month Membership",
@@ -166,36 +188,42 @@ class MembershipsView extends GetView<MembershipsController> {
     return Column(
       children: [
         GestureDetector(
-          onTap: () => Get.toNamed(
-            Routes.membershipDetails,
-            arguments: {
-              'type': 'Package',
-              'title': '10 Class Pack',
-              'validity': '5 Sessions Left',
-              'subtitle': 'Current Active Package',
-              'price': 'QAR 750',
-              'isFromSuggestions': Get.arguments != null
-                  ? Get.arguments['isFromSuggestions']
-                  : false,
-            },
-          ),
+          onTap: () {
+            //   Get.toNamed(
+            //   Routes.membershipDetails,
+            //   arguments: {
+            //     'type': 'Package',
+            //     'title': '10 Class Pack',
+            //     'validity': '5 Sessions Left',
+            //     'subtitle': 'Current Active Package',
+            //     'price': 'QAR 750',
+            //     'isFromSuggestions': Get.arguments != null
+            //         ? Get.arguments['isFromSuggestions']
+            //         : false,
+            //   },
+            // );
+            AppSnackBar.message('Wating for payment implementation');
+          },
           child: _buildActivePackCard(),
         ),
         SizedBox(height: 20.h),
         GestureDetector(
-          onTap: () => Get.toNamed(
-            Routes.membershipDetails,
-            arguments: {
-              'type': 'Package',
-              'title': '10 Class Pack',
-              'price': 'QAR 750',
-              'validity': 'Valid for 2 months',
-              'subtitle': 'Attend 10 classes',
-              'isFromSuggestions': Get.arguments != null
-                  ? Get.arguments['isFromSuggestions']
-                  : false,
-            },
-          ),
+          onTap: () {
+            //   Get.toNamed(
+            //   Routes.membershipDetails,
+            //   arguments: {
+            //     'type': 'Package',
+            //     'title': '10 Class Pack',
+            //     'price': 'QAR 750',
+            //     'validity': 'Valid for 2 months',
+            //     'subtitle': 'Attend 10 classes',
+            //     'isFromSuggestions': Get.arguments != null
+            //         ? Get.arguments['isFromSuggestions']
+            //         : false,
+            //   },
+            // );
+            AppSnackBar.message('Wating for payment implementation');
+          },
           child: _buildMembershipOptionCard(
             type: "Package",
             title: "10 Class Pack",

@@ -31,7 +31,11 @@ class ClassDetailsView extends GetView<ClassDetailsController> {
         return Stack(
           children: [
             _buildBackgroundImage(),
-            ImageTopButton(onTap: () => Get.back()),
+            Positioned(
+              top: 50.h,
+              left: 16.w,
+              child: ImageTopButton(onTap: () => Get.back()),
+            ),
             _buildBookingDetailsSheet(),
           ],
         );
@@ -143,6 +147,8 @@ class ClassDetailsView extends GetView<ClassDetailsController> {
         children: [
           Expanded(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               spacing: 5.h,
               children: [
                 Text(

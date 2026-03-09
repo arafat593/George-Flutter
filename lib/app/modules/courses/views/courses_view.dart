@@ -9,6 +9,7 @@ import '../../../data/app_text_styles.dart';
 import '../../../routes/app_pages.dart';
 import '../../../widgets/app_refresh_indicator.dart';
 import '../../home/controllers/home_controller.dart';
+import '../../home/widgets/available_spot_indicator.dart';
 import '../controllers/courses_controller.dart';
 
 class CoursesView extends GetView<CoursesController> {
@@ -23,46 +24,50 @@ class CoursesView extends GetView<CoursesController> {
       appBar: CustomAppBar(title: 'Courses', showBackButton: false),
       body: SafeArea(
         bottom: false,
-        child: Column(
-          children: [
-            Expanded(
-              child: Obx(() {
-                if (controller.isLoading.value) {
-                  return const Center(child: CircularProgressIndicator());
-                }
+        child: Obx(() {
+          if (controller.isLoading.value) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-                if (controller.coursesList.isEmpty) {
-                  return const Center(child: Text("No Courses Found"));
-                }
+          if (controller.coursesList.isEmpty) {
+            return const Center(child: Text("No Courses Found"));
+          }
 
-                return AppRefreshIndicator(
-                  onRefresh: () async {
-                    await controller.fetchCourses();
-                  },
-                  child: ListView.builder(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    padding: EdgeInsets.only(
-                      bottom: 100.h,
-                      left: 24.w,
-                      right: 24.w,
+          return AppRefreshIndicator(
+            onRefresh: () async {
+              await controller.fetchCourses();
+            },
+            child: ListView.builder(
+              controller: controller.scrollController,
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: EdgeInsets.only(bottom: 100.h, left: 24.w, right: 24.w),
+              itemCount:
+                  controller.coursesList.length +
+                  (controller.isLoadingMore.value ? 1 : 0),
+              itemBuilder: (context, index) {
+                if (index == controller.coursesList.length) {
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: Color(0xFF6B5345),
+                      ),
                     ),
-                    itemCount: controller.coursesList.length,
-                    itemBuilder: (context, index) {
-                      final course = controller.coursesList[index];
-                      final bool showBadge = index != 1;
+                  );
+                }
 
-                      return _buildCourseCard(
-                        homeController,
-                        course,
-                        showBadge: showBadge,
-                      );
-                    },
-                  ),
+                final course = controller.coursesList[index];
+                final bool showBadge = index != 1;
+
+                return _buildCourseCard(
+                  homeController,
+                  course,
+                  showBadge: showBadge,
                 );
-              }),
+              },
             ),
-          ],
-        ),
+          );
+        }),
       ),
     );
   }
@@ -137,16 +142,16 @@ class CoursesView extends GetView<CoursesController> {
                                   color: Colors.grey,
                                 ),
                               ),
-                              // if (isPaid) ...[
-                              //   SizedBox(width: 8.w),
-                              //   Text(
-                              //     '| Membership',
-                              //     style: AppTextStyles.medium(
-                              //       12,
-                              //       color: Colors.grey,
-                              //     ),
-                              //   ),
-                              // ],
+                              if (isPaid) ...[
+                                SizedBox(width: 8.w),
+                                Text(
+                                  '| Membership',
+                                  style: AppTextStyles.medium(
+                                    12,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
                             ],
                           ),
                         ),
@@ -269,36 +274,12 @@ class CoursesView extends GetView<CoursesController> {
                         ),
 
                         /// Seat Info
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              "Available spots ${course.availableSeat}",
-                              style: AppTextStyles.regular(
-                                10,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            SizedBox(height: 4.h),
-                            Container(
-                              width: 80.w,
-                              height: 6.h,
-                              decoration: BoxDecoration(
-                                color: Colors.grey.withValues(alpha: 0.2),
-                                borderRadius: BorderRadius.circular(4.r),
-                              ),
-                              child: FractionallySizedBox(
-                                alignment: Alignment.centerLeft,
-                                widthFactor: seatPercentage.clamp(0.0, 1.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: AppColors.buttonPrimaryColor,
-                                    borderRadius: BorderRadius.circular(4.r),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                        SizedBox(
+                          width: 100.w,
+                          child: AvailableSpotsIndicator(
+                            availableSeats: course.availableSeat,
+                            progress: seatPercentage,
+                          ),
                         ),
                       ],
                     ),

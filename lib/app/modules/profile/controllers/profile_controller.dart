@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:george/app/modules/auth/splash_screen/controllers/splash_screen_controller.dart';
 import 'package:george/app/routes/app_pages.dart';
 import 'package:george/app/utils/app_log.dart';
 import 'package:george/services/storage_services/get_storage_services.dart';
@@ -10,10 +11,11 @@ class ProfileController extends GetxController {
   GetStorageServices storageServices = GetStorageServices.instance;
   final appNotifications = true.obs;
   final whatsappNotifications = true.obs;
+  final userData = appGlobalUserData;
 
-  final userName = "mdismail".obs;
-  final userEmail = "willie.jennings@example.com".obs;
-  final membershipType = "Silver Yogi".obs;
+  final userName = "".obs;
+  final userEmail = "".obs;
+  final membershipType = "".obs;
   final profileImage = "".obs;
 
   final ImagePicker _picker = ImagePicker();
@@ -39,7 +41,9 @@ class ProfileController extends GetxController {
 
     if (status.isGranted) {
       try {
-        final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+        final XFile? image = await _picker.pickImage(
+          source: ImageSource.camera,
+        );
         if (image != null) {
           profileImage.value = image.path;
         }
@@ -60,14 +64,33 @@ class ProfileController extends GetxController {
   }
 
   void generateAttendanceData() {
-    final months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    final months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
     attendanceData.value = List.generate(12, (index) {
-      return {"month": months[index], "total": 20, "attended": (index % 5) + 10, "classes_label": "${(index % 5) + 15} classes"};
+      return {
+        "month": months[index],
+        "total": 20,
+        "attended": (index % 5) + 10,
+        "classes_label": "${(index % 5) + 15} classes",
+      };
     });
   }
 
   void toggleAppNotifications(bool value) => appNotifications.value = value;
-  void toggleWhatsappNotifications(bool value) => whatsappNotifications.value = value;
+  void toggleWhatsappNotifications(bool value) =>
+      whatsappNotifications.value = value;
 
   Future<void> logout() async {
     try {

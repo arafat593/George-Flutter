@@ -10,12 +10,15 @@ class ErrorScreenController extends GetxController {
   void onInit() {
     super.onInit();
     if (Get.arguments != null) {
-      if (Get.arguments['title'] != null)
+      if (Get.arguments['title'] != null) {
         errorTitle.value = Get.arguments['title'];
-      if (Get.arguments['message'] != null)
+      }
+      if (Get.arguments['message'] != null) {
         errorMessage.value = Get.arguments['message'];
-      if (Get.arguments['onRetry'] != null)
+      }
+      if (Get.arguments['onRetry'] != null) {
         retryAction = Get.arguments['onRetry'];
+      }
     }
   }
 }

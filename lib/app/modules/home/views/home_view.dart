@@ -21,7 +21,7 @@ class HomeView extends GetView<HomeController> {
         bottom: false,
         child: AppRefreshIndicator(
           onRefresh: () async {
-            await Future.delayed(const Duration(seconds: 2));
+            await controller.fetchClasses(controller.currentDate.value);
           },
           child: SingleChildScrollView(
             controller: controller.classScrollController,

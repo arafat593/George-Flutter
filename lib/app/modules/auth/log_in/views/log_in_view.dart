@@ -26,7 +26,7 @@ class LogInView extends GetView<LogInController> {
 
               //Log In Form
               LogInForm(),
-              SizedBox(height: 10.h),
+              SizedBox(height: 20.h),
 
               //Auth Option Text
               AuthOptions(

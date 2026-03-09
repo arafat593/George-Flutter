@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:george/app/routes/app_pages.dart';
 import 'package:george/app/utils/app_size.dart';
 import 'package:george/app/widgets/app_image/app_image.dart';
+import 'package:george/app/widgets/image_top_button.dart';
 import 'package:get/get.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
@@ -43,25 +44,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
             Positioned(
               top: 50.h,
               left: 20.w,
-              child: GestureDetector(
-                onTap: () => Get.back(),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.arrow_back_ios,
-                      color: AppColors.bodyTextColor,
-                      size: 18.sp,
-                    ),
-                    SizedBox(width: 4.w),
-                    Text(
-                      "Back",
-                      style: AppTextStyles.bold(
-                        16,
-                      ).copyWith(color: AppColors.bodyTextColor),
-                    ),
-                  ],
-                ),
-              ),
+              child: ImageTopButton(onTap: () => Get.back()),
             ),
 
             // Content Overlay

@@ -12,11 +12,13 @@ class CustomElevetedButton extends StatelessWidget {
     this.buttonTextColor = AppColors.whiteColor,
     this.onTap,
     this.backgroundColor = AppColors.buttonPrimaryColor,
+    this.child,
   });
 
   final String buttonText;
   final Color? buttonTextColor, backgroundColor;
   final Function()? onTap;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class CustomElevetedButton extends StatelessWidget {
           ),
           elevation: 0,
         ),
-        child: Text(
+        child: child ?? Text(
           buttonText,
           style: AppTextStyles.medium(16, color: buttonTextColor),
         ),

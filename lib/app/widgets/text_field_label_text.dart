@@ -9,9 +9,11 @@ class TextFieldLabelText extends StatelessWidget {
     super.key,
     required this.label,
     this.showAstric = true,
+    this.textStyle,
   });
   final String label;
   final bool showAstric;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,8 @@ class TextFieldLabelText extends StatelessWidget {
           children: [
             TextSpan(
               text: label,
-              style: AppTextStyles.medium(14, color: AppColors.headlineColor),
+              style: textStyle ??
+                  AppTextStyles.medium(14, color: AppColors.headlineColor),
               children: [
                 if (showAstric)
                   TextSpan(

@@ -1,9 +1,12 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:george/app/utils/app_size.dart';
 import 'package:george/app/widgets/app_image/app_image.dart';
+import 'package:george/app/widgets/custom_appbar.dart';
+import 'package:george/app/widgets/custom_elevated_button.dart';
+import 'package:george/app/widgets/text_field_label_text.dart';
 import 'package:get/get.dart';
 
+import 'package:image_picker/image_picker.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
 import '../../../widgets/custom_text_field.dart';
@@ -16,66 +19,44 @@ class EditProfileView extends GetView<EditProfileController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
+      appBar: CustomAppBar(title: 'Edit Profile'),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildAppBar(),
-              SizedBox(height: 30.h),
-              _buildProfileImage(),
+              _buildProfileImage(context),
               SizedBox(height: 30.h),
               _buildForm(),
-              SizedBox(height: 40.h),
-              _buildSaveButton(),
-              SizedBox(height: 20.h),
             ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 30.h),
+        child: Obx(
+          () => CustomElevetedButton(
+            buttonText: controller.isLoading.value ? '' : 'Save',
+            onTap: controller.isLoading.value
+                ? null
+                : () {
+                    controller.updateProfile();
+                  },
+            child: controller.isLoading.value
+                ? const Center(
+                    child: CircularProgressIndicator(color: Colors.white),
+                  )
+                : null,
           ),
         ),
       ),
     );
   }
 
-  Widget _buildAppBar() {
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: () => Get.back(),
-          child: Row(
-            children: [
-              Icon(
-                Icons.arrow_back_ios,
-                size: 18.sp,
-                color: const Color(0xFF6D4C41),
-              ),
-              Text(
-                "Back",
-                style: AppTextStyles.medium(
-                  16,
-                ).copyWith(color: const Color(0xFF6D4C41)),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: Center(
-            child: Text(
-              "Edit Profile",
-              style: AppTextStyles.bold(
-                20,
-              ).copyWith(color: const Color(0xFF6D4C41)),
-            ),
-          ),
-        ),
-        SizedBox(width: 60.w), // Balance spacing
-      ],
-    );
-  }
-
-  Widget _buildProfileImage() {
+  Widget _buildProfileImage(BuildContext context) {
     return GestureDetector(
-      onTap: controller.pickImage,
+      onTap: () => _showImageSourceBottomSheet(context),
       child: Stack(
         children: [
           Obx(() {
@@ -88,7 +69,7 @@ class EditProfileView extends GetView<EditProfileController> {
                       ? controller.profileImage.value
                       : null,
                   url: controller.profileImage.value.isEmpty
-                      ? "https://picsum.photos/seed/profile/200"
+                      ? controller.userData.value?.avatar
                       : null,
                   path: "assets/images/network_placeholder_image.jpg",
                   fit: BoxFit.cover,
@@ -121,106 +102,110 @@ class EditProfileView extends GetView<EditProfileController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: _buildTextField(
-                "First name",
-                "First name",
-                controller.firstNameController,
-              ),
-            ),
-            SizedBox(width: 15.w),
-            Expanded(
-              child: _buildTextField(
-                "Last name",
-                "Last name",
-                controller.lastNameController,
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 16.h),
-        _buildTextField(
-          "Email",
-          "example@gmail.com",
-          controller.emailController,
-        ),
-        SizedBox(height: 16.h),
-        _buildTextField("Username", "mdismail", controller.usernameController),
-        SizedBox(height: 16.h),
-        _buildTextField(
-          "Phone number",
-          "•••• •••• ••••",
-          controller.phoneController,
-        ),
-        SizedBox(height: 48.h),
-        _buildTextField(
-          "Password",
-          "•••• •••• ••••",
-          controller.passwordController,
-          isObscure: true,
-        ),
-        SizedBox(height: 16.h),
-        _buildTextField(
-          "New Password",
-          "•••• •••• ••••",
-          controller.newPasswordController,
-          isObscure: true,
-        ),
-        SizedBox(height: 16.h),
-        _buildTextField(
-          "Confirm Password",
-          "•••• •••• ••••",
-          controller.confirmPasswordController,
-          isObscure: true,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildTextField(
-    String label,
-    String hint,
-    TextEditingController textController, {
-    bool isObscure = false,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: AppTextStyles.bold(
+        TextFieldLabelText(
+          label: 'Name',
+          showAstric: false,
+          textStyle: AppTextStyles.bold(
             16,
           ).copyWith(color: const Color(0xFF6D4C41)),
         ),
-        SizedBox(height: 8.h),
         CustomTextField(
-          controller: textController,
-          hintText: hint,
-          obscureText: isObscure,
+          controller: controller.nameController,
+          hintText: "User name",
+        ),
+        SizedBox(height: 16.h),
+        TextFieldLabelText(
+          label: 'Email',
+          showAstric: false,
+          textStyle: AppTextStyles.bold(
+            16,
+          ).copyWith(color: const Color(0xFF6D4C41)),
+        ),
+        CustomTextField(
+          controller: controller.emailController,
+          hintText: "example@gmail.com",
+          isReadOnly: true,
+        ),
+        SizedBox(height: 16.h),
+        TextFieldLabelText(
+          label: 'Phone number',
+          showAstric: false,
+          textStyle: AppTextStyles.bold(
+            16,
+          ).copyWith(color: const Color(0xFF6D4C41)),
+        ),
+        CustomTextField(
+          controller: controller.phoneController,
+          hintText: "•••• •••• ••••",
         ),
       ],
     );
   }
 
-  Widget _buildSaveButton() {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () => Get.back(), // Mock save action
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF6D4C41), // Brown
-          padding: EdgeInsets.symmetric(vertical: 16.h),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.r),
+  void _showImageSourceBottomSheet(BuildContext context) {
+    Get.bottomSheet(
+      Container(
+        padding: EdgeInsets.all(20.r),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.r),
+            topRight: Radius.circular(20.r),
           ),
-          elevation: 0,
         ),
-        child: Text(
-          "Save",
-          style: AppTextStyles.bold(16).copyWith(color: Colors.white),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text("Select Image Source", style: AppTextStyles.bold(18)),
+            SizedBox(height: 20.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildSourceOption(
+                  icon: Icons.camera_alt_outlined,
+                  label: "Camera",
+                  onTap: () {
+                    Navigator.pop(context);
+                    controller.pickImage(ImageSource.camera);
+                  },
+                ),
+                _buildSourceOption(
+                  icon: Icons.photo_library_outlined,
+                  label: "Gallery",
+                  onTap: () {
+                    Navigator.pop(context);
+                    controller.pickImage(ImageSource.gallery);
+                  },
+                ),
+              ],
+            ),
+            SizedBox(height: 20.h),
+          ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildSourceOption({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.all(12.r),
+            decoration: BoxDecoration(
+              color: AppColors.backgroundColor,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, size: 30.r, color: const Color(0xFF6D4C41)),
+          ),
+          SizedBox(height: 8.h),
+          Text(label, style: AppTextStyles.medium(14)),
+        ],
       ),
     );
   }

@@ -89,7 +89,7 @@ class AuthRepository {
           var mimeType = lookupMimeType(file.path);
           formData.files.add(
             MapEntry(
-              "profile",
+              "avatar",
               await MultipartFile.fromFile(file.path, filename: fileName, contentType: MediaType.parse(mimeType ?? "application/octet-stream")),
             ),
           );

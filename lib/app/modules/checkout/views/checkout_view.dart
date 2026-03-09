@@ -5,6 +5,8 @@ import 'package:george/app/modules/store/controllers/store_controller.dart';
 import 'package:george/app/utils/app_size.dart';
 import 'package:george/app/widgets/app_image/app_image.dart';
 import 'package:george/app/widgets/custom_appbar.dart';
+import 'package:george/app/widgets/custom_elevated_button.dart';
+import 'package:george/app/widgets/snack_bar/app_snack_bar.dart';
 import 'package:get/get.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
@@ -137,52 +139,37 @@ class CheckoutView extends GetView<CheckoutController> {
             const SizedBox(height: 20),
 
             // Pay Now Button
-            SizedBox(
-              width: double.infinity,
-              height: 55,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.buttonPrimaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  elevation: 2,
-                ),
-                onPressed: () {
-                  // Show loading dialog to simulate "process to payment"
-                  Get.dialog(
-                    const Center(
-                      child: CircularProgressIndicator(
-                        color: Color(0xff5D4037),
-                      ),
-                    ),
-                    barrierDismissible: false,
-                  );
+            CustomElevetedButton(
+              buttonText: 'Pay Now',
+              // onTap: () {
+              //   // Show loading dialog to simulate "process to payment"
+              //   Get.dialog(
+              //     const Center(
+              //       child: CircularProgressIndicator(color: Color(0xff5D4037)),
+              //     ),
+              //     barrierDismissible: false,
+              //   );
 
-                  Future.delayed(const Duration(seconds: 2), () {
-                    Get.back(); // close dialog
-                    Get.toNamed(
-                      Routes.bookingConfirmed,
-                      arguments: {
-                        'message': controller.fromMembership.value
-                            ? '${controller.itemName.value} Confirmed!'
-                            : controller.isFromShop.value
-                            ? 'Order Confirmed!'
-                            : 'Payment Confirmed!',
-                      },
-                      preventDuplicates: false,
-                    );
-                  });
-                },
-                child: const Text(
-                  "Pay Now",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+              //   Future.delayed(const Duration(seconds: 2), () {
+              //     Get.back(); // close dialog
+              //     Get.toNamed(
+              //       Routes.bookingConfirmed,
+              //       arguments: {
+              //         'message': controller.fromMembership.value
+              //             ? '${controller.itemName.value} Confirmed!'
+              //             : controller.isFromShop.value
+              //             ? 'Order Confirmed!'
+              //             : 'Payment Confirmed!',
+              //       },
+              //       preventDuplicates: false,
+              //     );
+              //   });
+              // },
+              onTap: () {
+                return AppSnackBar.success(
+                  'Waiting for payment gateway integration...',
+                );
+              },
             ),
 
             const SizedBox(height: 30),

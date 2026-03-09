@@ -18,7 +18,11 @@ class NewsDetailsView extends GetView<NewsDetailsController> {
       body: Stack(
         children: [
           _buildBackgroundImage(),
-          ImageTopButton(onTap: () => Get.back()),
+          Positioned(
+            top: 50.h,
+            left: 16.w,
+            child: ImageTopButton(onTap: () => Get.back()),
+          ),
           _buildDetailsSheet(),
         ],
       ),

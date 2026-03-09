@@ -3,10 +3,13 @@ import 'package:george/app/data/image_path.dart';
 import 'package:george/app/routes/app_pages.dart';
 import 'package:george/app/utils/app_size.dart';
 import 'package:george/app/widgets/app_image/app_image.dart';
+import 'package:george/app/widgets/custom_elevated_button.dart';
 import 'package:george/app/widgets/image_top_button.dart';
+import 'package:george/app/widgets/snack_bar/app_snack_bar.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../data/app_text_styles.dart';
+import '../../home/widgets/available_spot_indicator.dart';
 import '../controllers/course_details_controller.dart';
 
 class CourseDetailsView extends GetView<CourseDetailsController> {
@@ -29,7 +32,11 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
         return Stack(
           children: [
             _buildBackgroundImage(),
-            ImageTopButton(onTap: () => Get.back()),
+            Positioned(
+              top: 50.h,
+              left: 16.w,
+              child: ImageTopButton(onTap: () => Get.back()),
+            ),
             _buildBookingDetailsSheet(),
           ],
         );
@@ -109,7 +116,14 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
                   return Column(
                     children: [
                       SizedBox(height: 24.h),
-                      _buildBookNowButton(),
+                      CustomElevetedButton(
+                        buttonText: 'Book Now',
+                        onTap: () {
+                          AppSnackBar.success(
+                            'Wating for payment implementation',
+                          );
+                        },
+                      ),
                     ],
                   );
                 }
@@ -223,45 +237,16 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
   }
 
   Widget _buildSpotsSection() {
-    const Color brownColor = Color(0xFF6B5345);
     return Obx(() {
       final available = controller.course.value?.availableSeat ?? 0;
       final percentage = controller.seatPercentage;
 
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Available spots $available',
-            style: AppTextStyles.regular(
-              12,
-              color: brownColor.withValues(alpha: 0.6),
-            ),
-          ),
-          SizedBox(height: 8.h),
-          Container(
-            width: double.infinity,
-            height: 10.h,
-            decoration: BoxDecoration(
-              color: const Color(0xFFD6C8BE),
-              borderRadius: BorderRadius.circular(10.r),
-            ),
-            child: Stack(
-              children: [
-                FractionallySizedBox(
-                  alignment: Alignment.centerLeft,
-                  widthFactor: 1 - percentage, // filled = booked seats
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: brownColor,
-                      borderRadius: BorderRadius.circular(10.r),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+      return SizedBox(
+        width: 100.w,
+        child: AvailableSpotsIndicator(
+          availableSeats: available,
+          progress: percentage,
+        ),
       );
     });
   }
@@ -539,12 +524,13 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
         Expanded(
           child: GestureDetector(
             onTap: () async {
-              if (phone.isNotEmpty) {
-                final uri = Uri.parse('tel:$phone');
-                if (await canLaunchUrl(uri)) {
-                  await launchUrl(uri);
-                }
-              }
+              // if (phone.isNotEmpty) {
+              //   final uri = Uri.parse('tel:$phone');
+              //   if (await canLaunchUrl(uri)) {
+              //     await launchUrl(uri);
+              //   }
+              // }
+              AppSnackBar.success('Wating for payment implementation');
             },
             child: Container(
               height: 50.h,
@@ -575,13 +561,14 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
         Expanded(
           child: GestureDetector(
             onTap: () async {
-              if (phone.isNotEmpty) {
-                final cleaned = phone.replaceAll(RegExp(r'[^0-9]'), '');
-                final uri = Uri.parse('https://wa.me/$cleaned');
-                if (await canLaunchUrl(uri)) {
-                  await launchUrl(uri, mode: LaunchMode.externalApplication);
-                }
-              }
+              // if (phone.isNotEmpty) {
+              //   final cleaned = phone.replaceAll(RegExp(r'[^0-9]'), '');
+              //   final uri = Uri.parse('https://wa.me/$cleaned');
+              //   if (await canLaunchUrl(uri)) {
+              //     await launchUrl(uri, mode: LaunchMode.externalApplication);
+              //   }
+              // }
+              AppSnackBar.success('Wating for payment implementation');
             },
             child: Container(
               height: 50.h,
@@ -611,27 +598,6 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildBookNowButton() {
-    return SizedBox(
-      width: double.infinity,
-      height: 55.h,
-      child: ElevatedButton(
-        onPressed: () => controller.bookNow(),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF6B5345),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.r),
-          ),
-          elevation: 0,
-        ),
-        child: Text(
-          'Book Now',
-          style: AppTextStyles.bold(18, color: Colors.white),
-        ),
-      ),
     );
   }
 }

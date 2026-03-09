@@ -40,6 +40,7 @@ abstract class Routes {
   static const notFoundScreen = _Paths.notFoundScreen;
   static const privacyPolicy = _Paths.privacyPolicy;
   static const faq = _Paths.faq;
+  static const updatePassword = _Paths.updatePassword;
 }
 
 abstract class _Paths {
@@ -81,4 +82,5 @@ abstract class _Paths {
   static const notFoundScreen = '/not-found-screen';
   static const privacyPolicy = '/privacy-policy';
   static const faq = '/faq';
+  static const updatePassword = '/update-password';
 }

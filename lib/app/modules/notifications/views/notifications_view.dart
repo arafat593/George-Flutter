@@ -39,42 +39,6 @@ class NotificationsView extends GetView<NotificationsController> {
     );
   }
 
-  Widget _buildAppBar() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-      child: Row(
-        children: [
-          GestureDetector(
-            onTap: () => Get.back(),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.arrow_back_ios,
-                  size: 20.r,
-                  color: AppColors.headlineColor,
-                ),
-                Text(
-                  'Back',
-                  style: AppTextStyles.semiBold(
-                    20,
-                    color: AppColors.headlineColor,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const Spacer(),
-          Text(
-            'Notifications',
-            style: AppTextStyles.bold(28, color: AppColors.headlineColor),
-          ),
-          const Spacer(),
-          SizedBox(width: 80.w),
-        ],
-      ),
-    );
-  }
-
   Widget _buildNotificationItem(Map<String, dynamic> item) {
     bool isUnread = item['isRead'] == false;
     return Container(

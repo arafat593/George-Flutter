@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/data/app_colors.dart';
 import 'package:george/app/data/app_text_styles.dart';
-import 'package:george/app/routes/app_pages.dart';
 import 'package:george/app/utils/app_size.dart';
 import 'package:get/get.dart';
 
@@ -12,17 +11,17 @@ class CustomTextButton extends StatelessWidget {
     required this.buttonText,
     this.textColor = AppColors.headlineColor,
     this.iconColor = AppColors.headlineColor,
+    this.onTap,
   });
   final IconData icon;
   final String buttonText;
   final Color? iconColor, textColor;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return TextButton.icon(
-      onPressed: () {
-        Get.toNamed(Routes.myBookings);
-      },
+      onPressed: onTap,
       icon: Icon(icon, size: 24.r, color: iconColor),
       label: Text(
         buttonText,

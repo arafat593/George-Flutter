@@ -68,6 +68,8 @@ import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/terms_conditions/bindings/terms_conditions_binding.dart';
 import '../modules/terms_conditions/views/terms_conditions_view.dart';
+import '../modules/update_password/bindings/update_password_binding.dart';
+import '../modules/update_password/views/update_password_view.dart';
 import '../modules/wallet/bindings/wallet_binding.dart';
 import '../modules/wallet/views/top_up_success_view.dart';
 import '../modules/wallet/views/wallet_view.dart';
@@ -255,6 +257,11 @@ class AppPages {
       name: _Paths.faq,
       page: () => const FaqView(),
       binding: FaqBinding(),
+    ),
+    GetPage(
+      name: _Paths.updatePassword,
+      page: () => const UpdatePasswordView(),
+      binding: UpdatePasswordBinding(),
     ),
   ];
 }

@@ -10,32 +10,29 @@ class ImageTopButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: 50.h,
-      left: 16.w,
-      child: GestureDetector(
-        onTap: onTap,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(40.r),
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-            decoration: BoxDecoration(
-              color: AppColors.white600.withValues(alpha: 0.6),
-              borderRadius: BorderRadius.circular(40.r),
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.arrow_back_ios,
-                  color: AppColors.bodyTextColor,
-                  size: 20.r,
-                ),
-                Text(
-                  title,
-                  style: AppTextStyles.bold(16, color: AppColors.bodyTextColor),
-                ),
-              ],
-            ),
+    return GestureDetector(
+      onTap: onTap,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(40.r),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+          decoration: BoxDecoration(
+            color: AppColors.white600.withValues(alpha: 0.6),
+            borderRadius: BorderRadius.circular(40.r),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.arrow_back_ios,
+                color: AppColors.bodyTextColor,
+                size: 20.r,
+              ),
+              Text(
+                title,
+                style: AppTextStyles.bold(16, color: AppColors.bodyTextColor),
+              ),
+            ],
           ),
         ),
       ),

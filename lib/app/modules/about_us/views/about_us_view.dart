@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
+import '../../../methodes/call_studio.dart';
+import '../../../methodes/call_whatsapp.dart';
 import '../controllers/about_us_controller.dart';
 
 class AboutUsView extends GetView<AboutUsController> {
@@ -111,14 +113,10 @@ class AboutUsView extends GetView<AboutUsController> {
           height: 300.h,
           color: Colors.black.withValues(alpha: 0.2),
         ),
-        SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [ImageTopButton(onTap: () => Get.back())],
-            ),
-          ),
+        Positioned(
+          top: 50.h,
+          left: 16.w,
+          child: ImageTopButton(onTap: () => Get.back()),
         ),
       ],
     );
@@ -222,12 +220,22 @@ class AboutUsView extends GetView<AboutUsController> {
           SizedBox(height: 16.h),
           Row(
             children: [
-              Expanded(child: _buildActionButton("Call Studio", Icons.call)),
+              Expanded(
+                child: _buildActionButton(
+                  onPressed: () => makePhoneCall(
+                    controller.aboutUs.value?.phoneNumber ?? '',
+                  ),
+                  "Call Studio",
+                  Icons.call,
+                ),
+              ),
               SizedBox(width: 12.w),
               Expanded(
                 child: _buildActionButton(
                   "WhatsApp",
                   Icons.chat_bubble_outline,
+                  onPressed: () =>
+                      openWhatsApp(controller.aboutUs.value?.phoneNumber ?? ''),
                 ), // Approximating whatsapp icon if not available
               ),
             ],
@@ -237,7 +245,11 @@ class AboutUsView extends GetView<AboutUsController> {
     );
   }
 
-  Widget _buildActionButton(String label, IconData icon) {
+  Widget _buildActionButton(
+    String label,
+    IconData icon, {
+    VoidCallback? onPressed,
+  }) {
     // WhatsApp button is dark in image, Call is light outline/transparent?
     // Actually both look different.
     // Call Studio: Solid outline? Or solid background light brown?
@@ -245,7 +257,7 @@ class AboutUsView extends GetView<AboutUsController> {
     // Let's approximate based on image.
     final isPrimary = label == "WhatsApp";
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: isPrimary
             ? const Color(0xFF6D4C41)

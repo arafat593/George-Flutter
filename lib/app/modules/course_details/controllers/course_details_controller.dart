@@ -64,7 +64,7 @@ class CourseDetailsController extends GetxController {
         }
       }
     } catch (e) {
-      print("CourseDetailsController Error: $e");
+      errorLog("CourseDetailsController Error:",e);
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Get.offAndToNamed(Routes.errorScreen);
       });

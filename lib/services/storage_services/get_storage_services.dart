@@ -62,7 +62,13 @@ class GetStorageServices {
 
   Map<String, dynamic> getLoginInformation() {
     try {
+      // var data = box.read(AppStorageKey.instance.loginInformation) ?? "";
+      // return jsonDecode(data);
+ 
       var data = box.read(AppStorageKey.instance.loginInformation) ?? "";
+      if (data.toString().isEmpty) {
+        return {};
+      }
       return jsonDecode(data);
     } catch (e) {
       errorLog("getLoginInformation", e);

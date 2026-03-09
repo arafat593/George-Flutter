@@ -33,6 +33,7 @@ class AppApiEndPoint {
   final String news = '/news';
   final String faq = '/faq';
   final String membershipCatalogue = '/memberships/catalogue';
+  final String updatePassword = '/users/update-password';
 }
 
 String _getDomain() {

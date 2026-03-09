@@ -40,6 +40,8 @@ class ApiServices {
 
         if (e.response?.data["message"].runtimeType != Null) {
           AppSnackBar.error("${e.response?.data["message"]}");
+        } else if (e.response?.data["detail"].runtimeType != Null) {
+          AppSnackBar.error("${e.response?.data["detail"]}");
         }
 
         return null;
@@ -81,7 +83,9 @@ class ApiServices {
           Get.offAllNamed(Routes.logIn);
         }
 
-        if (e.response?.data["detail"].runtimeType != Null) {
+        if (e.response?.data["message"].runtimeType != Null) {
+          AppSnackBar.error("${e.response?.data["message"]}");
+        } else if (e.response?.data["detail"].runtimeType != Null) {
           AppSnackBar.error("${e.response?.data["detail"]}");
         }
 
@@ -125,6 +129,8 @@ class ApiServices {
 
         if (e.response?.data["message"].runtimeType != Null) {
           AppSnackBar.error("${e.response?.data["message"]}");
+        } else if (e.response?.data["detail"].runtimeType != Null) {
+          AppSnackBar.error("${e.response?.data["detail"]}");
         }
 
         return null;
@@ -163,6 +169,8 @@ class ApiServices {
 
         if (e.response?.data["message"].runtimeType != Null) {
           AppSnackBar.error("${e.response?.data["message"]}");
+        } else if (e.response?.data["detail"].runtimeType != Null) {
+          AppSnackBar.error("${e.response?.data["detail"]}");
         }
 
         return null;
@@ -201,6 +209,8 @@ class ApiServices {
 
         if (e.response?.data["message"].runtimeType != Null) {
           AppSnackBar.error("${e.response?.data["message"]}");
+        } else if (e.response?.data["detail"].runtimeType != Null) {
+          AppSnackBar.error("${e.response?.data["detail"]}");
         }
 
         return null;

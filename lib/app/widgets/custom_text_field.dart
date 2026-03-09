@@ -13,6 +13,7 @@ class CustomTextField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final FocusNode? focusNode;
   final void Function(String)? onFieldSubmitted;
+  final bool? isReadOnly;
 
   const CustomTextField({
     super.key,
@@ -24,7 +25,7 @@ class CustomTextField extends StatelessWidget {
     this.keyboardType,
     this.textInputAction,
     this.focusNode,
-    this.onFieldSubmitted,
+    this.onFieldSubmitted, this.isReadOnly,
   });
 
   @override
@@ -37,6 +38,7 @@ class CustomTextField extends StatelessWidget {
       focusNode: focusNode,
       textInputAction: textInputAction,
       onFieldSubmitted: onFieldSubmitted,
+      readOnly: isReadOnly ?? false,
       style: AppTextStyles.medium(14, color: AppColors.headlineColor),
       decoration: InputDecoration(
         hintText: hintText,

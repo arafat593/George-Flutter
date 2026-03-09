@@ -36,7 +36,7 @@ class NotFoundScreenView extends GetView<NotFoundScreenController> {
                   textAlign: TextAlign.center,
                   style: AppTextStyles.regular(
                     16,
-                    color: AppColors.bodyTextColor.withOpacity(0.7),
+                    color: AppColors.bodyTextColor.withValues(alpha: 0.7),
                   ),
                 ),
               ),

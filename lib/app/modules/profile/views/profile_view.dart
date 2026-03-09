@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:george/app/modules/custom_bottom_nav/controllers/custom_bottom_nav_controller.dart';
 import 'package:george/app/utils/app_size.dart';
 import 'package:george/app/widgets/app_image/app_image.dart';
+import 'package:george/app/widgets/snack_bar/app_snack_bar.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_text_styles.dart';
@@ -47,7 +48,7 @@ class ProfileView extends GetView<ProfileController> {
       children: [
         // Avatar
         GestureDetector(
-          onTap: controller.pickImage,
+          // onTap: controller.pickImage,
           child: Stack(
             children: [
               Obx(() {
@@ -64,7 +65,7 @@ class ProfileView extends GetView<ProfileController> {
                     child: imagePath.isNotEmpty
                         ? AppImage(filePath: imagePath, fit: BoxFit.cover)
                         : AppImage(
-                            url: "https://picsum.photos/seed/profile/200",
+                            url: controller.userData.value?.avatar ?? "",
                             path: "assets/images/network_placeholder_image.jpg",
                             fit: BoxFit.cover,
                           ),
@@ -96,7 +97,7 @@ class ProfileView extends GetView<ProfileController> {
                 children: [
                   Obx(
                     () => Text(
-                      controller.userName.value,
+                      controller.userData.value?.name ?? "",
                       style: AppTextStyles.bold(
                         18,
                       ).copyWith(color: const Color(0xFF6D4C41)),
@@ -126,7 +127,7 @@ class ProfileView extends GetView<ProfileController> {
               SizedBox(height: 4.h),
               Obx(
                 () => Text(
-                  controller.userEmail.value,
+                  controller.userData.value?.email ?? "",
                   style: AppTextStyles.regular(12).copyWith(
                     color: const Color(0xFF6D4C41).withValues(alpha: 0.7),
                   ),
@@ -176,7 +177,10 @@ class ProfileView extends GetView<ProfileController> {
         _buildMenuItem(
           icon: Icons.book,
           title: "My Bookings",
-          onTap: () => Get.toNamed(Routes.myBookings),
+          onTap: () {
+            // Get.toNamed(Routes.myBookings);
+            AppSnackBar.message('Wating for payment implementation');
+          },
         ),
         _buildDivider(),
         _buildMenuItem(
@@ -192,6 +196,12 @@ class ProfileView extends GetView<ProfileController> {
             final controller = Get.find<CustomBottomNavController>();
             controller.changeIndex(3);
           },
+        ),
+        _buildDivider(),
+        _buildMenuItem(
+          icon: Icons.security,
+          title: "Change Password",
+          onTap: () => Get.toNamed(Routes.updatePassword),
         ),
         _buildDivider(),
         _buildMenuItem(
