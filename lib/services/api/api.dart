@@ -28,16 +28,17 @@ class AppApi {
           options.baseUrl = AppApiEndPoint.instance.baseUrl;
           options.headers["Accept"] = "application/json";
 
-          String token = storageServices.getToken();
-          if (token.isNotEmpty) {
+          String token = GetStorageServices.instance.getToken();
+
+          if (token.isNotEmpty &&
+              !options.path.contains("/auth/login") &&
+              !options.path.contains("/auth/refresh")) {
             options.headers["Authorization"] = "Bearer $token";
           }
-          if (options.contentType == null) {
-            options.contentType = Headers.jsonContentType;
-          } else {
-            options.contentType ??= 'application/json';
-          }
-          return handler.next(options); // Continue request
+
+          options.contentType ??= Headers.jsonContentType;
+
+          return handler.next(options);
         },
         onError: (error, handler) async {
           appLog("""
@@ -50,21 +51,27 @@ Error message: ${error.message}
 
 """);
 
-          try {
-            if (error.response?.statusCode == 401) {
-              var response = await _reFreshNewAccessToken();
-              if (response.isNotEmpty) {
-                _dio.options.headers["Authorization"] = "Bearer $response";
-                return handler.resolve(await _dio.fetch(error.requestOptions));
+          if (error.response?.statusCode == 401 &&
+              !error.requestOptions.path.contains("/auth/refresh")) {
+            try {
+              String newToken = await _refreshNewAccessToken();
+
+              if (newToken.isNotEmpty) {
+                /// update token
+                error.requestOptions.headers["Authorization"] =
+                    "Bearer $newToken";
+
+                /// retry failed request
+                final response = await _dio.fetch(error.requestOptions);
+
+                return handler.resolve(response);
               } else {
-                await storageServices.logout();
+                await GetStorageServices.instance.logout();
                 Get.offAllNamed(Routes.logIn);
-                return handler.next(error);
               }
+            } catch (e) {
+              errorLog("Refresh token error", e);
             }
-          } catch (e) {
-            errorLog("error form api try and catch bloc", e);
-            return handler.next(error);
           }
 
           return handler.next(error); // Continue with error
@@ -85,29 +92,59 @@ Error message: ${error.message}
   Dio get sendRequest => _dio;
 }
 
-// Token refresh logic
-Future<String> _reFreshNewAccessToken() async {
+// // Token refresh logic
+// Future<String> _reFreshNewAccessToken() async {
+//   try {
+//     var refreshToken = GetStorageServices.instance.getRefreshToken();
+//     final response = await NonAuthApi().sendRequest.post(
+//       AppApiEndPoint.instance.refreshToken,
+//       data: {"refresh_token": refreshToken},
+//     );
+//     if (response.statusCode == 200) {
+//       if (response.data["access_token"] is String) {
+//         await GetStorageServices.instance.setToken(
+//           response.data["access_token"],
+//         );
+//         await GetStorageServices.instance.setRefreshToken(
+//           response.data["refresh_token"],
+//         );
+//         return response.data["access_token"].toString();
+//       }
+//     } else {
+//       await GetStorageServices.instance.logout();
+//     }
+//   } catch (e) {
+//     errorLog("reFreshNewAccessToken", e);
+//   }
+//   return "";
+// }
+
+Future<String> _refreshNewAccessToken() async {
   try {
-    var refreshToken = GetStorageServices.instance.getRefreshToken();
+    var storage = GetStorageServices.instance;
+    var refreshToken = storage.getRefreshToken();
+
+    if (refreshToken.isEmpty) {
+      return "";
+    }
+
     final response = await NonAuthApi().sendRequest.post(
       AppApiEndPoint.instance.refreshToken,
       data: {"refresh_token": refreshToken},
     );
+
     if (response.statusCode == 200) {
-      if (response.data["access_token"] is String) {
-        await GetStorageServices.instance.setToken(
-          response.data["access_token"],
-        );
-        await GetStorageServices.instance.setRefreshToken(
-          response.data["refresh_token"],
-        );
-        return response.data["access_token"].toString();
-      }
-    } else {
-      await GetStorageServices.instance.logout();
+      String accessToken = response.data["access_token"];
+      String newRefreshToken = response.data["refresh_token"];
+
+      await storage.setToken(accessToken);
+      await storage.setRefreshToken(newRefreshToken);
+
+      return accessToken;
     }
   } catch (e) {
-    errorLog("reFreshNewAccessToken", e);
+    errorLog("refresh token error", e);
   }
+
   return "";
 }

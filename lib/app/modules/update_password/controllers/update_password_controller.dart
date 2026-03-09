@@ -48,8 +48,8 @@ class UpdatePasswordController extends GetxController {
 
       if (result != null) {
         AppSnackBar.success(result['message']);
+        await storageServices.logout();
         Get.offAllNamed(Routes.logIn);
-        await storageServices.setToken("");
       }
     } catch (e) {
       errorLog('Error', e);

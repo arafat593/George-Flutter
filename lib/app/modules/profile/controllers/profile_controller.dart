@@ -96,7 +96,7 @@ class ProfileController extends GetxController {
     try {
       Get.closeAllDialogs();
       Get.offAllNamed(Routes.logIn);
-      await storageServices.setToken("");
+      await storageServices.logout();
     } catch (e) {
       errorLog("logout", e);
     }
