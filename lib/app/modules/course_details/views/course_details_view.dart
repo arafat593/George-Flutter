@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/data/image_path.dart';
+import 'package:george/app/methodes/call_studio.dart';
+import 'package:george/app/methodes/call_whatsapp.dart';
 import 'package:george/app/routes/app_pages.dart';
 import 'package:george/app/utils/app_size.dart';
 import 'package:george/app/widgets/app_image/app_image.dart';
@@ -524,13 +526,10 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
         Expanded(
           child: GestureDetector(
             onTap: () async {
-              // if (phone.isNotEmpty) {
-              //   final uri = Uri.parse('tel:$phone');
-              //   if (await canLaunchUrl(uri)) {
-              //     await launchUrl(uri);
-              //   }
-              // }
-              AppSnackBar.success('Wating for payment implementation');
+              if (phone.isNotEmpty) {
+                makePhoneCall(phone);
+              }
+              // AppSnackBar.success('Wating for payment implementation');
             },
             child: Container(
               height: 50.h,
@@ -561,14 +560,10 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
         Expanded(
           child: GestureDetector(
             onTap: () async {
-              // if (phone.isNotEmpty) {
-              //   final cleaned = phone.replaceAll(RegExp(r'[^0-9]'), '');
-              //   final uri = Uri.parse('https://wa.me/$cleaned');
-              //   if (await canLaunchUrl(uri)) {
-              //     await launchUrl(uri, mode: LaunchMode.externalApplication);
-              //   }
-              // }
-              AppSnackBar.success('Wating for payment implementation');
+              if (phone.isNotEmpty) {
+                openWhatsApp(phone);
+              }
+              // AppSnackBar.success('Wating for payment implementation');
             },
             child: Container(
               height: 50.h,
