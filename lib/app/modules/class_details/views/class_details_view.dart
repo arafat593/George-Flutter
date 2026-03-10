@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:george/app/data/image_path.dart';
+import 'package:george/app/methodes/call_studio.dart';
 import 'package:george/app/utils/app_size.dart';
 import 'package:george/app/widgets/custom_progress.dart';
 import 'package:george/app/widgets/image_top_button.dart';
@@ -7,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../data/app_text_styles.dart';
+import '../../../methodes/call_whatsapp.dart';
 import '../../../widgets/app_image/app_image.dart';
 import '../controllers/class_details_controller.dart';
 
@@ -357,7 +359,7 @@ class ClassDetailsView extends GetView<ClassDetailsController> {
     final scheduledAt = controller.classByID.value?.scheduledAt;
 
     if (scheduledAt == null || scheduledAt.toString().isEmpty) {
-      return const SizedBox(); // or return a placeholder widget
+      return const SizedBox();
     }
 
     DateTime? dateTime;
@@ -365,52 +367,64 @@ class ClassDetailsView extends GetView<ClassDetailsController> {
     try {
       dateTime = DateTime.parse(scheduledAt.toString());
     } catch (e) {
-      return const SizedBox(); // prevent crash if format invalid
+      return const SizedBox();
     }
 
     final dateFormat = DateFormat('MMMM d, yyyy').format(dateTime);
-
     const Color brownColor = Color(0xFF6B5345);
 
     return Row(
-      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      spacing: 10.w,
       children: [
-        Row(
-          children: [
-            Icon(
-              Icons.access_time,
-              size: 15.r,
-              color: brownColor.withValues(alpha: 0.6),
-            ),
-            SizedBox(width: 8.w),
-            Text(
-              controller.classByID.value?.duration ?? '',
-              style: AppTextStyles.medium(
-                12,
+        // Time Section
+        Expanded(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(
+                Icons.access_time,
+                size: 15.r,
                 color: brownColor.withValues(alpha: 0.6),
               ),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
+              SizedBox(width: 8.w),
+              Flexible(
+                child: Text(
+                  controller.classByID.value?.duration ?? '',
+                  style: AppTextStyles.medium(
+                    12,
+                    color: brownColor.withValues(alpha: 0.6),
+                  ),
+                  // overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
         ),
-        Row(
-          children: [
-            Icon(
-              Icons.calendar_today_outlined,
-              size: 15.r,
-              color: brownColor.withValues(alpha: 0.6),
-            ),
-            SizedBox(width: 8.w),
-            Text(
-              dateFormat,
-              style: AppTextStyles.medium(
-                12,
+
+        SizedBox(width: 10.w),
+
+        // Date Section
+        Expanded(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(
+                Icons.calendar_today_outlined,
+                size: 15.r,
                 color: brownColor.withValues(alpha: 0.6),
               ),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
+              SizedBox(width: 8.w),
+              Flexible(
+                child: Text(
+                  dateFormat,
+                  style: AppTextStyles.medium(
+                    12,
+                    color: brownColor.withValues(alpha: 0.6),
+                  ),
+                  // overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );
@@ -452,50 +466,64 @@ class ClassDetailsView extends GetView<ClassDetailsController> {
     return Row(
       children: [
         Expanded(
-          child: Container(
-            height: 50.h,
-            decoration: BoxDecoration(
-              color: const Color(0xFFDCC8B8),
-              borderRadius: BorderRadius.circular(12.r),
-              border: Border.all(color: brownColor.withValues(alpha: 0.1)),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.call_outlined, size: 20.r, color: brownColor),
-                SizedBox(width: 8.w),
-                const Text(
-                  'Call Studio',
-                  style: TextStyle(
-                    color: brownColor,
-                    fontWeight: FontWeight.bold,
+          child: GestureDetector(
+            onTap: () {
+              makePhoneCall(controller.classByID.value?.phone ?? '');
+            },
+            child: Container(
+              height: 50.h,
+              decoration: BoxDecoration(
+                color: const Color(0xFFDCC8B8),
+                borderRadius: BorderRadius.circular(12.r),
+                border: Border.all(color: brownColor.withValues(alpha: 0.1)),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.call_outlined, size: 20.r, color: brownColor),
+                  SizedBox(width: 8.w),
+                  const Text(
+                    'Call Studio',
+                    style: TextStyle(
+                      color: brownColor,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
         SizedBox(width: 12.w),
         Expanded(
-          child: Container(
-            height: 50.h,
-            decoration: BoxDecoration(
-              color: brownColor,
-              borderRadius: BorderRadius.circular(12.r),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(ImagePath.whatappButton, height: 30.r, width: 30.r),
-                SizedBox(width: 8.w),
-                const Text(
-                  'WhatsApp',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+          child: GestureDetector(
+            onTap: () {
+              openWhatsApp(controller.classByID.value?.phone ?? '');
+            },
+            child: Container(
+              height: 50.h,
+              decoration: BoxDecoration(
+                color: brownColor,
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    ImagePath.whatappButton,
+                    height: 30.r,
+                    width: 30.r,
                   ),
-                ),
-              ],
+                  SizedBox(width: 8.w),
+                  const Text(
+                    'WhatsApp',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
