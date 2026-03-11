@@ -1,4 +1,4 @@
-  import 'package:george/app/utils/app_log.dart';
+import '../utils/app_log.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 

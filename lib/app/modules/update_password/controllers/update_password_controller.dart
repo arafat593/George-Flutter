@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/utils/app_log.dart';
-import 'package:george/app/widgets/snack_bar/app_snack_bar.dart';
-import 'package:george/services/storage_services/get_storage_services.dart';
+import '../../../utils/app_log.dart';
+import '../../../widgets/snack_bar/app_snack_bar.dart';
+import '../../../../services/storage_services/get_storage_services.dart';
 import 'package:get/get.dart';
 
 import '../../../../repository/change_password_repository.dart';

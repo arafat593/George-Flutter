@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/modules/update_password/widgets/change_pass_form.dart';
-import 'package:george/app/modules/update_password/widgets/pass_req_info.dart';
-import 'package:george/app/widgets/custom_appbar.dart';
+import '../widgets/change_pass_form.dart';
+import '../widgets/pass_req_info.dart';
+import '../../../widgets/custom_appbar.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_colors.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/utils/app_size.dart';
+import '../../../utils/app_size.dart';
 
 import '../../../data/app_text_styles.dart';
 

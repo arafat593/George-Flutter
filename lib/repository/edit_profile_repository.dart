@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:george/app/data/app_api_end_point.dart';
-import 'package:george/app/utils/app_log.dart';
-import 'package:george/models/app_user_data.dart';
-import 'package:george/services/api/api_services.dart';
+import '../app/data/app_api_end_point.dart';
+import '../app/utils/app_log.dart';
+import '../models/app_user_data.dart';
+import '../services/api/api_services.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:mime/mime.dart';
 

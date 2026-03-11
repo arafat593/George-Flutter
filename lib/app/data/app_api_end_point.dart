@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:george/app/utils/app_log.dart';
+import '../utils/app_log.dart';
 
 class AppApiEndPoint {
   AppApiEndPoint._privateConstructor();

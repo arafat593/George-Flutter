@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/data/app_colors.dart';
-import 'package:george/app/data/app_text_styles.dart';
-import 'package:george/app/utils/app_size.dart';
+import '../data/app_colors.dart';
+import '../data/app_text_styles.dart';
+import '../utils/app_size.dart';
 
 class ImageTopButton extends StatelessWidget {
   const ImageTopButton({super.key, this.title = 'Back', this.onTap});

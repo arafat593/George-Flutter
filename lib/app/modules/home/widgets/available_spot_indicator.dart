@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/data/app_text_styles.dart';
-import 'package:george/app/utils/app_size.dart';
-import 'package:george/app/widgets/custom_progress.dart';
+import '../../../data/app_text_styles.dart';
+import '../../../utils/app_size.dart';
+import '../../../widgets/custom_progress.dart';
 
 class AvailableSpotsIndicator extends StatelessWidget {
   final int availableSeats;

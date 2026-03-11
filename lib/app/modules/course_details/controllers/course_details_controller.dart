@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:george/models/all_courses_model.dart';
-import 'package:george/models/class_data.dart';
+import '../../../../models/all_courses_model.dart';
+import '../../../../models/class_data.dart';
 import 'package:get/get.dart';
 import '../../../../repository/course_repository.dart';
 import '../../../../repository/home_repository.dart';
@@ -75,8 +75,8 @@ class CourseDetailsController extends GetxController {
 
   double get seatPercentage {
     final c = course.value;
-    if (c == null || c.totalSeat == 0) return 0.0;
-    return (c.availableSeat / c.totalSeat).clamp(0.0, 1.0);
+    if (c == null || c.maxParticipants == 0) return 0.0;
+    return (c.availableSeat / c.maxParticipants).clamp(0.0, 1.0);
   }
 
   String get formattedDate {

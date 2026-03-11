@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/data/app_colors.dart';
-import 'package:george/app/utils/app_size.dart';
+import '../data/app_colors.dart';
+import '../utils/app_size.dart';
 
 class CustomProgress extends StatelessWidget {
   final double progress; // 0.0 to 1.0

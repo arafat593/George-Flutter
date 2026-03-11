@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:george/models/product_details_model.dart';
-import 'package:george/repository/productdetails_repository.dart';
+import '../../../../models/product_details_model.dart';
+import '../../../../repository/productdetails_repository.dart';
 import 'package:get/get.dart';
 import '../../../utils/app_log.dart';
 

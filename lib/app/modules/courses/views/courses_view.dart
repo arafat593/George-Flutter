@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/utils/app_size.dart';
-import 'package:george/app/widgets/app_image/app_image.dart';
-import 'package:george/app/widgets/custom_appbar.dart';
-import 'package:george/models/all_courses_model.dart';
+import '../../../utils/app_size.dart';
+import '../../../widgets/app_image/app_image.dart';
+import '../../../widgets/custom_appbar.dart';
+import '../../../../models/all_courses_model.dart';
 import 'package:get/get.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
@@ -81,10 +81,11 @@ class CoursesView extends GetView<CoursesController> {
       final isPaid = homeController.isMembershipPaid.value && showBadge;
 
       final price = isPaid ? 'QAR 0' : 'QAR ${course.price}';
+      print('✅✅✅${course.availableSeat}');
 
-      final seatPercentage = course.totalSeat == 0
+      final seatPercentage = course.maxParticipants == 0
           ? 0.0
-          : (course.availableSeat / course.totalSeat);
+          : (course.availableSeat / course.maxParticipants);
 
       return GestureDetector(
         onTap: () => Get.toNamed(
@@ -105,7 +106,7 @@ class CoursesView extends GetView<CoursesController> {
               ClipRRect(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
                 child: AppImage(
-                  url: course.coverImage,
+                  url: course.imageUrl,
                   networkPlaceholderImage:
                       "assets/images/network_placeholder_image.jpg", // fallback
                   fit: BoxFit.cover,
@@ -136,7 +137,7 @@ class CoursesView extends GetView<CoursesController> {
                           child: Row(
                             children: [
                               Text(
-                                course.level,
+                                course.difficulty,
                                 style: AppTextStyles.medium(
                                   12,
                                   color: Colors.grey,

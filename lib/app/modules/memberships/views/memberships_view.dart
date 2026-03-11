@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/utils/app_size.dart';
-import 'package:george/app/widgets/custom_appbar.dart';
-import 'package:george/app/widgets/snack_bar/app_snack_bar.dart';
-import 'package:george/models/membership_catalogue_model.dart';
+import '../../../utils/app_size.dart';
+import '../../../widgets/custom_appbar.dart';
+import '../../../widgets/snack_bar/app_snack_bar.dart';
+import '../../../../models/membership_catalogue_model.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_colors.dart';

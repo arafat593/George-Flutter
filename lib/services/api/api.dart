@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:george/app/data/app_api_end_point.dart';
-import 'package:george/app/routes/app_pages.dart';
-import 'package:george/app/utils/app_log.dart';
-import 'package:george/services/api/non_auth_api.dart';
-import 'package:george/services/storage_services/get_storage_services.dart';
+import '../../app/data/app_api_end_point.dart';
+import '../../app/routes/app_pages.dart';
+import '../../app/utils/app_log.dart';
+import 'non_auth_api.dart';
+import '../storage_services/get_storage_services.dart';
 import 'package:get/get.dart';
 
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';

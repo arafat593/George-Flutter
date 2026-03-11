@@ -2,9 +2,9 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:george/app/data/app_api_end_point.dart';
-import 'package:george/app/data/app_colors.dart';
-import 'package:george/app/utils/app_log.dart';
+import '../../data/app_api_end_point.dart';
+import '../../data/app_colors.dart';
+import '../../utils/app_log.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class AppImageCircular extends StatelessWidget {

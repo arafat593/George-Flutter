@@ -1,9 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:george/app/modules/auth/registration/controllers/registration_controller.dart';
-import 'package:george/app/utils/app_size.dart';
-import 'package:george/app/widgets/custom_text_field.dart';
-import 'package:george/app/widgets/text_field_label_text.dart';
+import '../controllers/registration_controller.dart';
+import '../../../../utils/app_size.dart';
+import '../../../../widgets/custom_text_field.dart';
+import '../../../../widgets/text_field_label_text.dart';
 import 'package:get/get.dart';
 
 import '../../../../data/app_colors.dart';

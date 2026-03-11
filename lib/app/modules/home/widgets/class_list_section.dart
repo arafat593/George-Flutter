@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/modules/home/widgets/class_card.dart';
-import 'package:george/app/utils/app_size.dart';
+import 'class_card.dart';
+import '../../../utils/app_size.dart';
 import 'package:get/get.dart';
 
 import '../controllers/home_controller.dart';
@@ -46,6 +46,7 @@ class ClassListSection extends StatelessWidget {
                 final gender = classItem.gender;
                 controller.allInstructor.add(instructorName);
                 controller.allClassName.add(title);
+                print('$availableSeats ✅✅✅✅');
                 return ClassCard(
                   badge: difficulity,
                   image: instructorImage ?? 'https://i.pravatar.cc/150?img=32',
@@ -66,7 +67,9 @@ class ClassListSection extends StatelessWidget {
             if (controller.isLoadingMore.value)
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 20.h),
-                child: const Center(child: CircularProgressIndicator(color: Color(0xFF6B5345))),
+                child: const Center(
+                  child: CircularProgressIndicator(color: Color(0xFF6B5345)),
+                ),
               ),
           ],
         ),

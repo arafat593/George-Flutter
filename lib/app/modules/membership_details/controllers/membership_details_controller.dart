@@ -1,4 +1,4 @@
-import 'package:george/models/membership_catalogue_model.dart';
+import '../../../../models/membership_catalogue_model.dart';
 import 'package:get/get.dart';
 import '../../../routes/app_pages.dart';
 

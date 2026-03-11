@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/modules/auth/splash_screen/controllers/splash_screen_controller.dart';
-import 'package:george/app/routes/app_pages.dart';
-import 'package:george/app/utils/app_log.dart';
-import 'package:george/services/storage_services/get_storage_services.dart';
+import '../../auth/splash_screen/controllers/splash_screen_controller.dart';
+import '../../../routes/app_pages.dart';
+import '../../../utils/app_log.dart';
+import '../../../../services/storage_services/get_storage_services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';

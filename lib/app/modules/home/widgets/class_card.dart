@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/data/app_colors.dart';
-import 'package:george/app/data/app_text_styles.dart';
-import 'package:george/app/modules/home/widgets/available_spot_indicator.dart';
-import 'package:george/app/modules/home/widgets/badge_container.dart';
-import 'package:george/app/modules/home/widgets/cancelled_indicator.dart';
-import 'package:george/app/modules/home/widgets/fully_booked_indicator.dart';
-import 'package:george/app/modules/home/widgets/gender_icon_row.dart';
-import 'package:george/app/modules/home/widgets/wait_list_dialog.dart';
-import 'package:george/app/routes/app_pages.dart';
-import 'package:george/app/utils/app_size.dart';
-import 'package:george/app/widgets/app_image/app_image.dart';
+import '../../../data/app_colors.dart';
+import '../../../data/app_text_styles.dart';
+import 'available_spot_indicator.dart';
+import 'badge_container.dart';
+import 'cancelled_indicator.dart';
+import 'fully_booked_indicator.dart';
+import 'gender_icon_row.dart';
+import 'wait_list_dialog.dart';
+import '../../../routes/app_pages.dart';
+import '../../../utils/app_size.dart';
+import '../../../widgets/app_image/app_image.dart';
 import 'package:get/get.dart';
 
 class ClassCard extends StatelessWidget {

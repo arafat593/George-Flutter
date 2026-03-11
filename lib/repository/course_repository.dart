@@ -1,7 +1,7 @@
-import 'package:george/app/data/app_api_end_point.dart';
-import 'package:george/app/utils/app_log.dart';
-import 'package:george/models/all_courses_model.dart';
-import 'package:george/services/api/api_services.dart';
+import '../app/data/app_api_end_point.dart';
+import '../app/utils/app_log.dart';
+import '../models/all_courses_model.dart';
+import '../services/api/api_services.dart';
 
 class CourseRepository {
   ////////////// Contractures

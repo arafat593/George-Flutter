@@ -1,5 +1,5 @@
-import 'package:george/app/data/app_api_end_point.dart';
-import 'package:george/services/api/api_services.dart';
+import '../app/data/app_api_end_point.dart';
+import '../services/api/api_services.dart';
 import '../models/change_pass_model.dart';
 
 class ChangePasswordRepository {

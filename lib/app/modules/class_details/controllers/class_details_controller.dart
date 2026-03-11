@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:george/models/class_data.dart';
-import 'package:george/repository/home_repository.dart';
+import '../../../../models/class_data.dart';
+import '../../../../repository/home_repository.dart';
 import 'package:get/get.dart';
 import '../../../routes/app_pages.dart';
 import '../../../utils/app_log.dart';
@@ -65,24 +65,25 @@ class ClassDetailsController extends GetxController {
   }
 
   void bookNow() {
-    final homeController = Get.find<HomeController>();
+    // final homeController = Get.find<HomeController>();
 
-    // If price is QAR 0 (covered by membership), show confirmation dialog directly
-    if (price.value == 'QAR 0') {
-      _showBookingConfirmation();
-      return;
-    }
+    // // If price is QAR 0 (covered by membership), show confirmation dialog directly
+    // if (price.value == 'QAR 0') {
+    //   _showBookingConfirmation();
+    //   return;
+    // }
 
-    // If user has Class Pack sessions left, show payment method selection
-    if (homeController.sessionsLeft.value > 0) {
-      _showPaymentMethodDialog();
-    } else {
-      // Otherwise go to checkout
-      Get.toNamed(
-        Routes.checkout,
-        arguments: {'title': title.value, 'price': price.value},
-      );
-    }
+    // // If user has Class Pack sessions left, show payment method selection
+    // if (homeController.sessionsLeft.value > 0) {
+    //   _showPaymentMethodDialog();
+    // } else {
+    //   // Otherwise go to checkout
+    //   Get.toNamed(
+    //     Routes.checkout,
+    //     arguments: {'title': title.value, 'price': price.value},
+    //   );
+    // }
+    
   }
 
   void _showPaymentMethodDialog() {

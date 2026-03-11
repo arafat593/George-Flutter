@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/data/app_colors.dart';
+import '../../data/app_colors.dart';
 import 'package:get/get.dart';
 
 class AppText extends StatelessWidget {

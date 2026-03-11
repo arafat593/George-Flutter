@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:george/app/routes/app_pages.dart';
-import 'package:george/app/utils/app_log.dart';
-import 'package:george/services/api/api.dart';
-import 'package:george/services/storage_services/get_storage_services.dart';
-import 'package:george/app/widgets/snack_bar/app_snack_bar.dart';
+import '../../app/routes/app_pages.dart';
+import '../../app/utils/app_log.dart';
+import 'api.dart';
+import '../storage_services/get_storage_services.dart';
+import '../../app/widgets/snack_bar/app_snack_bar.dart';
 import 'package:get/get.dart';
 
 class ApiServices {

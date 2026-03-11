@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/modules/auth/recovery_password/widgets/recover_pass_form.dart';
-import 'package:george/app/utils/app_size.dart';
-import 'package:george/app/widgets/header_sub_text.dart';
-import 'package:george/app/widgets/header_text.dart';
+import '../widgets/recover_pass_form.dart';
+import '../../../../utils/app_size.dart';
+import '../../../../widgets/header_sub_text.dart';
+import '../../../../widgets/header_text.dart';
 import 'package:get/get.dart';
 
 import '../../../../data/app_colors.dart';

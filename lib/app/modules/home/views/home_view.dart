@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/modules/home/widgets/class_header_section.dart';
-import 'package:george/app/modules/home/widgets/date_section.dart';
-import 'package:george/app/modules/home/widgets/header_section.dart';
-import 'package:george/app/modules/home/widgets/quick_action_section.dart';
-import 'package:george/app/utils/app_size.dart';
+import '../widgets/class_header_section.dart';
+import '../widgets/date_section.dart';
+import '../widgets/header_section.dart';
+import '../widgets/quick_action_section.dart';
+import '../../../utils/app_size.dart';
 import 'package:get/get.dart';
 
 import '../../../widgets/app_refresh_indicator.dart';

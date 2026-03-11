@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/routes/app_pages.dart';
-import 'package:george/app/utils/app_size.dart';
-import 'package:george/app/widgets/app_image/app_image.dart';
-import 'package:george/app/widgets/image_top_button.dart';
+import '../../../routes/app_pages.dart';
+import '../../../utils/app_size.dart';
+import '../../../widgets/app_image/app_image.dart';
+import '../../../widgets/image_top_button.dart';
 import 'package:get/get.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
@@ -59,85 +59,86 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(18),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Thumbnails
-                      if (product.images.isNotEmpty)
-                        SizedBox(
-                          height: 100.h,
-                          child: ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: product.images.length > 3
-                                ? 3
-                                : product.images.length,
-                            separatorBuilder: (context, index) =>
-                                SizedBox(width: 12.w),
-                            itemBuilder: (context, index) {
-                              return Container(
-                                width: 104.w,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                ),
-                                clipBehavior: Clip.antiAlias,
-                                child: AppImage(
-                                  url: product.images[index],
-                                  fit: BoxFit.cover,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Thumbnails
+                        if (product.images.isNotEmpty)
+                          SizedBox(
+                            height: 100.h,
+                            child: ListView.separated(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: product.images.length > 3
+                                  ? 3
+                                  : product.images.length,
+                              separatorBuilder: (context, index) =>
+                                  SizedBox(width: 12.w),
+                              itemBuilder: (context, index) {
+                                return Container(
                                   width: 104.w,
-                                  height: 104.w, // adjust if needed
-                                  networkPlaceholderImage:
-                                      "assets/images/network_placeholder_image.jpg",
-                                ),
-                              );
-                            },
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                  ),
+                                  clipBehavior: Clip.antiAlias,
+                                  child: AppImage(
+                                    url: product.images[index],
+                                    fit: BoxFit.cover,
+                                    width: 104.w,
+                                    height: 104.w, // adjust if needed
+                                    networkPlaceholderImage:
+                                        "assets/images/network_placeholder_image.jpg",
+                                  ),
+                                );
+                              },
+                            ),
                           ),
-                        ),
-                      SizedBox(height: 8.h),
-                      _buildInfoSection("Material:", product.material),
-                      SizedBox(height: 6.h),
+                        SizedBox(height: 8.h),
+                        _buildInfoSection("Material:", product.material),
+                        SizedBox(height: 6.h),
 
-                      _buildInfoSection("Dimensions:", product.dimensions),
-                      SizedBox(height: 6.h),
-                      Text(
-                        'Description',
-                        style: AppTextStyles.bold(
-                          16,
-                        ).copyWith(color: AppColors.headlineColor),
-                      ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        product.description,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTextStyles.regular(
-                          16,
-                        ).copyWith(color: AppColors.bodyTextColor),
-                      ),
-                      SizedBox(height: 6.h),
-
-                      _buildInfoSection(
-                        "Pickup Note:",
-                        "Available at the studio.",
-                      ),
-                      SizedBox(height: 6.h),
-                      Text(
-                        'QAR :${product.price}',
-                        style: AppTextStyles.bold(
-                          16,
-                        ).copyWith(color: AppColors.headlineColor),
-                      ),
-                      SizedBox(height: 6.h),
-                      Obx(
-                        () => Text(
-                          "Total price :${controller.productDetails.value?.totalPrice.toStringAsFixed(2)}",
+                        _buildInfoSection("Dimensions:", product.dimensions),
+                        SizedBox(height: 6.h),
+                        Text(
+                          'Description',
                           style: AppTextStyles.bold(
                             16,
                           ).copyWith(color: AppColors.headlineColor),
                         ),
-                      ),
+                        SizedBox(height: 4.h),
+                        Text(
+                          product.description,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTextStyles.regular(
+                            16,
+                          ).copyWith(color: AppColors.bodyTextColor),
+                        ),
+                        SizedBox(height: 6.h),
 
-                      Spacer(),
-                    ],
+                        _buildInfoSection(
+                          "Pickup Note:",
+                          "Available at the studio.",
+                        ),
+                        SizedBox(height: 6.h),
+                        Text(
+                          'QAR :${product.price}',
+                          style: AppTextStyles.bold(
+                            16,
+                          ).copyWith(color: AppColors.headlineColor),
+                        ),
+                        SizedBox(height: 6.h),
+                        Obx(
+                          () => Text(
+                            "Total price :${controller.productDetails.value?.totalPrice.toStringAsFixed(2)}",
+                            style: AppTextStyles.bold(
+                              16,
+                            ).copyWith(color: AppColors.headlineColor),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+                    ),
                   ),
                 ),
               ),

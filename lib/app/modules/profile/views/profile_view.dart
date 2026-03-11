@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/modules/custom_bottom_nav/controllers/custom_bottom_nav_controller.dart';
-import 'package:george/app/utils/app_size.dart';
-import 'package:george/app/widgets/app_image/app_image.dart';
-import 'package:george/app/widgets/snack_bar/app_snack_bar.dart';
+import '../../custom_bottom_nav/controllers/custom_bottom_nav_controller.dart';
+import '../../../utils/app_size.dart';
+import '../../../widgets/app_image/app_image.dart';
+import '../../../widgets/snack_bar/app_snack_bar.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_text_styles.dart';

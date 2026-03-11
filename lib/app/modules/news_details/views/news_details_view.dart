@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/utils/app_size.dart';
-import 'package:george/app/widgets/app_image/app_image.dart';
-import 'package:george/app/widgets/image_top_button.dart';
+import '../../../utils/app_size.dart';
+import '../../../widgets/app_image/app_image.dart';
+import '../../../widgets/image_top_button.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 

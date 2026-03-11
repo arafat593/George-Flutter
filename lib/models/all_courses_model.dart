@@ -30,17 +30,17 @@ class Course {
   final String title;
   final String slug;
   final String description;
-  final String coverImage;
+  final String imageUrl;
   final double price;
   final DateTime? scheduledAt;
   final String duration;
-  final String level;
+  final String difficulty;
   final String language;
   final String gender;
   final String? location; // ✅ nullable
   final String phone;
   final String locationMapLink;
-  final int totalSeat;
+  final int maxParticipants;
   final int availableSeat;
   final String id;
   final DateTime? publishedAt;
@@ -52,17 +52,17 @@ class Course {
     required this.title,
     required this.slug,
     required this.description,
-    required this.coverImage,
+    required this.imageUrl,
     required this.price,
     required this.scheduledAt,
     required this.duration,
-    required this.level,
+    required this.difficulty,
     required this.language,
     required this.gender,
     required this.location,
     required this.phone,
     required this.locationMapLink,
-    required this.totalSeat,
+    required this.maxParticipants,
     required this.availableSeat,
     required this.id,
     required this.publishedAt,
@@ -76,20 +76,20 @@ class Course {
       title: json['title'] ?? '',
       slug: json['slug'] ?? '',
       description: json['description'] ?? '',
-      coverImage: json['coverImage'] ?? '',
+      imageUrl: json['imageUrl'] ?? '',
       price: (json['price'] as num?)?.toDouble() ?? 0.0,
       scheduledAt: json['scheduledAt'] != null
           ? DateTime.tryParse(json['scheduledAt'])
           : null,
       duration: json['duration'] ?? '',
-      level: json['level'] ?? '',
+      difficulty: json['difficulty'] ?? '',
       language: json['language'] ?? '',
       gender: json['gender'] ?? '',
       location: json['location'], // ✅ can be null
       phone: json['phone'] ?? '',
       locationMapLink: json['locationMapLink'] ?? '',
-      totalSeat: json['TotalSeat'] ?? 0,
-      availableSeat: json['AvailableSeat'] ?? 0,
+      maxParticipants: json['maxParticipants'] ?? 0,
+      availableSeat: json['availableSeat'] ?? 0,
       id: json['id'] ?? '',
       publishedAt: json['publishedAt'] != null
           ? DateTime.tryParse(json['publishedAt'])

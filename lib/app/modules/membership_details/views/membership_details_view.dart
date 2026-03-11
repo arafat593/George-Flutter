@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/modules/membership_details/controllers/membership_details_controller.dart';
-import 'package:george/app/widgets/app_image/app_image.dart';
+import '../controllers/membership_details_controller.dart';
+import '../../../widgets/app_image/app_image.dart';
 import 'package:get/get.dart';
 
 class MembershipDetailsView extends GetView<MembershipDetailsController> {

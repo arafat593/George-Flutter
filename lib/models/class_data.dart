@@ -106,7 +106,7 @@ class ClassModel {
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
       bookedSeats: (json['bookedSeats'] as num?)?.toInt() ?? 0,
-      availableSeats: (json['availableSeats'] as num?)?.toInt() ?? 0,
+      availableSeats: (json['availableSeat'] as num?)?.toInt() ?? 0,
       difficulty: json['difficulty'] ?? '',
       gender: json['gender'] ?? '',
       price: (json['price'] as num?)?.toDouble() ?? 0,

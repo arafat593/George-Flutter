@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/data/image_path.dart';
-import 'package:george/app/modules/home/widgets/home_view_call_us_dialog.dart';
-import 'package:george/app/modules/home/widgets/quick_action_item.dart';
+import '../../../data/image_path.dart';
+import 'home_view_call_us_dialog.dart';
+import 'quick_action_item.dart';
 import 'package:get/get.dart';
 
 class QuickActionsSection extends StatelessWidget {

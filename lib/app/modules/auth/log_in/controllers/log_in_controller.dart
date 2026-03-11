@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/modules/auth/splash_screen/controllers/splash_screen_controller.dart';
-import 'package:george/app/routes/app_pages.dart';
-import 'package:george/app/utils/app_log.dart';
-import 'package:george/repository/auth_repository.dart';
-import 'package:george/services/storage_services/get_storage_services.dart';
+import '../../splash_screen/controllers/splash_screen_controller.dart';
+import '../../../../routes/app_pages.dart';
+import '../../../../utils/app_log.dart';
+import '../../../../../repository/auth_repository.dart';
+import '../../../../../services/storage_services/get_storage_services.dart';
 import 'package:get/get.dart';
 
 class LogInController extends GetxController {

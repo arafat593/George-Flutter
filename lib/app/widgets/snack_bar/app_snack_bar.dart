@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/data/app_colors.dart';
-import 'package:george/app/utils/app_size.dart';
-import 'package:george/app/widgets/texts/app_text.dart';
+import '../../data/app_colors.dart';
+import '../../utils/app_size.dart';
+import '../texts/app_text.dart';
 
 import 'package:get/get.dart';
 

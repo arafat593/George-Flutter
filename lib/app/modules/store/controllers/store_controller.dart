@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/utils/app_log.dart';
-import 'package:george/repository/store_repository.dart';
+import '../../../utils/app_log.dart';
+import '../../../../repository/store_repository.dart';
 import 'package:get/get.dart';
 
 import '../../../../models/store_product_model.dart';

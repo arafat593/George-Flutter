@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/modules/error_screen/views/error_screen_view.dart';
-import 'package:george/app/modules/not_found_screen/bindings/not_found_screen_binding.dart';
-import 'package:george/app/modules/not_found_screen/views/not_found_screen_view.dart';
+import 'app/modules/error_screen/views/error_screen_view.dart';
+import 'app/modules/not_found_screen/bindings/not_found_screen_binding.dart';
+import 'app/modules/not_found_screen/views/not_found_screen_view.dart';
 import 'package:get/get.dart';
 import 'app/data/theme.dart';
 import 'app/routes/app_pages.dart';

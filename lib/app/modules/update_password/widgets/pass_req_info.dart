@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/data/app_colors.dart';
-import 'package:george/app/data/app_text_styles.dart';
-import 'package:george/app/modules/update_password/widgets/pass_req_text.dart';
-import 'package:george/app/utils/app_size.dart';
+import '../../../data/app_colors.dart';
+import '../../../data/app_text_styles.dart';
+import 'pass_req_text.dart';
+import '../../../utils/app_size.dart';
 
 class PassReqInfo extends StatelessWidget {
   const PassReqInfo({super.key});

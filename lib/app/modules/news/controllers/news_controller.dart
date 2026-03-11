@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:george/app/routes/app_pages.dart';
-import 'package:george/app/utils/app_log.dart';
-import 'package:george/models/news_model.dart';
-import 'package:george/repository/news_repository.dart';
+import '../../../routes/app_pages.dart';
+import '../../../utils/app_log.dart';
+import '../../../../models/news_model.dart';
+import '../../../../repository/news_repository.dart';
 import 'package:get/get.dart';
 
 class NewsController extends GetxController {

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/data/image_path.dart';
-import 'package:george/app/methodes/call_studio.dart';
-import 'package:george/app/methodes/call_whatsapp.dart';
-import 'package:george/app/routes/app_pages.dart';
-import 'package:george/app/utils/app_size.dart';
-import 'package:george/app/widgets/app_image/app_image.dart';
-import 'package:george/app/widgets/custom_elevated_button.dart';
-import 'package:george/app/widgets/image_top_button.dart';
-import 'package:george/app/widgets/snack_bar/app_snack_bar.dart';
+import '../../../data/image_path.dart';
+import '../../../methodes/call_studio.dart';
+import '../../../methodes/call_whatsapp.dart';
+import '../../../routes/app_pages.dart';
+import '../../../utils/app_size.dart';
+import '../../../widgets/app_image/app_image.dart';
+import '../../../widgets/custom_elevated_button.dart';
+import '../../../widgets/image_top_button.dart';
+import '../../../widgets/snack_bar/app_snack_bar.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../data/app_text_styles.dart';
@@ -47,7 +47,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
   }
 
   Widget _buildBackgroundImage() {
-    final coverImage = controller.course.value?.coverImage ?? '';
+    final coverImage = controller.course.value?.imageUrl ?? '';
 
     return Positioned(
       top: 0,
@@ -195,7 +195,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
   Widget _buildLevelTag() {
     const Color brownColor = Color(0xFF6B5345);
     return Obx(() {
-      final level = controller.course.value?.level ?? '';
+      final level = controller.course.value?.difficulty ?? '';
       final isFree = controller.displayPrice.value == 'QAR 0';
 
       return Align(

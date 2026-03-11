@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/utils/app_size.dart';
-import 'package:george/app/widgets/image_top_button.dart';
+import '../../../utils/app_size.dart';
+import '../../../widgets/image_top_button.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_colors.dart';

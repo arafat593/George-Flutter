@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/data/app_text_styles.dart';
-import 'package:george/app/utils/app_size.dart';
-import 'package:george/app/widgets/app_image/app_image.dart';
-import 'package:george/app/widgets/custom_progress.dart';
+import '../../../data/app_text_styles.dart';
+import '../../../utils/app_size.dart';
+import '../../../widgets/app_image/app_image.dart';
+import '../../../widgets/custom_progress.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -126,11 +126,13 @@ class UpcomingClassesCard extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 8.w),
-                    Text(
-                      classInstructorName,
-                      style: AppTextStyles.medium(
-                        14,
-                        color: const Color(0xFF6B5345),
+                    Expanded(
+                      child: Text(
+                        classInstructorName,
+                        style: AppTextStyles.medium(
+                          14,
+                          color: const Color(0xFF6B5345),
+                        ),
                       ),
                     ),
                     const Spacer(),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/modules/auth/log_in/widgets/login_form.dart';
+import '../widgets/login_form.dart';
 
-import 'package:george/app/utils/app_size.dart';
-import 'package:george/app/widgets/auth_option_text.dart';
+import '../../../../utils/app_size.dart';
+import '../../../../widgets/auth_option_text.dart';
 import 'package:get/get.dart';
 
 import '../../../../routes/app_pages.dart';

@@ -1,5 +1,5 @@
-import 'package:george/app/utils/app_log.dart';
-import 'package:george/models/instructor_data.dart';
+import '../app/utils/app_log.dart';
+import '../models/instructor_data.dart';
 
 import '../app/data/app_api_end_point.dart';
 import '../services/api/api_services.dart';

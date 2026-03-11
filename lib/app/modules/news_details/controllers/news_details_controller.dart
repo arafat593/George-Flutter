@@ -1,4 +1,4 @@
-import 'package:george/models/news_model.dart';
+import '../../../../models/news_model.dart';
 import 'package:get/get.dart';
 
 class NewsDetailsController extends GetxController {

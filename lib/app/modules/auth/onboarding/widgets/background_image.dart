@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/data/image_path.dart';
-import 'package:george/app/utils/app_size.dart';
-import 'package:george/app/widgets/default_custom_clipper.dart';
+import '../../../../data/image_path.dart';
+import '../../../../utils/app_size.dart';
+import '../../../../widgets/default_custom_clipper.dart';
 
 class BackgroundImage extends StatelessWidget {
   const BackgroundImage({super.key});

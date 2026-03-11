@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:george/app/routes/app_pages.dart';
-import 'package:george/app/utils/app_log.dart';
-import 'package:george/app/widgets/snack_bar/app_snack_bar.dart';
-import 'package:george/repository/auth_repository.dart';
+import '../../../../routes/app_pages.dart';
+import '../../../../utils/app_log.dart';
+import '../../../../widgets/snack_bar/app_snack_bar.dart';
+import '../../../../../repository/auth_repository.dart';
 import 'package:get/get.dart';
 
 class RecoveryOtpController extends GetxController {

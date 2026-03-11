@@ -1,4 +1,4 @@
-import 'package:george/app/modules/store/controllers/store_controller.dart';
+import '../../store/controllers/store_controller.dart';
 import 'package:get/get.dart';
 import '../controllers/checkout_controller.dart';
 

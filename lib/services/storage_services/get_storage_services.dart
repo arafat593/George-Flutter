@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:george/app/data/app_storage_key.dart';
-import 'package:george/app/utils/app_log.dart';
+import '../../app/data/app_storage_key.dart';
+import '../../app/utils/app_log.dart';
 import 'package:get_storage/get_storage.dart';
 
 class GetStorageServices {

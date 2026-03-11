@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/routes/app_pages.dart';
-import 'package:george/app/utils/app_log.dart';
-import 'package:george/models/terms_and_conditions_model.dart';
-import 'package:george/repository/terms_and_conditons_repository.dart';
+import '../../../routes/app_pages.dart';
+import '../../../utils/app_log.dart';
+import '../../../../models/terms_and_conditions_model.dart';
+import '../../../../repository/terms_and_conditons_repository.dart';
 import 'package:get/get.dart';
 
 class TermsConditionsController extends GetxController {

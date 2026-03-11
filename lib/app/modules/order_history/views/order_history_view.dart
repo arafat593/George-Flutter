@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/data/app_colors.dart';
-import 'package:george/app/utils/app_size.dart';
-import 'package:george/app/widgets/app_image/app_image.dart';
-import 'package:george/app/widgets/custom_appbar.dart';
+import '../../../data/app_colors.dart';
+import '../../../utils/app_size.dart';
+import '../../../widgets/app_image/app_image.dart';
+import '../../../widgets/custom_appbar.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_text_styles.dart';

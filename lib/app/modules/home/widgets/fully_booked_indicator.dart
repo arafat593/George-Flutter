@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/data/app_text_styles.dart';
-import 'package:george/app/utils/app_size.dart';
+import '../../../data/app_text_styles.dart';
+import '../../../utils/app_size.dart';
 
 class FullyBookedIndicator extends StatelessWidget {
   const FullyBookedIndicator({super.key});

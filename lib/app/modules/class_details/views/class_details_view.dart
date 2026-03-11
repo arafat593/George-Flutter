@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/data/image_path.dart';
-import 'package:george/app/methodes/call_studio.dart';
-import 'package:george/app/utils/app_size.dart';
-import 'package:george/app/widgets/custom_progress.dart';
-import 'package:george/app/widgets/image_top_button.dart';
+import '../../../data/image_path.dart';
+import '../../../methodes/call_studio.dart';
+import '../../../utils/app_size.dart';
+import '../../../widgets/custom_progress.dart';
+import '../../../widgets/image_top_button.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../data/app_text_styles.dart';
 import '../../../methodes/call_whatsapp.dart';
 import '../../../widgets/app_image/app_image.dart';
+import '../../../widgets/snack_bar/app_snack_bar.dart';
 import '../controllers/class_details_controller.dart';
 
 class ClassDetailsView extends GetView<ClassDetailsController> {
@@ -536,7 +537,10 @@ class ClassDetailsView extends GetView<ClassDetailsController> {
       width: double.infinity,
       height: 55.h,
       child: ElevatedButton(
-        onPressed: () => controller.bookNow(),
+        onPressed: () {
+          // controller.bookNow();
+          AppSnackBar.success('Wating for payment implementation');
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF6B5345),
           shape: RoundedRectangleBorder(

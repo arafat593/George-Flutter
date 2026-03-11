@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/data/app_colors.dart';
-import 'package:george/app/data/app_text_styles.dart';
-import 'package:george/app/modules/auth/recovery_otp/controllers/recovery_otp_controller.dart';
-import 'package:george/app/utils/app_log.dart';
-import 'package:george/app/utils/app_size.dart';
-import 'package:george/app/widgets/custom_elevated_button.dart';
+import '../../../../data/app_colors.dart';
+import '../../../../data/app_text_styles.dart';
+import '../controllers/recovery_otp_controller.dart';
+import '../../../../utils/app_log.dart';
+import '../../../../utils/app_size.dart';
+import '../../../../widgets/custom_elevated_button.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/utils/app_size.dart';
-import 'package:george/app/widgets/app_image/app_image.dart';
-import 'package:george/app/widgets/custom_appbar.dart';
-import 'package:george/app/widgets/custom_elevated_button.dart';
-import 'package:george/app/widgets/text_field_label_text.dart';
+import '../../../utils/app_size.dart';
+import '../../../widgets/app_image/app_image.dart';
+import '../../../widgets/custom_appbar.dart';
+import '../../../widgets/custom_elevated_button.dart';
+import '../../../widgets/text_field_label_text.dart';
 import 'package:get/get.dart';
 
 import 'package:image_picker/image_picker.dart';

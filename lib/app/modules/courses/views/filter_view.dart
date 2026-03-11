@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/utils/app_size.dart';
-import 'package:george/app/widgets/custom_appbar.dart';
-import 'package:george/app/widgets/custom_elevated_button.dart';
+import '../../../utils/app_size.dart';
+import '../../../widgets/custom_appbar.dart';
+import '../../../widgets/custom_elevated_button.dart';
 import 'package:get/get.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';

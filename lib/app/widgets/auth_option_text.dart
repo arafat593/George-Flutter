@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/data/app_colors.dart';
-import 'package:george/app/data/app_text_styles.dart';
+import '../data/app_colors.dart';
+import '../data/app_text_styles.dart';
 import 'package:get/get.dart';
 
 class AuthOptions extends StatelessWidget {

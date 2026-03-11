@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/modules/auth/onboarding/widgets/background_image.dart';
-import 'package:george/app/utils/app_size.dart';
-import 'package:george/app/widgets/custom_elevated_button.dart';
-import 'package:george/app/widgets/header_text.dart';
+import '../widgets/background_image.dart';
+import '../../../../utils/app_size.dart';
+import '../../../../widgets/custom_elevated_button.dart';
+import '../../../../widgets/header_text.dart';
 import 'package:get/get.dart';
 
 import '../../../../data/app_colors.dart';

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/data/app_colors.dart';
-import 'package:george/app/data/image_path.dart';
-import 'package:george/app/modules/home/controllers/home_controller.dart';
-import 'package:george/app/routes/app_pages.dart';
-import 'package:george/app/utils/app_size.dart';
-import 'package:george/app/widgets/custom_text_button.dart';
-import 'package:george/app/widgets/rounded_icon_container.dart';
+import '../../../data/app_colors.dart';
+import '../../../data/image_path.dart';
+import '../controllers/home_controller.dart';
+import '../../../routes/app_pages.dart';
+import '../../../utils/app_size.dart';
+import '../../../widgets/custom_text_button.dart';
+import '../../../widgets/rounded_icon_container.dart';
 import 'package:get/get.dart';
 
 import '../../../widgets/snack_bar/app_snack_bar.dart';

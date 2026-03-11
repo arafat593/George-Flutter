@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/modules/auth/splash_screen/controllers/splash_screen_controller.dart';
-import 'package:george/app/utils/app_log.dart';
-import 'package:george/app/widgets/snack_bar/app_snack_bar.dart';
-import 'package:george/repository/edit_profile_repository.dart';
+import '../../auth/splash_screen/controllers/splash_screen_controller.dart';
+import '../../../utils/app_log.dart';
+import '../../../widgets/snack_bar/app_snack_bar.dart';
+import '../../../../repository/edit_profile_repository.dart';
 import 'package:get/get.dart';
 
 import 'package:image_picker/image_picker.dart';

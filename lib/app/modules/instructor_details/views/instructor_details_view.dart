@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/utils/app_size.dart';
-import 'package:george/app/widgets/app_image/app_image.dart';
+import '../../../utils/app_size.dart';
+import '../../../widgets/app_image/app_image.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_colors.dart';
@@ -68,6 +68,7 @@ class InstructorDetailsView extends GetView<InstructorDetailsController> {
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
                             child: Text(

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/data/app_colors.dart';
-import 'package:george/app/data/app_text_styles.dart';
-import 'package:george/app/modules/update_password/controllers/update_password_controller.dart';
-import 'package:george/app/utils/app_size.dart';
-import 'package:george/app/widgets/custom_text_field.dart';
-import 'package:george/app/widgets/text_field_label_text.dart';
+import '../../../data/app_colors.dart';
+import '../../../data/app_text_styles.dart';
+import '../controllers/update_password_controller.dart';
+import '../../../utils/app_size.dart';
+import '../../../widgets/custom_text_field.dart';
+import '../../../widgets/text_field_label_text.dart';
 import 'package:get/get.dart';
 
 class ChangePasswordForm extends StatelessWidget {

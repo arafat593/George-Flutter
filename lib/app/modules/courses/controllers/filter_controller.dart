@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/modules/home/controllers/home_controller.dart';
-import 'package:george/app/routes/app_pages.dart';
-import 'package:george/app/utils/app_log.dart';
+import '../../home/controllers/home_controller.dart';
+import '../../../routes/app_pages.dart';
+import '../../../utils/app_log.dart';
 import 'package:get/get.dart';
 
 class FilterController extends GetxController {

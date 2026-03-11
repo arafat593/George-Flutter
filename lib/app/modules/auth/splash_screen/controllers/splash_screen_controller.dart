@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/routes/app_pages.dart';
-import 'package:george/app/utils/app_log.dart';
-import 'package:george/models/app_user_data.dart';
-import 'package:george/repository/auth_repository.dart';
-import 'package:george/services/storage_services/get_storage_services.dart';
+import '../../../../routes/app_pages.dart';
+import '../../../../utils/app_log.dart';
+import '../../../../../models/app_user_data.dart';
+import '../../../../../repository/auth_repository.dart';
+import '../../../../../services/storage_services/get_storage_services.dart';
 import 'package:get/get.dart';
 
 Rxn<AppUserData> appGlobalUserData = Rxn<AppUserData>();

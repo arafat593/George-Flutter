@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:george/app/data/app_api_end_point.dart';
-import 'package:george/app/routes/app_pages.dart';
-import 'package:george/app/utils/app_log.dart';
-import 'package:george/models/class_data.dart';
-import 'package:george/repository/home_repository.dart';
-import 'package:george/services/api/api_services.dart';
-import 'package:george/services/storage_services/get_storage_services.dart';
+import '../../../data/app_api_end_point.dart';
+import '../../../routes/app_pages.dart';
+import '../../../utils/app_log.dart';
+import '../../../../models/class_data.dart';
+import '../../../../repository/home_repository.dart';
+import '../../../../services/api/api_services.dart';
+import '../../../../services/storage_services/get_storage_services.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
