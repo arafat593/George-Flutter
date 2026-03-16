@@ -10,10 +10,10 @@ class ClassAttendedInfoSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ClassAttendInfo(title: 'Classes attendat this week:', number: 5),
-        ClassAttendInfo(title: 'Classes attendat this month:', number: 5),
+        ClassAttendInfo(title: 'Classes attended this week:', number: 5),
+        ClassAttendInfo(title: 'Classes attended this month:', number: 5),
         ClassAttendInfo(
-          title: 'Classes attendat since joining:',
+          title: 'Classes attended since joining:',
           number: 5,
         ),
       ],

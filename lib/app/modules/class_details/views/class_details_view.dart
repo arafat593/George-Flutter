@@ -288,6 +288,7 @@ class ClassDetailsView extends GetView<ClassDetailsController> {
               ],
             ),
           ),
+          // SizedBox(width: 10.w),
           GestureDetector(
             onTap: () async {
               final result = await Get.toNamed(
@@ -299,7 +300,8 @@ class ClassDetailsView extends GetView<ClassDetailsController> {
               }
             },
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15),
+              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+              margin: EdgeInsets.only(left: 10),
               decoration: BoxDecoration(
                 color: Color(0xFF6B5345),
                 borderRadius: BorderRadius.circular(10.r),
