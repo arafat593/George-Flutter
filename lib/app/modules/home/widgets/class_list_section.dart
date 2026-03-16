@@ -14,10 +14,20 @@ class ClassListSection extends StatelessWidget {
     return Obx(() {
       // final isPaid = controller.isMembershipPaid.value;
       if (controller.isLoading.value) {
-        return Center(child: CircularProgressIndicator());
+        return Padding(
+          padding: EdgeInsets.only(top: 100.h),
+          child: Center(
+            child: CircularProgressIndicator(color: Color(0xFF6B5345)),
+          ),
+        );
       }
       if (controller.allClasses.isEmpty) {
-        return Center(child: Text('No Classes Found'));
+        return Center(
+          child: Text(
+            'No Classes Found',
+            style: TextStyle(color: Color(0xFF6B5345), fontSize: 16.sp),
+          ),
+        );
       }
 
       return Padding(
@@ -46,7 +56,6 @@ class ClassListSection extends StatelessWidget {
                 final gender = classItem.gender;
                 controller.allInstructor.add(instructorName);
                 controller.allClassName.add(title);
-                print('$availableSeats ✅✅✅✅');
                 return ClassCard(
                   badge: difficulity,
                   image: instructorImage ?? 'https://i.pravatar.cc/150?img=32',
@@ -63,7 +72,6 @@ class ClassListSection extends StatelessWidget {
                 );
               },
             ),
-            SizedBox(height: 90.h),
             if (controller.isLoadingMore.value)
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 20.h),

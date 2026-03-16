@@ -68,17 +68,23 @@ class CourseInstructorDetailsView
                     controller: scrollController,
                     shrinkWrap: true,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Column(
+                        spacing: 10.h,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: Text(
-                              instructorName,
-                              style: AppTextStyles.bold(
-                                24,
-                                color: const Color(0xFF6B5345),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  instructorName,
+                                  style: AppTextStyles.bold(
+                                    24,
+                                    color: const Color(0xFF6B5345),
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
                           Container(
                             padding: EdgeInsets.symmetric(

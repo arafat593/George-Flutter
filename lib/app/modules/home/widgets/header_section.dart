@@ -31,8 +31,8 @@ class HeaderSection extends StatelessWidget {
           ),
           Image.asset(
             ImagePath.splashImage,
-            height: 140.h,
-            width: 140.w,
+            height: 100.h,
+            width: 100.w,
             fit: BoxFit.contain,
           ),
           Row(

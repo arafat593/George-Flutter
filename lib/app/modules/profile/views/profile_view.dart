@@ -26,16 +26,6 @@ class ProfileView extends GetView<ProfileController> {
               _buildHeader(),
               SizedBox(height: 30.h),
               _buildMenuSection(),
-              SizedBox(height: 30.h),
-              Text(
-                "Monthly Attendance",
-                style: AppTextStyles.bold(20, color: const Color(0xFF6D4C41)),
-              ),
-              SizedBox(height: 20.h),
-              _buildAttendanceChart(),
-              SizedBox(height: 30.h),
-              _buildStatsGrid(),
-              SizedBox(height: 110.h),
             ],
           ),
         ),
@@ -223,6 +213,12 @@ class ProfileView extends GetView<ProfileController> {
         ),
         _buildDivider(),
         _buildMenuItem(
+          icon: Icons.insert_chart,
+          title: "Track Progress",
+          onTap: () => Get.toNamed(Routes.trackProgress),
+        ),
+        _buildDivider(),
+        _buildMenuItem(
           icon: Icons.question_mark_outlined,
           title: "FAQ",
           onTap: () => Get.toNamed(Routes.faq),
@@ -317,6 +313,7 @@ class ProfileView extends GetView<ProfileController> {
           showArrow: false,
         ),
         _buildDivider(),
+        SizedBox(height: 100.h),
       ],
     );
   }
@@ -370,144 +367,6 @@ class ProfileView extends GetView<ProfileController> {
     return Divider(
       color: const Color(0xFF6D4C41).withValues(alpha: 0.2),
       height: 1,
-    );
-  }
-
-  Widget _buildAttendanceChart() {
-    return SizedBox(
-      height: 200.h,
-      child: Obx(() {
-        return ListView.separated(
-          scrollDirection: Axis.horizontal,
-          itemCount: controller.attendanceData.length,
-          separatorBuilder: (context, index) => SizedBox(width: 12.w),
-          itemBuilder: (context, index) {
-            final data = controller.attendanceData[index];
-            final double total = (data['total'] as num).toDouble();
-            final double attended = (data['attended'] as num).toDouble();
-            final double percentage = attended / (total == 0 ? 1 : total);
-
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  data['classes_label'],
-                  style: TextStyle(fontSize: 10.sp, color: Colors.grey),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 5.h),
-                SizedBox(
-                  width: 50.w,
-                  height: 140.h,
-                  child: Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      // Background Bar
-                      Container(
-                        width: 50.w,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFEBE3D9),
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                      ),
-                      FractionallySizedBox(
-                        heightFactor: percentage.clamp(0.0, 1.0),
-                        child: Container(
-                          width: 50.w,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF6D4C41),
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                Text(
-                  data['month'],
-                  style: AppTextStyles.medium(
-                    14,
-                  ).copyWith(color: const Color(0xFF6D4C41)),
-                ),
-              ],
-            );
-          },
-        );
-      }),
-    );
-  }
-
-  Widget _buildStatsGrid() {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: _buildStatCard(
-                icon: Icons.access_time,
-                title: "7 Classes Attended",
-                subtitle: "Great consistency! Keep up the momentum",
-              ),
-            ),
-            SizedBox(width: 15.w),
-            Expanded(
-              child: _buildStatCard(
-                icon: Icons.self_improvement,
-                title: "Hatha Yoga",
-                subtitle: "You attend this class the most",
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 15.h),
-        SizedBox(
-          width: double.infinity,
-          child: _buildStatCard(
-            icon: Icons.person_outline,
-            title: "Sarah Jenkins",
-            subtitle: "Most attended instructor this month",
-            isWide: true,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildStatCard({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    bool isWide = false,
-  }) {
-    return Container(
-      padding: EdgeInsets.all(16.r),
-      decoration: BoxDecoration(
-        color: const Color(
-          0xFFD7CCC8,
-        ).withValues(alpha: 0.5), // Light brownish/beige
-        borderRadius: BorderRadius.circular(12.r),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, size: 24.r, color: const Color(0xFF6D4C41)),
-          SizedBox(height: 10.h),
-          Text(
-            title,
-            style: AppTextStyles.bold(
-              14,
-            ).copyWith(color: const Color(0xFF6D4C41)),
-          ),
-          SizedBox(height: 5.h),
-          Text(
-            subtitle,
-            style: AppTextStyles.regular(
-              10,
-            ).copyWith(color: const Color(0xFF6D4C41).withValues(alpha: 0.8)),
-          ),
-        ],
-      ),
     );
   }
 }

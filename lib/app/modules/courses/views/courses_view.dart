@@ -81,7 +81,6 @@ class CoursesView extends GetView<CoursesController> {
       final isPaid = homeController.isMembershipPaid.value && showBadge;
 
       final price = isPaid ? 'QAR 0' : 'QAR ${course.price}';
-      print('✅✅✅${course.availableSeat}');
 
       final seatPercentage = course.maxParticipants == 0
           ? 0.0

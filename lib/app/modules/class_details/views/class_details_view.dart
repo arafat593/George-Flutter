@@ -150,9 +150,8 @@ class ClassDetailsView extends GetView<ClassDetailsController> {
         children: [
           Expanded(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 5.h,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
                   title ?? "",
@@ -162,6 +161,7 @@ class ClassDetailsView extends GetView<ClassDetailsController> {
               ],
             ),
           ),
+          SizedBox(width: 10.w),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -258,6 +258,7 @@ class ClassDetailsView extends GetView<ClassDetailsController> {
     const Color brownColor = Color(0xFF6B5345);
     return Obx(
       () => Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipOval(
             child: AppImage(
@@ -287,8 +288,8 @@ class ClassDetailsView extends GetView<ClassDetailsController> {
               ],
             ),
           ),
-          ElevatedButton(
-            onPressed: () async {
+          GestureDetector(
+            onTap: () async {
               final result = await Get.toNamed(
                 '/instructor-details',
                 arguments: controller.classByID.value?.instructor.id,
@@ -297,17 +298,16 @@ class ClassDetailsView extends GetView<ClassDetailsController> {
                 controller.refreshData(result);
               }
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: brownColor,
-              shape: RoundedRectangleBorder(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15),
+              decoration: BoxDecoration(
+                color: Color(0xFF6B5345),
                 borderRadius: BorderRadius.circular(10.r),
               ),
-              elevation: 0,
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-            ),
-            child: Text(
-              'View Profile',
-              style: AppTextStyles.bold(12, color: Colors.white),
+              child: Text(
+                'View Profile',
+                style: AppTextStyles.bold12.apply(color: Colors.white),
+              ),
             ),
           ),
         ],
@@ -371,63 +371,48 @@ class ClassDetailsView extends GetView<ClassDetailsController> {
       return const SizedBox();
     }
 
-    final dateFormat = DateFormat('MMMM d, yyyy').format(dateTime);
+    final dateFormat = DateFormat('EEE d MMM').format(dateTime);
     const Color brownColor = Color(0xFF6B5345);
 
-    return Row(
-      children: [
-        // Time Section
-        Expanded(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(
-                Icons.access_time,
-                size: 15.r,
-                color: brownColor.withValues(alpha: 0.6),
-              ),
-              SizedBox(width: 8.w),
-              Flexible(
-                child: Text(
-                  controller.classByID.value?.duration ?? '',
-                  style: AppTextStyles.medium(
-                    12,
-                    color: brownColor.withValues(alpha: 0.6),
-                  ),
-                  // overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
+    return FittedBox(
+      // Add FittedBox here
+      fit: BoxFit.scaleDown, // or BoxFit.contain based on your preference
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Date Section
+          Icon(
+            Icons.calendar_today_outlined,
+            size: 25.r,
+            color: brownColor.withValues(alpha: 0.6),
           ),
-        ),
-
-        SizedBox(width: 10.w),
-
-        // Date Section
-        Expanded(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(
-                Icons.calendar_today_outlined,
-                size: 15.r,
-                color: brownColor.withValues(alpha: 0.6),
-              ),
-              SizedBox(width: 8.w),
-              Flexible(
-                child: Text(
-                  dateFormat,
-                  style: AppTextStyles.medium(
-                    12,
-                    color: brownColor.withValues(alpha: 0.6),
-                  ),
-                  // overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
+          SizedBox(width: 8.w),
+          Text(
+            dateFormat,
+            style: AppTextStyles.medium(
+              20,
+              color: brownColor.withValues(alpha: 0.6),
+            ),
+            // overflow: TextOverflow.ellipsis,
           ),
-        ),
-      ],
+          SizedBox(width: 8.w),
+          // Time Section
+          Icon(
+            Icons.access_time,
+            size: 25.r,
+            color: brownColor.withValues(alpha: 0.6),
+          ),
+          SizedBox(width: 8.w),
+          Text(
+            controller.classByID.value?.duration ?? '',
+            style: AppTextStyles.medium(
+              20,
+              color: brownColor.withValues(alpha: 0.6),
+            ),
+            // overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
     );
   }
 

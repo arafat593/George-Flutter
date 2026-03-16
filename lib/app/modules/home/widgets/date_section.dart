@@ -34,7 +34,7 @@ class DateSection extends StatelessWidget {
                   child: Text(
                     "Today",
                     style: AppTextStyles.medium(
-                      14,
+                      12,
                       color: AppColors.headlineColor,
                     ),
                   ),
@@ -84,7 +84,7 @@ class DateSection extends StatelessWidget {
         ),
         SizedBox(height: 16.h),
         SizedBox(
-          height: 80.h,
+          height: 65.h,
           child: Obx(
             () => ListView.builder(
               controller: controller.scrollController,
@@ -129,7 +129,7 @@ class DateSection extends StatelessWidget {
                           Text(
                             dateItem['date'] ?? '',
                             style: AppTextStyles.bold(
-                              16,
+                              14,
                               color: isSelected
                                   ? Colors.white
                                   : AppColors.headlineColor,

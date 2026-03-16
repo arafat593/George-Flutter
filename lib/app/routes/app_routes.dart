@@ -41,6 +41,7 @@ abstract class Routes {
   static const privacyPolicy = _Paths.privacyPolicy;
   static const faq = _Paths.faq;
   static const updatePassword = _Paths.updatePassword;
+  static const trackProgress = _Paths.trackProgress;
 }
 
 abstract class _Paths {
@@ -83,4 +84,5 @@ abstract class _Paths {
   static const privacyPolicy = '/privacy-policy';
   static const faq = '/faq';
   static const updatePassword = '/update-password';
+  static const trackProgress = '/track-progress';
 }

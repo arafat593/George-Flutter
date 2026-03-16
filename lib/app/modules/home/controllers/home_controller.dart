@@ -108,44 +108,44 @@ class HomeController extends GetxController {
   String get currentMonthName => monthNames[currentMonth.value.month - 1];
   int get currentYear => currentMonth.value.year;
 
-  String get selectedDateString {
-    if (dates.isEmpty || selectedDateIndex.value >= dates.length) return '';
+  // String get selectedDateString {
+  //   if (dates.isEmpty || selectedDateIndex.value >= dates.length) return '';
 
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final selected = DateTime(
-      currentYear,
-      currentMonth.value.month,
-      selectedDateIndex.value + 1,
-    );
+  //   final now = DateTime.now();
+  //   final today = DateTime(now.year, now.month, now.day);
+  //   final selected = DateTime(
+  //     currentYear,
+  //     currentMonth.value.month,
+  //     selectedDateIndex.value + 1,
+  //   );
 
-    final shortDay = dates[selectedDateIndex.value]['day'];
+  //   final shortDay = dates[selectedDateIndex.value]['day'];
 
-    if (selected.year == today.year &&
-        selected.month == today.month &&
-        selected.day == today.day) {
-      return 'Today, ${today.day} ${currentMonthName.substring(0, 3)} $currentYear';
-    }
+  //   if (selected.year == today.year &&
+  //       selected.month == today.month &&
+  //       selected.day == today.day) {
+  //     return 'Today, ${today.day} ${currentMonthName.substring(0, 3)} $currentYear';
+  //   }
 
-    final tomorrow = today.add(const Duration(days: 1));
-    if (selected.year == tomorrow.year &&
-        selected.month == tomorrow.month &&
-        selected.day == tomorrow.day) {
-      return 'Tomorrow, ${tomorrow.day} ${currentMonthName.substring(0, 3)} $currentYear';
-    }
+  //   final tomorrow = today.add(const Duration(days: 1));
+  //   if (selected.year == tomorrow.year &&
+  //       selected.month == tomorrow.month &&
+  //       selected.day == tomorrow.day) {
+  //     return 'Tomorrow, ${tomorrow.day} ${currentMonthName.substring(0, 3)} $currentYear';
+  //   }
 
-    final yesterday = today.subtract(const Duration(days: 1));
-    if (selected.year == yesterday.year &&
-        selected.month == yesterday.month &&
-        selected.day == yesterday.day) {
-      return 'Yesterday, ${yesterday.day} ${currentMonthName.substring(0, 3)} $currentYear';
-    }
+  //   final yesterday = today.subtract(const Duration(days: 1));
+  //   if (selected.year == yesterday.year &&
+  //       selected.month == yesterday.month &&
+  //       selected.day == yesterday.day) {
+  //     return 'Yesterday, ${yesterday.day} ${currentMonthName.substring(0, 3)} $currentYear';
+  //   }
 
-    final fullDay = _getFullDayName(shortDay ?? '');
-    final date = dates[selectedDateIndex.value]['date'];
-    final yearSuffix = currentYear.toString().substring(2);
-    return '$fullDay $date ${currentMonthName.substring(0, 3)} $yearSuffix';
-  }
+  //   final fullDay = _getFullDayName(shortDay ?? '');
+  //   final date = dates[selectedDateIndex.value]['date'];
+  //   final yearSuffix = currentYear.toString().substring(2);
+  //   return '$fullDay $date ${currentMonthName.substring(0, 3)} $yearSuffix';
+  // }
 
   String get selectedDateLabel {
     final now = DateTime.now();
@@ -218,26 +218,26 @@ class HomeController extends GetxController {
     return 'Today';
   }
 
-  String _getFullDayName(String shortName) {
-    switch (shortName) {
-      case 'Mon':
-        return 'Monday';
-      case 'Tue':
-        return 'Tuesday';
-      case 'Wed':
-        return 'Wednesday';
-      case 'Thu':
-        return 'Thursday';
-      case 'Fri':
-        return 'Friday';
-      case 'Sat':
-        return 'Saturday';
-      case 'Sun':
-        return 'Sunday';
-      default:
-        return shortName;
-    }
-  }
+  // String _getFullDayName(String shortName) {
+  //   switch (shortName) {
+  //     case 'Mon':
+  //       return 'Monday';
+  //     case 'Tue':
+  //       return 'Tuesday';
+  //     case 'Wed':
+  //       return 'Wednesday';
+  //     case 'Thu':
+  //       return 'Thursday';
+  //     case 'Fri':
+  //       return 'Friday';
+  //     case 'Sat':
+  //       return 'Saturday';
+  //     case 'Sun':
+  //       return 'Sunday';
+  //     default:
+  //       return shortName;
+  //   }
+  // }
 
   final dates = <Map<String, String>>[].obs;
   String get _todayFormattedDate {
@@ -402,7 +402,7 @@ class HomeController extends GetxController {
 
   void handleTodayButtonClick() {
     resetToToday();
-     final selected = DateTime(
+    final selected = DateTime(
       currentYear,
       currentMonth.value.month,
       selectedDateIndex.value + 1,

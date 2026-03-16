@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../../../data/image_path.dart';
 import '../../../methodes/call_studio.dart';
 import '../../../methodes/call_whatsapp.dart';
@@ -109,8 +110,6 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
               _buildInstructorSection(),
               SizedBox(height: 24.h),
               _buildAboutSection(),
-              SizedBox(height: 20.h),
-              _buildDateTimeSection(),
               SizedBox(height: 24.h),
               _buildLocationSection(),
               Obx(() {
@@ -163,9 +162,15 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: Text(
-              course?.title ?? '',
-              style: AppTextStyles.bold(22, color: brownColor),
+            child: Column(
+              spacing: 5.h,
+              children: [
+                Text(
+                  course?.title ?? '',
+                  style: AppTextStyles.bold(22, color: brownColor),
+                ),
+                _buildDateTimeSection(),
+              ],
             ),
           ),
           Column(
@@ -262,67 +267,52 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
 
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          ClipOval(
+            child: AppImage(
+              url: image,
+              path: "assets/images/network_placeholder_image.jpg",
+              width: 52.r, // radius * 2
+              height: 52.r,
+              fit: BoxFit.cover,
+            ),
+          ),
+          SizedBox(width: 12.w),
           Expanded(
-            flex: 2,
-            child: Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ClipOval(
-                  child: AppImage(
-                    url: image,
-                    path: "assets/images/network_placeholder_image.jpg",
-                    width: 52.r, // radius * 2
-                    height: 52.r,
-                    fit: BoxFit.cover,
+                Text(
+                  'Instructor',
+                  style: AppTextStyles.regular(
+                    10,
+                    color: brownColor.withValues(alpha: 0.6),
                   ),
                 ),
-                SizedBox(width: 12.w),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Instructor',
-                        style: AppTextStyles.regular(
-                          10,
-                          color: brownColor.withValues(alpha: 0.6),
-                        ),
-                      ),
-                      Text(
-                        name,
-                        style: AppTextStyles.medium(18, color: brownColor),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                    ],
-                  ),
-                ),
+                Text(name, style: AppTextStyles.medium(18, color: brownColor)),
               ],
             ),
           ),
-          Expanded(
-            flex: 1,
-            child: ElevatedButton(
-              onPressed: () async {
-                final result = await Get.toNamed(
-                  Routes.courseInstructorDetails,
-                  arguments: controller.course.value?.instructor.id,
-                );
-                if (result != null && result is String) {
-                  controller.refreshData(result);
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: brownColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-                elevation: 0,
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+          GestureDetector(
+            onTap: () async {
+              final result = await Get.toNamed(
+                Routes.courseInstructorDetails,
+                arguments: controller.course.value?.instructor.id,
+              );
+              if (result != null && result is String) {
+                controller.refreshData(result);
+              }
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15),
+              decoration: BoxDecoration(
+                color: Color(0xFF6B5345),
+                borderRadius: BorderRadius.circular(10.r),
               ),
               child: Text(
                 'View Profile',
-                style: AppTextStyles.bold(12, color: Colors.white),
+                style: AppTextStyles.bold12.apply(color: Colors.white),
               ),
             ),
           ),
@@ -375,44 +365,54 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
     const Color brownColor = Color(0xFF6B5345);
     return Obx(() {
       final duration = controller.course.value?.duration ?? '—';
-      final date = controller.formattedDateLong;
+      final scheduledAt = controller.course.value?.scheduledAt;
+      if (scheduledAt == null || scheduledAt.toString().isEmpty) {
+        return const SizedBox();
+      }
 
-      return Row(
-        children: [
-          Icon(
-            Icons.access_time,
-            size: 20.r,
-            color: brownColor.withValues(alpha: 0.6),
-          ),
-          SizedBox(width: 8.w),
-          Flexible(
-            child: Text(
+      DateTime? dateTime;
+
+      try {
+        dateTime = DateTime.parse(scheduledAt.toString());
+      } catch (e) {
+        return const SizedBox();
+      }
+
+      final dateFormat = DateFormat('EEE d MMM').format(dateTime);
+
+      return FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Row(
+          children: [
+            Icon(
+              Icons.calendar_today_outlined,
+              size: 25.r,
+              color: brownColor.withValues(alpha: 0.6),
+            ),
+            SizedBox(width: 8.w),
+            Text(
+              dateFormat,
+              style: AppTextStyles.medium(
+                20,
+                color: brownColor.withValues(alpha: 0.6),
+              ),
+            ),
+            SizedBox(width: 16.w),
+            Icon(
+              Icons.access_time,
+              size: 25.r,
+              color: brownColor.withValues(alpha: 0.6),
+            ),
+            SizedBox(width: 8.w),
+            Text(
               duration,
               style: AppTextStyles.medium(
-                14,
+                20,
                 color: brownColor.withValues(alpha: 0.6),
               ),
-              overflow: TextOverflow.ellipsis,
             ),
-          ),
-          SizedBox(width: 16.w),
-          Icon(
-            Icons.calendar_today_outlined,
-            size: 20.r,
-            color: brownColor.withValues(alpha: 0.6),
-          ),
-          SizedBox(width: 8.w),
-          Flexible(
-            child: Text(
-              date,
-              style: AppTextStyles.medium(
-                14,
-                color: brownColor.withValues(alpha: 0.6),
-              ),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ],
+          ],
+        ),
       );
     });
   }

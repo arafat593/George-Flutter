@@ -64,7 +64,7 @@ class CourseDetailsController extends GetxController {
         }
       }
     } catch (e) {
-      errorLog("CourseDetailsController Error:",e);
+      errorLog("CourseDetailsController Error:", e);
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Get.offAndToNamed(Routes.errorScreen);
       });
@@ -83,27 +83,6 @@ class CourseDetailsController extends GetxController {
     final date = course.value?.scheduledAt;
     if (date == null) return '—';
     return "${date.day}-${date.month}-${date.year}";
-  }
-
-  String get formattedDateLong {
-    final date = course.value?.scheduledAt;
-    if (date == null) return '—';
-    const months = [
-      '',
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
-    return "${months[date.month]} ${date.day}, ${date.year}";
   }
 
   void bookNow() {
@@ -155,7 +134,7 @@ class CourseDetailsController extends GetxController {
             _buildPaymentOption(
               title: "Class Pack Session",
               subtitle:
-              "${homeController.sessionsLeft.value} sessions remaining",
+                  "${homeController.sessionsLeft.value} sessions remaining",
               icon: Icons.confirmation_number_outlined,
               onTap: () {
                 Get.back();
@@ -286,7 +265,7 @@ class CourseDetailsController extends GetxController {
               ),
               const SizedBox(height: 12),
               Obx(
-                    () => Text(
+                () => Text(
                   "You have successfully booked\n${course.value?.title ?? ''}",
                   textAlign: TextAlign.center,
                   style: const TextStyle(
@@ -328,6 +307,7 @@ class CourseDetailsController extends GetxController {
       barrierDismissible: false,
     );
   }
+
   Future<void> fetchClassById(String id) async {
     try {
       isLoading.value = true;
@@ -341,6 +321,7 @@ class CourseDetailsController extends GetxController {
       isLoading.value = false;
     }
   }
+
   void refreshData(String newId) {
     if (newId.isNotEmpty && newId != id.value) {
       id.value = newId;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:george/app/widgets/image_top_button.dart';
 import '../../../utils/app_size.dart';
 import '../../../widgets/app_image/app_image.dart';
 import 'package:get/get.dart';
@@ -66,18 +67,24 @@ class InstructorDetailsView extends GetView<InstructorDetailsController> {
                     controller: scrollController,
                     shrinkWrap: true,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        spacing: 10.h,
                         children: [
-                          Expanded(
-                            child: Text(
-                              instructorName,
-                              style: AppTextStyles.bold(
-                                24,
-                                color: const Color(0xFF6B5345),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  instructorName,
+                                  style: AppTextStyles.bold(
+                                    24,
+                                    color: const Color(0xFF6B5345),
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
                           Container(
                             padding: EdgeInsets.symmetric(
@@ -134,26 +141,8 @@ class InstructorDetailsView extends GetView<InstructorDetailsController> {
             ),
             Positioned(
               top: 50.h,
-              left: 20.w,
-              child: GestureDetector(
-                onTap: () => Get.back(),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.arrow_back_ios,
-                      color: AppColors.bodyTextColor,
-                      size: 18.r,
-                    ),
-                    Text(
-                      'Back',
-                      style: AppTextStyles.bold(
-                        16,
-                        color: AppColors.bodyTextColor,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              left: 16.w,
+              child: ImageTopButton(onTap: () => Get.back()),
             ),
           ],
         );

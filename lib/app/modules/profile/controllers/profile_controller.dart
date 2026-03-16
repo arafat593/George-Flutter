@@ -55,38 +55,15 @@ class ProfileController extends GetxController {
     }
   }
 
-  final attendanceData = <Map<String, dynamic>>[].obs;
+  
 
   @override
   void onInit() {
     super.onInit();
-    generateAttendanceData();
+    // generateAttendanceData();
   }
 
-  void generateAttendanceData() {
-    final months = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
-    attendanceData.value = List.generate(12, (index) {
-      return {
-        "month": months[index],
-        "total": 20,
-        "attended": (index % 5) + 10,
-        "classes_label": "${(index % 5) + 15} classes",
-      };
-    });
-  }
+  
 
   void toggleAppNotifications(bool value) => appNotifications.value = value;
   void toggleWhatsappNotifications(bool value) =>

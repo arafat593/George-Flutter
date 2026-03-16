@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:george/app/modules/home/controllers/home_controller.dart';
 import '../../../data/image_path.dart';
 import 'home_view_call_us_dialog.dart';
 import 'quick_action_item.dart';
@@ -9,38 +10,44 @@ class QuickActionsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: QuickActionItem(
-            iconPath: ImagePath.phone,
-            label: 'Call Us',
-            onTap: () => homeViewCallUsDialog(context: context),
+    final controller = Get.find<HomeController>();
+    return Obx(() {
+      if (controller.isLoading.value) {
+        return SizedBox.shrink();
+      }
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: QuickActionItem(
+              iconPath: ImagePath.phone,
+              label: 'Call Us',
+              onTap: () => homeViewCallUsDialog(context: context),
+            ),
           ),
-        ),
-        Expanded(
-          child: QuickActionItem(
-            iconPath: ImagePath.whatsapp,
-            label: 'WhatsApp',
-            onTap: () => homeViewCallUsDialog(context: context),
+          Expanded(
+            child: QuickActionItem(
+              iconPath: ImagePath.whatsapp,
+              label: 'WhatsApp',
+              onTap: () => homeViewCallUsDialog(context: context),
+            ),
           ),
-        ),
-        Expanded(
-          child: QuickActionItem(
-            iconPath: ImagePath.location,
-            label: 'Find Us',
-            onTap: () => homeViewCallUsDialog(context: context),
+          Expanded(
+            child: QuickActionItem(
+              iconPath: ImagePath.location,
+              label: 'Find Us',
+              onTap: () => homeViewCallUsDialog(context: context),
+            ),
           ),
-        ),
-        Expanded(
-          child: QuickActionItem(
-            iconPath: ImagePath.news,
-            label: 'Our News',
-            onTap: () => Get.toNamed('/news'),
+          Expanded(
+            child: QuickActionItem(
+              iconPath: ImagePath.news,
+              label: 'Our News',
+              onTap: () => Get.toNamed('/news'),
+            ),
           ),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 }

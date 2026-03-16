@@ -68,6 +68,8 @@ import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/terms_conditions/bindings/terms_conditions_binding.dart';
 import '../modules/terms_conditions/views/terms_conditions_view.dart';
+import '../modules/track_progress/bindings/track_progress_binding.dart';
+import '../modules/track_progress/views/track_progress_view.dart';
 import '../modules/update_password/bindings/update_password_binding.dart';
 import '../modules/update_password/views/update_password_view.dart';
 import '../modules/wallet/bindings/wallet_binding.dart';
@@ -262,6 +264,11 @@ class AppPages {
       name: _Paths.updatePassword,
       page: () => const UpdatePasswordView(),
       binding: UpdatePasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.trackProgress,
+      page: () => const TrackProgressView(),
+      binding: TrackProgressBinding(),
     ),
   ];
 }

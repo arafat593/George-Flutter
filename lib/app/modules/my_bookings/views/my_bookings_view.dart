@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:george/app/routes/app_pages.dart';
 import '../../../utils/app_size.dart';
 import '../../../widgets/app_image/app_image.dart';
 import '../../../widgets/custom_appbar.dart';
@@ -257,7 +258,7 @@ class MyBookingsView extends GetView<MyBookingsController> {
 
   Widget _buildBookingCard(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.toNamed('/course-details'),
+      onTap: () => Get.toNamed(Routes.courseDetails),
       child: Container(
         padding: EdgeInsets.all(16.r),
         decoration: BoxDecoration(
