@@ -55,15 +55,11 @@ class ProfileController extends GetxController {
     }
   }
 
-  
-
   @override
   void onInit() {
     super.onInit();
     // generateAttendanceData();
   }
-
-  
 
   void toggleAppNotifications(bool value) => appNotifications.value = value;
   void toggleWhatsappNotifications(bool value) =>

@@ -6,7 +6,8 @@ import 'package:get_storage/get_storage.dart';
 
 class GetStorageServices {
   GetStorageServices._privateConstructor();
-  static final GetStorageServices _instance = GetStorageServices._privateConstructor();
+  static final GetStorageServices _instance =
+      GetStorageServices._privateConstructor();
   static GetStorageServices get instance => _instance;
 
   ////////////// storage initial
@@ -51,7 +52,10 @@ class GetStorageServices {
 
   ///////////////////// login information
 
-  Future<void> setLoginInformation({required String email, required String password}) async {
+  Future<void> setLoginInformation({
+    required String email,
+    required String password,
+  }) async {
     try {
       var value = jsonEncode({"email": email, "password": password});
       await box.write(AppStorageKey.instance.loginInformation, value);
@@ -64,7 +68,7 @@ class GetStorageServices {
     try {
       // var data = box.read(AppStorageKey.instance.loginInformation) ?? "";
       // return jsonDecode(data);
- 
+
       var data = box.read(AppStorageKey.instance.loginInformation) ?? "";
       if (data.toString().isEmpty) {
         return {};

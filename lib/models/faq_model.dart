@@ -1,7 +1,7 @@
 // legal_content_model.dart
 class FAQModel {
   final String id;
-  final String type;       // "TERMS_CONDITIONS", "PRIVACY_POLICY", "FAQ", etc.
+  final String type; // "TERMS_CONDITIONS", "PRIVACY_POLICY", "FAQ", etc.
   final String content;
   final DateTime createdAt;
   final DateTime updatedAt;

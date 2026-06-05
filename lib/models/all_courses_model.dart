@@ -130,11 +130,6 @@ class Instructor {
   }
 
   factory Instructor.empty() {
-    return Instructor(
-      id: '',
-      name: '',
-      email: '',
-      avatar: '',
-    );
+    return Instructor(id: '', name: '', email: '', avatar: '');
   }
 }

@@ -17,6 +17,10 @@ class MembershipDetailsController extends GetxController {
   final RxBool isFromSuggestions = false.obs;
   final Rx<MembershipModel?> membershipModel = Rx<MembershipModel?>(null);
 
+  final RxBool isActive = false.obs;
+  final RxInt daysRemaining = 0.obs;
+  final RxList<ClassInfoModel> classDetails = <ClassInfoModel>[].obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -37,6 +41,11 @@ class MembershipDetailsController extends GetxController {
     walletBalance.value = _getValue(args, 'walletBalance', walletBalance.value);
     isFromSuggestions.value = args['isFromSuggestions'] ?? false;
     membershipModel.value = args['membershipModel'] as MembershipModel?;
+    isActive.value = args['isActive'] ?? false;
+    daysRemaining.value = args['daysRemaining'] ?? 0;
+    if (args['classDetails'] != null) {
+      classDetails.assignAll(List<ClassInfoModel>.from(args['classDetails']));
+    }
   }
 
   String _getValue(Map<String, dynamic> args, String key, String defaultValue) {
@@ -54,6 +63,7 @@ class MembershipDetailsController extends GetxController {
         'itemName': title.value,
         'itemPrice': price.value,
         'fromMembership': true,
+        'membership_plan_id': membershipModel.value?.id,
       },
     );
   }

@@ -21,7 +21,10 @@ class BaseRepository {
           var data = response["data"];
           if (data["content"] != null && data["content"] is String) {
             return data["content"].toString()
-              ..replaceAll('white-space:pre-wrap;', '').replaceAll('\u00A0', ' ').replaceAll(RegExp(r'\s+'), ' ').trim();
+              ..replaceAll('white-space:pre-wrap;', '')
+                  .replaceAll('\u00A0', ' ')
+                  .replaceAll(RegExp(r'\s+'), ' ')
+                  .trim();
           }
         }
       }
@@ -39,7 +42,10 @@ class BaseRepository {
           var data = response["data"];
           if (data["content"] != null && data["content"] is String) {
             return data["content"].toString()
-              ..replaceAll('white-space:pre-wrap;', '').replaceAll('\u00A0', ' ').replaceAll(RegExp(r'\s+'), ' ').trim();
+              ..replaceAll('white-space:pre-wrap;', '')
+                  .replaceAll('\u00A0', ' ')
+                  .replaceAll(RegExp(r'\s+'), ' ')
+                  .trim();
           }
         }
       }
@@ -57,7 +63,10 @@ class BaseRepository {
           var data = response["data"];
           if (data["content"] != null && data["content"] is String) {
             return data["content"].toString()
-              ..replaceAll('white-space:pre-wrap;', '').replaceAll('\u00A0', ' ').replaceAll(RegExp(r'\s+'), ' ').trim();
+              ..replaceAll('white-space:pre-wrap;', '')
+                  .replaceAll('\u00A0', ' ')
+                  .replaceAll(RegExp(r'\s+'), ' ')
+                  .trim();
           }
         }
       }

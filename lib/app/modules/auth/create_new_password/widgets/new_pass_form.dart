@@ -26,7 +26,12 @@ class NewPassForm extends StatelessWidget {
               hintText: '**** **** ****',
               obscureText: !controller.isPasswordVisible.value,
               suffixIcon: IconButton(
-                icon: Icon(controller.isPasswordVisible.value ? Icons.visibility : Icons.visibility_off, color: AppColors.headlineColor),
+                icon: Icon(
+                  controller.isPasswordVisible.value
+                      ? Icons.visibility
+                      : Icons.visibility_off,
+                  color: AppColors.headlineColor,
+                ),
                 onPressed: controller.togglePasswordVisibility,
               ),
               validator: (value) {
@@ -52,7 +57,12 @@ class NewPassForm extends StatelessWidget {
               hintText: '**** **** ****',
               obscureText: !controller.isConfirmPasswordVisible.value,
               suffixIcon: IconButton(
-                icon: Icon(controller.isConfirmPasswordVisible.value ? Icons.visibility : Icons.visibility_off, color: AppColors.headlineColor),
+                icon: Icon(
+                  controller.isConfirmPasswordVisible.value
+                      ? Icons.visibility
+                      : Icons.visibility_off,
+                  color: AppColors.headlineColor,
+                ),
                 onPressed: controller.toggleConfirmPasswordVisibility,
               ),
               validator: (value) {
@@ -83,7 +93,9 @@ class NewPassForm extends StatelessWidget {
                 SizedBox(width: 20.w),
                 Expanded(
                   child: CustomElevetedButton(
-                    buttonText: controller.isLoading.value ? "loading.." : 'Save',
+                    buttonText: controller.isLoading.value
+                        ? "loading.."
+                        : 'Save',
                     onTap: () {
                       controller.checkAndUpdate();
                       // if (controller.formKey.currentState!.validate()) {

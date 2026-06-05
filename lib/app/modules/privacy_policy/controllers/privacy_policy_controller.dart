@@ -9,7 +9,8 @@ class PrivacyPolicyController extends GetxController {
   final RxBool isLoading = false.obs;
   final Rxn<PrivacyPolicy> privacyPolicy = Rxn<PrivacyPolicy>();
 
-  final PrivacyPolicyRepository _privacyPolicyRepository = PrivacyPolicyRepository.instance;
+  final PrivacyPolicyRepository _privacyPolicyRepository =
+      PrivacyPolicyRepository.instance;
 
   void onAppInitialize() {
     try {
@@ -19,7 +20,7 @@ class PrivacyPolicyController extends GetxController {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Get.offAndToNamed(Routes.errorScreen);
       });
-    } 
+    }
   }
 
   Future<void> fetchPrivacyPolicy() async {
@@ -35,6 +36,7 @@ class PrivacyPolicyController extends GetxController {
       isLoading.value = false;
     }
   }
+
   @override
   void onInit() {
     super.onInit();

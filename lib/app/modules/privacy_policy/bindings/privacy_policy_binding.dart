@@ -5,8 +5,6 @@ import '../controllers/privacy_policy_controller.dart';
 class PrivacyPolicyBinding extends BindingsInterface {
   @override
   void dependencies() {
-    Get.lazyPut<PrivacyPolicyController>(
-      () => PrivacyPolicyController(),
-    );
+    Get.lazyPut<PrivacyPolicyController>(() => PrivacyPolicyController());
   }
 }

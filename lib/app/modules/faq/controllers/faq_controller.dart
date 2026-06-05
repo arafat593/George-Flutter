@@ -25,7 +25,7 @@ class FaqController extends GetxController {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Get.offAndToNamed(Routes.errorScreen);
       });
-    } 
+    }
   }
 
   Future<void> fetchFAQ() async {

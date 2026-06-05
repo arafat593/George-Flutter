@@ -10,7 +10,6 @@ import 'package:intl/intl.dart';
 import '../../../data/app_text_styles.dart';
 import '../../../methodes/call_whatsapp.dart';
 import '../../../widgets/app_image/app_image.dart';
-import '../../../widgets/snack_bar/app_snack_bar.dart';
 import '../controllers/class_details_controller.dart';
 
 class ClassDetailsView extends GetView<ClassDetailsController> {
@@ -523,8 +522,8 @@ class ClassDetailsView extends GetView<ClassDetailsController> {
       height: 55.h,
       child: ElevatedButton(
         onPressed: () {
-          // controller.bookNow();
-          AppSnackBar.success('Wating for payment implementation');
+          controller.bookNow();
+          // AppSnackBar.success('Wating for payment implementation');
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF6B5345),

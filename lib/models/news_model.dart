@@ -35,6 +35,7 @@ class NewsResponseModel {
     };
   }
 }
+
 class NewsModel {
   final String id;
   final String title;

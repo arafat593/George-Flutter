@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../data/app_colors.dart';
 import '../utils/app_size.dart';
 
-
 class CustomCheckBox extends StatelessWidget {
   const CustomCheckBox({super.key, required this.value, this.onChanged});
 

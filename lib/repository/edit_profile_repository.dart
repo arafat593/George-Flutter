@@ -16,10 +16,13 @@ class EditProfileRepository {
   final ApiServices _apiServices = ApiServices.instance;
   final AppApiEndPoint _apiEndPoint = AppApiEndPoint.instance;
 
-  Future<AppUserData> updateProfile({required Map<String, dynamic> body, String? profileImage}) async {
+  Future<AppUserData> updateProfile({
+    required Map<String, dynamic> body,
+    String? profileImage,
+  }) async {
     try {
       FormData formData = FormData.fromMap(body);
-      
+
       if (profileImage != null && profileImage.isNotEmpty) {
         final file = File(profileImage);
         if (await file.exists()) {
@@ -28,7 +31,13 @@ class EditProfileRepository {
           formData.files.add(
             MapEntry(
               "avatar",
-              await MultipartFile.fromFile(file.path, filename: fileName, contentType: MediaType.parse(mimeType ?? "application/octet-stream")),
+              await MultipartFile.fromFile(
+                file.path,
+                filename: fileName,
+                contentType: MediaType.parse(
+                  mimeType ?? "application/octet-stream",
+                ),
+              ),
             ),
           );
         }
@@ -38,13 +47,13 @@ class EditProfileRepository {
         url: _apiEndPoint.userUpdate,
         body: formData,
       );
-      
+
       if (response != null && response is Map<String, dynamic>) {
         return AppUserData.fromJson(response);
       }
       return AppUserData.empty();
     } catch (e) {
-      errorLog('Update error:',e);
+      errorLog('Update error:', e);
       return AppUserData.empty();
     }
   }

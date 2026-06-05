@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../modules/about_us/bindings/about_us_binding.dart';
@@ -270,5 +271,83 @@ class AppPages {
       page: () => const TrackProgressView(),
       binding: TrackProgressBinding(),
     ),
+    GetPage(
+      name: '/payment/success',
+      page: () {
+        final referenceId = Get.parameters['reference_id'] ?? '';
+        final ampModule = Get.parameters['amp;module'] ?? '';
+        final module = Get.parameters['module'] ?? '';
+        final isBookingOrOrder =
+            referenceId.toUpperCase().contains('BOOKING') ||
+            referenceId.toUpperCase().contains('ORDER') ||
+            ampModule.toUpperCase().contains('BOOKING') ||
+            ampModule.toUpperCase().contains('ORDER') ||
+            module.toUpperCase().contains('BOOKING') ||
+            module.toUpperCase().contains('ORDER');
+        if (isBookingOrOrder) {
+          return const BookingConfirmedView();
+        } else {
+          return const TopUpSuccessView();
+        }
+      },
+    ),
+    GetPage(
+      name: '/success',
+      page: () {
+        final referenceId = Get.parameters['reference_id'] ?? '';
+        final ampModule = Get.parameters['amp;module'] ?? '';
+        final module = Get.parameters['module'] ?? '';
+        final isBookingOrOrder =
+            referenceId.toUpperCase().contains('BOOKING') ||
+            referenceId.toUpperCase().contains('ORDER') ||
+            ampModule.toUpperCase().contains('BOOKING') ||
+            ampModule.toUpperCase().contains('ORDER') ||
+            module.toUpperCase().contains('BOOKING') ||
+            module.toUpperCase().contains('ORDER');
+        if (isBookingOrOrder) {
+          return const BookingConfirmedView();
+        } else {
+          return const TopUpSuccessView();
+        }
+      },
+    ),
+    GetPage(
+      name: '/payment/error',
+      page: () => const SizedBox(),
+      middlewares: [PaymentErrorMiddleware()],
+    ),
+    GetPage(
+      name: '/error',
+      page: () => const SizedBox(),
+      middlewares: [PaymentErrorMiddleware()],
+    ),
+    GetPage(
+      name: '/payment/failure',
+      page: () => const SizedBox(),
+      middlewares: [PaymentErrorMiddleware()],
+    ),
+    GetPage(
+      name: '/failure',
+      page: () => const SizedBox(),
+      middlewares: [PaymentErrorMiddleware()],
+    ),
   ];
+}
+
+class PaymentErrorMiddleware extends GetMiddleware {
+  @override
+  RouteSettings? redirect(String? route) {
+    Get.snackbar(
+      'Payment Unsuccessful',
+      'Your wallet top-up transaction was unsuccessful. Please check your card details and try again.',
+      snackPosition: SnackPosition.bottom,
+      backgroundColor: const Color(0xFFF08A8A),
+      colorText: Colors.white,
+      borderRadius: 12,
+      margin: const EdgeInsets.all(16),
+      duration: const Duration(seconds: 5),
+      icon: const Icon(Icons.error_outline, color: Colors.white),
+    );
+    return const RouteSettings(name: Routes.wallet);
+  }
 }

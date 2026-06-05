@@ -54,7 +54,9 @@ class ProductDetailsModel {
     required this.averageRating,
     required this.totalReviews,
     required this.createdAt,
-    required this.updatedAt, required this.totalPrice, required this.quantity,
+    required this.updatedAt,
+    required this.totalPrice,
+    required this.quantity,
   });
 
   factory ProductDetailsModel.fromJson(Map<String, dynamic> json) {

@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
 import '../../../routes/app_pages.dart';
+import '../../custom_bottom_nav/controllers/custom_bottom_nav_controller.dart';
+import '../controllers/wallet_controller.dart';
 
 class TopUpSuccessView extends StatefulWidget {
   const TopUpSuccessView({super.key});
@@ -62,8 +64,19 @@ class _TopUpSuccessViewState extends State<TopUpSuccessView> {
                         width: double.infinity,
                         height: 55.h,
                         child: ElevatedButton(
-                          onPressed: () =>
-                              Get.offNamed(Routes.customBottomNav),
+                          onPressed: () {
+                            if (Get.isRegistered<CustomBottomNavController>()) {
+                              Get.find<CustomBottomNavController>().changeIndex(
+                                3,
+                              );
+                            }
+                            if (Get.isRegistered<WalletController>()) {
+                              Get.find<WalletController>().fetchWalletData(
+                                isRefresh: true,
+                              );
+                            }
+                            Get.offNamed(Routes.customBottomNav);
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF6B5345),
                             shape: RoundedRectangleBorder(

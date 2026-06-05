@@ -4,7 +4,7 @@ import '../models/terms_and_conditions_model.dart';
 import '../services/api/api_services.dart';
 
 class TermsAndConditonsRepository {
-    ////////////// Contractures
+  ////////////// Contractures
   TermsAndConditonsRepository._privetContractures();
   static final TermsAndConditonsRepository _instance =
       TermsAndConditonsRepository._privetContractures();

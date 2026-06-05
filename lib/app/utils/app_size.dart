@@ -12,14 +12,11 @@ class AppSize {
     size = MediaQuery.of(context).size;
   }
 
-
   static double h(num value) => (value / designHeight) * size.height;
   static double w(num value) => (value / designWidth) * size.width;
 
- 
   static double sh(num value) => size.height * value;
   static double sw(num value) => size.width * value;
-
 
   static double sp(num value) => w(value);
   static double r(num value) => w(value);

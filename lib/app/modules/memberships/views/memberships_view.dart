@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../utils/app_size.dart';
 import '../../../widgets/custom_appbar.dart';
-import '../../../widgets/snack_bar/app_snack_bar.dart';
 import '../../../../models/membership_catalogue_model.dart';
+import '../../../../models/active_membership_model.dart';
 import 'package:get/get.dart';
 
 import '../../../data/app_colors.dart';
@@ -128,53 +128,84 @@ class MembershipsView extends GetView<MembershipsController> {
     }
     return Column(
       children: [
-        GestureDetector(
-          onTap: () {
-            //   Get.toNamed(
-            //   Routes.membershipDetails,
-            //   arguments: {
-            //     'type': 'Membership',
-            //     'title': '1 month Membership',
-            //     'validity': 'Valid until 2023-12-31',
-            //     'subtitle': 'Current Active Membership',
-            //     'price': 'QAR 970',
-            //     'isFromSuggestions': Get.arguments != null
-            //         ? Get.arguments['isFromSuggestions']
-            //         : false,
-            //   },
-            // );
-            AppSnackBar.message('Wating for payment implementation');
-          },
-          child: _buildActiveMembershipCard(),
-        ),
+        Obx(() {
+          final activeList =
+              controller.activeMembershipsModel.value?.memberships ?? [];
+          final activeMemberships = activeList
+              .where((m) => !m.name.toLowerCase().contains("pack"))
+              .toList();
+
+          if (controller.isActiveLoading.value) {
+            return SizedBox(
+              height: 100.h,
+              child: const Center(child: CircularProgressIndicator()),
+            );
+          }
+          if (activeMemberships.isEmpty) {
+            return const SizedBox.shrink();
+          }
+          return Column(
+            children: activeMemberships.map((active) {
+              final expireDate =
+                  "${active.endDate.year}-${active.endDate.month.toString().padLeft(2, '0')}-${active.endDate.day.toString().padLeft(2, '0')}";
+              final startDateStr =
+                  "${active.startDate.year}-${active.startDate.month.toString().padLeft(2, '0')}-${active.startDate.day.toString().padLeft(2, '0')}";
+              final endDateStr = expireDate;
+              return GestureDetector(
+                onTap: () {
+                  Get.toNamed(
+                    Routes.membershipDetails,
+                    arguments: {
+                      'type': 'Membership',
+                      'title': active.name,
+                      'subtitle': active.description,
+                      'validity': 'Expires on $expireDate',
+                      'price': 'QAR ${active.price.round()}',
+                      'startDate': startDateStr,
+                      'endDate': endDateStr,
+                      'isActive': true,
+                      'daysRemaining': active.daysRemaining,
+                      'classDetails': active.classDetails,
+                      'isFromSuggestions': Get.arguments != null
+                          ? Get.arguments['isFromSuggestions']
+                          : false,
+                    },
+                  );
+                },
+                child: _buildActiveMembershipCard(active),
+              );
+            }).toList(),
+          );
+        }),
         SizedBox(height: 20.h),
         ListView.builder(
           itemCount: length,
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (_, index) => GestureDetector(
             onTap: () {
-              //   Get.toNamed(
-              //   Routes.membershipDetails,
-              //   arguments: {
-              //     'type': 'Membership',
-              //     'title': '1 month Membership',
-              //     'price': 'QAR 970',
-              //     'validity': 'Valid for 1 months',
-              //     'subtitle': 'Access to regular classes for 30 days',
-              //     'isFromSuggestions': Get.arguments != null
-              //         ? Get.arguments['isFromSuggestions']
-              //         : false,
-              //   },
-              // );
-              AppSnackBar.message('Wating for payment implementation');
+              final model = membershipModel[index];
+              Get.toNamed(
+                Routes.membershipDetails,
+                arguments: {
+                  'type': 'Membership',
+                  'title': model.name,
+                  'price': 'QAR ${model.price.round()}',
+                  'validity': 'Valid for ${model.durationDays} days',
+                  'subtitle': model.description,
+                  'membershipModel': model,
+                  'isFromSuggestions': Get.arguments != null
+                      ? Get.arguments['isFromSuggestions']
+                      : false,
+                },
+              );
             },
             child: _buildMembershipOptionCard(
               type: "Membership",
-              title: "1 month Membership",
-              price: "QAR 970",
-              subtitle: "Access to regular classes for 30 days",
-              validity: "Valid for 1 months",
+              title: membershipModel[index].name,
+              price: "QAR ${membershipModel[index].price.round()}",
+              subtitle: membershipModel[index].description,
+              validity: "Valid for ${membershipModel[index].durationDays} days",
               isAutoRenew: controller.autoRenew1Month,
               membershipModel: membershipModel[index],
             ),
@@ -187,42 +218,71 @@ class MembershipsView extends GetView<MembershipsController> {
   Widget _buildPackagesContent() {
     return Column(
       children: [
-        GestureDetector(
-          onTap: () {
-            //   Get.toNamed(
-            //   Routes.membershipDetails,
-            //   arguments: {
-            //     'type': 'Package',
-            //     'title': '10 Class Pack',
-            //     'validity': '5 Sessions Left',
-            //     'subtitle': 'Current Active Package',
-            //     'price': 'QAR 750',
-            //     'isFromSuggestions': Get.arguments != null
-            //         ? Get.arguments['isFromSuggestions']
-            //         : false,
-            //   },
-            // );
-            AppSnackBar.message('Wating for payment implementation');
-          },
-          child: _buildActivePackCard(),
-        ),
+        Obx(() {
+          final activeList =
+              controller.activeMembershipsModel.value?.memberships ?? [];
+          final activePackages = activeList
+              .where((m) => m.name.toLowerCase().contains("pack"))
+              .toList();
+
+          if (controller.isActiveLoading.value) {
+            return SizedBox(
+              height: 100.h,
+              child: const Center(child: CircularProgressIndicator()),
+            );
+          }
+          if (activePackages.isEmpty) {
+            return const SizedBox.shrink();
+          }
+          return Column(
+            children: activePackages.map((active) {
+              final expireDate =
+                  "${active.endDate.year}-${active.endDate.month.toString().padLeft(2, '0')}-${active.endDate.day.toString().padLeft(2, '0')}";
+              final startDateStr =
+                  "${active.startDate.year}-${active.startDate.month.toString().padLeft(2, '0')}-${active.startDate.day.toString().padLeft(2, '0')}";
+              final endDateStr = expireDate;
+              return GestureDetector(
+                onTap: () {
+                  Get.toNamed(
+                    Routes.membershipDetails,
+                    arguments: {
+                      'type': 'Package',
+                      'title': active.name,
+                      'subtitle': active.description,
+                      'validity': 'Expires on $expireDate',
+                      'price': 'QAR ${active.price.round()}',
+                      'startDate': startDateStr,
+                      'endDate': endDateStr,
+                      'isActive': true,
+                      'daysRemaining': active.daysRemaining,
+                      'classDetails': active.classDetails,
+                      'isFromSuggestions': Get.arguments != null
+                          ? Get.arguments['isFromSuggestions']
+                          : false,
+                    },
+                  );
+                },
+                child: _buildActivePackCard(active),
+              );
+            }).toList(),
+          );
+        }),
         SizedBox(height: 20.h),
         GestureDetector(
           onTap: () {
-            //   Get.toNamed(
-            //   Routes.membershipDetails,
-            //   arguments: {
-            //     'type': 'Package',
-            //     'title': '10 Class Pack',
-            //     'price': 'QAR 750',
-            //     'validity': 'Valid for 2 months',
-            //     'subtitle': 'Attend 10 classes',
-            //     'isFromSuggestions': Get.arguments != null
-            //         ? Get.arguments['isFromSuggestions']
-            //         : false,
-            //   },
-            // );
-            AppSnackBar.message('Wating for payment implementation');
+            Get.toNamed(
+              Routes.membershipDetails,
+              arguments: {
+                'type': 'Package',
+                'title': '10 Class Pack',
+                'price': 'QAR 750',
+                'validity': 'Valid for 2 months',
+                'subtitle': 'Attend 10 classes',
+                'isFromSuggestions': Get.arguments != null
+                    ? Get.arguments['isFromSuggestions']
+                    : false,
+              },
+            );
           },
           child: _buildMembershipOptionCard(
             type: "Package",
@@ -252,10 +312,13 @@ class MembershipsView extends GetView<MembershipsController> {
     );
   }
 
-  Widget _buildActivePackCard() {
+  Widget _buildActivePackCard(ActiveMembershipModel active) {
+    final expireDate =
+        "${active.endDate.year}-${active.endDate.month.toString().padLeft(2, '0')}-${active.endDate.day.toString().padLeft(2, '0')}";
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(20.w),
+      margin: EdgeInsets.only(bottom: 12.h),
       decoration: BoxDecoration(
         color: const Color(0xFF6D4C41),
         borderRadius: BorderRadius.circular(16.r),
@@ -280,70 +343,14 @@ class MembershipsView extends GetView<MembershipsController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Active Membership",
+                "Active Package",
                 style: AppTextStyles.regular(
                   12,
                 ).copyWith(color: Colors.white.withValues(alpha: 0.8)),
               ),
               SizedBox(height: 8.h),
               Text(
-                "10 Class Pack",
-                style: AppTextStyles.bold(22).copyWith(color: Colors.white),
-              ),
-              SizedBox(height: 20.h),
-              Text(
-                "Sessions Left",
-                style: AppTextStyles.regular(
-                  12,
-                ).copyWith(color: Colors.white.withValues(alpha: 0.8)),
-              ),
-              Text(
-                "5", // Mock data
-                style: AppTextStyles.medium(14).copyWith(color: Colors.white),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildActiveMembershipCard() {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(20.w),
-      decoration: BoxDecoration(
-        color: const Color(0xFF6D4C41),
-        borderRadius: BorderRadius.circular(16.r),
-      ),
-      child: Stack(
-        children: [
-          // decorative circle
-          Positioned(
-            right: -30,
-            top: -30,
-            child: Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.1),
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Active Membership",
-                style: AppTextStyles.regular(
-                  12,
-                ).copyWith(color: Colors.white.withValues(alpha: 0.8)),
-              ),
-              SizedBox(height: 8.h),
-              Text(
-                "1 month Membership",
+                active.name,
                 style: AppTextStyles.bold(22).copyWith(color: Colors.white),
               ),
               SizedBox(height: 20.h),
@@ -354,10 +361,71 @@ class MembershipsView extends GetView<MembershipsController> {
                 ).copyWith(color: Colors.white.withValues(alpha: 0.8)),
               ),
               Text(
-                "2023-12-31", // Mock data
+                expireDate,
                 style: AppTextStyles.medium(14).copyWith(color: Colors.white),
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildActiveMembershipCard(ActiveMembershipModel active) {
+    final expireDate =
+        "${active.endDate.year}-${active.endDate.month.toString().padLeft(2, '0')}-${active.endDate.day.toString().padLeft(2, '0')}";
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.only(bottom: 10.h),
+      decoration: BoxDecoration(
+        color: const Color(0xFF6D4C41),
+        borderRadius: BorderRadius.circular(16.r),
+      ),
+      child: Stack(
+        children: [
+          // decorative circle
+          Positioned(
+            right: -30,
+            top: -30,
+            child: Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.1),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+
+          Padding(
+            padding: EdgeInsets.all(20.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Active Membership",
+                  style: AppTextStyles.regular(
+                    12,
+                  ).copyWith(color: Colors.white.withValues(alpha: 0.8)),
+                ),
+                SizedBox(height: 8.h),
+                Text(
+                  active.name,
+                  style: AppTextStyles.bold(22).copyWith(color: Colors.white),
+                ),
+                SizedBox(height: 20.h),
+                Text(
+                  "Expires",
+                  style: AppTextStyles.regular(
+                    12,
+                  ).copyWith(color: Colors.white.withValues(alpha: 0.8)),
+                ),
+                Text(
+                  expireDate,
+                  style: AppTextStyles.medium(14).copyWith(color: Colors.white),
+                ),
+              ],
+            ),
           ),
         ],
       ),

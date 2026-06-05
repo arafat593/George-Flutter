@@ -26,7 +26,9 @@ class RecoveryOtpView extends GetView<RecoveryOtpController> {
                   //Header Section
                   HeaderText(text: 'Verification'),
                   SizedBox(height: 20.h),
-                  HeaderSubText(text: 'We sent Verification code to your Email address'),
+                  HeaderSubText(
+                    text: 'We sent Verification code to your Email address',
+                  ),
                   SizedBox(height: 40.h),
 
                   // OTP Field
@@ -44,7 +46,15 @@ class RecoveryOtpView extends GetView<RecoveryOtpController> {
                   SizedBox(height: 20.h),
 
                   // Timer
-                  Obx(() => Text(controller.timerText, style: AppTextStyles.medium(14, color: AppColors.headlineColor))),
+                  Obx(
+                    () => Text(
+                      controller.timerText,
+                      style: AppTextStyles.medium(
+                        14,
+                        color: AppColors.headlineColor,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

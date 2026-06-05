@@ -16,17 +16,24 @@ class CreateNewPasswordController extends GetxController {
   final isConfirmPasswordVisible = false.obs;
   final isLoading = false.obs;
 
-  void togglePasswordVisibility() => isPasswordVisible.value = !isPasswordVisible.value;
-  void toggleConfirmPasswordVisibility() => isConfirmPasswordVisible.value = !isConfirmPasswordVisible.value;
+  void togglePasswordVisibility() =>
+      isPasswordVisible.value = !isPasswordVisible.value;
+  void toggleConfirmPasswordVisibility() =>
+      isConfirmPasswordVisible.value = !isConfirmPasswordVisible.value;
 
   Future<void> checkAndUpdate() async {
     try {
       if (!formKey.currentState!.validate()) return;
       isLoading.value = true;
-      var response = await _authRepository.forgotResetPassword(email: email.value, newPassword: passwordController.text.trim());
+      var response = await _authRepository.forgotResetPassword(
+        email: email.value,
+        newPassword: passwordController.text.trim(),
+      );
       if (response) {
         Get.offAllNamed(Routes.logIn);
-        AppSnackBar.success("Successful password updated. Log in with your credentials");
+        AppSnackBar.success(
+          "Successful password updated. Log in with your credentials",
+        );
       }
     } catch (e) {
       errorLog("checkAndUpdate", e);

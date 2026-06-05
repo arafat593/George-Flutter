@@ -4,7 +4,6 @@ import '../models/privacy_policy_model.dart';
 import '../services/api/api_services.dart';
 
 class PrivacyPolicyRepository {
-
   //----Private constructor
   PrivacyPolicyRepository._privateConstructor();
   static final PrivacyPolicyRepository _instance =
@@ -15,7 +14,7 @@ class PrivacyPolicyRepository {
   final ApiServices _apiServices = ApiServices.instance;
   final AppApiEndPoint _api = AppApiEndPoint.instance;
 
-  Future<PrivacyPolicy?> getPrivacyPolicy()async{
+  Future<PrivacyPolicy?> getPrivacyPolicy() async {
     try {
       var response = await _apiServices.apiGetServices(_api.privacyPolicy);
       if (response != null) {

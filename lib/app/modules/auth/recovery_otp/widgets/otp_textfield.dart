@@ -46,7 +46,10 @@ class OtpTextField extends StatelessWidget {
               enableActiveFill: false,
               backgroundColor: Colors.transparent,
 
-              textStyle: AppTextStyles.medium(24, color: AppColors.headlineColor),
+              textStyle: AppTextStyles.medium(
+                24,
+                color: AppColors.headlineColor,
+              ),
 
               onCompleted: (value) {
                 appLog("OTP: $value");
@@ -73,7 +76,9 @@ class OtpTextField extends StatelessWidget {
                 SizedBox(width: 20.w),
                 Expanded(
                   child: CustomElevetedButton(
-                    buttonText: controller.isLoading.value ? "loading..." : "Confirm",
+                    buttonText: controller.isLoading.value
+                        ? "loading..."
+                        : "Confirm",
                     backgroundColor: AppColors.buttonPrimaryColor,
                     buttonTextColor: AppColors.whiteColor,
                     onTap: () {

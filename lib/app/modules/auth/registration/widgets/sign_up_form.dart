@@ -96,27 +96,47 @@ class SignUpForm extends StatelessWidget {
                   initialValue: controller.selectedGender.value,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: AppColors.buttonSecondaryColor.withValues(alpha: 0.3),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                    fillColor: AppColors.buttonSecondaryColor.withValues(
+                      alpha: 0.3,
+                    ),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 12.h,
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.r),
-                      borderSide: const BorderSide(color: AppColors.borderColor),
+                      borderSide: const BorderSide(
+                        color: AppColors.borderColor,
+                      ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.r),
-                      borderSide: const BorderSide(color: AppColors.borderColor),
+                      borderSide: const BorderSide(
+                        color: AppColors.borderColor,
+                      ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.r),
-                      borderSide: const BorderSide(color: AppColors.borderColor),
+                      borderSide: const BorderSide(
+                        color: AppColors.borderColor,
+                      ),
                     ),
                   ),
                   dropdownColor: AppColors.backgroundColor,
-                  icon: Icon(Icons.keyboard_arrow_down, color: AppColors.headlineColor),
+                  icon: Icon(
+                    Icons.keyboard_arrow_down,
+                    color: AppColors.headlineColor,
+                  ),
                   items: ['Male', 'Female'].map((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
-                      child: Text(value, style: AppTextStyles.regular(14, color: AppColors.headlineColor)),
+                      child: Text(
+                        value,
+                        style: AppTextStyles.regular(
+                          14,
+                          color: AppColors.headlineColor,
+                        ),
+                      ),
                     );
                   }).toList(),
                   onChanged: controller.setGender,
@@ -132,7 +152,12 @@ class SignUpForm extends StatelessWidget {
                   hintText: '**** ****',
                   obscureText: !controller.isPasswordVisible.value,
                   suffixIcon: IconButton(
-                    icon: Icon(controller.isPasswordVisible.value ? Icons.visibility : Icons.visibility_off, color: Colors.grey),
+                    icon: Icon(
+                      controller.isPasswordVisible.value
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Colors.grey,
+                    ),
                     onPressed: controller.togglePasswordVisibility,
                   ),
                   validator: (v) => (v?.length ?? 0) < 6 ? 'Min 6 chars' : null,
@@ -148,10 +173,17 @@ class SignUpForm extends StatelessWidget {
                   hintText: '**** ****',
                   obscureText: !controller.isConfirmPasswordVisible.value,
                   suffixIcon: IconButton(
-                    icon: Icon(controller.isConfirmPasswordVisible.value ? Icons.visibility : Icons.visibility_off, color: Colors.grey),
+                    icon: Icon(
+                      controller.isConfirmPasswordVisible.value
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Colors.grey,
+                    ),
                     onPressed: controller.toggleConfirmPasswordVisibility,
                   ),
-                  validator: (v) => v != controller.passwordController.text ? 'Passwords do not match' : null,
+                  validator: (v) => v != controller.passwordController.text
+                      ? 'Passwords do not match'
+                      : null,
                 ),
               ),
               SizedBox(height: 30.h),
@@ -173,11 +205,17 @@ class SignUpForm extends StatelessWidget {
                       child: RichText(
                         text: TextSpan(
                           text: "I agree to the ",
-                          style: AppTextStyles.regular(14, color: AppColors.headlineColor),
+                          style: AppTextStyles.regular(
+                            14,
+                            color: AppColors.headlineColor,
+                          ),
                           children: [
                             TextSpan(
                               text: "Terms of services",
-                              style: AppTextStyles.bold(14, color: AppColors.headlineColor),
+                              style: AppTextStyles.bold(
+                                14,
+                                color: AppColors.headlineColor,
+                              ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   Get.toNamed(Routes.termsConditions);
@@ -186,7 +224,10 @@ class SignUpForm extends StatelessWidget {
                             TextSpan(text: " & "),
                             TextSpan(
                               text: "Privacy and Policy",
-                              style: AppTextStyles.bold(14, color: AppColors.headlineColor),
+                              style: AppTextStyles.bold(
+                                14,
+                                color: AppColors.headlineColor,
+                              ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   Get.toNamed(Routes.termsConditions);
@@ -204,7 +245,9 @@ class SignUpForm extends StatelessWidget {
               // Register Button
               Obx(
                 () => CustomElevetedButton(
-                  buttonText: controller.isLoading.value ? "Loading.." : 'Register',
+                  buttonText: controller.isLoading.value
+                      ? "Loading.."
+                      : 'Register',
                   onTap: controller.isTermsAccepted.value
                       ? () {
                           if (!controller.isLoading.value) {

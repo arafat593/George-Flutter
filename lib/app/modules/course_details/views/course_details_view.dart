@@ -8,7 +8,6 @@ import '../../../utils/app_size.dart';
 import '../../../widgets/app_image/app_image.dart';
 import '../../../widgets/custom_elevated_button.dart';
 import '../../../widgets/image_top_button.dart';
-import '../../../widgets/snack_bar/app_snack_bar.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../data/app_text_styles.dart';
@@ -120,9 +119,7 @@ class CourseDetailsView extends GetView<CourseDetailsController> {
                       CustomElevetedButton(
                         buttonText: 'Book Now',
                         onTap: () {
-                          AppSnackBar.success(
-                            'Wating for payment implementation',
-                          );
+                          controller.bookNow();
                         },
                       ),
                     ],

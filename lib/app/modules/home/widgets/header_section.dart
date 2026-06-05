@@ -67,8 +67,8 @@ class HeaderSection extends StatelessWidget {
               RoundedIconContainer(
                 iconPath: ImagePath.notification,
                 onTap: () {
-                  // return Get.toNamed(Routes.notifications);
-                  AppSnackBar.success('Wating for payment implementation');
+                  return Get.toNamed(Routes.notifications);
+                  // AppSnackBar.success('Wating for payment implementation');
                 },
               ),
             ],

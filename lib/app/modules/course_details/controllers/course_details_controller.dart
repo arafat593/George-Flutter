@@ -98,8 +98,15 @@ class CourseDetailsController extends GetxController {
       Get.toNamed(
         Routes.checkout,
         arguments: {
+          'course_id': course.value?.id,
           'title': course.value?.title ?? '',
           'price': displayPrice.value,
+          'type': 'course',
+          'instructor': course.value?.instructor.name ?? '',
+          'imageUrl': course.value?.imageUrl ?? '',
+          'duration': course.value?.duration ?? '',
+          'scheduledAt': course.value?.scheduledAt,
+          'location': course.value?.location ?? '',
         },
       );
     }
@@ -151,8 +158,15 @@ class CourseDetailsController extends GetxController {
                 Get.toNamed(
                   Routes.checkout,
                   arguments: {
+                    'course_id': course.value?.id,
                     'title': course.value?.title ?? '',
                     'price': displayPrice.value,
+                    'type': 'course',
+                    'instructor': course.value?.instructor.name ?? '',
+                    'imageUrl': course.value?.imageUrl ?? '',
+                    'duration': course.value?.duration ?? '',
+                    'scheduledAt': course.value?.scheduledAt,
+                    'location': course.value?.location ?? '',
                   },
                 );
               },

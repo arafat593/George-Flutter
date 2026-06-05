@@ -24,7 +24,8 @@ class TextFieldLabelText extends StatelessWidget {
           children: [
             TextSpan(
               text: label,
-              style: textStyle ??
+              style:
+                  textStyle ??
                   AppTextStyles.medium(14, color: AppColors.headlineColor),
               children: [
                 if (showAstric)

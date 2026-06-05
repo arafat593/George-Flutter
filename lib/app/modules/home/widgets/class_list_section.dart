@@ -23,9 +23,12 @@ class ClassListSection extends StatelessWidget {
       }
       if (controller.allClasses.isEmpty) {
         return Center(
-          child: Text(
-            'No Classes Found',
-            style: TextStyle(color: Color(0xFF6B5345), fontSize: 16.sp),
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 20.h),
+            child: Text(
+              'No Classes Found',
+              style: TextStyle(color: Color(0xFF6B5345), fontSize: 16.sp),
+            ),
           ),
         );
       }

@@ -20,10 +20,15 @@ class RecoveryOtpController extends GetxController {
     try {
       if (!formKey.currentState!.validate()) return;
       isLoading.value = true;
-      var response = await _authRepository.authOtpVerify(email: email.value, otp: otpController.text.trim());
+      var response = await _authRepository.authOtpVerify(
+        email: email.value,
+        otp: otpController.text.trim(),
+      );
       if (response) {
         if (isSignUP.value) {
-          AppSnackBar.success("Successfully created account, login with your credential");
+          AppSnackBar.success(
+            "Successfully created account, login with your credential",
+          );
           Get.offAllNamed(Routes.logIn);
         } else {
           Get.offAndToNamed(Routes.createNewPassword, arguments: email.value);

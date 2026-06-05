@@ -4,7 +4,13 @@ import '../data/app_text_styles.dart';
 import 'package:get/get.dart';
 
 class AuthOptions extends StatelessWidget {
-  const AuthOptions({super.key, this.onTap, required this.titleText, required this.optionText, required this.seconds});
+  const AuthOptions({
+    super.key,
+    this.onTap,
+    required this.titleText,
+    required this.optionText,
+    required this.seconds,
+  });
   final Function()? onTap;
   final String titleText, optionText;
   final RxInt seconds;
@@ -22,7 +28,12 @@ class AuthOptions extends StatelessWidget {
               children: [
                 TextSpan(
                   text: optionText,
-                  style: AppTextStyles.bold(16, color: seconds.value <= 0 ? AppColors.headlineColor : Colors.grey),
+                  style: AppTextStyles.bold(
+                    16,
+                    color: seconds.value <= 0
+                        ? AppColors.headlineColor
+                        : Colors.grey,
+                  ),
                 ),
               ],
             ),

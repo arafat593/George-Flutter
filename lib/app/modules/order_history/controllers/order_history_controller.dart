@@ -40,6 +40,4 @@ class OrderHistoryController extends GetxController {
   void onInit() {
     super.onInit();
   }
-
-
 }

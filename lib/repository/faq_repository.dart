@@ -4,7 +4,6 @@ import '../models/faq_model.dart';
 import '../services/api/api_services.dart';
 
 class FAQRepository {
-  
   FAQRepository._privateConstructor();
 
   static final FAQRepository _instance = FAQRepository._privateConstructor();
@@ -25,6 +24,4 @@ class FAQRepository {
     }
     return null;
   }
-
-  
 }

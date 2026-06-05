@@ -7,7 +7,8 @@ import '../models/product_details_model.dart';
 class ProductDetailsRepository {
   ////////////// Contractures
   ProductDetailsRepository._privetContractures();
-  static final ProductDetailsRepository _instance = ProductDetailsRepository._privetContractures();
+  static final ProductDetailsRepository _instance =
+      ProductDetailsRepository._privetContractures();
   static ProductDetailsRepository get instance => _instance;
 
   /////////////// object
@@ -16,7 +17,9 @@ class ProductDetailsRepository {
 
   Future<ProductDetailsModel> fetchProductDetails({required String id}) async {
     try {
-      var response = await _apiServices.apiGetServices("${_api.storeProduct}/$id");
+      var response = await _apiServices.apiGetServices(
+        "${_api.storeProduct}/$id",
+      );
 
       if (response != null) {
         return ProductDetailsModel.fromJson(response);

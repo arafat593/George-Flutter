@@ -106,19 +106,14 @@ class Classes {
     );
   }
 }
+
 class Instructor {
   final String name;
   final String image;
 
-  Instructor({
-    required this.name,
-    required this.image,
-  });
+  Instructor({required this.name, required this.image});
 
   factory Instructor.fromJson(Map<String, dynamic> json) {
-    return Instructor(
-      name: json['name'] ?? '',
-      image: json['avatar'] ?? '',
-    );
+    return Instructor(name: json['name'] ?? '', image: json['avatar'] ?? '');
   }
 }

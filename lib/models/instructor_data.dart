@@ -51,11 +51,11 @@ class InstructorModel {
       'speciality': speciality,
       'bio': bio,
       'joinedAt': joinedAt.toIso8601String(),
-      'upcomingClasses':
-          upcomingClasses.map((e) => e.toJson()).toList(),
+      'upcomingClasses': upcomingClasses.map((e) => e.toJson()).toList(),
     };
   }
 }
+
 class UpcomingClassModel {
   final String id;
   final String title;
@@ -90,7 +90,7 @@ class UpcomingClassModel {
       difficulty: json['difficulty'] ?? '',
       scheduledAt: DateTime.parse(json['scheduledAt']),
       duration: json['duration'] ?? '',
-      price: (json['price']as num).toDouble(),
+      price: (json['price'] as num).toDouble(),
       gender: json['gender'] ?? '',
       availableSpots: json['availableSpots'] ?? 0,
       totalSpots: json['totalSpots'] ?? 0,

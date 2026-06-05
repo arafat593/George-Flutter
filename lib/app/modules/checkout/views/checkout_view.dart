@@ -6,7 +6,6 @@ import '../../../utils/app_size.dart';
 import '../../../widgets/app_image/app_image.dart';
 import '../../../widgets/custom_appbar.dart';
 import '../../../widgets/custom_elevated_button.dart';
-import '../../../widgets/snack_bar/app_snack_bar.dart';
 import 'package:get/get.dart';
 import '../../../data/app_colors.dart';
 import '../../../data/app_text_styles.dart';
@@ -28,89 +27,286 @@ class CheckoutView extends GetView<CheckoutController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Item Name
-            Obx(
-              () => controller.itemName.value.isNotEmpty
-                  ? Padding(
-                      padding: const EdgeInsets.only(bottom: 15),
-                      child: Text(
-                        controller.itemName.value,
-                        style: const TextStyle(
-                          color: Color(0xFF5D4037),
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    )
-                  : const SizedBox(),
-            ),
-            // Total Bar
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.6),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    controller.product.name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: AppColors.headlineColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
+            // Item Summary Card
+            Obx(() {
+              final type = controller.checkoutType.value;
+              final isShop = controller.isFromShop.value;
+              final name = isShop
+                  ? (controller.product?.name ?? "")
+                  : controller.itemName.value;
+              final priceText = isShop
+                  ? "QAR ${controller.product?.price ?? 0.0}"
+                  : controller.cartTotal.value;
+              final totalText = isShop
+                  ? "QAR ${controller.product?.totalPrice ?? 0.0}"
+                  : controller.cartTotal.value;
+              final imgUrl = isShop
+                  ? (controller.product?.thumbnail ?? "")
+                  : controller.imageUrl.value;
+
+              return Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFEBE3D9), // Sleek beige card background
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.05),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
                     ),
-                  ),
-                  SizedBox(height: 4),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Quantity :${controller.product.quantity}",
-                        style: TextStyle(
-                          color: AppColors.headlineColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Image / Icon Container
+                        Container(
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            color: const Color(
+                              0xFFBCAAA4,
+                            ).withValues(alpha: 0.4),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          clipBehavior: Clip.antiAlias,
+                          child: imgUrl.isNotEmpty
+                              ? AppImage(
+                                  url: imgUrl,
+                                  fit: BoxFit.cover,
+                                  networkPlaceholderImage:
+                                      "assets/images/network_placeholder_image.jpg",
+                                )
+                              : Center(
+                                  child: Icon(
+                                    type == 'class'
+                                        ? Icons.calendar_today_outlined
+                                        : type == 'course'
+                                        ? Icons.school_outlined
+                                        : type == 'membership'
+                                        ? Icons.card_membership_outlined
+                                        : Icons.shopping_bag_outlined,
+                                    color: const Color(0xFF5D4037),
+                                    size: 32,
+                                  ),
+                                ),
                         ),
-                      ),
-                      Text(
-                        "Price QAR :${controller.product.price}",
-                        style: TextStyle(
-                          color: AppColors.headlineColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                        const SizedBox(width: 16),
+                        // Title and quick details
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Type Tag
+                              if (type.isNotEmpty)
+                                Container(
+                                  margin: const EdgeInsets.only(bottom: 6),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 3,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: const Color(
+                                      0xFF5D4037,
+                                    ).withValues(alpha: 0.1),
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: Text(
+                                    type.toUpperCase(),
+                                    style: const TextStyle(
+                                      color: Color(0xFF5D4037),
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: 0.5,
+                                    ),
+                                  ),
+                                ),
+                              Text(
+                                name,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  color: Color(0xFF5D4037),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              if (controller
+                                  .instructorName
+                                  .value
+                                  .isNotEmpty) ...[
+                                const SizedBox(height: 4),
+                                Text(
+                                  "Instructor: ${controller.instructorName.value}",
+                                  style: TextStyle(
+                                    color: const Color(
+                                      0xFF5D4037,
+                                    ).withValues(alpha: 0.8),
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                              if (controller.validity.value.isNotEmpty) ...[
+                                const SizedBox(height: 4),
+                                Text(
+                                  controller.validity.value,
+                                  style: TextStyle(
+                                    color: const Color(
+                                      0xFF5D4037,
+                                    ).withValues(alpha: 0.8),
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
                         ),
+                      ],
+                    ),
+
+                    // Specific meta details (Date, Time, Location, Duration)
+                    if (type == 'class' || type == 'course') ...[
+                      const SizedBox(height: 16),
+                      const Divider(color: Color(0xFFD7CCC8), height: 1),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          if (controller.scheduledAt.value != null)
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.access_time,
+                                    size: 16,
+                                    color: Color(0xFF8D6E63),
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Expanded(
+                                    child: Text(
+                                      "${controller.scheduledAt.value!.day}/${controller.scheduledAt.value!.month}/${controller.scheduledAt.value!.year}",
+                                      style: const TextStyle(
+                                        color: Color(0xFF5D4037),
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (controller.duration.value.isNotEmpty)
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.timer_outlined,
+                                    size: 16,
+                                    color: Color(0xFF8D6E63),
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Expanded(
+                                    child: Text(
+                                      controller.duration.value,
+                                      style: const TextStyle(
+                                        color: Color(0xFF5D4037),
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                        ],
                       ),
+                      if (controller.location.value.isNotEmpty) ...[
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.location_on_outlined,
+                              size: 16,
+                              color: Color(0xFF8D6E63),
+                            ),
+                            const SizedBox(width: 6),
+                            Expanded(
+                              child: Text(
+                                controller.location.value,
+                                style: const TextStyle(
+                                  color: Color(0xFF5D4037),
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ],
-                  ),
-                  SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "Total Price",
-                        style: TextStyle(
-                          color: AppColors.headlineColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+
+                    const SizedBox(height: 16),
+                    const Divider(color: Color(0xFFD7CCC8), height: 1),
+                    const SizedBox(height: 12),
+
+                    // Price details
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        if (isShop)
+                          Text(
+                            "Quantity: ${controller.product?.quantity ?? 1}",
+                            style: const TextStyle(
+                              color: Color(0xFF8D6E63),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          )
+                        else
+                          const SizedBox.shrink(),
+                        if (isShop)
+                          Text(
+                            priceText.contains("QAR")
+                                ? priceText
+                                : "QAR $priceText",
+                            style: const TextStyle(
+                              color: Color(0xFF5D4037),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "Total Price",
+                          style: TextStyle(
+                            color: Color(0xFF5D4037),
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      Text(
-                        "QAR ${controller.product.totalPrice}",
-                        style: TextStyle(
-                          color: AppColors.headlineColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                        Text(
+                          totalText.contains("QAR")
+                              ? totalText
+                              : "QAR $totalText",
+                          style: const TextStyle(
+                            color: Color(0xFF5D4037),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            }),
             const SizedBox(height: 25),
 
             const Text(
@@ -126,50 +322,12 @@ class CheckoutView extends GetView<CheckoutController> {
             // Payment Methods List
             _buildPaymentMethods(),
 
-            // Conditional Credit/Debit Form
-            Obx(
-              () => controller.selectedPaymentMethod.value == 3
-                  ? Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: _buildCreditDebitForm(),
-                    )
-                  : const SizedBox(),
-            ),
-
             const SizedBox(height: 20),
 
             // Pay Now Button
             CustomElevetedButton(
               buttonText: 'Pay Now',
-              // onTap: () {
-              //   // Show loading dialog to simulate "process to payment"
-              //   Get.dialog(
-              //     const Center(
-              //       child: CircularProgressIndicator(color: Color(0xff5D4037)),
-              //     ),
-              //     barrierDismissible: false,
-              //   );
-
-              //   Future.delayed(const Duration(seconds: 2), () {
-              //     Get.back(); // close dialog
-              //     Get.toNamed(
-              //       Routes.bookingConfirmed,
-              //       arguments: {
-              //         'message': controller.fromMembership.value
-              //             ? '${controller.itemName.value} Confirmed!'
-              //             : controller.isFromShop.value
-              //             ? 'Order Confirmed!'
-              //             : 'Payment Confirmed!',
-              //       },
-              //       preventDuplicates: false,
-              //     );
-              //   });
-              // },
-              onTap: () {
-                return AppSnackBar.success(
-                  'Waiting for payment gateway integration...',
-                );
-              },
+              onTap: () => controller.processPayment(),
             ),
 
             const SizedBox(height: 30),
@@ -208,18 +366,17 @@ class CheckoutView extends GetView<CheckoutController> {
   }
 
   Widget _buildPaymentMethods() {
-    final methods = [
-      {
-        'title': 'Wallet',
-        'subtitle': 'Balance QAR 1000',
-        'icon': Icons.account_balance_wallet_outlined,
-      },
-      {'title': 'Apple pay', 'icon': Icons.apple},
-      {'title': 'Google pay', 'icon': Icons.g_mobiledata},
-      {'title': 'Credit/Debit', 'icon': Icons.credit_card},
-    ];
-
     return Obx(() {
+      final methods = [
+        {
+          'title': 'Wallet',
+          'subtitle':
+              'Balance QAR ${controller.walletBalance.value.toStringAsFixed(controller.walletBalance.value % 1 == 0 ? 0 : 1)}',
+          'icon': Icons.account_balance_wallet_outlined,
+        },
+        {'title': 'Credit/Debit', 'icon': Icons.credit_card},
+      ];
+
       return Column(
         children: List.generate(methods.length, (index) {
           final isSelected = controller.selectedPaymentMethod.value == index;
@@ -299,95 +456,6 @@ class CheckoutView extends GetView<CheckoutController> {
         }),
       );
     });
-  }
-
-  Widget _buildCreditDebitForm() {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: const Color(0xffEBE3D9), // Light beige background
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // "Credit/Debit" Label
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            decoration: BoxDecoration(
-              color: const Color(0xFF5D4037), // Dark brown matches design
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: const [
-                Icon(Icons.credit_card, color: Colors.white, size: 22),
-                SizedBox(width: 8),
-                Text(
-                  "Credit/Debit",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
-
-          // Name Fields
-          Row(
-            children: [
-              Expanded(
-                child: _buildTextField("First Name", controller.firstNameCtrl),
-              ),
-              const SizedBox(width: 15),
-              Expanded(
-                child: _buildTextField("Last Name", controller.lastNameCtrl),
-              ),
-            ],
-          ),
-          const SizedBox(height: 15),
-
-          _buildTextField("Routing Number", controller.routingNumberCtrl),
-          const SizedBox(height: 15),
-          _buildTextField("Account Number", controller.accountNumberCtrl),
-          const SizedBox(height: 15),
-          _buildTextField(
-            "Verify Account Number",
-            controller.verifyAccountNumberCtrl,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTextField(String hint, TextEditingController controller) {
-    return Container(
-      height: 55,
-      decoration: BoxDecoration(
-        color: const Color(0xFFBCAAA4).withValues(alpha: 0.6),
-      ),
-      child: TextFormField(
-        controller: controller,
-        decoration: InputDecoration(
-          hintText: hint,
-          hintStyle: TextStyle(
-            color: const Color(0xFF5D4037).withValues(alpha: 0.5),
-            fontSize: 15,
-          ),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 12,
-          ),
-          border: InputBorder.none,
-          enabledBorder: InputBorder.none,
-          focusedBorder: InputBorder.none,
-        ),
-        style: const TextStyle(color: Color(0xFF5D4037), fontSize: 16),
-      ),
-    );
   }
 
   Widget _buildSuggestedList() {

@@ -50,7 +50,9 @@ class RcoverPassForm extends StatelessWidget {
                 SizedBox(width: 20.w),
                 Expanded(
                   child: CustomElevetedButton(
-                    buttonText: controller.isLoading.value ? 'loading..' : 'Next',
+                    buttonText: controller.isLoading.value
+                        ? 'loading..'
+                        : 'Next',
                     onTap: () {
                       controller.checkAndSendOtp();
                     },

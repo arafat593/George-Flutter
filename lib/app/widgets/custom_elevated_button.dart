@@ -34,10 +34,12 @@ class CustomElevetedButton extends StatelessWidget {
           ),
           elevation: 0,
         ),
-        child: child ?? Text(
-          buttonText,
-          style: AppTextStyles.medium(16, color: buttonTextColor),
-        ),
+        child:
+            child ??
+            Text(
+              buttonText,
+              style: AppTextStyles.medium(16, color: buttonTextColor),
+            ),
       ),
     );
   }

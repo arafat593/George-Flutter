@@ -39,13 +39,13 @@ class ClassesResponse {
 class ClassModel {
   final String title;
   final String description;
-  final String type;  // Changed from ClassType
+  final String type; // Changed from ClassType
   final String duration;
   final DateTime scheduledAt;
   final int maxParticipants;
   final bool isFree;
   final String id;
-  final String status;  // Changed from ClassStatus
+  final String status; // Changed from ClassStatus
   final String courseId;
   final String instructorId;
   final int order;
@@ -53,8 +53,8 @@ class ClassModel {
   final DateTime updatedAt;
   final int bookedSeats;
   final int availableSeats;
-  final String difficulty;  // Changed from Difficulty
-  final String gender;  // Changed from Gender
+  final String difficulty; // Changed from Difficulty
+  final String gender; // Changed from Gender
   final double price;
   final String location;
   final String locationMapLink;
@@ -177,6 +177,6 @@ class Instructor {
 
 // You can remove all the extension classes below:
 // - ClassTypeX
-// - ClassStatusX  
+// - ClassStatusX
 // - DifficultyX
 // - GenderX

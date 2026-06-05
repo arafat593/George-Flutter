@@ -16,9 +16,18 @@ class ApiServices {
   //////////  object
   final api = AppApi();
   var storageServices = GetStorageServices.instance;
-  Future<dynamic> apiPutServices({required String url, dynamic body, int statusCode = 200, Map<String, dynamic>? query}) async {
+  Future<dynamic> apiPutServices({
+    required String url,
+    dynamic body,
+    int statusCode = 200,
+    Map<String, dynamic>? query,
+  }) async {
     try {
-      final response = await api.sendRequest.put(url, data: body, queryParameters: query);
+      final response = await api.sendRequest.put(
+        url,
+        data: body,
+        queryParameters: query,
+      );
       if (response.statusCode == statusCode) {
         return response.data;
       } else {
@@ -63,8 +72,14 @@ class ApiServices {
     Options? options,
   }) async {
     try {
-      final dynamic response = await AppApi().sendRequest.post(url, data: body, queryParameters: query, options: options);
-      if (response.statusCode >= statusCodeStart && response.statusCode <= statusCodeEnd) {
+      final dynamic response = await AppApi().sendRequest.post(
+        url,
+        data: body,
+        queryParameters: query,
+        options: options,
+      );
+      if (response.statusCode >= statusCodeStart &&
+          response.statusCode <= statusCodeEnd) {
         return response.data;
       } else {
         return null;
@@ -107,7 +122,11 @@ class ApiServices {
     dynamic body,
   }) async {
     try {
-      final response = await api.sendRequest.get(url, queryParameters: queryParameters, data: body);
+      final response = await api.sendRequest.get(
+        url,
+        queryParameters: queryParameters,
+        data: body,
+      );
       if (response.statusCode == statusCode) {
         return response.data;
       } else {
@@ -143,14 +162,27 @@ class ApiServices {
     }
   }
 
-  Future<dynamic> apiPatchServices({required String url, Object? body, int statusCode = 200, Map<String, dynamic>? query, Options? options}) async {
+  Future<dynamic> apiPatchServices({
+    required String url,
+    Object? body,
+    int statusCode = 200,
+    Map<String, dynamic>? query,
+    Options? options,
+  }) async {
     try {
-      final response = await api.sendRequest.patch(url, data: body, queryParameters: query, options: options);
+      final response = await api.sendRequest.patch(
+        url,
+        data: body,
+        queryParameters: query,
+        options: options,
+      );
 
       if (response.statusCode == statusCode) {
         return response.data;
       } else {
-        AppSnackBar.error("Unexpected response: ${response.statusCode} ${response.statusMessage}");
+        AppSnackBar.error(
+          "Unexpected response: ${response.statusCode} ${response.statusMessage}",
+        );
         return null;
       }
     } on SocketException catch (e) {
@@ -183,14 +215,27 @@ class ApiServices {
     }
   }
 
-  Future<dynamic> apiDeleteServices({required String url, Object? body, int statusCode = 200, Map<String, dynamic>? query, Options? options}) async {
+  Future<dynamic> apiDeleteServices({
+    required String url,
+    Object? body,
+    int statusCode = 200,
+    Map<String, dynamic>? query,
+    Options? options,
+  }) async {
     try {
-      final response = await api.sendRequest.delete(url, data: body, queryParameters: query, options: options);
+      final response = await api.sendRequest.delete(
+        url,
+        data: body,
+        queryParameters: query,
+        options: options,
+      );
 
       if (response.statusCode == statusCode) {
         return response.data;
       } else {
-        AppSnackBar.error("Unexpected response: ${response.statusCode} ${response.statusMessage}");
+        AppSnackBar.error(
+          "Unexpected response: ${response.statusCode} ${response.statusMessage}",
+        );
         return null;
       }
     } on SocketException catch (e) {

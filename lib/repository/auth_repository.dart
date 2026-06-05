@@ -22,7 +22,12 @@ class AuthRepository {
   AppApiEndPoint api = AppApiEndPoint.instance;
   GetStorageServices storageServices = GetStorageServices.instance;
   /////////////// function
-  Future<bool> login({required String email, required String password, String fcmToken = "", String deviceId = ""}) async {
+  Future<bool> login({
+    required String email,
+    required String password,
+    String fcmToken = "",
+    String deviceId = "",
+  }) async {
     try {
       Map<String, String> bodyData = {
         "username": email.trim().toLowerCase(),
@@ -42,7 +47,9 @@ class AuthRepository {
         }
 
         if (response["refresh_token"] is String) {
-          await storageServices.setRefreshToken(response["refresh_token"].toString());
+          await storageServices.setRefreshToken(
+            response["refresh_token"].toString(),
+          );
         }
         return true;
       }
@@ -69,7 +76,10 @@ class AuthRepository {
   Future<bool> accountDelete({required String password}) async {
     try {
       Map<String, String> body = {"password": password};
-      var response = await apiServices.apiDeleteServices(url: api.authDeleteAccount, body: body);
+      var response = await apiServices.apiDeleteServices(
+        url: api.authDeleteAccount,
+        body: body,
+      );
       if (response != null) {
         return true;
       }
@@ -79,7 +89,10 @@ class AuthRepository {
     return false;
   }
 
-  Future<bool> updateProfile({required String profileImage, required Map<String, String> body}) async {
+  Future<bool> updateProfile({
+    required String profileImage,
+    required Map<String, String> body,
+  }) async {
     try {
       FormData formData = FormData.fromMap(body);
       if (profileImage.isNotEmpty) {
@@ -90,12 +103,21 @@ class AuthRepository {
           formData.files.add(
             MapEntry(
               "avatar",
-              await MultipartFile.fromFile(file.path, filename: fileName, contentType: MediaType.parse(mimeType ?? "application/octet-stream")),
+              await MultipartFile.fromFile(
+                file.path,
+                filename: fileName,
+                contentType: MediaType.parse(
+                  mimeType ?? "application/octet-stream",
+                ),
+              ),
             ),
           );
         }
       }
-      var response = await apiServices.apiPatchServices(url: api.userUpdate, body: formData);
+      var response = await apiServices.apiPatchServices(
+        url: api.userUpdate,
+        body: formData,
+      );
       if (response != null) {
         return true;
       }
@@ -105,11 +127,22 @@ class AuthRepository {
     return false;
   }
 
-  Future<bool> changePassword({required String currentPassword, required String newPassword, required String confirmPassword}) async {
+  Future<bool> changePassword({
+    required String currentPassword,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
     try {
-      Map<String, String> body = {"currentPassword": currentPassword, "newPassword": newPassword, "confirmPassword": confirmPassword};
+      Map<String, String> body = {
+        "currentPassword": currentPassword,
+        "newPassword": newPassword,
+        "confirmPassword": confirmPassword,
+      };
 
-      var response = await apiServices.apiPostServices(url: api.changePassword, body: body);
+      var response = await apiServices.apiPostServices(
+        url: api.changePassword,
+        body: body,
+      );
       if (response != null) {
         return true;
       }
@@ -127,9 +160,18 @@ class AuthRepository {
     required String password,
   }) async {
     try {
-      Map<String, dynamic> bodyData = {"email": email, "password": password, "name": name, "phone": phoneNumber, "gender": gender};
+      Map<String, dynamic> bodyData = {
+        "email": email,
+        "password": password,
+        "name": name,
+        "phone": phoneNumber,
+        "gender": gender,
+      };
 
-      var response = await apiServices.apiPostServices(url: api.signUP, body: jsonEncode(bodyData));
+      var response = await apiServices.apiPostServices(
+        url: api.signUP,
+        body: jsonEncode(bodyData),
+      );
       if (response != null) {
         return true;
       }
@@ -141,7 +183,10 @@ class AuthRepository {
 
   Future<bool> authResendOTP({required String email}) async {
     try {
-      var response = await apiServices.apiPostServices(url: api.userResendOtp, query: {"email": email});
+      var response = await apiServices.apiPostServices(
+        url: api.userResendOtp,
+        query: {"email": email},
+      );
       if (response != null) {
         return true;
       }
@@ -151,10 +196,16 @@ class AuthRepository {
     return false;
   }
 
-  Future<bool> authOtpVerify({required String email, required String otp}) async {
+  Future<bool> authOtpVerify({
+    required String email,
+    required String otp,
+  }) async {
     try {
       Map<String, dynamic> bodyData = {"email": email, "code": otp};
-      var response = await apiServices.apiPostServices(url: api.signUpOtpVerify, body: bodyData);
+      var response = await apiServices.apiPostServices(
+        url: api.signUpOtpVerify,
+        body: bodyData,
+      );
       if (response != null) {
         return true;
       }
@@ -168,7 +219,10 @@ class AuthRepository {
   Future<bool> forgotPassword({required String email}) async {
     try {
       Map<String, String> bodyData = {"email": email};
-      var response = await apiServices.apiPostServices(url: api.authForgotPassword, body: bodyData);
+      var response = await apiServices.apiPostServices(
+        url: api.authForgotPassword,
+        body: bodyData,
+      );
       if (response != null) {
         return true;
       }
@@ -178,10 +232,16 @@ class AuthRepository {
     return false;
   }
 
-  Future<bool> forgotVerifyEmail({required String email, required String otp}) async {
+  Future<bool> forgotVerifyEmail({
+    required String email,
+    required String otp,
+  }) async {
     try {
       Map<String, dynamic> bodyData = {"email": email, "code": otp};
-      var response = await apiServices.apiPostServices(url: api.authVerifyEmail, body: bodyData);
+      var response = await apiServices.apiPostServices(
+        url: api.authVerifyEmail,
+        body: bodyData,
+      );
       if (response != null) {
         return true;
       }
@@ -191,10 +251,19 @@ class AuthRepository {
     return false;
   }
 
-  Future<bool> forgotResetPassword({required String email, required String newPassword}) async {
+  Future<bool> forgotResetPassword({
+    required String email,
+    required String newPassword,
+  }) async {
     try {
-      Map<String, dynamic> bodyData = {"email": email, "new_password": newPassword};
-      var response = await nonAuthApi.sendRequest.post(api.authResetPassword, data: bodyData);
+      Map<String, dynamic> bodyData = {
+        "email": email,
+        "new_password": newPassword,
+      };
+      var response = await nonAuthApi.sendRequest.post(
+        api.authResetPassword,
+        data: bodyData,
+      );
 
       if (response.statusCode == 200) {
         return true;

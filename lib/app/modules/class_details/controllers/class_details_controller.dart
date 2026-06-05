@@ -50,7 +50,14 @@ class ClassDetailsController extends GetxController {
 
       classByID.value = null;
 
-      classByID.value = await _homeRepository.fetchClassById(id: id);
+      final fetchedClass = await _homeRepository.fetchClassById(id: id);
+      classByID.value = fetchedClass;
+      title.value = fetchedClass.title;
+      price.value = fetchedClass.price == 0.0
+          ? 'QAR 0'
+          : 'QAR ${fetchedClass.price.toStringAsFixed(fetchedClass.price % 1 == 0 ? 0 : 1)}';
+      instructorName.value = fetchedClass.instructor.name;
+      imageUrl.value = fetchedClass.imageUrl ?? "";
     } catch (e) {
       errorLog("fetchClasses", e);
     } finally {
@@ -65,25 +72,34 @@ class ClassDetailsController extends GetxController {
   }
 
   void bookNow() {
-    // final homeController = Get.find<HomeController>();
+    final homeController = Get.find<HomeController>();
 
-    // // If price is QAR 0 (covered by membership), show confirmation dialog directly
-    // if (price.value == 'QAR 0') {
-    //   _showBookingConfirmation();
-    //   return;
-    // }
+    // If price is QAR 0 (covered by membership), show confirmation dialog directly
+    if (price.value == 'QAR 0') {
+      _showBookingConfirmation();
+      return;
+    }
 
-    // // If user has Class Pack sessions left, show payment method selection
-    // if (homeController.sessionsLeft.value > 0) {
-    //   _showPaymentMethodDialog();
-    // } else {
-    //   // Otherwise go to checkout
-    //   Get.toNamed(
-    //     Routes.checkout,
-    //     arguments: {'title': title.value, 'price': price.value},
-    //   );
-    // }
-    
+    // If user has Class Pack sessions left, show payment method selection
+    if (homeController.sessionsLeft.value > 0) {
+      _showPaymentMethodDialog();
+    } else {
+      // Otherwise go to checkout
+      Get.toNamed(
+        Routes.checkout,
+        arguments: {
+          'class_id': id.value,
+          'title': title.value,
+          'price': price.value,
+          'type': 'class',
+          'instructor': instructorName.value,
+          'imageUrl': imageUrl.value,
+          'duration': classByID.value?.duration ?? '',
+          'scheduledAt': classByID.value?.scheduledAt,
+          'location': classByID.value?.location ?? '',
+        },
+      );
+    }
   }
 
   void _showPaymentMethodDialog() {
@@ -131,7 +147,17 @@ class ClassDetailsController extends GetxController {
                 Get.back(); // Close bottom sheet
                 Get.toNamed(
                   Routes.checkout,
-                  arguments: {'title': title.value, 'price': price.value},
+                  arguments: {
+                    'class_id': id.value,
+                    'title': title.value,
+                    'price': price.value,
+                    'type': 'class',
+                    'instructor': instructorName.value,
+                    'imageUrl': imageUrl.value,
+                    'duration': classByID.value?.duration ?? '',
+                    'scheduledAt': classByID.value?.scheduledAt,
+                    'location': classByID.value?.location ?? '',
+                  },
                 );
               },
             ),

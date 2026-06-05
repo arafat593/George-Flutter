@@ -16,9 +16,17 @@ class RecoveryPasswordController extends GetxController {
         return;
       }
       isLoading.value = true;
-      var response = await _authRepository.forgotPassword(email: emailController.text.trim().toLowerCase());
+      var response = await _authRepository.forgotPassword(
+        email: emailController.text.trim().toLowerCase(),
+      );
       if (response) {
-        Get.toNamed(Routes.recoveryOtp, arguments: {'isSignUp': false, "email": emailController.text.trim().toLowerCase()});
+        Get.toNamed(
+          Routes.recoveryOtp,
+          arguments: {
+            'isSignUp': false,
+            "email": emailController.text.trim().toLowerCase(),
+          },
+        );
       }
     } catch (e) {
       errorLog("checkAndSendOtp", e);

@@ -8,7 +8,8 @@ import 'package:get/get.dart';
 
 Rxn<AppUserData> appGlobalUserData = Rxn<AppUserData>();
 
-class SplashScreenController extends GetxController with GetSingleTickerProviderStateMixin {
+class SplashScreenController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   late AnimationController animationController;
   late Animation<double> scaleAnimation;
   late Animation<double> fadeAnimation;
@@ -17,11 +18,20 @@ class SplashScreenController extends GetxController with GetSingleTickerProvider
 
   Future<void> onAppInitial() async {
     try {
-      animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 1500));
+      animationController = AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 1500),
+      );
 
-      scaleAnimation = CurvedAnimation(parent: animationController, curve: Curves.easeOutBack);
+      scaleAnimation = CurvedAnimation(
+        parent: animationController,
+        curve: Curves.easeOutBack,
+      );
 
-      fadeAnimation = CurvedAnimation(parent: animationController, curve: Curves.easeIn);
+      fadeAnimation = CurvedAnimation(
+        parent: animationController,
+        curve: Curves.easeIn,
+      );
 
       animationController.forward();
 

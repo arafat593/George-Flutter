@@ -5,7 +5,7 @@ import '../services/api/api_services.dart';
 
 class NewsRepository {
   //---------Private Constructor-------
-   NewsRepository._privateConstructor();
+  NewsRepository._privateConstructor();
 
   static final NewsRepository _instance = NewsRepository._privateConstructor();
 

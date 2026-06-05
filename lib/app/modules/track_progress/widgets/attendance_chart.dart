@@ -3,7 +3,6 @@ import 'package:george/app/data/app_text_styles.dart';
 import 'package:george/app/modules/track_progress/controllers/track_progress_controller.dart';
 import 'package:george/app/utils/app_size.dart';
 import 'package:get/get.dart';
-import 'package:get/state_manager.dart';
 
 class AttendanceChatWidget extends StatelessWidget {
   const AttendanceChatWidget({super.key});

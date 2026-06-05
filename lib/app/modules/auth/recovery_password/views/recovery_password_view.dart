@@ -30,7 +30,6 @@ class RecoveryPasswordView extends GetView<RecoveryPasswordController> {
 
               //Recover Password Form
               RcoverPassForm(),
-              
             ],
           ),
         ),

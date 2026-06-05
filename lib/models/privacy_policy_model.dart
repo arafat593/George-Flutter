@@ -1,7 +1,7 @@
 // legal_content_model.dart
 class PrivacyPolicy {
   final String id;
-  final String type;       // e.g., "TERMS_CONDITIONS" or "PRIVACY_POLICY"
+  final String type; // e.g., "TERMS_CONDITIONS" or "PRIVACY_POLICY"
   final String content;
   final DateTime createdAt;
   final DateTime updatedAt;

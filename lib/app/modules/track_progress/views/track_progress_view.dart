@@ -40,7 +40,3 @@ class TrackProgressView extends GetView<TrackProgressController> {
     );
   }
 }
-
-
-
-

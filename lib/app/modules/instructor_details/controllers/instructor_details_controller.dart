@@ -6,7 +6,8 @@ import '../../../../repository/instructor_repository.dart';
 import 'package:get/get.dart';
 
 class InstructorDetailsController extends GetxController {
-  final InstructorRepository _instructorRepository = InstructorRepository.instance;
+  final InstructorRepository _instructorRepository =
+      InstructorRepository.instance;
 
   final RxBool isLoading = false.obs;
   RxString id = ''.obs;

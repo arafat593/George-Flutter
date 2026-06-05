@@ -9,10 +9,13 @@ import '../../../widgets/custom_elevated_button.dart';
 import '../../../widgets/header_text.dart';
 import '../controllers/error_screen_controller.dart';
 
-class ErrorScreenView extends GetView<ErrorScreenController> {
+class ErrorScreenView extends StatelessWidget {
   const ErrorScreenView({super.key});
   @override
   Widget build(BuildContext context) {
+    final controller = Get.isRegistered<ErrorScreenController>()
+        ? Get.find<ErrorScreenController>()
+        : Get.put(ErrorScreenController());
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: SafeArea(

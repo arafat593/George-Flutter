@@ -22,7 +22,12 @@ class HomeRepository {
     int page = 1,
   }) async {
     try {
-      Map<String, dynamic> queryParameter = {'scheduledAt': date, 'page': page, "sortBy": "scheduledAt", "sortOrder": 'asc'};
+      Map<String, dynamic> queryParameter = {
+        'scheduledAt': date,
+        'page': page,
+        "sortBy": "scheduledAt",
+        "sortOrder": 'asc',
+      };
 
       if (instructor.isNotEmpty) {
         queryParameter['search'] = instructor;
@@ -37,7 +42,10 @@ class HomeRepository {
         queryParameter['search'] = className;
       }
 
-      final response = await _apiServices.apiGetServices(_api.allClasses, queryParameters: queryParameter);
+      final response = await _apiServices.apiGetServices(
+        _api.allClasses,
+        queryParameters: queryParameter,
+      );
 
       if (response != null) {
         return ClassesResponse.fromJson(response);

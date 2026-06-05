@@ -20,8 +20,10 @@ class RegistrationController extends GetxController {
   RxBool isTermsAccepted = false.obs;
   RxBool isLoading = false.obs;
 
-  void togglePasswordVisibility() => isPasswordVisible.value = !isPasswordVisible.value;
-  void toggleConfirmPasswordVisibility() => isConfirmPasswordVisible.value = !isConfirmPasswordVisible.value;
+  void togglePasswordVisibility() =>
+      isPasswordVisible.value = !isPasswordVisible.value;
+  void toggleConfirmPasswordVisibility() =>
+      isConfirmPasswordVisible.value = !isConfirmPasswordVisible.value;
 
   void setGender(String? value) {
     if (value != null) {
@@ -43,7 +45,13 @@ class RegistrationController extends GetxController {
         password: passwordController.text.trim(),
       );
       if (response) {
-        Get.toNamed(Routes.recoveryOtp, arguments: {'isSignUp': true, "email": emailController.text.trim().toLowerCase()});
+        Get.toNamed(
+          Routes.recoveryOtp,
+          arguments: {
+            'isSignUp': true,
+            "email": emailController.text.trim().toLowerCase(),
+          },
+        );
       }
     } catch (e) {
       errorLog("signUp", e);

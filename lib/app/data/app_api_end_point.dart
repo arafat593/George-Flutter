@@ -33,12 +33,22 @@ class AppApiEndPoint {
   final String news = '/news';
   final String faq = '/faq';
   final String membershipCatalogue = '/memberships/catalogue';
+  final String activeMembership = '/memberships/info-me';
   final String updatePassword = '/users/update-password';
+  final String notifications = '/notifications';
+  final String markRead = '/notifications/mark-read';
+  final String walletBalance = '/payments/wallet/balance';
+  final String walletHistory = '/payments/wallet/history';
+  final String walletTopUp = '/payments/wallet/topup';
+  final String bookingPay = '/payments/bookings/pay';
+  final String coursePay = '/payments/courses/pay';
+  final String orderPay = '/payments/orders/checkout';
+  final String membershipPay = '/payments/memberships/buy';
 }
 
 String _getDomain() {
-  String liveServer = "https://inara-backend.mtscorporate.com";
-  String localServer = "https://inara-backend.mtscorporate.com";
+  String liveServer = "https://inara-backend.maktechapp.cloud";
+  String localServer = "https://inara-backend.maktechapp.cloud";
 
   try {
     if (kDebugMode) {
